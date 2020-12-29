@@ -1,0 +1,276 @@
+import React from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  ScrollView,
+  SectionList,
+} from 'react-native';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconAnt from 'react-native-vector-icons/AntDesign';
+import DropDownPicker from 'react-native-dropdown-picker';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconFeather from 'react-native-vector-icons/Feather';
+import WalletTransacRecords from './WalletTransacRecords';
+import SyncStorage from 'sync-storage';
+
+class WalletEntry extends React.PureComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  async componentDidMount() {
+    //Check for the user_fp
+    await SyncStorage.init();
+    let user_fp = SyncStorage.get('@ufp');
+    if (
+      user_fp !== undefined &&
+      user_fp !== null &&
+      user_fp !== false &&
+      user_fp.length > 50
+    ) {
+      //Valid
+      this.props.App.user_fingerprint = user_fp;
+    } //Invalid user fp - back to home
+    else {
+      this.props.navigation.navigate('EntryScreen');
+    }
+  }
+
+  render() {
+    return (
+      <SafeAreaView style={styles.mainWindow}>
+        <View style={styles.presentationWindow}>
+          <View
+            style={{
+              padding: 20,
+              backgroundColor: '#0e8491',
+              paddingBottom: 30,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+
+              elevation: 5,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                height: 60,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  flex: 1,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 16,
+                  color: '#fff',
+                }}>
+                Hey, Dominique
+              </Text>
+              <View
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 200,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#fff',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 4,
+                  },
+                  shadowOpacity: 0.32,
+                  shadowRadius: 5.46,
+
+                  elevation: 9,
+                }}>
+                <Image
+                  source={require('../../Media_assets/Images/user.png')}
+                  style={{resizeMode: 'contain', width: '70%', height: '70%'}}
+                />
+              </View>
+            </View>
+            <View style={{marginTop: 25}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontWeight: 'bold',
+                  fontSize: 27,
+                  color: '#fff',
+                }}>
+                N$ 450
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Book',
+                  color: '#9AE8FF',
+                }}>
+                Your balance
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              padding: 20,
+              justifyContent: 'center',
+            }}>
+            <View
+              style={[
+                styles.selectMenu3,
+                {marginRight: '7%', backgroundColor: '#0e8491', borderWidth: 0},
+              ]}>
+              <IconFeather name="share" size={30} color={'#fff'} />
+              <Text style={[styles.textSelectMenu3, {color: '#fff'}]}>
+                Send
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.selectMenu3,
+                {marginRight: '7%', backgroundColor: '#0e8491', borderWidth: 0},
+              ]}>
+              <IconMaterialIcons
+                name="account-balance-wallet"
+                size={30}
+                color={'#fff'}
+              />
+              <Text style={[styles.textSelectMenu3, {color: '#fff'}]}>
+                Top-up
+              </Text>
+            </View>
+            <View style={[styles.selectMenu3, {borderWidth: 2}]}>
+              <IconMaterialIcons name="shield" size={30} />
+              <Text style={styles.textSelectMenu3}>Secure</Text>
+            </View>
+          </View>
+          <View style={{padding: 20, flex: 1}}>
+            <TouchableOpacity style={{flexDirection: 'row', paddingBottom: 10}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 16,
+                  color: '#999999',
+                  paddingBottom: 15,
+                  flex: 1,
+                }}>
+                History
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontSize: 14,
+                  color: '#999999',
+                  paddingBottom: 15,
+                }}>
+                Show all
+              </Text>
+            </TouchableOpacity>
+
+            <View style={{flex: 1}}>
+              <SectionList
+                sections={[
+                  {
+                    title: 'Top-up',
+                    data: [{transaction_type: 'topup', amount: 50}],
+                  },
+                  {
+                    title: 'Top-up',
+                    data: [{transaction_type: 'topup', amount: 50}],
+                  },
+                  {
+                    title: 'Top-up',
+                    data: [{transaction_type: 'topup', amount: 50}],
+                  },
+                ]}
+                keyboardShouldPersistTaps={'always'}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({item}) => <WalletTransacRecords />}
+              />
+            </View>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  mainWindow: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  presentationWindow: {
+    flex: 1,
+  },
+  selectMenu3: {
+    borderWidth: 1,
+    width: '28%',
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+
+    elevation: 9,
+  },
+  textSelectMenu3: {
+    fontFamily: 'Allrounder-Grotesk-Regular',
+    fontSize: 16,
+    marginTop: 10,
+  },
+  arrowCircledForwardBasic: {
+    backgroundColor: '#0e8491',
+    width: 60,
+    height: 60,
+    borderRadius: 10000,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shadowButtonArrowCircledForward: {
+    shadowColor: '#d0d0d0',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.6,
+
+    elevation: 6,
+  },
+  root: {flex: 1, padding: 20},
+  title: {textAlign: 'center', fontSize: 30},
+  codeFieldRoot: {marginTop: 20},
+  cell: {
+    flex: 1,
+    height: 40,
+    lineHeight: 38,
+    marginRight: 20,
+    fontSize: 25,
+    borderBottomWidth: 2,
+    borderColor: '#00000030',
+    textAlign: 'center',
+  },
+  focusCell: {
+    borderColor: '#000',
+  },
+});
+
+export default WalletEntry;
