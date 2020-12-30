@@ -16,7 +16,7 @@ import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFeather from 'react-native-vector-icons/Feather';
 import SyncStorage from 'sync-storage';
 
-const DATA = new Array(2).fill(50);
+//const DATA = new Array(2).fill(50);
 
 class YourRidesEntry extends React.PureComponent {
   constructor(props) {
