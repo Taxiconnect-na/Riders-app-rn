@@ -1409,7 +1409,7 @@ class Home extends React.PureComponent {
 
   getCurrentPositionCusto = () => {
     let globalObject = this;
-    GeolocationP.watchPosition(
+    GeolocationP.getCurrentPosition(
       (position) => {
         globalObject.props.App.latitude = position.coords.latitude;
         globalObject.props.App.longitude = position.coords.longitude;
