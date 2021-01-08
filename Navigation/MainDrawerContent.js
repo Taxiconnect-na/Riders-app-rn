@@ -17,8 +17,8 @@ export function MainDrawerContent(props) {
       <View style={styles.headerDrawer}>
         <View
           style={{
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
             borderRadius: 160,
             alignItems: 'center',
             justifyContent: 'center',
@@ -35,76 +35,64 @@ export function MainDrawerContent(props) {
           }}>
           <IconAnt name="user" size={30} />
         </View>
-        <Text
-          style={{
-            fontFamily: 'Allrounder-Grotesk-Regular',
-            fontSize: 17,
-            width: '100%',
-            textAlign: 'center',
-            paddingLeft: 10,
-            paddingRight: 10,
-            marginTop: 10,
-            color: '#fff',
-          }}>
-          Dominique
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            paddingLeft: 10,
-            paddingRight: 10,
-            marginTop: 5,
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <IconMaterialIcons name="location-on" color="#fff" size={18} />
+        <View style={{flex: 1}}>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
-              fontSize: 13,
-              textAlign: 'center',
-              color: '#ffff',
+              fontFamily: 'Allrounder-Grotesk-Medium',
+              fontSize: 18,
+              width: '100%',
+              textAlign: 'left',
+              paddingLeft: 10,
+              paddingRight: 10,
+              color: '#fff',
             }}>
-            Windhoek, Namibia
+            Dominique
           </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingLeft: 10,
+              paddingRight: 10,
+              marginTop: 5,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <IconMaterialIcons name="location-on" color="#fff" size={16} />
+            <Text
+              style={{
+                fontFamily: 'Allrounder-Grotesk-Regular',
+                fontSize: 14,
+                textAlign: 'center',
+                color: '#ffff',
+              }}>
+              Windhoek, Namibia
+            </Text>
+          </View>
         </View>
       </View>
       <ScrollView style={styles.menuContent}>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('YourRidesEntry_drawer')}
-          style={[styles.menuItem]}>
-          <Text
-            style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 17.5}}>
-            Your rides
-          </Text>
+          style={[styles.menuItem, {paddingTop: 30}]}>
+          <Text style={styles.menuTitles}>Your rides</Text>
         </TouchableOpacity>
         <View
           onPress={() => props.navigation.navigate('Wallet_drawer')}
-          style={[styles.menuItem, {paddingTop: 10}]}>
-          <Text
-            style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 17.5}}>
-            Wallet
-          </Text>
+          style={[styles.menuItem, {paddingTop: 15}]}>
+          <Text style={styles.menuTitles}>Wallet</Text>
         </View>
-        <View style={[styles.menuItem, {paddingTop: 10}]}>
-          <Text
-            style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 17.5}}>
-            Settings
-          </Text>
+        <View style={[styles.menuItem, {paddingTop: 15}]}>
+          <Text style={styles.menuTitles}>Settings</Text>
         </View>
-        <View style={[styles.menuItem, {paddingTop: 10}]}>
-          <Text
-            style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 17.5}}>
-            Support
-          </Text>
+        <View style={[styles.menuItem, {paddingTop: 15}]}>
+          <Text style={styles.menuTitles}>Support</Text>
         </View>
       </ScrollView>
       <View style={styles.footerDrawer}>
         <Text
           style={{
-            fontFamily: 'Allrounder-Grotesk-Book',
-            fontSize: 14,
+            fontFamily: 'Allrounder-Grotesk-Regular',
+            fontSize: 15,
             flex: 1,
           }}>
           Legal
@@ -128,8 +116,12 @@ const styles = StyleSheet.create({
   headerDrawer: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 160,
-    backgroundColor: '#0e8491',
+    minHeight: 100,
+    backgroundColor: '#01101F',
+    flexDirection: 'row',
+    padding: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   menuContent: {
     flex: 1,
@@ -137,6 +129,7 @@ const styles = StyleSheet.create({
   menuItem: {
     padding: 20,
   },
+  menuTitles: {fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 19},
   footerDrawer: {
     borderTopWidth: 0.5,
     borderTopColor: '#d0d0d0',

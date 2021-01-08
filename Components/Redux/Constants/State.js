@@ -8,7 +8,7 @@ const windowHeight = Dimensions.get('window').height;
 //Default no GPRS background image
 const backgroundVirgin = require('../../../Media_assets/Images/background.jpg');
 //Images res
-const packageIco = require('../../../Media_assets/Images/express.png');
+const packageIco = require('../../../Media_assets/Images/box_delivery.png');
 const carChooseIco = require('../../../Media_assets/Images/carChoose.png');
 const taxiRankIco = require('../../../Media_assets/Images/taxi-stop-sign.png');
 //Car on MAP

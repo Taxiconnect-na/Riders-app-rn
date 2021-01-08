@@ -37,7 +37,7 @@ class ItemFlag extends React.PureComponent {
           flexDirection: 'row',
           alignItems: 'center',
           paddingBottom: this.props.country.name === 'Zimbabwe' ? '30%' : 10,
-          marginBottom: 5,
+          marginBottom: 10,
         }}>
         <View
           style={{
@@ -55,7 +55,7 @@ class ItemFlag extends React.PureComponent {
           <Text
             style={[
               systemWeights.regular,
-              {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 14.5},
+              {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 16},
             ]}>
             {this.props.country.name} ({this.props.country.dial_code})
           </Text>

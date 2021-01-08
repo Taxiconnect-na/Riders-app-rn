@@ -106,7 +106,7 @@ class OTPVerificationEntry extends React.PureComponent {
           otpValue: '',
           showErrorUnmatchedOTP: false,
         }); //reset the error message, reset the otp textvalue, reset the sms limiter
-        globalObject.requestForOTP();
+        //globalObject.requestForOTP();
       },
     );
 
@@ -144,7 +144,7 @@ class OTPVerificationEntry extends React.PureComponent {
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
-        'connection_no_network',
+        'service_unavailable',
         'any',
       );
       globalObject.props.App.socket.connect();
@@ -235,7 +235,11 @@ class OTPVerificationEntry extends React.PureComponent {
             globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home
           else {
-            globalObject.props.navigation.navigate('Home');
+            globalObject.props.navigation.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            });
+            //globalObject.props.navigation.navigate('Home');
           }
         } else if (response.response === false) {
           //wrong otp
@@ -304,13 +308,13 @@ class OTPVerificationEntry extends React.PureComponent {
       } else {
         console.log('SMS reading permission denied.');
         //Request for otp
-        globalObject.requestForOTP();
+        //globalObject.requestForOTP();
         //...
       }
     } catch (err) {
       console.warn(err);
       //Request for otp
-      globalObject.requestForOTP();
+      //globalObject.requestForOTP();
       //...
     }
   }

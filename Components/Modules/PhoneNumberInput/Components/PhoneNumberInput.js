@@ -205,7 +205,7 @@ class PhoneNumberInput extends React.PureComponent {
                 systemWeights.regular,
                 {
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
+                  fontSize: 19,
                   color: '#fff',
                 },
               ]}>
@@ -266,10 +266,11 @@ class PhoneNumberInput extends React.PureComponent {
           <View
             style={{
               backgroundColor: '#000',
-              //paddingTop: '6.5%',
-              height: 75,
+              paddingTop: '7%',
+              minHeight: 75,
               paddingLeft: 20,
               paddingRight: 20,
+              paddingBottom: 10,
               justifyContent: 'center',
             }}>
             {this.renderHeaderCountryCodeSearcher()}
@@ -341,14 +342,20 @@ class PhoneNumberInput extends React.PureComponent {
       }),
     ]).start(() => {
       //Reset search values
-      globalObject.setState({
+      /*globalObject.setState({
         renderCountryCodeSeacher: false,
         countriesDialDataState: countriesDialData,
         typedCountrySearchQuery: '',
         countryCodeSelected: countryCode,
         countryPhoneCode: countryDial,
         isFilterCountryShown: false,
-      });
+      });*/
+      globalObject.props.App.renderCountryCodeSeacher = false;
+      globalObject.props.App.countriesDialDataState = countriesDialData;
+      globalObject.props.App.typedCountrySearchQuery = '';
+      globalObject.props.App.countryCodeSelected = countryCode;
+      globalObject.props.App.countryPhoneCode = countryDial;
+      globalObject.props.App.isFilterCountryShown = false;
       //Update formats and placeholders
       globalObject.updateCountryFormat();
     });
@@ -421,7 +428,7 @@ class PhoneNumberInput extends React.PureComponent {
                   systemWeights.regular,
                   {
                     fontFamily: 'Allrounder-Grotesk-Regular',
-                    fontSize: 17,
+                    fontSize: 18,
                     left: 2,
                   },
                 ]}>
@@ -453,11 +460,12 @@ class PhoneNumberInput extends React.PureComponent {
                 systemWeights.regular,
                 {
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
+                  fontSize: 18,
                   borderBottomWidth: 1.5,
                   flex: 1,
                   marginLeft: 5,
                   paddingLeft: 0,
+                  top: 1,
                 },
               ]}
               autoFocus={

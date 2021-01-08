@@ -110,7 +110,7 @@ class EntryScreen extends React.PureComponent {
             </View>
             <IconMaterialIcons
               name="arrow-forward-ios"
-              size={25}
+              size={20}
               color="#0e8491"
             />
           </View>

@@ -282,6 +282,56 @@ class ErrorModal extends React.PureComponent {
           </View>
         </View>
       );
+    }
+    if (/service_unavailable/i.test(error_status)) {
+      //Show delivery input modal
+      return (
+        <View
+          style={{
+            backgroundColor: '#fff',
+            padding: 20,
+            height: 260,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <IconCommunity
+              name="network-strength-1-alert"
+              size={22}
+              style={{marginRight: 5}}
+            />
+            <Text
+              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              Oups, something's wrong
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: 'Allrounder-Grotesk-Book',
+                fontSize: 17,
+                marginTop: 10,
+              }}>
+              Sorry, we are unable to establish the connection to TaxiConnect,
+              please try again later.
+            </Text>
+          </View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <ActivityIndicator
+                size="small"
+                color="#0e8491"
+                style={{marginRight: 5}}
+              />
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 17,
+                }}>
+                Establishing connection.
+              </Text>
+            </View>
+          </View>
+        </View>
+      );
     } else if (/error_checking_user_status_login/i.test(error_status)) {
       //Show delivery input modal
       return (

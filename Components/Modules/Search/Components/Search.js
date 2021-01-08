@@ -578,7 +578,7 @@ class Search extends React.PureComponent {
                         style={[
                           {
                             fontSize: 15,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily: 'Allrounder-Grotesk-Medium',
                           },
                         ]}>
                         {item.location_name.length > 35
@@ -589,7 +589,7 @@ class Search extends React.PureComponent {
                         <Text
                           style={[
                             styles.detailsSearchRes,
-                            {fontFamily: 'Allrounder-Grotesk-Book'},
+                            {fontFamily: 'Allrounder-Grotesk-Regular'},
                           ]}>
                           {item.street === undefined
                             ? ''
@@ -604,7 +604,7 @@ class Search extends React.PureComponent {
                             {
                               color: '#707070',
                               paddingRight: item.city === undefined ? 0 : 10,
-                              fontFamily: 'Allrounder-Grotesk-Book',
+                              fontFamily: 'Allrounder-Grotesk-Regular',
                             },
                           ]}>
                           {item.city === undefined ? '' : item.city}

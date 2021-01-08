@@ -65,7 +65,7 @@ class PhoneDetailsScreen extends React.PureComponent {
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
-        'connection_no_network',
+        'service_unavailable',
         'any',
       );
       globalObject.props.App.socket.connect();
@@ -104,6 +104,7 @@ class PhoneDetailsScreen extends React.PureComponent {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
+          <StatusBar backgroundColor="black" />
           <ErrorModal
             active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
             error_status={
@@ -122,7 +123,7 @@ class PhoneDetailsScreen extends React.PureComponent {
                 systemWeights.semibold,
                 {
                   fontSize: 19,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   marginTop: 15,
                   marginBottom: 35,
                 },
@@ -154,18 +155,20 @@ class PhoneDetailsScreen extends React.PureComponent {
                 </Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <TouchableOpacity
-                  onPress={() => this.props.ValidateGenericPhoneNumber()}
-                  style={[
-                    styles.arrowCircledForwardBasic,
-                    styles.shadowButtonArrowCircledForward,
-                  ]}>
-                  <IconMaterialIcons
-                    name="arrow-forward-ios"
-                    size={30}
-                    color="#fff"
-                  />
-                </TouchableOpacity>
+                {this.props.App.renderCountryCodeSeacher === false ? (
+                  <TouchableOpacity
+                    onPress={() => this.props.ValidateGenericPhoneNumber()}
+                    style={[
+                      styles.arrowCircledForwardBasic,
+                      styles.shadowButtonArrowCircledForward,
+                    ]}>
+                    <IconMaterialIcons
+                      name="arrow-forward-ios"
+                      size={30}
+                      color="#fff"
+                    />
+                  </TouchableOpacity>
+                ) : null}
               </View>
             </View>
           </View>

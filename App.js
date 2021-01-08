@@ -14,6 +14,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import RootScreens from './Navigation/RootScreens';
 import config from './Components/Helpers/config';
 import StorageManager from './Components/Helpers/StorageManager';
+//import {LogBox} from 'react-native';
+
+//LogBox.ignoreAllLogs();
 
 //Initiate the storage
 StorageManager('init');
