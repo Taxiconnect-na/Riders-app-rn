@@ -70,7 +70,7 @@ class RenderContentBottomVitals extends React.PureComponent {
         .locationTypeIdentified !== false
     ) {
       //True identified
-      this.revealIdentifiedLocationOnReady(); //For debug, to be called only after API response.
+      this.revealIdentifiedLocationOnReady();
       if (
         this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
           .locationTypeIdentified === 'TaxiRank'
@@ -115,9 +115,12 @@ class RenderContentBottomVitals extends React.PureComponent {
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 14, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
                   ]}>
-                  No pickup fee
+                  <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                    + N$5
+                  </Text>{' '}
+                  pickup fee
                 </Text>
               </View>
             </View>
@@ -141,12 +144,14 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <View style={[styles.bttnGenericTc]}>
                   <Text
-                    style={{
-                      fontFamily: 'Allrounder-Grotesk-Book',
-                      fontSize: 21,
-                      fontWeight: 'bold',
-                      color: '#fff',
-                    }}>
+                    style={[
+                      systemWeights.semibold,
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23.5,
+                        color: '#fff',
+                      },
+                    ]}>
                     Next
                   </Text>
                 </View>
@@ -198,7 +203,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 14, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
                   ]}>
                   <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
                     + N$5
@@ -227,12 +232,14 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <View style={[styles.bttnGenericTc]}>
                   <Text
-                    style={{
-                      fontFamily: 'Allrounder-Grotesk-Book',
-                      fontSize: 21,
-                      fontWeight: 'bold',
-                      color: '#fff',
-                    }}>
+                    style={[
+                      systemWeights.semibold,
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23.5,
+                        color: '#fff',
+                      },
+                    ]}>
                     Next
                   </Text>
                 </View>
@@ -284,7 +291,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 14, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
                   ]}>
                   No pickup fee
                 </Text>
@@ -310,12 +317,14 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <View style={[styles.bttnGenericTc]}>
                   <Text
-                    style={{
-                      fontFamily: 'Allrounder-Grotesk-Book',
-                      fontSize: 21,
-                      fontWeight: 'bold',
-                      color: '#fff',
-                    }}>
+                    style={[
+                      systemWeights.semibold,
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23.5,
+                        color: '#fff',
+                      },
+                    ]}>
                     Next
                   </Text>
                 </View>
@@ -342,7 +351,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 17,
+                fontSize: 17.5,
                 bottom: 25,
                 fontFamily: 'Allrounder-Grotesk-Book',
               },
@@ -1432,8 +1441,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         paddingRight: 5,
                         fontFamily: 'Allrounder-Grotesk-Book',
                         lineHeight: 15,
-                        borderWidth: 1,
-                        height: 40,
+                        height: 50,
                       },
                     ]}>
                     Send your packages from one place to another.
@@ -1479,7 +1487,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     }}>
                     <Image
                       source={this.props.App.carChooseIco}
-                      style={{width: 60, height: 25}}
+                      style={{width: 60, height: 28}}
                     />
                   </View>
                 </View>
@@ -1510,6 +1518,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         paddingRight: 5,
                         fontFamily: 'Allrounder-Grotesk-Book',
                         lineHeight: 15,
+                        height: 50,
                       },
                     ]}>
                     The easiest way to move around the city.
@@ -1538,14 +1547,13 @@ class RenderContentBottomVitals extends React.PureComponent {
           <View style={{height: '100%'}}>
             <View
               style={{
-                height: 35,
+                height: 60,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
               <AnimatedNative.Text
                 style={[
-                  systemWeights.bold,
                   {
                     opacity: this.props.App.bottomVitalsFlow
                       .rideOrDeliveryMetadata
@@ -1557,9 +1565,9 @@ class RenderContentBottomVitals extends React.PureComponent {
                           .identifyinfLocationTypeTopTextPosition,
                       },
                     ],
-                    fontSize: 19,
+                    fontSize: 21,
                     fontFamily: 'Allrounder-Grotesk-Medium',
-                    color: '#454545',
+                    color: '#000',
                   },
                 ]}>
                 Hey, we're good to go
@@ -1595,17 +1603,16 @@ class RenderContentBottomVitals extends React.PureComponent {
           <View style={{height: '100%'}}>
             <View
               style={{
-                height: 35,
+                height: 60,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
               <AnimatedNative.Text
                 style={[
-                  systemWeights.bold,
                   {
-                    fontSize: 19,
-                    color: '#454545',
+                    fontSize: 22,
+                    color: '#000',
                     fontFamily: 'Allrounder-Grotesk-Medium',
                   },
                 ]}>
@@ -1661,6 +1668,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontSize: 15,
                         flex: 1,
                         fontFamily: 'Allrounder-Grotesk-Book',
+                        color: this.props.App.bottomVitalsFlow
+                          .rideOrDeliveryMetadata.isAllgoingToTheSamePlace
+                          ? '#0D8691'
+                          : '#000',
                       },
                     ]}>
                     {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
@@ -1691,9 +1702,9 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <View style={[styles.bttnGenericTc]}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Book',
-                        fontSize: 21,
-                        fontWeight: 'bold',
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 22.5,
+                        //fontWeight: 'bold',
                         color: '#fff',
                       }}>
                       Next
@@ -2044,21 +2055,20 @@ class RenderContentBottomVitals extends React.PureComponent {
           <View style={{height: '100%'}}>
             <View
               style={{
-                height: 35,
+                height: 60,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
               <Text
                 style={[
-                  systemWeights.bold,
                   {
-                    fontSize: 19,
-                    color: '#454545',
+                    fontSize: 22,
+                    color: '#000',
                     fontFamily: 'Allrounder-Grotesk-Medium',
                   },
                 ]}>
-                Private or Shared?
+                Private or shared?
               </Text>
             </View>
             <View
@@ -2102,7 +2112,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     backgroundColor: '#f6f6f6',
                     top: 10,
                   }}>
-                  <IconEntypo name="user" size={32} color={'#096ED4'} />
+                  <IconEntypo name="user" size={32} color={'#000'} />
                 </View>
                 <View
                   style={{
@@ -2112,17 +2122,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      {fontSize: 16.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                      {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
                     ]}>
                     ConnectMe
                   </Text>
                   <Text
                     style={[
                       {
-                        fontSize: 13,
+                        fontSize: 13.5,
                         marginTop: 3,
                         color: '#096ED4',
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily: 'Allrounder-Grotesk-Book',
                       },
                     ]}>
                     Private booking
@@ -2130,7 +2140,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: 13,
+                        fontSize: 14,
                         marginTop: 15,
                         fontFamily: 'Allrounder-Grotesk-Book',
                       },
@@ -2177,7 +2187,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     backgroundColor: '#f6f6f6',
                     top: 10,
                   }}>
-                  <IconEntypo name="users" size={32} color={'#096ED4'} />
+                  <IconEntypo name="users" size={32} color={'#000'} />
                 </View>
                 <View
                   style={{
@@ -2187,17 +2197,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      {fontSize: 16.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                      {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
                     ]}>
                     ConnectUs
                   </Text>
                   <Text
                     style={[
                       {
-                        fontSize: 13,
+                        fontSize: 13.5,
                         marginTop: 3,
                         color: '#096ED4',
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily: 'Allrounder-Grotesk-Book',
                       },
                     ]}>
                     Shared booking
@@ -2205,7 +2215,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: 13,
+                        fontSize: 14,
                         marginTop: 15,
                         fontFamily: 'Allrounder-Grotesk-Book',
                       },
@@ -2907,15 +2917,15 @@ const styles = StyleSheet.create({
   },
   shadowRideOrDeliveryNodes: {
     backgroundColor: '#fff',
-    shadowColor: '#f0f0f0',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.23,
-    shadowRadius: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 8.65,
 
-    elevation: 3,
+    elevation: 4,
   },
   shadowNumberOfRidersButtons: {
     backgroundColor: '#fff',
@@ -2937,7 +2947,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 200,
+    borderRadius: 5, //Was 200
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -2954,9 +2964,10 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     bottom: 10,
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 100,
-    borderColor: '#000',
+    borderColor: '#d0d0d0',
+    backgroundColor: '#fff',
   },
   buttonNumberOfPassDefault: {
     borderWidth: 1.5,

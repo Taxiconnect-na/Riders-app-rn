@@ -9,7 +9,7 @@ const windowHeight = Dimensions.get('window').height;
 const backgroundVirgin = require('../../../Media_assets/Images/background.jpg');
 //Images res
 const packageIco = require('../../../Media_assets/Images/box_delivery.png');
-const carChooseIco = require('../../../Media_assets/Images/carChoose.png');
+const carChooseIco = require('../../../Media_assets/Images/car_selection_img.png');
 const taxiRankIco = require('../../../Media_assets/Images/taxi-stop-sign.png');
 //Car on MAP
 const carIcon = require('../../../Media_assets/Images/cargreentop100.png');
