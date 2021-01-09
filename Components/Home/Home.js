@@ -2,17 +2,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {
-  Animated,
-  MapView,
-  Camera,
-  UserLocation,
-  ShapeSource,
-  SymbolLayer,
-  CircleLayer,
-  PointAnnotation,
-  MarkerView,
-} from '@react-native-mapbox-gl/maps';
 import GeolocationP from 'react-native-geolocation-service';
 import {point} from '@turf/helpers';
 import {
@@ -23,29 +12,18 @@ import {
   PermissionsAndroid,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  TextInput,
-  Switch,
-  ScrollView,
-  ImageBackground,
-  ActivityIndicator,
   StatusBar,
 } from 'react-native';
-import PulseCircleLayer from '../Modules/PulseCircleLayer';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-var turf = require('@turf/turf');
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
-import IconEntypo from 'react-native-vector-icons/Entypo';
-import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
 import Search from '../Modules/Search/Components/Search';
-import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 import SyncStorage from 'sync-storage';
 //Import of action creators
 import {
@@ -93,18 +71,9 @@ const destinationLat = -22.577673;
 const destinationLon = 17.086427;
 
 const INIT_ZOOM_LEVEL = 0.384695086717085;
-const MAX_MAP_ZOOM_RELATIVE_CAR = 18;
-const MINIMAL_CAR_ICON = 0.18;
-const MAXIMUM_CAR_ICON = 0.28;
-const DIFF_CAR_ICON_SIZE = MAXIMUM_CAR_ICON - MINIMAL_CAR_ICON;
 const PADDING_LIMIT = 150;
 
 //Greetings dictionnary
-const greetingsDICO = {
-  day: {},
-  night: {},
-  initial: {},
-};
 
 class Home extends React.PureComponent {
   constructor(props) {
@@ -161,7 +130,7 @@ class Home extends React.PureComponent {
                 //Launch recalibration
                 globalObject.recalibrateMap();
               },
-              (error) => {
+              () => {
                 // See error code charts below.
                 //Launch recalibration
                 globalObject.recalibrateMap();
@@ -181,7 +150,7 @@ class Home extends React.PureComponent {
                 //Launch recalibration
                 globalObject.recalibrateMap();
               },
-              (error) => {},
+              () => {},
               {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000},
             );
           }
@@ -283,7 +252,7 @@ class Home extends React.PureComponent {
       }
     });
 
-    this.props.App.socket.on('error', (error) => {});
+    this.props.App.socket.on('error', () => {});
     this.props.App.socket.on('disconnect', () => {
       globalObject.props.App.socket.connect();
     });
@@ -387,7 +356,7 @@ class Home extends React.PureComponent {
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
                     console.log('Interval running.');
-                    globalObject.updateRemoteLocationsData('from loop');
+                    globalObject.updateRemoteLocationsData();
                   } //clear interval
                   else {
                     clearInterval(globalObject.props.App.intervalProgressLoop);
@@ -411,7 +380,7 @@ class Home extends React.PureComponent {
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
                     console.log('Interval running.');
-                    globalObject.updateRemoteLocationsData('from loop');
+                    globalObject.updateRemoteLocationsData();
                   } //clear interval
                   else {
                     clearInterval(globalObject.props.App.intervalProgressLoop);
@@ -440,7 +409,7 @@ class Home extends React.PureComponent {
           //Compute the car's bearing angle
           if (
             globalObject.props.App.lastDriverCoords === null ||
-            globalObject.props.App.initializedScenario !=
+            globalObject.props.App.initializedScenario !==
               response.request_status
           ) {
             globalObject.props.App.lastDriverCoords = [];
@@ -470,7 +439,7 @@ class Home extends React.PureComponent {
                   );
                 }
               },
-              (error) => {},
+              () => {},
             );
           } //Animate
           else {
@@ -509,7 +478,7 @@ class Home extends React.PureComponent {
               function () {
                 if (globalObject.props.App.isRideInProgress === true) {
                   console.log('Interval running.');
-                  globalObject.updateRemoteLocationsData('from loop');
+                  globalObject.updateRemoteLocationsData();
                 } //clear interval
                 else {
                   clearInterval(globalObject.props.App.intervalProgressLoop);
@@ -1158,7 +1127,7 @@ class Home extends React.PureComponent {
         globalObject.props.App.longitude = position.coords.longitude;
         //globalObject.recalibrateMap();
       },
-      (error) => {
+      () => {
         /*console.log(error)*/
       },
       {
@@ -1207,7 +1176,7 @@ class Home extends React.PureComponent {
               undefined &&
             globalObject.props.App.userCurrentLocationMetaData.country !==
               undefined
-          )
+          ) {
             if (
               globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS ===
               null
@@ -1234,6 +1203,7 @@ class Home extends React.PureComponent {
                   ._TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS,
               );
             }
+          }
         } //Kill the interval persister for the closest drivers if any
         else {
           if (
@@ -1247,7 +1217,7 @@ class Home extends React.PureComponent {
           }
         }
       },
-      (error) => {
+      () => {
         //...
       },
       {
@@ -1398,7 +1368,7 @@ class Home extends React.PureComponent {
    * @func  updateRemoteLocationsData()
    * Sent update locations informations to the server
    */
-  updateRemoteLocationsData(origin = 'other') {
+  updateRemoteLocationsData() {
     if (this.props.App._IS_MAP_INITIALIZED) {
       let bundle = {
         latitude: this.props.App.latitude,
@@ -1447,7 +1417,7 @@ class Home extends React.PureComponent {
         easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
         useNativeDriver: true,
       }).start(() => {
-        if (globalObject.props.App.loaderBasicWidth == 1) {
+        if (globalObject.props.App.loaderBasicWidth === 1) {
           //Resize the length at the same time
           AnimatedNative.parallel([
             AnimatedNative.timing(globalObject.props.App.loaderBasicWidth, {
@@ -2152,7 +2122,8 @@ class Home extends React.PureComponent {
   ucFirst(text) {
     if (
       text !== undefined &&
-      (text !== null) & (text[0] !== undefined) &&
+      text !== null &&
+      text[0] !== undefined &&
       text[0] !== null
     ) {
       return text[0].toUpperCase() + text.substr(1);
@@ -3259,6 +3230,7 @@ class Home extends React.PureComponent {
         //Animate header to show error
         this.reallocateScheduleContextCheck('errorTimeNotSetAhead');
       } else if (
+        // eslint-disable-next-line eqeqeq
         normalDate.getHours() == hours &&
         normalDate.getMinutes() > minutes
       ) {

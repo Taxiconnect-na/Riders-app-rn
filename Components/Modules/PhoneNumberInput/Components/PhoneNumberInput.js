@@ -6,7 +6,6 @@ import {
   SectionList,
   View,
   Text,
-  StyleSheet,
   TextInput,
   Image,
   Dimensions,

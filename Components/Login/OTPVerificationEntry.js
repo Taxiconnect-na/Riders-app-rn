@@ -5,10 +5,8 @@ import {
   SafeAreaView,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Image,
   Keyboard,
   PermissionsAndroid,
 } from 'react-native';
@@ -76,7 +74,6 @@ const App = ({valueM, parentNode, editable}) => {
 class OTPVerificationEntry extends React.PureComponent {
   constructor(props) {
     super(props);
-    var _navigatorEvent = false; //Hold the events related to the navigation, should request for a new otp on focus
     this.state = {
       loaderState: true,
       otpValue: '',
@@ -132,7 +129,7 @@ class OTPVerificationEntry extends React.PureComponent {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {
+    this.props.App.socket.on('error', () => {
       //console.log('something');
     });
     this.props.App.socket.on('disconnect', () => {
@@ -300,7 +297,7 @@ class OTPVerificationEntry extends React.PureComponent {
         //...
         console.log('Can read sms');
         RNOtpVerify.getOtp()
-          .then((p) => {
+          .then(() => {
             console.log('here');
             RNOtpVerify.addListener(this.otpHandler);
           })
@@ -515,10 +512,8 @@ class OTPVerificationEntry extends React.PureComponent {
               }}>
               <View style={{flexDirection: 'row', flex: 1}}>
                 <Text
-                  style={[
-                    systemWeights.light,
-                    {fontSize: 12, marginLeft: 6},
-                  ]}></Text>
+                  style={[systemWeights.light, {fontSize: 12, marginLeft: 6}]}
+                />
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
                 {this.state.checkingOTP === false ? (

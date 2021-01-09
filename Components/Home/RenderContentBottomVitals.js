@@ -11,7 +11,6 @@ import {
   TextInput,
   Switch,
   Easing,
-  ScrollView,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -23,34 +22,14 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 //Import of action creators
 import {
-  ResetStateProps,
-  UpdateGrantedGRPS,
-  UpdatePendingGlobalVars,
-  UpdateRouteToPickupVars,
-  InRouteToPickupInitVars,
-  InRouteToDestinationInitVars,
-  UpdateTinyCarOnMapIconSize,
-  UpdateHellosVars,
-  UpdateSchedulerState,
-  UpdateCustomFareState,
-  UpdateBottomVitalsState,
   UpdateProcessFlowState,
-  UpdateMapUsabilityState,
-  UpdateRideTypesScales,
-  UpdateCurrentLocationMetadat,
   UpdateNumberOfPassengersSelected,
   UpdateAdditionalPickupNote,
-  UpdateRideTypesOnScrollCategories,
-  UpdatePricingStateData,
-  UpdateRoutePreviewToDestination,
   UpdateDeliveryPackageSize,
   UpdateRiderOrPackagePossesserSwitcher,
   ValidateReceiverInfosForDelivery,
   UpdateErrorMessagesStateInputRecDelivery,
   UpdateReceiverNameOnType,
-  UpdateClosestDriversList,
-  UpdateErrorBottomVitals,
-  UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
 import RenderRideTypeBottomVitals from './RenderRideTypeBottomVitals';
 
@@ -687,7 +666,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       );
     } else if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-        .numberOfPassengersSelected == 2
+        .numberOfPassengersSelected === 2
     ) {
       return (
         <>
@@ -776,7 +755,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       );
     } else if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-        .numberOfPassengersSelected == 3
+        .numberOfPassengersSelected === 3
     ) {
       return (
         <>
@@ -865,7 +844,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       );
     } else if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-        .numberOfPassengersSelected == 4
+        .numberOfPassengersSelected === 4
     ) {
       return (
         <>
@@ -2905,34 +2884,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      ResetStateProps,
-      UpdateGrantedGRPS,
-      UpdatePendingGlobalVars,
-      UpdateRouteToPickupVars,
-      InRouteToPickupInitVars,
-      InRouteToDestinationInitVars,
-      UpdateTinyCarOnMapIconSize,
-      UpdateHellosVars,
-      UpdateSchedulerState,
-      UpdateCustomFareState,
-      UpdateBottomVitalsState,
       UpdateProcessFlowState,
-      UpdateMapUsabilityState,
-      UpdateRideTypesScales,
-      UpdateCurrentLocationMetadat,
       UpdateNumberOfPassengersSelected,
       UpdateAdditionalPickupNote,
-      UpdateRideTypesOnScrollCategories,
-      UpdatePricingStateData,
-      UpdateRoutePreviewToDestination,
       UpdateDeliveryPackageSize,
       UpdateRiderOrPackagePossesserSwitcher,
       ValidateReceiverInfosForDelivery,
       UpdateErrorMessagesStateInputRecDelivery,
       UpdateReceiverNameOnType,
-      UpdateClosestDriversList,
-      UpdateErrorBottomVitals,
-      UpdateErrorModalLog,
     },
     dispatch,
   );
@@ -2941,39 +2900,10 @@ const styles = StyleSheet.create({
   window: {
     flex: 1,
   },
-  mainMainWindow: {
-    flex: 1,
-  },
-  modalBottom: {
-    justifyContent: 'flex-end',
-    margin: 0,
-  },
-  map: {
-    flex: 1,
-  },
-  buttonCnt: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    bottom: 16,
-    left: 0,
-    right: 0,
-  },
   loader: {
     borderTopWidth: 3,
     width: 20,
     marginBottom: 10,
-  },
-  shadowBottomVitals: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: -30,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 90.7,
-    elevation: 50,
   },
   shadowRideOrDeliveryNodes: {
     backgroundColor: '#fff',

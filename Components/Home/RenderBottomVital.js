@@ -8,48 +8,17 @@ import {
   Animated as AnimatedNative,
   TouchableOpacity,
   StyleSheet,
-  Image,
   TextInput,
   ActivityIndicator,
-  Switch,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
-import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
-import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 //Import of action creators
 import {
-  ResetStateProps,
-  UpdateGrantedGRPS,
-  UpdatePendingGlobalVars,
-  UpdateRouteToPickupVars,
-  InRouteToPickupInitVars,
-  InRouteToDestinationInitVars,
-  UpdateTinyCarOnMapIconSize,
-  UpdateHellosVars,
-  UpdateSchedulerState,
-  UpdateCustomFareState,
-  UpdateBottomVitalsState,
-  UpdateProcessFlowState,
-  UpdateMapUsabilityState,
-  UpdateRideTypesScales,
-  UpdateCurrentLocationMetadat,
-  UpdateNumberOfPassengersSelected,
-  UpdateAdditionalPickupNote,
-  UpdateRideTypesOnScrollCategories,
-  UpdatePricingStateData,
-  UpdateRoutePreviewToDestination,
-  UpdateDeliveryPackageSize,
   UpdateRiderOrPackagePossesserSwitcher,
-  ValidateReceiverInfosForDelivery,
-  UpdateErrorMessagesStateInputRecDelivery,
-  UpdateReceiverNameOnType,
-  UpdateClosestDriversList,
-  UpdateErrorBottomVitals,
   UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
 import RenderContentBottomVitals from './RenderContentBottomVitals';
@@ -928,61 +897,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      ResetStateProps,
-      UpdateGrantedGRPS,
-      UpdatePendingGlobalVars,
-      UpdateRouteToPickupVars,
-      InRouteToPickupInitVars,
-      InRouteToDestinationInitVars,
-      UpdateTinyCarOnMapIconSize,
-      UpdateHellosVars,
-      UpdateSchedulerState,
-      UpdateCustomFareState,
-      UpdateBottomVitalsState,
-      UpdateProcessFlowState,
-      UpdateMapUsabilityState,
-      UpdateRideTypesScales,
-      UpdateCurrentLocationMetadat,
-      UpdateNumberOfPassengersSelected,
-      UpdateAdditionalPickupNote,
-      UpdateRideTypesOnScrollCategories,
-      UpdatePricingStateData,
-      UpdateRoutePreviewToDestination,
-      UpdateDeliveryPackageSize,
       UpdateRiderOrPackagePossesserSwitcher,
-      ValidateReceiverInfosForDelivery,
-      UpdateErrorMessagesStateInputRecDelivery,
-      UpdateReceiverNameOnType,
-      UpdateClosestDriversList,
-      UpdateErrorBottomVitals,
       UpdateErrorModalLog,
     },
     dispatch,
   );
 
 const styles = StyleSheet.create({
-  window: {
-    flex: 1,
-  },
-  mainMainWindow: {
-    flex: 1,
-  },
-  modalBottom: {
-    justifyContent: 'flex-end',
-    margin: 0,
-  },
-  map: {
-    flex: 1,
-  },
-  buttonCnt: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    bottom: 16,
-    left: 0,
-    right: 0,
-  },
   loader: {
     borderTopWidth: 3,
     width: 20,
@@ -997,30 +918,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 90.7,
     elevation: 50,
-  },
-  shadowRideOrDeliveryNodes: {
-    backgroundColor: '#fff',
-    shadowColor: '#f0f0f0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 3,
-
-    elevation: 3,
-  },
-  shadowNumberOfRidersButtons: {
-    backgroundColor: '#fff',
-    shadowColor: '#d0d0d0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2,
-
-    elevation: 4,
   },
   bttnGenericTc: {
     borderColor: '#000',
@@ -1040,48 +937,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5.84,
 
     elevation: 3,
-  },
-  borderIconLocationType: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-    height: 70,
-    bottom: 10,
-    borderWidth: 2,
-    borderRadius: 100,
-    borderColor: '#000',
-  },
-  buttonNumberOfPassDefault: {
-    borderWidth: 1.5,
-    width: 55,
-    height: 55,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#0D8691',
-    borderRadius: 250,
-  },
-  parentButtonNoPassengers: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  arrowCircledForwardBasic: {
-    backgroundColor: '#0e8491',
-    width: 60,
-    height: 60,
-    borderRadius: 10000,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  shadowButtonArrowCircledForward: {
-    shadowColor: '#d0d0d0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.6,
-
-    elevation: 6,
   },
 });
 
