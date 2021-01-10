@@ -145,7 +145,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                 <View style={[styles.bttnGenericTc]}>
                   <Text
                     style={[
-                      systemWeights.semibold,
                       {
                         fontFamily: 'Allrounder-Grotesk-Medium',
                         fontSize: 23.5,
@@ -233,7 +232,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                 <View style={[styles.bttnGenericTc]}>
                   <Text
                     style={[
-                      systemWeights.semibold,
                       {
                         fontFamily: 'Allrounder-Grotesk-Medium',
                         fontSize: 23.5,
@@ -318,7 +316,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                 <View style={[styles.bttnGenericTc]}>
                   <Text
                     style={[
-                      systemWeights.semibold,
                       {
                         fontFamily: 'Allrounder-Grotesk-Medium',
                         fontSize: 23.5,
@@ -1703,8 +1700,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Medium',
-                        fontSize: 22.5,
-                        //fontWeight: 'bold',
+                        fontSize: 23.5,
                         color: '#fff',
                       }}>
                       Next

@@ -65,7 +65,9 @@ class RenderBottomVital extends React.PureComponent {
                       }}>
                       <TouchableOpacity
                         activeOpacity={0.8}
-                        onPress={() => this.recalibrateMap(true)}
+                        onPress={() =>
+                          this.props.parentNode.recalibrateMap(true)
+                        }
                         style={{
                           width: 47,
                           height: 47,
