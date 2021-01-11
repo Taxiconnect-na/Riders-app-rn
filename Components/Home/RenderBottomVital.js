@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Easing,
   ActivityIndicator,
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -31,6 +32,200 @@ class RenderBottomVital extends React.PureComponent {
   constructor(props) {
     super(props);
   }
+
+  /**
+   * @func rideTypeToSchedulerTransistor()
+   * @param isSchedulerOnVal: value of the props.App value isSelectTripScheduleOn
+   * true: will transition to show the scheduler
+   * false: will transition to show the select ride type
+   * Responsible for transitionaing the view from the ride type to the scheduler and vice versa
+   * and all the animations in between based on which view is currently active.
+   * REFERENCE
+   * titleSelectRideOpacity: new AnimatedNative.Value(1), //Opacity of the header when select ride is active - default: 0
+   * titleSelectRidePosition: new AnimatedNative.Value(0), //Left offset position of the header when select ride is active - default : 10
+   * selectRideContentOpacity: new AnimatedNative.Value(1), //Opacity of the content holder when select ride is active - default 0
+   * selectRideContentPosition: new AnimatedNative.Value(0), //Top offset position of the content holder when select ride is active - default 20
+   * //---
+   * titleSchedulerSelectRideOpacity: new AnimatedNative.Value(0), //Opacity of the header when schedule ride is active - default: 0
+   * titleSchedulerSelectRidePostion: new AnimatedNative.Value(10), //Left offset position of the header when schedule is active - default : 10
+   * scheduleRideContentOpacity: new AnimatedNative.Value(0), //Opacity of the content holder when schedule ride is active - default 0
+   * scheduleRideContentPosition: new AnimatedNative.Value(20), //Top offset position of the content holder when schedule ride is active - default 20
+   */
+  rideTypeToSchedulerTransistor(isSchedulerOnVal) {
+    //Work if only props.App value changes
+    let globalObject = this;
+    if (isSchedulerOnVal === this.props.App.isSelectTripScheduleOn) {
+      return; //Cancel repetition to avoid execessive props.App update
+    }
+    //...
+    if (isSchedulerOnVal !== true) {
+      //this.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+      //Reinforce the scheduled context
+      if (this.props.App.selectedScheduleTime !== 'now') {
+        this.props.App.scheduledScenarioContextHeader = this.props.App.scheduledScenarioContext;
+        this.props.App.scheduledScreenHeaderNotNowOpacity = new AnimatedNative.Value(
+          1,
+        );
+        this.props.App.scheduledScreenHeaderNotNowPosition = new AnimatedNative.Value(
+          0,
+        );
+      } else {
+        this.props.App.scheduledScenarioContext = 'now';
+        this.props.App.scheduledScenarioContextHeader = 'now';
+      }
+      //Scheduler currently active
+      //Fade in the select ride
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.titleSchedulerSelectRideOpacity, {
+          toValue: 0,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.titleSchedulerSelectRidePostion, {
+          toValue: 10,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scheduleRideContentOpacity, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scheduleRideContentPosition, {
+          toValue: 20,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+        globalObject.forceUpdate(); //To refresh the new UI elements containing the select ride view
+        //Restore the current scroll level of the select ride scrollview
+        setTimeout(() => {
+          globalObject.scrollViewSelectRideRef.scrollTo({
+            x:
+              globalObject.props.App.windowWidth *
+              globalObject.props.App.headerRideTypesVars.currentHeaderIndex,
+            y: 0,
+            animated: true,
+          });
+        }, 1);
+
+        //...
+        //Fade away the  scheduler -> select ride
+        AnimatedNative.parallel([
+          AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
+            toValue: 1,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            globalObject.props.App.titleSelectRidePosition,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.selectRideContentOpacity,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.selectRideContentPosition,
+            {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start();
+      });
+    } //Select ride type currently active
+    else {
+      //Fade away the select ride -> scheduler
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.titleSelectRideOpacity, {
+          toValue: 0,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.titleSelectRidePosition, {
+          toValue: 10,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.selectRideContentOpacity, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.selectRideContentPosition, {
+          toValue: 20,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+        globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+        //Fade in the scheduler
+        AnimatedNative.parallel([
+          AnimatedNative.timing(
+            globalObject.props.App.titleSchedulerSelectRideOpacity,
+            {
+              toValue: 1,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.titleSchedulerSelectRidePostion,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.scheduleRideContentOpacity,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.scheduleRideContentPosition,
+            {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start();
+      });
+    }
+  }
+
   customRenderOrderer() {
     if (this.props.App.isRideInProgress === false) {
       //No rides in progress

@@ -436,7 +436,6 @@ class RenderContentBottomVitals extends React.PureComponent {
       //Include the interval persister
       if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
-          globalObject.props.parentNode.fire_search_animation();
           globalObject.props.App.socket.emit('getPickupLocationNature', {
             latitude: globalObject.props.App.latitude,
             longitude: globalObject.props.App.longitude,
@@ -449,7 +448,6 @@ class RenderContentBottomVitals extends React.PureComponent {
           ) {
             clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
             globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-            globalObject.props.parentNode.resetAnimationLoader();
           }
         }, this.props.App._TMP_INTERVAL_PERSISTER_TIME);
       }
@@ -473,7 +471,9 @@ class RenderContentBottomVitals extends React.PureComponent {
             useNativeDriver: true,
           },
         ),
-      ]).start();
+      ]).start(() => {
+        globalObject.props.parentNode.resetAnimationLoader();
+      });
     }
   }
 
@@ -1084,7 +1084,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontSize: 18,
+                    fontSize: 19,
                     width: '100%',
                     textAlign: 'center',
                     color: '#454545',
@@ -1801,23 +1801,22 @@ class RenderContentBottomVitals extends React.PureComponent {
           <View style={{height: '100%'}}>
             <View
               style={{
-                height: 35,
+                height: 60,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
               <AnimatedNative.Text
                 style={[
-                  systemWeights.semibold,
                   {
-                    fontSize: 18,
-                    color: '#454545',
+                    fontSize: 22,
+                    color: '#000',
                     fontFamily: 'Allrounder-Grotesk-Medium',
                   },
                 ]}>
                 {/Ride/i.test(this.props.App.bottomVitalsFlow.flowParent)
-                  ? 'More details about your pickup'
-                  : 'More details about your package'}
+                  ? 'Pickup note?'
+                  : 'Delivery note?'}
               </AnimatedNative.Text>
             </View>
             <View
@@ -1830,7 +1829,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   flex: 1,
                   width: '90%',
                 }}>
-                {this.props.App.bottomVitalsFlow
+                {/*this.props.App.bottomVitalsFlow
                   .riderOrPackagePosseserSwitchingVars.openRiderSwitcher ===
                 false ? (
                   <>
@@ -1925,7 +1924,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       />
                     </TouchableOpacity>
                   </>
-                ) : null}
+                ) : null*/}
                 <View
                   style={{
                     flexDirection: 'row',
@@ -1946,7 +1945,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                         : this.props.App.additionalNote_inputText
                     }
                     style={[
-                      systemWeights.regular,
                       {
                         //borderWidth: 1,
                         borderColor: '#d0d0d0',
@@ -2011,9 +2009,8 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <View style={[styles.bttnGenericTc]}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Book',
-                        fontSize: 21,
-                        fontWeight: 'bold',
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23.5,
                         color: '#fff',
                       }}>
                       {this.props.App.additionalNote_inputText === false

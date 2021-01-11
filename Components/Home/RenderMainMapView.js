@@ -16,6 +16,7 @@ import PulseCircleLayer from '../Modules/PulseCircleLayer';
 import bearing from '@turf/bearing';
 var turf = require('@turf/turf');
 import {UpdateTinyCarOnMapIconSize} from '../Redux/HomeActionsCreators';
+import {ROUTE} from './Route';
 
 const AnnotationPickup = ({title}) => (
   <View
@@ -101,7 +102,7 @@ const AnnotationDestination = ({title, etaInfos}) => (
         <Text
           style={[
             {
-              fontSize: 13,
+              fontSize: 13.5,
               color: '#fff',
               fontFamily: 'Allrounder-Grotesk-Regular',
             },
@@ -228,10 +229,6 @@ class RenderMainMapView extends React.PureComponent {
       this.props.App.previewDestinationData.originDestinationPreviewData !==
         false
     ) {
-      console.log(
-        this.props.App.previewDestinationData.originDestinationPreviewData
-          .routePoints,
-      );
       //Reposition MarkerViews optimally
       //Destination anchor
       this.repositionMaviewMarker(
@@ -286,7 +283,7 @@ class RenderMainMapView extends React.PureComponent {
               }}
             />
           </MarkerView>
-          <PulseCircleLayer
+          {/*<PulseCircleLayer
             radius={8}
             aboveLayerID={'lineRoutePickup'}
             innerCircleStyle={{
@@ -308,16 +305,14 @@ class RenderMainMapView extends React.PureComponent {
                   1
               ],
             }}
-          />
+          />*/}
 
-          <Animated.ShapeSource
+          {/*<Animated.ShapeSource
             id={'shape'}
             shape={
-              new Animated.Shape({
-                type: 'LineString',
-                coordinates: this.props.App.previewDestinationData
-                  .originDestinationPreviewData.routePoints.coordinates,
-              })
+              new Animated.Shape(
+                this.props.App.previewDestinationData.originDestinationPreviewData.routePoints,
+              )
             }>
             <Animated.LineLayer
               id={'lineRoutePickup'}
@@ -328,7 +323,27 @@ class RenderMainMapView extends React.PureComponent {
                 lineColor: '#096ED4',
               }}
             />
+            </Animated.ShapeSource>*/}
+          <Animated.ShapeSource
+            id={'shapeas'}
+            shape={
+              new Animated.Shape({
+                type: 'LineString',
+                coordinates: this.props.App.previewDestinationData
+                  .originDestinationPreviewData.routePoints.coordinates,
+              })
+            }>
+            <Animated.LineLayer
+              id={'lineRoutePickupLine'}
+              style={{
+                lineCap: 'round',
+                lineWidth: 3,
+                lineOpacity: 1,
+                lineColor: '#096ED4',
+              }}
+            />
           </Animated.ShapeSource>
+
           <PointAnnotation
             id={'originAnnotationPreview'}
             aboveLayerID={'lineRoutePickup'}
@@ -808,8 +823,16 @@ class RenderMainMapView extends React.PureComponent {
                     circleStrokeWidth: 0.5,
                   }}
                   innerCirclePulseStyle={{
-                    circleColor: '#0e8491',
-                    circleStrokeColor: '#0e8491',
+                    circleColor: /(addMoreTripDetails|selectCarTypeAndPaymentMethod)/i.test(
+                      this.props.App.bottomVitalsFlow.currentStep,
+                    )
+                      ? '#096ED4'
+                      : '#0e8491',
+                    circleStrokeColor: /(addMoreTripDetails|selectCarTypeAndPaymentMethod)/i.test(
+                      this.props.App.bottomVitalsFlow.currentStep,
+                    )
+                      ? '#000'
+                      : '#0e8491',
                   }}
                   outerCircleStyle={{
                     circleOpacity: 0.4,

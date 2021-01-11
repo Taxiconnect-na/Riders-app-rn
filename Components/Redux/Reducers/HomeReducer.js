@@ -393,7 +393,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 newState.loaderPosition = new Animated.Value(0); //For animation loader
                 newState.loaderBasicWidth = new Animated.Value(1);
                 newState.showLocationSearch_loader = true;
-                if (action.payload.parentTHIS !== undefined) {
+                if (
+                  action !== undefined &&
+                  action.payload.parentTHIS !== undefined
+                ) {
                   action.payload.parentTHIS.fire_search_animation();
                 } //Make use of the general state store main parent to animate
                 else {

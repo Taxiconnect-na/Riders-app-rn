@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialM from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
 import {systemWeights} from 'react-native-typography';
 import {
   UpdateSearchMetadataLoaderState,
@@ -147,6 +148,10 @@ class Search extends React.PureComponent {
           this.props.App.userCurrentLocationMetaData.city !== undefined
             ? this.props.App.userCurrentLocationMetaData.city
             : 'Windhoek'; //Default city to windhoek
+        requestPackage.country =
+          this.props.App.userCurrentLocationMetaData.country !== undefined
+            ? this.props.App.userCurrentLocationMetaData.country
+            : 'Namibia'; //Default country to Namibia
         //Submit to API
         this.props.UpdateSearchMetadataLoaderState({
           search_showLocationSearch_loader: true,
@@ -445,7 +450,7 @@ class Search extends React.PureComponent {
             <View>
               <Text
                 style={[
-                  {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Medium'},
+                  {fontSize: 16, fontFamily: 'Allrounder-Grotesk-Medium'},
                 ]}>
                 Set to my current location
               </Text>
@@ -567,17 +572,17 @@ class Search extends React.PureComponent {
                     onPress={() => this._onDestinationSelect(item)}
                     style={styles.locationRender}>
                     <View>
-                      <Icon
-                        name="map-pin"
+                      <IconFontisto
+                        name="map-marker-alt"
                         size={20}
-                        style={{paddingRight: 20}}
+                        style={{paddingRight: 20, top: 2}}
                       />
                     </View>
                     <View>
                       <Text
                         style={[
                           {
-                            fontSize: 15,
+                            fontSize: 15.5,
                             fontFamily: 'Allrounder-Grotesk-Medium',
                           },
                         ]}>
@@ -713,7 +718,7 @@ class Search extends React.PureComponent {
               <IconAnt name="arrowleft" size={28} />
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
-              <View style={styles.imageSearchNode}>
+              <View style={[styles.imageSearchNode]}>
                 <View style={styles.doBlackImageSearch} />
                 <View style={styles.lineMiddleImageSearch} />
                 <View style={styles.squareBlueImageSearch} />
@@ -722,7 +727,7 @@ class Search extends React.PureComponent {
                 <TextInput
                   style={[
                     {
-                      fontSize: 16,
+                      fontSize: 16.5,
                       borderWidth: 0.5,
                       padding: 10,
                       paddingTop: 5,
@@ -815,11 +820,7 @@ class Search extends React.PureComponent {
       return (
         <TextInput
           autoFocus={true}
-          style={[
-            systemWeights.regular,
-            styles.mainSearchBar,
-            {marginBottom: 15},
-          ]}
+          style={[styles.mainSearchBar, {marginBottom: 15}]}
           placeholder="Where are you going?"
           onChangeText={(text) => this._searchForThisQuery(text, 1)}
           value={
@@ -845,11 +846,7 @@ class Search extends React.PureComponent {
         return (
           <TextInput
             autoFocus={true}
-            style={[
-              systemWeights.regular,
-              styles.mainSearchBar,
-              {marginBottom: 15},
-            ]}
+            style={[styles.mainSearchBar, {marginBottom: 15}]}
             placeholder="Where are you going?"
             onChangeText={(text) => this._searchForThisQuery(text, 1)}
             value={
@@ -874,11 +871,7 @@ class Search extends React.PureComponent {
           <>
             <TextInput
               autoFocus={true}
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginBottom: 10}]}
               placeholder="Passenger's 1 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 1)}
               value={
@@ -895,11 +888,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginTop: 0, marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 2 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 2)}
               value={
@@ -925,11 +914,7 @@ class Search extends React.PureComponent {
           <>
             <TextInput
               autoFocus={true}
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginBottom: 10}]}
               placeholder="Passenger's 1 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 1)}
               value={
@@ -946,11 +931,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginTop: 0, marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 2 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 2)}
               value={
@@ -967,11 +948,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginTop: 0, marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 3 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 3)}
               value={
@@ -997,11 +974,7 @@ class Search extends React.PureComponent {
           <>
             <TextInput
               autoFocus={true}
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginBottom: 10}]}
               placeholder="Passenger's 1 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 1)}
               value={
@@ -1018,11 +991,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginTop: 0, marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 2 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 2)}
               value={
@@ -1039,11 +1008,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginTop: 0, marginBottom: 10},
-              ]}
+              style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 3 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 3)}
               value={
@@ -1060,11 +1025,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
-              style={[
-                systemWeights.regular,
-                styles.mainSearchBar,
-                {marginTop: 0, marginBottom: 15},
-              ]}
+              style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 15}]}
               placeholder="Passenger's 4 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 4)}
               value={
@@ -1136,6 +1097,7 @@ const styles = StyleSheet.create({
   },
   detailsSearchRes: {
     color: '#707070',
+    fontSize: 15,
   },
   headerSearchNode: {
     borderBottomWidth: 1,
@@ -1194,8 +1156,9 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     marginTop: 20,
     marginBottom: 25,
-    fontSize: 17,
+    fontSize: 17.5,
     backgroundColor: '#e7e7e7',
+    fontFamily: 'Allrounder-Grotesk-Regular',
   },
   resultsSearchNode: {
     padding: 20,
