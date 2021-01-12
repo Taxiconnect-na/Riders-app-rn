@@ -10,6 +10,7 @@ import {
   StyleSheet,
   TextInput,
   Easing,
+  Image,
   ActivityIndicator,
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -675,11 +676,11 @@ class RenderBottomVital extends React.PureComponent {
                     style={{
                       alignItems: 'center',
                       justifyContent: 'center',
-                      borderWidth: 1,
-                      borderColor: '#d0d0d0',
+                      borderWidth: 0.5,
+                      borderColor: '#f0f0f0',
                       backgroundColor: '#fff',
-                      width: 70,
-                      height: 70,
+                      width: 65,
+                      height: 65,
                       borderRadius: 150,
                       shadowColor: '#000',
                       shadowOffset: {
@@ -689,9 +690,17 @@ class RenderBottomVital extends React.PureComponent {
                       shadowOpacity: 0.25,
                       shadowRadius: 3.84,
 
-                      elevation: 5,
+                      elevation: 3,
                     }}>
-                    <IconAnt name="user" size={25} />
+                    <Image
+                      source={require('../../Media_assets/Images/driver.jpg')}
+                      style={{
+                        resizeMode: 'cover',
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 150,
+                      }}
+                    />
                   </View>
                   <View style={{marginLeft: 7, flex: 1}}>
                     <Text
@@ -764,7 +773,7 @@ class RenderBottomVital extends React.PureComponent {
                     justifyContent: 'center',
                     marginRight: 5,
                   }}>
-                  <IconAnt name="caretdown" size={14} />
+                  <IconAnt name="caretdown" size={13} />
                 </View>
               </TouchableOpacity>
             </View>

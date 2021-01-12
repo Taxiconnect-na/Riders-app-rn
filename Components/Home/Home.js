@@ -901,14 +901,14 @@ class Home extends React.PureComponent {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
-                90,
+                [90, 90, 120, 90],
                 3500,
               );
             } catch (error) {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
-                90,
+                [90, 90, 120, 90],
                 3500,
               );
             }
@@ -970,7 +970,7 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[1],
                 ],
                 [currentPoint[0], currentPoint[1]],
-                paddingFit,
+                [paddingFit, paddingFit, paddingFit + 20, paddingFit],
                 3500,
               );
             } catch (error) {
@@ -980,7 +980,7 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[1],
                 ],
                 [currentPoint[0], currentPoint[1]],
-                90,
+                [90, 90, 120, 90],
                 3500,
               );
             }

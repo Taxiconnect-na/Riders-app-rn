@@ -1990,18 +1990,28 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_GENERAL_ERROR_MODAL':
-      newState.generalErrorModal_vars.showErrorGeneralModal =
-        action.payload.activeStatus;
-      newState.generalErrorModal_vars.generalErrorModalType =
-        action.payload.errorMessage;
-      newState.generalErrorModal_vars.network_type = /any/i.test(
-        action.payload.network_type,
-      )
-        ? newState.generalErrorModal_vars.network_type
-        : action.payload.network_type; //Only update the network type of not 'any' value provided (dummy value)
+      if (
+        newState.generalErrorModal_vars.generalErrorModalType !==
+          action.payload.errorMessage &&
+        newState.generalErrorModal_vars.showErrorGeneralModal !==
+          action.payload.activeStatus
+      ) {
+        //Update only if new state
+        newState.generalErrorModal_vars.showErrorGeneralModal =
+          action.payload.activeStatus;
+        newState.generalErrorModal_vars.generalErrorModalType =
+          action.payload.errorMessage;
+        newState.generalErrorModal_vars.network_type = /any/i.test(
+          action.payload.network_type,
+        )
+          ? newState.generalErrorModal_vars.network_type
+          : action.payload.network_type; //Only update the network type of not 'any' value provided (dummy value)
 
-      //...
-      return {...state, ...newState};
+        //...
+        return {...state, ...newState};
+      } else {
+        return state;
+      }
 
     case 'UPDATE_USER_GENDER_STATE':
       newState.gender_user = action.payload;

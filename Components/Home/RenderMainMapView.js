@@ -426,7 +426,7 @@ class RenderMainMapView extends React.PureComponent {
               id={'lineRoutePickup'}
               style={{
                 lineCap: 'round',
-                lineWidth: 6,
+                lineWidth: 4,
                 lineOpacity: 0.8,
                 lineColor: '#000',
               }}

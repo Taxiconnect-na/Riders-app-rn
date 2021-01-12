@@ -93,10 +93,10 @@ class EntryScreen extends React.PureComponent {
               paddingLeft: '8%',
               paddingRight: '8%',
             }}>
-            <View style={{flexDirection: 'row', flex: 1}}>
+            <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
               <IconMaterialIcons
                 name="phone"
-                size={27}
+                size={25}
                 style={{marginRight: 5}}
                 color="#000"
               />

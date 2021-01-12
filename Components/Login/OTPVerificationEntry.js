@@ -305,13 +305,13 @@ class OTPVerificationEntry extends React.PureComponent {
       } else {
         console.log('SMS reading permission denied.');
         //Request for otp
-        //globalObject.requestForOTP();
+        globalObject.requestForOTP();
         //...
       }
     } catch (err) {
       console.warn(err);
       //Request for otp
-      //globalObject.requestForOTP();
+      globalObject.requestForOTP();
       //...
     }
   }
@@ -429,7 +429,6 @@ class OTPVerificationEntry extends React.PureComponent {
   }
 
   render() {
-    console.log(this.state.otpValue);
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>

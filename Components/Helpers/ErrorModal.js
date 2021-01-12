@@ -882,9 +882,9 @@ class ErrorModal extends React.PureComponent {
                   }}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       color: '#096ED4',
-                      fontSize: 15,
+                      fontSize: 16.5,
                     }}>
                     {this.props.App.generalTRIP_details_driverDetails.eta !==
                       null &&
@@ -918,7 +918,7 @@ class ErrorModal extends React.PureComponent {
                   <IconMaterialIcons name="phone" color="#096ED4" size={20} />
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       fontSize: 17,
                       color: '#096ED4',
                     }}>
@@ -933,10 +933,10 @@ class ErrorModal extends React.PureComponent {
                     justifyContent: 'center',
                     padding: 10,
                   }}>
-                  <IconMaterialIcons name="close" color="#b22222" size={21} />
+                  <IconMaterialIcons name="block" color="#b22222" size={20} />
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       fontSize: 17,
                       color: '#b22222',
                     }}>
@@ -979,7 +979,7 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 16,
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily: 'Allrounder-Grotesk-Medium',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1002,7 +1002,7 @@ class ErrorModal extends React.PureComponent {
                         marginTop: 8,
                         alignItems: 'center',
                       }}>
-                      <IconFeather name="shield" color="green" size={17} />
+                      <IconFeather name="shield" color="green" size={16} />
                       <Text
                         style={{
                           fontSize: 14,
@@ -1035,38 +1035,203 @@ class ErrorModal extends React.PureComponent {
                     ? 'Trip'
                     : 'Delivery'}
                 </Text>
+
                 <View
                   style={{
                     padding: 20,
+                  }}>
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                      }}>
+                      <View style={{width: 16, height: '87%', top: 6}}>
+                        <View style={{position: 'absolute', top: 0}}>
+                          <View
+                            style={{
+                              height: 11,
+                              width: 11,
+                              borderRadius: 100,
+                              backgroundColor: '#000',
+                            }}
+                          />
+                        </View>
+
+                        <View
+                          style={{
+                            flex: 1,
+                            left: 5,
+                            width: 1.5,
+                            height: 50,
+                            backgroundColor: '#000',
+                          }}></View>
+                        <View style={{position: 'absolute', bottom: 0}}>
+                          <View
+                            style={{
+                              height: 11,
+                              width: 11,
+                              borderRadius: 0,
+                              backgroundColor: '#096ED4',
+                            }}
+                          />
+                        </View>
+                      </View>
+                      <View style={{flex: 1}}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}>
+                          <View style={{width: 35}}>
+                            <Text
+                              style={{
+                                fontFamily: 'Allrounder-Grotesk-Book',
+                                fontSize: 13,
+                                top: 2,
+                              }}>
+                              From
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: 'flex-start',
+                            }}>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: 'flex-start',
+                              }}>
+                              <Text
+                                style={{
+                                  fontFamily: 'Allrounder-Grotesk-Medium',
+                                  fontSize: 15,
+                                  marginLeft: 5,
+                                  flex: 1,
+                                }}>
+                                {String(
+                                  this.props.App
+                                    .generalTRIP_details_driverDetails
+                                    .basicTripDetails.pickup_name,
+                                )}
+                              </Text>
+                              {/*<Text
+                                style={{
+                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontSize: 14,
+                                  marginLeft: 5,
+                                  marginTop: 3,
+                                  flex: 1,
+                                }}>
+                                {this.props.App.requests_data_main_vars
+                                  .moreDetailsFocused_request
+                                  .origin_destination_infos.pickup_infos
+                                  .location_name +
+                                  ', ' +
+                                  this.props.App.requests_data_main_vars
+                                    .moreDetailsFocused_request
+                                    .origin_destination_infos.pickup_infos
+                                    .street_name}
+                                </Text>*/}
+                            </View>
+                          </View>
+                        </View>
+                        {/**Destination */}
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            marginTop: 25,
+                          }}>
+                          <View style={{width: 35}}>
+                            <Text
+                              style={{
+                                fontFamily: 'Allrounder-Grotesk-Book',
+                                fontSize: 13,
+                                top: 1,
+                              }}>
+                              To
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1,
+                              alignItems: 'flex-start',
+                            }}>
+                            {this.props.App.generalTRIP_details_driverDetails.basicTripDetails.destination_name
+                              .split(',')
+                              .map((destination, index) => {
+                                return (
+                                  <View
+                                    key={String(index + 1)}
+                                    style={{
+                                      flex: 1,
+                                      alignItems: 'flex-start',
+                                      marginTop: index > 0 ? 5 : 0,
+                                    }}>
+                                    <Text
+                                      style={{
+                                        fontFamily:
+                                          'Allrounder-Grotesk-Regular',
+                                        fontSize: 16,
+                                        marginLeft: 5,
+                                        flex: 1,
+                                      }}>
+                                      {this.props.App.generalTRIP_details_driverDetails.basicTripDetails.destination_name.split(
+                                        ',',
+                                      ).length > 1 ? (
+                                        <Text
+                                          style={{
+                                            fontFamily:
+                                              'Allrounder-Grotesk-Regular',
+                                            fontSize: 13,
+                                            marginLeft: 5,
+                                            flex: 1,
+                                            color: '#096ED4',
+                                          }}>
+                                          {index + 1 + '. '}
+                                        </Text>
+                                      ) : null}
+                                      {destination.trim()}
+                                    </Text>
+                                  </View>
+                                );
+                              })}
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/**ETA */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 20,
+                    borderTopWidth: 0.7,
+                    borderTopColor: '#d0d0d0',
                     borderBottomWidth: 0.7,
                     borderBottomColor: '#d0d0d0',
-                    height: 170,
+                    backgroundColor: '#fafafa',
                   }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginBottom: 25,
-                      alignItems: 'center',
-                    }}>
-                    <View>
-                      <View
-                        style={{
-                          height: 15,
-                          width: 15,
-                          borderRadius: 100,
-                          backgroundColor: '#000',
-                        }}
-                      />
-                      <View
-                        style={{
-                          position: 'absolute',
-                          top: 3,
-                          left: 7,
-                          width: 2,
-                          height: 50,
-                          backgroundColor: '#000',
-                        }}></View>
-                    </View>
+                  <View>
+                    <View
+                      style={{
+                        top: 1,
+                        height: 10,
+                        width: 10,
+                        borderWidth: 3,
+                        borderColor: '#096ED4',
+                        borderRadius: 100,
+                        backgroundColor: '#fff',
+                      }}
+                    />
+                  </View>
+                  {this.props.App.generalTRIP_details_driverDetails
+                    .ETA_toDestination !== undefined &&
+                  this.props.App.generalTRIP_details_driverDetails
+                    .ETA_toDestination !== false &&
+                  this.props.App.generalTRIP_details_driverDetails
+                    .ETA_toDestination !== null ? (
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Book',
@@ -1074,57 +1239,22 @@ class ErrorModal extends React.PureComponent {
                         marginLeft: 5,
                         flex: 1,
                       }}>
-                      {/ride/i.test(
-                        this.props.App.generalTRIP_details_driverDetails
-                          .basicTripDetails.ride_mode,
-                      )
-                        ? 'Pickup'
-                        : 'Collection'}{' '}
-                      at{' '}
+                      Approximately{' '}
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Medium',
-                          fontSize: 15,
+                          fontSize: 16,
                           marginLeft: 5,
+                          color: '#096ED4',
                         }}>
-                        {String(
-                          this.props.App.generalTRIP_details_driverDetails
-                            .basicTripDetails.pickup_name,
-                        ).length < 30
-                          ? this.props.App.generalTRIP_details_driverDetails
-                              .basicTripDetails.pickup_name
-                          : this.props.App.generalTRIP_details_driverDetails.basicTripDetails.pickup_name.substring(
-                              0,
-                              19,
-                            ) + '...'}
+                        {this.props.App.generalTRIP_details_driverDetails.ETA_toDestination.replace(
+                          ' away',
+                          '',
+                        )}
+                        .
                       </Text>
                     </Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginBottom: 25,
-                      alignItems: 'center',
-                    }}>
-                    <View>
-                      <View
-                        style={{
-                          height: 15,
-                          width: 15,
-                          borderRadius: 100,
-                          backgroundColor: '#096ED4',
-                        }}
-                      />
-                      <View
-                        style={{
-                          position: 'absolute',
-                          top: 3,
-                          left: 7,
-                          width: 2,
-                          height: 50,
-                          backgroundColor: '#096ED4',
-                        }}></View>
-                    </View>
+                  ) : (
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Book',
@@ -1132,85 +1262,9 @@ class ErrorModal extends React.PureComponent {
                         marginLeft: 5,
                         flex: 1,
                       }}>
-                      {/ride/i.test(
-                        this.props.App.generalTRIP_details_driverDetails
-                          .basicTripDetails.ride_mode,
-                      )
-                        ? 'Drop off'
-                        : 'Delivery'}{' '}
-                      at{' '}
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Medium',
-                          fontSize: 15,
-                          marginLeft: 5,
-                        }}>
-                        {String(
-                          this.props.App.generalTRIP_details_driverDetails
-                            .basicTripDetails.destination_name,
-                        ).length < 25
-                          ? this.props.App.generalTRIP_details_driverDetails
-                              .basicTripDetails.destination_name
-                          : this.props.App.generalTRIP_details_driverDetails.basicTripDetails.destination_name.substring(
-                              0,
-                              19,
-                            ) + '...'}
-                      </Text>
+                      Couldn't find the ETA.
                     </Text>
-                  </View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View>
-                      <View
-                        style={{
-                          height: 15,
-                          width: 15,
-                          borderWidth: 3,
-                          borderColor: '#096ED4',
-                          borderRadius: 100,
-                          backgroundColor: '#fff',
-                        }}
-                      />
-                    </View>
-                    {this.props.App.generalTRIP_details_driverDetails
-                      .ETA_toDestination !== undefined &&
-                    this.props.App.generalTRIP_details_driverDetails
-                      .ETA_toDestination !== false &&
-                    this.props.App.generalTRIP_details_driverDetails
-                      .ETA_toDestination !== null ? (
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
-                          marginLeft: 5,
-                          flex: 1,
-                        }}>
-                        Approximately{' '}
-                        <Text
-                          style={{
-                            fontFamily: 'Allrounder-Grotesk-Medium',
-                            fontSize: 15,
-                            marginLeft: 5,
-                            color: '#096ED4',
-                          }}>
-                          {this.props.App.generalTRIP_details_driverDetails.ETA_toDestination.replace(
-                            ' away',
-                            '',
-                          )}
-                          .
-                        </Text>
-                      </Text>
-                    ) : (
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
-                          marginLeft: 5,
-                          flex: 1,
-                        }}>
-                        Couldn't find the ETA.
-                      </Text>
-                    )}
-                  </View>
+                  )}
                 </View>
               </View>
               {/**Payment method, amount and passenger number */}
@@ -1236,7 +1290,7 @@ class ErrorModal extends React.PureComponent {
                         .basicTripDetails.payment_method,
                     ),
                   ) ? (
-                    <IconCommunity name="cash-usd" color={'green'} size={25} />
+                    <IconCommunity name="cash-usd" color={'#000'} size={25} />
                   ) : (
                     <IconMaterialIcons name="credit-card" size={25} />
                   )}
@@ -1268,7 +1322,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Medium',
-                    fontSize: 17,
+                    fontSize: 20,
                     color: 'green',
                     flex: 1,
                     textAlign: 'center',
@@ -1284,11 +1338,11 @@ class ErrorModal extends React.PureComponent {
                     justifyContent: 'flex-end',
                     flex: 1,
                   }}>
-                  <IconAnt name="user" size={20} />
+                  <IconAnt name="user" size={17} />
                   <Text
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 17,
+                      fontSize: 17.5,
                       marginLeft: 4,
                     }}>
                     {
@@ -1324,7 +1378,7 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 16,
+                        fontSize: 17,
                         color: '#b22222',
                         marginLeft: 5,
                       }}>
