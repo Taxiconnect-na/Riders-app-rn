@@ -2930,9 +2930,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               <View style={[styles.bttnGenericTc]}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Book',
-                    fontSize: 21,
-                    fontWeight: 'bold',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 23.5,
                     color: '#fff',
                   }}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -3028,9 +3027,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               <View style={[styles.bttnGenericTc]}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Book',
-                    fontSize: 21,
-                    fontWeight: 'bold',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 23.5,
                     color: '#fff',
                   }}>
                   Done

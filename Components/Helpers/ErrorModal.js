@@ -2012,33 +2012,37 @@ class ErrorModal extends React.PureComponent {
   render() {
     return (
       <View>
-        <Modal
-          testID={'modal'}
-          useNativeDriver={true}
-          useNativeDriverForBackdrop={true}
-          onBackButtonPress={() =>
-            this.props.UpdateErrorModalLog(false, false, 'any')
-          }
-          onBackdropPress={() =>
-            /(show_guardian_toolkit|show_cancel_ride_modal)/i.test(
-              this.props.error_status,
-            )
-              ? this.props.UpdateErrorModalLog(false, false, 'any')
-              : {}
-          }
-          isVisible={
-            this.props.active !== undefined && this.props.active !== null
-              ? this.props.error_status !== undefined &&
-                this.props.error_status !== null
-                ? this.props.active
+        {/**Check if the modal is not yet active with the same error status message */}
+        {console.log('Modal called')}
+        {
+          <Modal
+            testID={'modal'}
+            useNativeDriver={true}
+            useNativeDriverForBackdrop={true}
+            onBackButtonPress={() =>
+              this.props.UpdateErrorModalLog(false, false, 'any')
+            }
+            onBackdropPress={() =>
+              /(show_guardian_toolkit|show_cancel_ride_modal)/i.test(
+                this.props.error_status,
+              )
+                ? this.props.UpdateErrorModalLog(false, false, 'any')
+                : {}
+            }
+            isVisible={
+              this.props.active !== undefined && this.props.active !== null
+                ? this.props.error_status !== undefined &&
+                  this.props.error_status !== null
+                  ? this.props.active
+                  : false
                 : false
-              : false
-          }
-          animationInTiming={300}
-          animationOutTiming={300}
-          style={styles.modalBottom}>
-          {this.renderModalContent(this.props.error_status)}
-        </Modal>
+            }
+            animationInTiming={300}
+            animationOutTiming={300}
+            style={styles.modalBottom}>
+            {this.renderModalContent(this.props.error_status)}
+          </Modal>
+        }
       </View>
     );
   }

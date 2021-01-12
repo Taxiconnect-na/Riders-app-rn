@@ -1048,8 +1048,8 @@ class RenderContentBottomVitals extends React.PureComponent {
           <AnimatedNative.Text
             style={[
               {
-                fontSize: 17.5,
-                color: '#454545',
+                fontSize: 21,
+                color: '#000',
                 fontFamily: 'Allrounder-Grotesk-Medium',
                 opacity: this.props.App.titleSchedulerSelectRideOpacity,
                 transform: [
@@ -1151,7 +1151,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontSize: 18,
+                    fontSize: 19,
                     width: '100%',
                     textAlign: 'center',
                     color: '#454545',
@@ -1213,8 +1213,8 @@ class RenderContentBottomVitals extends React.PureComponent {
           style={[
             {
               fontFamily: 'Allrounder-Grotesk-Medium',
-              fontSize: 17.5,
-              color: '#454545',
+              fontSize: 19,
+              color: '#000',
               opacity: this.props.App.titleSummaryOpacity,
               transform: [
                 {
@@ -1722,6 +1722,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
         this.props.parentNode.fire_search_animation(); //Fire animation
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
+          console.log('Interval here');
           if (
             globalObject.props.App.previewDestinationData
               .originDestinationPreviewData === false ||
@@ -2320,7 +2321,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           <View style={{height: '100%'}}>
             <View
               style={{
-                height: 35,
+                height: 40,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -2808,7 +2809,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           <View style={{height: '100%'}}>
             <View
               style={{
-                height: 35,
+                height: 40,
                 paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',

@@ -330,6 +330,7 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
+        //console.log(response);
         //1. Trip in progress: in route to pickup or in route to drop off
         if (
           response.response === undefined &&
@@ -346,12 +347,13 @@ class Home extends React.PureComponent {
           }; //Very important
 
           //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
-          if (response.request_status === 'inRouteToPickup') {
+          if (/inRouteToPickup/i.test(response.request_status)) {
             globalObject.props.App.isInRouteToDestination = false;
             globalObject.props.App.request_status = 'inRouteToPickup';
 
             //Update loop request
             if (globalObject.props.App.intervalProgressLoop === false) {
+              console.log('INterval persister for rides initiated!');
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
@@ -360,9 +362,10 @@ class Home extends React.PureComponent {
                   } //clear interval
                   else {
                     clearInterval(globalObject.props.App.intervalProgressLoop);
+                    globalObject.props.App.intervalProgressLoop = false;
                   }
                 },
-                5000,
+                3000,
               );
             }
           } else if (response.request_status === 'inRouteToDestination') {
@@ -384,9 +387,10 @@ class Home extends React.PureComponent {
                   } //clear interval
                   else {
                     clearInterval(globalObject.props.App.intervalProgressLoop);
+                    globalObject.props.App.intervalProgressLoop;
                   }
                 },
-                5000,
+                3000,
               );
             }
           }
@@ -460,20 +464,23 @@ class Home extends React.PureComponent {
         } else if (response.request_status === 'pending') {
           //Save the main object
           globalObject.props.App.generalTRIP_details_driverDetails = response;
-          //Reposition the map
-          if (
-            globalObject.camera !== undefined &&
-            globalObject.camera !== null
-          ) {
-            globalObject.camera.flyTo(response.pickupLocation_point, 2000);
-            /*globalObject.camera.fitBounds(
+
+          //Update loop request
+          if (globalObject.props.App.intervalProgressLoop === false) {
+            //Reposition the map
+            if (
+              globalObject.camera !== undefined &&
+              globalObject.camera !== null &&
+              globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
+                false
+            ) {
+              globalObject.camera.flyTo(response.pickupLocation_point, 2000);
+              /*globalObject.camera.fitBounds(
               response.pickupLocation_point,
               40,
               1000,
             );*/
-          }
-          //Update loop request
-          if (globalObject.props.App.intervalProgressLoop === false) {
+            }
             globalObject.props.App.intervalProgressLoop = setInterval(
               function () {
                 if (globalObject.props.App.isRideInProgress === true) {
@@ -484,7 +491,7 @@ class Home extends React.PureComponent {
                   clearInterval(globalObject.props.App.intervalProgressLoop);
                 }
               },
-              5000,
+              3000,
             );
           }
           //Trip pending
@@ -572,94 +579,6 @@ class Home extends React.PureComponent {
         }
       }
     });
-
-    //Get route snapshot for to driver
-    /*this.props.App.socket.on('getIteinerayDestinationInfos-response', function (
-      response,
-    ) {
-      if (
-        response.response === undefined &&
-        response.routePoints !== undefined &&
-        response.destinationData !== null &&
-        response.destinationData !== undefined
-      ) {
-        //Initialize animation components
-        const route = new Animated.RouteCoordinatesArray(response.routePoints);
-        const routeShape = new Animated.CoordinatesArray(response.routePoints);
-        //Initialize animation components for destination route
-        const routeDestination = new Animated.RouteCoordinatesArray(
-          response.destinationData.routePoints,
-        );
-        const routeShapeDestination = new Animated.CoordinatesArray(
-          response.destinationData.routePoints,
-        );
-        //----
-        if (globalObject.camera !== undefined && globalObject.camera != null) {
-          globalObject.camera.fitBounds(
-            [globalObject.props.App.longitude, globalObject.props.App.latitude],
-            [response.driverNextPoint[0], response.driverNextPoint[1]],
-            70,
-            2000,
-          );
-        }
-
-        globalObject.setState({
-          route: route,
-          shape: routeShape,
-          //actPoint: new Animated.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
-          actPoint: new Animated.ExtractCoordinateFromArray(route, -1), //Independent from shape
-          actPointToMinusOne: false,
-          routeCoordsPickup: response.routePoints, //To pickup
-          routeCoordsDestination: response.destinationData.routePoints, //To destination
-          lastDriverCoords: [
-            response.driverNextPoint[0],
-            response.driverNextPoint[1],
-          ],
-          isRideInProgress: true,
-          routeDestination: routeDestination,
-          shapeDestination: routeShapeDestination,
-          actPointDestination: new Animated.ExtractCoordinateFromArray(
-            routeDestination,
-            -1,
-          ), //Independent from shape
-          destinationPoint: response.destinationData.destinationPoint, //Destination coords
-        });
-
-        //globalObject.startAnimateRoutePickup();*/
-
-    //Get driver's next point
-    /*let currentPoint = response.driverNextPoint;
-        let currentPointRm = point(currentPoint);
-
-        globalObject.props.App.shape
-          .timing({
-            toValue: response.routePoints,
-            duration: 300,
-            easing: Easing.linear,
-          })
-          .start(() => {
-            if (
-              globalObject.camera !== undefined &&
-              globalObject.camera != null
-            ) {
-              globalObject.camera.fitBounds(
-                [lon, lat],
-                [currentPoint[0], currentPoint[1]],
-                70,
-                2000,
-              );
-            }
-          });
-
-        globalObject.props.App.route
-          .timing({
-            toValue: {end: {point: currentPointRm}},
-            duration: 2500,
-            easing: Easing.linear,
-          })
-          .start(() => {}); //Excluded *
-      }
-    });*/
 
     /**
      * GET GEOCODED USER LOCATION
@@ -758,7 +677,6 @@ class Home extends React.PureComponent {
       'getPricingForRideorDelivery-response',
       function (response) {
         if (response !== false && response.response === undefined) {
-          globalObject.resetAnimationLoader();
           //Estimates computed
           //Convert to object
           if (typeof response === String) {
@@ -814,7 +732,9 @@ class Home extends React.PureComponent {
                   useNativeDriver: true,
                 },
               ),
-            ]).start();
+            ]).start(() => {
+              globalObject.resetAnimationLoader();
+            });
           });
         } //No valid estimates due to a problem, try again
         else {
@@ -833,6 +753,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'getRoute_to_destinationSnapshot-response',
       function (response) {
+        console.log('spanshot received');
         if (response !== false && response.destination !== undefined) {
           //Received something
           //Close animation
@@ -971,8 +892,11 @@ class Home extends React.PureComponent {
 
           if (
             globalObject.camera !== undefined &&
-            globalObject.camera != null
+            globalObject.camera != null &&
+            globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
+              false
           ) {
+            //Only recenter when the user was not centered already
             try {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
@@ -1034,8 +958,11 @@ class Home extends React.PureComponent {
 
           if (
             globalObject.camera !== undefined &&
-            globalObject.camera != null
+            globalObject.camera != null &&
+            globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
+              false
           ) {
+            //Only recenter when the user was not centered already
             try {
               globalObject.camera.fitBounds(
                 [
