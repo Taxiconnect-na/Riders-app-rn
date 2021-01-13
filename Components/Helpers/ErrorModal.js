@@ -66,22 +66,20 @@ class ErrorModal extends React.PureComponent {
           response.response !== null
         ) {
           //Reset local drop off related data
-          globalObject.setState({
-            rating_score: 5,
-            compliment_array: {
-              neatAndTidy: false,
-              excellentService: false,
-              greatMusic: false,
-              greatConversation: false,
-              expertNavigator: false,
-            },
-            custom_note: false,
-            request_fp: false,
-          });
+          globalObject.state.rating_score = 5;
+          globalObject.state.compliment_array = {
+            neatAndTidy: false,
+            excellentService: false,
+            greatMusic: false,
+            greatConversation: false,
+            expertNavigator: false,
+          };
+          globalObject.state.custom_note = false;
+          globalObject.state.request_fp = false;
           //Received a response
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
           //Reset all the trips
-          globalObject.props.ResetStateProps();
+          globalObject.props.ResetStateProps(globalObject.props.parentNode);
         } //error - close the modal
         else {
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
@@ -769,16 +767,16 @@ class ErrorModal extends React.PureComponent {
                 onPress={() =>
                   this.props.UpdateErrorModalLog(false, false, 'any')
                 }
-                style={{flexDirection: 'row'}}>
-                <View style={{top: 1.5}}>
+                style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{top: 0}}>
                   <IconAnt name="arrowleft" size={23} />
                 </View>
                 <Text
                   style={[
                     systemWeights.semibold,
                     {
-                      fontSize: 17.5,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 19,
+                      fontFamily: 'Allrounder-Grotesk-Medium',
                       marginLeft: 5,
                     },
                   ]}>
@@ -1536,16 +1534,16 @@ class ErrorModal extends React.PureComponent {
                 onPress={() =>
                   this.props.UpdateErrorModalLog(false, false, 'any')
                 }
-                style={{flexDirection: 'row'}}>
-                <View style={{top: 1.5}}>
+                style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{top: 0}}>
                   <IconAnt name="arrowleft" size={23} />
                 </View>
                 <Text
                   style={[
                     systemWeights.semibold,
                     {
-                      fontSize: 17.5,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 19,
+                      fontFamily: 'Allrounder-Grotesk-Medium',
                       marginLeft: 5,
                     },
                   ]}>
@@ -1568,6 +1566,8 @@ class ErrorModal extends React.PureComponent {
                     width: 60,
                     height: 60,
                     borderRadius: 150,
+                    borderWidth: 0.5,
+                    borderColor: '#f0f0f0',
                     alignItems: 'center',
                     justifyContent: 'center',
                     shadowColor: '#000',
@@ -1580,12 +1580,20 @@ class ErrorModal extends React.PureComponent {
 
                     elevation: 6,
                   }}>
-                  <IconAnt name="user" size={25} />
+                  <Image
+                    source={require('../../Media_assets/Images/driver.jpg')}
+                    style={{
+                      resizeMode: 'cover',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 150,
+                    }}
+                  />
                 </View>
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Regular',
-                    fontSize: 17,
+                    fontSize: 18,
                     marginTop: 10,
                   }}>
                   {
@@ -1596,7 +1604,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Book',
-                    fontSize: 13,
+                    fontSize: 14.5,
                     marginTop: 4,
                   }}>
                   {
@@ -1633,10 +1641,10 @@ class ErrorModal extends React.PureComponent {
                   onFinishRating={(rating) =>
                     this.setState({rating_score: rating})
                   }
-                  size={30}
+                  size={38}
                   reviewSize={18}
                   reviewColor={'#000'}
-                  selectedColor={'#096ED4'}
+                  selectedColor={'#ffbf00'}
                 />
               </View>
               {/**Compliments */}
@@ -1648,13 +1656,14 @@ class ErrorModal extends React.PureComponent {
                 }}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Book',
-                    fontSize: 15,
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontSize: 16,
                     width: '100%',
                     textAlign: 'center',
                     color: '#a5a5a5',
+                    marginBottom: 5,
                   }}>
-                  Compliment the driver?
+                  Give a compliment?
                 </Text>
                 <ScrollView
                   horizontal
@@ -1950,7 +1959,7 @@ class ErrorModal extends React.PureComponent {
                 }}>
                 <View
                   style={{
-                    borderBottomWidth: 1,
+                    borderBottomWidth: 0.5,
                     marginTop: 15,
                     width: '100%',
                   }}>
@@ -1963,7 +1972,7 @@ class ErrorModal extends React.PureComponent {
                     maxLength={40}
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Regular',
-                      fontSize: 16,
+                      fontSize: 17.5,
                     }}
                   />
                 </View>
@@ -1992,11 +2001,11 @@ class ErrorModal extends React.PureComponent {
                   <Text
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 19,
+                      fontSize: 23.5,
                       color: '#fff',
                     }}>
                     {this.state.isLoading_something ? (
-                      <ActivityIndicator size="small" color="#fff" />
+                      <ActivityIndicator size="large" color="#fff" />
                     ) : (
                       'Done'
                     )}

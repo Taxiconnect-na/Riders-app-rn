@@ -825,8 +825,8 @@ class RenderBottomVital extends React.PureComponent {
                 <View style={{flex: 1, width: '100%'}}>
                   <Text
                     style={{
-                      fontSize: 16,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontSize: 17,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       color: '#a5a5a5',
                       padding: 20,
                       paddingTop: 0,
@@ -842,118 +842,150 @@ class RenderBottomVital extends React.PureComponent {
                   </Text>
                   <View
                     style={{
-                      padding: 20,
-                      paddingLeft: 0,
-                      height: 120,
+                      paddingTop: 20,
+                      paddingBottom: 20,
                     }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        marginBottom: 35,
-                        alignItems: 'center',
-                      }}>
-                      <View>
-                        <View
-                          style={{
-                            height: 15,
-                            width: 15,
-                            borderRadius: 100,
-                            backgroundColor: '#000',
-                          }}
-                        />
-                        <View
-                          style={{
-                            position: 'absolute',
-                            top: 3,
-                            left: 7,
-                            width: 2,
-                            height: 55,
-                            backgroundColor: '#000',
-                          }}></View>
-                      </View>
-                      <Text
+                    <View>
+                      <View
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
-                          marginLeft: 5,
-                          flex: 1,
-                          bottom: 0.5,
+                          flexDirection: 'row',
                         }}>
-                        {/ride/i.test(
-                          this.props.App.generalTRIP_details_driverDetails
-                            .trip_details.ride_mode,
-                        )
-                          ? 'Pickup'
-                          : 'Collection'}{' '}
-                        at{' '}
-                        <Text
-                          style={{
-                            fontFamily: 'Allrounder-Grotesk-Medium',
-                            fontSize: 15,
-                            marginLeft: 5,
-                          }}>
-                          {String(
-                            this.props.App.generalTRIP_details_driverDetails
-                              .trip_details.pickup_name,
-                          ).length < 19
-                            ? this.props.App.generalTRIP_details_driverDetails
-                                .trip_details.pickup_name
-                            : this.props.App.generalTRIP_details_driverDetails.trip_details.pickup_name.substring(
-                                0,
-                                19,
-                              ) + '...'}
-                        </Text>
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                      <View>
-                        <View
-                          style={{
-                            height: 15,
-                            width: 15,
-                            borderRadius: 100,
-                            backgroundColor: '#096ED4',
-                            left: 0.5,
-                          }}
-                        />
+                        <View style={{width: 16, height: '87%', top: 6}}>
+                          <View style={{position: 'absolute', top: 0}}>
+                            <View
+                              style={{
+                                height: 11,
+                                width: 11,
+                                borderRadius: 100,
+                                backgroundColor: '#000',
+                              }}
+                            />
+                          </View>
+
+                          <View
+                            style={{
+                              flex: 1,
+                              left: 5,
+                              width: 1.5,
+                              height: 50,
+                              backgroundColor: '#000',
+                            }}></View>
+                          <View style={{position: 'absolute', bottom: 0}}>
+                            <View
+                              style={{
+                                height: 11,
+                                width: 11,
+                                borderRadius: 0,
+                                backgroundColor: '#096ED4',
+                              }}
+                            />
+                          </View>
+                        </View>
+                        <View style={{flex: 1}}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                            }}>
+                            <View style={{width: 35}}>
+                              <Text
+                                style={{
+                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontSize: 13,
+                                  top: 2,
+                                }}>
+                                From
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: 'flex-start',
+                              }}>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: 'flex-start',
+                                }}>
+                                <Text
+                                  style={{
+                                    fontFamily: 'Allrounder-Grotesk-Medium',
+                                    fontSize: 15,
+                                    marginLeft: 5,
+                                    flex: 1,
+                                  }}>
+                                  {String(
+                                    this.props.App
+                                      .generalTRIP_details_driverDetails
+                                      .trip_details.pickup_name,
+                                  )}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          {/**Destination */}
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              marginTop: 25,
+                            }}>
+                            <View style={{width: 35}}>
+                              <Text
+                                style={{
+                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontSize: 13,
+                                  top: 1,
+                                }}>
+                                To
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: 'flex-start',
+                              }}>
+                              {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name
+                                .split(',')
+                                .map((destination, index) => {
+                                  return (
+                                    <View
+                                      key={String(index + 1)}
+                                      style={{
+                                        flex: 1,
+                                        alignItems: 'flex-start',
+                                        marginTop: index > 0 ? 5 : 0,
+                                      }}>
+                                      <Text
+                                        style={{
+                                          fontFamily:
+                                            'Allrounder-Grotesk-Regular',
+                                          fontSize: 16,
+                                          marginLeft: 5,
+                                          flex: 1,
+                                        }}>
+                                        {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name.split(
+                                          ',',
+                                        ).length > 1 ? (
+                                          <Text
+                                            style={{
+                                              fontFamily:
+                                                'Allrounder-Grotesk-Regular',
+                                              fontSize: 13,
+                                              marginLeft: 5,
+                                              flex: 1,
+                                              color: '#096ED4',
+                                            }}>
+                                            {index + 1 + '. '}
+                                          </Text>
+                                        ) : null}
+                                        {destination.trim()}
+                                      </Text>
+                                    </View>
+                                  );
+                                })}
+                            </View>
+                          </View>
+                        </View>
                       </View>
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
-                          marginLeft: 5,
-                          flex: 1,
-                          bottom: 0.5,
-                        }}>
-                        {/ride/i.test(
-                          this.props.App.generalTRIP_details_driverDetails
-                            .trip_details.ride_mode,
-                        )
-                          ? 'Drop off'
-                          : 'Delivery'}{' '}
-                        at{' '}
-                        <Text
-                          style={{
-                            fontFamily: 'Allrounder-Grotesk-Medium',
-                            fontSize: 15,
-                            marginLeft: 5,
-                          }}>
-                          {String(
-                            this.props.App.generalTRIP_details_driverDetails
-                              .trip_details.destination_name,
-                          ).length < 19
-                            ? this.props.App.generalTRIP_details_driverDetails
-                                .trip_details.destination_name
-                            : this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name.substring(
-                                0,
-                                19,
-                              ) + '...'}
-                        </Text>
-                      </Text>
                     </View>
                   </View>
                 </View>
@@ -1000,8 +1032,8 @@ class RenderBottomVital extends React.PureComponent {
                 <IconCommunity name="shield-check" color="#fff" size={25} />
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Regular',
-                    fontSize: 18,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 21,
                     marginLeft: 5,
                     color: '#fff',
                   }}>

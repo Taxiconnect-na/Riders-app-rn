@@ -7,9 +7,10 @@
  */
 
 //1. Reset state action
-export const ResetStateProps = () => ({
+//@param homeParentNode: optional - the parent instance of the Home screen
+export const ResetStateProps = (homeParentNode = true) => ({
   type: 'RESET_STATE_PROPS',
-  payload: true,
+  payload: homeParentNode,
 });
 
 //2. Update GPRS GLOBALS for granted permissions

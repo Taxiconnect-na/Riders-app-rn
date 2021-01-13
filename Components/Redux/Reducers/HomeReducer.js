@@ -22,6 +22,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
   //..........
   switch (action.type) {
     case 'RESET_STATE_PROPS':
+      //The payload can be the parent node of the Home screen
       newState.shape = null;
       newState.route = null; //Will manage the animation of the route to the passenger
       newState.routeCoordsPickup = null; //Will hold the coordinates of the route to the passenger for general purpose usage
@@ -115,6 +116,14 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.destinationLocation_metadata = {}; //Hold all the data on the destination location
       newState.generalTRIP_details_driverDetails = {}; //WILL HOLD THE GENERAL TRIP DETAILS AND DRIVER DETAILS - Ref. to the server doc for more - ONLY RELEVANT TO USE WHEN THE TRIP HAS BEEN ACCEPTED BY A DRIVER already! - ALWAYS clean up after usage.
       newState.initializedScenario = null; //To know which scenario has been initialized for animation
+      //Reset init hello and animation
+      if (
+        action.payload !== true &&
+        action.payload.fire_search_animation !== undefined
+      ) {
+        action.payload.resetAnimationLoader();
+        action.payload.fire_initGreetingAnd_after();
+      }
       //Previous state updated
       return {...state, ...newState};
     case 'UPDATE_GRANTED_GPRS_VARS':
