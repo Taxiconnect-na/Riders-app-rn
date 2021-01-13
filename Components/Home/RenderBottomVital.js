@@ -628,7 +628,7 @@ class RenderBottomVital extends React.PureComponent {
 
                 elevation: 9,
               }}>
-              <IconMaterialIcons name="shield" size={30} />
+              <IconMaterialIcons name="shield" color="#096ED4" size={30} />
             </TouchableOpacity>
             <View
               style={{

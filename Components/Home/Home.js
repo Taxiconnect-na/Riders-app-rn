@@ -33,28 +33,18 @@ import {
   UpdateRouteToPickupVars,
   InRouteToPickupInitVars,
   InRouteToDestinationInitVars,
-  UpdateTinyCarOnMapIconSize,
   UpdateHellosVars,
   UpdateSchedulerState,
-  UpdateCustomFareState,
   UpdateBottomVitalsState,
   UpdateProcessFlowState,
   UpdateMapUsabilityState,
-  UpdateRideTypesScales,
   UpdateCurrentLocationMetadat,
-  UpdateNumberOfPassengersSelected,
-  UpdateAdditionalPickupNote,
-  UpdateRideTypesOnScrollCategories,
   UpdatePricingStateData,
   UpdateRoutePreviewToDestination,
-  UpdateDeliveryPackageSize,
-  UpdateRiderOrPackagePossesserSwitcher,
-  ValidateReceiverInfosForDelivery,
-  UpdateErrorMessagesStateInputRecDelivery,
-  UpdateReceiverNameOnType,
   UpdateClosestDriversList,
   UpdateErrorBottomVitals,
   UpdateErrorModalLog,
+  UpdateDropoffDataFor_driverRating,
 } from '../Redux/HomeActionsCreators';
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
@@ -335,7 +325,9 @@ class Home extends React.PureComponent {
         if (
           response.response === undefined &&
           response.routePoints !== undefined &&
-          response.request_status !== 'pending'
+          /(inRouteToPickup|inRouteToDestination)/i.test(
+            response.request_status,
+          )
         ) {
           //Save the driver's details - car details - and Static ETA to destination info
           globalObject.props.App.generalTRIP_details_driverDetails = {
@@ -461,7 +453,7 @@ class Home extends React.PureComponent {
             );
           }
           //...
-        } else if (response.request_status === 'pending') {
+        } else if (/pending/i.test(response.request_status)) {
           //Save the main object
           globalObject.props.App.generalTRIP_details_driverDetails = response;
 
@@ -523,40 +515,8 @@ class Home extends React.PureComponent {
           globalObject.props.App.request_status = response.request_status;
           globalObject.props.App.isRideInProgress = true;
           //Save the basic trip and driver details for drop off confirmation and rating
-          //Save and update the state once - only if the data are different
-          if (
-            globalObject.props.App.generalTRIP_details_driverDetails !==
-              undefined &&
-            globalObject.props.App.generalTRIP_details_driverDetails !==
-              false &&
-            globalObject.props.App.generalTRIP_details_driverDetails !== null &&
-            JSON.stringify(
-              globalObject.props.App.generalTRIP_details_driverDetails,
-            ) !== JSON.stringify({})
-          ) {
-            //Update if necessary
-            if (
-              globalObject.props.App.generalTRIP_details_driverDetails
-                .trip_details === undefined &&
-              globalObject.props.App.generalTRIP_details_driverDetails
-                .trip_details.request_fp === undefined
-            ) {
-              globalObject.props.App.generalTRIP_details_driverDetails = response;
-              globalObject.forceUpdate();
-            } else if (
-              globalObject.props.App.generalTRIP_details_driverDetails
-                .trip_details.request_fp !== undefined &&
-              globalObject.props.App.generalTRIP_details_driverDetails
-                .trip_details.request_fp !== response.trip_details.request_fp
-            ) {
-              globalObject.props.App.generalTRIP_details_driverDetails = response;
-              globalObject.forceUpdate();
-            }
-          } //Initialize
-          else {
-            globalObject.props.App.generalTRIP_details_driverDetails = response;
-            globalObject.forceUpdate();
-          }
+          //Save and update the state once - only if the data are different (handled in the reducer)
+          globalObject.props.UpdateDropoffDataFor_driverRating(response);
         } else if (response.request_status === 'no_rides') {
           if (globalObject.props.App.isRideInProgress) {
             //Reset props.App
@@ -894,7 +854,7 @@ class Home extends React.PureComponent {
             globalObject.camera !== undefined &&
             globalObject.camera != null &&
             globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
-              false
+              true
           ) {
             //Only recenter when the user was not centered already
             try {
@@ -958,9 +918,8 @@ class Home extends React.PureComponent {
 
           if (
             globalObject.camera !== undefined &&
-            globalObject.camera != null &&
-            globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
-              false
+            globalObject.camera != null
+            //globalObject.props.App.bottomVitalsFlow.isUserLocationCentered === true
           ) {
             //Only recenter when the user was not centered already
             try {
@@ -2674,28 +2633,18 @@ const mapDispatchToProps = (dispatch) =>
       UpdateRouteToPickupVars,
       InRouteToPickupInitVars,
       InRouteToDestinationInitVars,
-      UpdateTinyCarOnMapIconSize,
       UpdateHellosVars,
       UpdateSchedulerState,
-      UpdateCustomFareState,
       UpdateBottomVitalsState,
       UpdateProcessFlowState,
       UpdateMapUsabilityState,
-      UpdateRideTypesScales,
       UpdateCurrentLocationMetadat,
-      UpdateNumberOfPassengersSelected,
-      UpdateAdditionalPickupNote,
-      UpdateRideTypesOnScrollCategories,
       UpdatePricingStateData,
       UpdateRoutePreviewToDestination,
-      UpdateDeliveryPackageSize,
-      UpdateRiderOrPackagePossesserSwitcher,
-      ValidateReceiverInfosForDelivery,
-      UpdateErrorMessagesStateInputRecDelivery,
-      UpdateReceiverNameOnType,
       UpdateClosestDriversList,
       UpdateErrorBottomVitals,
       UpdateErrorModalLog,
+      UpdateDropoffDataFor_driverRating,
     },
     dispatch,
   );

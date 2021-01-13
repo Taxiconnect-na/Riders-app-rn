@@ -2069,6 +2069,27 @@ const HomeReducer = (state = INIT_STATE, action) => {
       console.log(newState.dropoff_rating_metadata.compliment_array);
       //...
       return {...state, ...newState};
+
+    case 'UPDATE_DROPFFDATA_FORDRIVER_RATING':
+      //Update only if necessary
+      if (Object.keys(newState.generalTRIP_details_driverDetails).length > 0) {
+        //Already had something
+        if (
+          newState.generalTRIP_details_driverDetails.request_fp !==
+          action.payload.request_fp
+        ) {
+          //Update
+          newState.generalTRIP_details_driverDetails = action.payload;
+          return {...state, ...newState};
+        } //Np change
+        else {
+          return state;
+        }
+      } //Set the new variables - update state
+      else {
+        newState.generalTRIP_details_driverDetails = action.payload;
+        return {...state, ...newState};
+      }
     default:
       return state;
   }

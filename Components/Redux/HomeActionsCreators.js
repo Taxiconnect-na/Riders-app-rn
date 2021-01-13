@@ -336,3 +336,13 @@ export const UpdateRatingDetailsDuringDropoff_process = (updateBundle) => ({
   type: 'UPDATE_RATING_DETAILS_DURINGDROPOFF_PROCESS',
   payload: updateBundle,
 });
+
+/*
+ * 42. Update dropoff data for driver rating after drop off
+ * Responsible for updating the state vars for the trip after the driver has confirmed drop off.
+ * @param tripResponse: the summary for the trip coming straight from the server.
+ */
+export const UpdateDropoffDataFor_driverRating = (tripResponse) => ({
+  type: 'UPDATE_DROPFFDATA_FORDRIVER_RATING',
+  payload: tripResponse,
+});

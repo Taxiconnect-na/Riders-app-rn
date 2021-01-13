@@ -409,7 +409,7 @@ class RenderMainMapView extends React.PureComponent {
       this.props.App.route !== undefined &&
       this.props.App.isRideInProgress &&
       this.props.App.isInRouteToDestination === false &&
-      this.props.App.request_status === 'inRouteToPickup'
+      /inRouteToPickup/i.test(this.props.App.request_status)
     ) {
       //Pickup scenarios animations
       return (
@@ -497,7 +497,7 @@ class RenderMainMapView extends React.PureComponent {
       this.props.App.routeDestination !== undefined &&
       this.props.App.isRideInProgress &&
       this.props.App.isInRouteToDestination &&
-      this.props.App.request_status === 'inRouteToDestination'
+      /inRouteToDestination/i.test(this.props.App.request_status)
     ) {
       this.repositionMaviewMarker(
         this.props.App.destinationPoint,
@@ -518,7 +518,7 @@ class RenderMainMapView extends React.PureComponent {
               id={'lineRoutePickup'}
               style={{
                 lineCap: 'round',
-                lineWidth: 6,
+                lineWidth: 4,
                 lineOpacity: 0.8,
                 lineColor: '#000',
               }}
@@ -558,7 +558,7 @@ class RenderMainMapView extends React.PureComponent {
                 minZoomLevel={1}
                 style={{
                   iconAllowOverlap: true,
-                  iconImage: this.props.App.carIcon,
+                  iconImage: this.props.App.carIcon_black,
                   iconSize: this.props.App.carIconRelativeSize,
                   iconRotate: this.props.App.lastDriverBearing,
                 }}
@@ -597,7 +597,7 @@ class RenderMainMapView extends React.PureComponent {
             </Animated.ShapeSource>*/}
         </View>
       );
-    } else if (this.props.App.request_status === 'pending') {
+    } else if (/pending/i.test(this.props.App.request_status)) {
       //....
       //Pending request
       //Pickup location and request status bar
