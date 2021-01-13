@@ -804,7 +804,7 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       alignItems: 'center',
                       justifyContent: 'center',
-                      borderWidth: 1,
+                      borderWidth: 0.5,
                       borderColor: '#d0d0d0',
                       backgroundColor: '#fff',
                       width: 65,
@@ -820,7 +820,15 @@ class ErrorModal extends React.PureComponent {
 
                       elevation: 5,
                     }}>
-                    <IconAnt name="user" size={25} />
+                    <Image
+                      source={require('../../Media_assets/Images/driver.jpg')}
+                      style={{
+                        resizeMode: 'cover',
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 150,
+                      }}
+                    />
                   </View>
                   <View
                     style={{
@@ -847,7 +855,7 @@ class ErrorModal extends React.PureComponent {
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Medium',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: '#096ED4',
                         }}>
                         {this.props.App.generalTRIP_details_driverDetails
@@ -860,11 +868,12 @@ class ErrorModal extends React.PureComponent {
                         name="star"
                         size={14}
                         style={{marginLeft: 7}}
+                        color="gold"
                       />
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
+                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          fontSize: 15,
                         }}>
                         {
                           this.props.App.generalTRIP_details_driverDetails
@@ -956,7 +965,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily: 'Allrounder-Grotesk-Regular',
                     color: '#a5a5a5',
                     paddingBottom: 15,
                   }}>
@@ -973,7 +982,14 @@ class ErrorModal extends React.PureComponent {
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                    <IconCommunity name="car" size={30} color="#a5a5a5" />
+                    <Image
+                      source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
+                      style={{
+                        resizeMode: 'cover',
+                        width: '100%',
+                        height: '100%',
+                      }}
+                    />
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
                     <Text
@@ -1023,7 +1039,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily: 'Allrounder-Grotesk-Regular',
                     color: '#a5a5a5',
                     padding: 20,
                     paddingBottom: 0,
@@ -1362,7 +1378,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily: 'Allrounder-Grotesk-Regular',
                     color: '#a5a5a5',
                     paddingBottom: 25,
                   }}>
