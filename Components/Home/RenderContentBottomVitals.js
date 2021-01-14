@@ -57,14 +57,47 @@ class RenderContentBottomVitals extends React.PureComponent {
   }
 
   /**
+   * @func findPreviewRouteToDestination
+   * Responsible for requesting the route to destination.
+   */
+  findPreviewRouteToDestination() {
+    //Check if a custom pickup location was specified
+    //Point to current location by default
+    let org_latitude = this.props.App.latitude;
+    let org_longitude = this.props.App.longitude;
+    //Check forr custom pickup
+    if (
+      this.props.App.search_pickupLocationInfos
+        .isBeingPickedupFromCurrentLocation === false &&
+      this.props.App.search_pickupLocationInfos.passenger0Destination !== false
+    ) {
+      org_latitude = this.props.App.search_pickupLocationInfos
+        .passenger0Destination.coordinates[1];
+      org_longitude = this.props.App.search_pickupLocationInfos
+        .passenger0Destination.coordinates[0];
+    }
+
+    let previewTripRouteData = {
+      user_fingerprint: this.props.App.user_fingerprint,
+      org_latitude: org_latitude,
+      org_longitude: org_longitude,
+      dest_latitude: this.props.App.search_passengersDestinations
+        .passenger1Destination.coordinates[1],
+      dest_longitude: this.props.App.search_passengersDestinations
+        .passenger1Destination.coordinates[0],
+    };
+    //..
+    this.props.App.socket.emit(
+      'getRoute_to_destinationSnapshot',
+      previewTripRouteData,
+    );
+  }
+
+  /**
    * @func renderIdentifiedLocationType()
    * Responsible for rendering the identified location type (taxi rank or private location) after computing
    */
   renderIdentifiedLocationType() {
-    //this.fire_search_animation();
-    //DEBUG
-    //this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.locationTypeIdentified ='TaxiRank';
-    //DEBUG
     if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
         .locationTypeIdentified !== false
@@ -435,6 +468,13 @@ class RenderContentBottomVitals extends React.PureComponent {
     else {
       //Include the interval persister
       if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
+        //Initial request of the location nature
+        this.props.App.socket.emit('getPickupLocationNature', {
+          latitude: globalObject.props.App.latitude,
+          longitude: globalObject.props.App.longitude,
+          user_fingerprint: globalObject.props.App.user_fingerprint,
+        });
+        //...
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
           globalObject.props.App.socket.emit('getPickupLocationNature', {
             latitude: globalObject.props.App.latitude,
@@ -449,7 +489,7 @@ class RenderContentBottomVitals extends React.PureComponent {
             clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
             globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
           }
-        }, this.props.App._TMP_INTERVAL_PERSISTER_TIME);
+        }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 1500);
       }
 
       AnimatedNative.parallel([
@@ -1715,14 +1755,13 @@ class RenderContentBottomVitals extends React.PureComponent {
     } else if (
       this.props.App.bottomVitalsFlow.currentStep === 'addMoreTripDetails'
     ) {
-      //this.fire_search_animation(); //Fire animation
       //Preview the route to destination and ETA
       let globalObject = this;
-      //MUST BE UNCOMMENTTED WHEN DONE
       if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
-        this.props.parentNode.fire_search_animation(); //Fire animation
+        //Make an initial preview to destination request
+        this.findPreviewRouteToDestination();
+        //this.props.parentNode.fire_search_animation(); //Fire animation
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
-          console.log('Interval here');
           if (
             globalObject.props.App.previewDestinationData
               .originDestinationPreviewData === false ||
@@ -1733,43 +1772,8 @@ class RenderContentBottomVitals extends React.PureComponent {
               globalObject.props.App.search_passengersDestinations
                 .passenger1Destination !== false
             ) {
-              //globalObject.fire_search_animation(); //Fire animation
               //Not found yet -make a request
-              //Check if a custom pickup location was specified
-              //Point to current location by default
-              let org_latitude = globalObject.props.App.latitude;
-              let org_longitude = globalObject.props.App.longitude;
-              //Check forr custom pickup
-              if (
-                globalObject.props.App.search_pickupLocationInfos
-                  .isBeingPickedupFromCurrentLocation === false &&
-                globalObject.props.App.search_pickupLocationInfos
-                  .passenger0Destination !== false
-              ) {
-                org_latitude =
-                  globalObject.props.App.search_pickupLocationInfos
-                    .passenger0Destination.coordinates[1];
-                org_longitude =
-                  globalObject.props.App.search_pickupLocationInfos
-                    .passenger0Destination.coordinates[0];
-              }
-
-              let previewTripRouteData = {
-                user_fingerprint: globalObject.props.App.user_fingerprint,
-                org_latitude: org_latitude,
-                org_longitude: org_longitude,
-                dest_latitude:
-                  globalObject.props.App.search_passengersDestinations
-                    .passenger1Destination.coordinates[1],
-                dest_longitude:
-                  globalObject.props.App.search_passengersDestinations
-                    .passenger1Destination.coordinates[0],
-              };
-              //..
-              globalObject.props.App.socket.emit(
-                'getRoute_to_destinationSnapshot',
-                previewTripRouteData,
-              );
+              globalObject.findPreviewRouteToDestination();
             } else {
               if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
                 clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
@@ -1784,7 +1788,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               globalObject.props.parentNode.resetAnimationLoader();
             }
           }
-        }, 5000);
+        }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 1500);
       }
       //...
       return (

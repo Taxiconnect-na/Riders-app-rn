@@ -133,6 +133,9 @@ const HomeReducer = (state = INIT_STATE, action) => {
         action.payload.resetAnimationLoader();
         action.payload.fire_initGreetingAnd_after();
       }
+      //Bind the requests interval persister
+      action.payload.bindRequest_findFetcher();
+
       //Previous state updated
       return {...state, ...newState};
     case 'UPDATE_GRANTED_GPRS_VARS':
@@ -199,17 +202,15 @@ const HomeReducer = (state = INIT_STATE, action) => {
       );
       //Initialize animation components for destination route
       routeDestination = new AnimatedMapbox.RouteCoordinatesArray(
-        //action.payload.destinationData.routePoints,
         action.payload.routePoints,
       );
       routeShapeDestination = new AnimatedMapbox.CoordinatesArray(
-        //action.payload.destinationData.routePoints,
         action.payload.routePoints,
       );
       //......
       newState.route = route;
       newState.shape = routeShape;
-      //actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
+      //? actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
       newState.actPoint = new AnimatedMapbox.ExtractCoordinateFromArray(
         route,
         -1,
@@ -217,7 +218,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.actPointToMinusOne = false;
       newState.routeCoordsPickup = action.payload.routePoints; //To pickup
       newState.routeCoordsDestination = action.payload.routePoints;
-      //action.payload.destinationData.routePoints; //To destination
 
       newState.lastDriverCoords = [
         parseFloat(action.payload.driverNextPoint[0]),
@@ -230,9 +230,9 @@ const HomeReducer = (state = INIT_STATE, action) => {
         routeDestination,
         -1,
       ); //Independent from shape
-      newState.destinationPoint =
-        //action.payload.destinationData.destinationPoint; //Destination coords
-        action.payload.destinationPoint.map(parseFloat);
+      newState.destinationPoint = action.payload.destinationPoint.map(
+        parseFloat,
+      ); //Destination coords
       newState.pickupPoint = action.payload.pickupPoint.map(parseFloat); //Pickup point
       //...
       return {...state, ...newState};
@@ -247,7 +247,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
         action.payload.routePoints,
       );
       //----
-      //actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
+      //? actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
       newState.actPointToMinusOne = false;
       newState.routeCoordsPickup = action.payload.routePoints; //To pickup
       newState.routeCoordsDestination =
@@ -355,7 +355,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_PROCESS_FLOW_STATE':
-      //Launch the loader - should be done contionally to the flow states that require a loader period!
+      //Launch the loader - should be done conditionally to the flow states that require a loader period!
       if (action.payload.parentTHIS !== undefined) {
         newState.socket.emit('geocode-this-point', {
           latitude: newState.latitude,
@@ -771,7 +771,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
         //For deliveries
         //Loader manager
         if (action.payload.flowDirection === 'next') {
-          console.log('next here!');
           if (
             action.payload.parentTHIS !== undefined ||
             newState._MAIN_PARENT !== null
@@ -1213,7 +1212,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 newState.bottomVitalsFlow.bottomVitalChildHeight,
                 {
                   toValue: 400,
-                  duration: 300,
+                  duration: 250,
                   easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
                   useNativeDriver: false,
                 },
@@ -1227,7 +1226,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) - 1
               ] === 'selectRideOrDelivery'
             ) {
-              console.log('Receiver resetted');
               newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName = false;
               newState.phoneNumberEntered = '';
               newState.errorReceiverNameShow = false;
@@ -1327,7 +1325,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
           action.payload.search_currentFocusedPassenger;
         //Enable custom pickup location if passenger 0
         if (action.payload.search_currentFocusedPassenger === 0) {
-          console.log('Enable custom pickup');
           //Set default input text value to current location name if false
           newState.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = false;
           if (
@@ -1391,39 +1388,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_RIDE_TYPES_SCALES':
       //check the ride category
-      /*if (action.payload.rideType === 'economy') {
-        //Check the transition type
-        //1. Normal -> Electric
-        if (action.payload.transitionType === 'economyNormalToElectric') {
-          //Change focus colors to electric taxi and fade the other types - rescale as well
-          newState.carTypeSelected = 'electricEconomy';
-          newState.colorCircleNormalTaxi = '#a2a2a2';
-          newState.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-          newState.colorCircleElectricCar = '#0D8691';
-          newState.colorBannerRideTypeElectricCar = '#000';
-          //Update the scales
-          newState.scaleRideTypeNormalTaxi = new Animated.Value(0.9);
-          newState.scaleRideTypeElectricTaxi = new Animated.Value(1);
-          //VERY IMPORTANT - UPDATE THE FARE
-          newState.fareTripSelected =
-            newState.bottomVitalsFlow.basicCarTypesTripFares.electricEconomy;
-        } else if (
-          action.payload.transitionType === 'economyElectricToNormal'
-        ) {
-          //2. Electric -> Normal
-          newState.carTypeSelected = 'normalTaxiEconomy';
-          newState.colorCircleNormalTaxi = '#0D8691';
-          newState.colorBannerRideTypeNormalTaxi = '#000';
-          newState.colorCircleElectricCar = '#a2a2a2';
-          newState.colorBannerRideTypeElectricCar = '#a2a2a2';
-          //Update the scales
-          newState.scaleRideTypeNormalTaxi = new Animated.Value(1);
-          newState.scaleRideTypeElectricTaxi = new Animated.Value(0.9);
-          //VERY IMPORTANT - UPDATE THE FARE
-          newState.fareTripSelected =
-            newState.bottomVitalsFlow.basicCarTypesTripFares.normalTaxiEconomy;
-        }
-      }*/
       if (action.payload.rideType === 'normalTaxiEconomy') {
         newState.carTypeSelected = action.payload.rideType;
         newState.colorCircleNormalTaxi = '#0D8691';
@@ -1592,10 +1556,29 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_CURRENT_LOCATION_METADATA':
-      //Update the current location metadata
-      newState.userCurrentLocationMetaData = action.payload;
-      //...
-      return {...state, ...newState};
+      //Update the current location metadata - only if different
+      if (newState.userCurrentLocationMetaData.city !== undefined) {
+        //Had some old data
+        generalPurposeReg = new RegExp(JSON.stringify(action.payload));
+        if (
+          generalPurposeReg.test(
+            JSON.stringify(newState.userCurrentLocationMetaData),
+          )
+        ) {
+          //Same data - don't update state
+          return state;
+        } //New data -update state
+        else {
+          newState.userCurrentLocationMetaData = action.payload;
+          //...
+          return {...state, ...newState};
+        }
+      } //No data at all - update state
+      else {
+        newState.userCurrentLocationMetaData = action.payload;
+        //...
+        return {...state, ...newState};
+      }
 
     case 'UPDATE_NUMBER_OF_PASSENGERS_SELECTED':
       //Update the number of passengers selected
@@ -1719,16 +1702,29 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_ROUTE_PREVIEW_TO_DESTINATION':
-      //Update route preview data
-      newState.previewDestinationData.originDestinationPreviewData =
-        action.payload;
+      //Update route preview data - only if new
+      generalPurposeReg = new RegExp(JSON.stringify(action.payload));
+      //Clear the interval persister
       if (newState._TMP_INTERVAL_PERSISTER !== null) {
-        //Clear the interval persister
         clearInterval(newState._TMP_INTERVAL_PERSISTER);
         newState._TMP_INTERVAL_PERSISTER = null;
       }
       //...
-      return {...state, ...newState};
+      if (
+        generalPurposeReg.test(
+          JSON.stringify(
+            newState.previewDestinationData.originDestinationPreviewData,
+          ),
+        )
+      ) {
+        //Already updated - do not update state
+        return state;
+      } //New data - update the state
+      else {
+        newState.previewDestinationData.originDestinationPreviewData =
+          action.payload;
+        return {...state, ...newState};
+      }
 
     case 'UPDATE_DELIVERY_PACKAGE_SIZE':
       //Update the delivery's package size on user select
@@ -1866,7 +1862,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
             //Most african countries
             //Valid
             newState.errorReceiverPhoneNumberShow = false; //Hide corresponding error text
-            console.log('VALID DETAILS');
             Animated.timing(newState.bottomVitalsFlow.bottomVitalChildHeight, {
               toValue: 400,
               duration: 400,
@@ -1883,7 +1878,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
           ) {
             //Valid
             newState.errorReceiverPhoneNumberShow = false; //Hide corresponding error text
-            console.log('VALID DETAILS');
             //Move forward
             Animated.timing(newState.bottomVitalsFlow.bottomVitalChildHeight, {
               toValue: 400,
@@ -2100,7 +2094,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_DROPFFDATA_FORDRIVER_RATING':
       //Update only if necessary
-      if (Object.keys(newState.generalTRIP_details_driverDetails).length > 0) {
+      if (
+        JSON.stringify(newState.generalTRIP_details_driverDetails).trim()
+          .length > 0
+      ) {
         //Already had something
         if (
           newState.generalTRIP_details_driverDetails.request_fp !==

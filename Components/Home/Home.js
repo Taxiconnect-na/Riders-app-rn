@@ -75,7 +75,7 @@ class Home extends React.PureComponent {
   }
 
   _RESET_STATE() {
-    this.props.ResetStateProps();
+    this.props.ResetStateProps(this);
     //...
     if (this.camera !== undefined && this.camera != null) {
       this.camera.moveTo(
@@ -238,7 +238,6 @@ class Home extends React.PureComponent {
         }
       }
     } catch (error) {
-      console.log(error);
       //Permission denied, update gprs global vars and lock the platform
       let newStateVars = {};
       newStateVars.hasGPRSPermissions = false;
@@ -249,8 +248,42 @@ class Home extends React.PureComponent {
     }
   }
 
+  /**
+   * @func bindRequest_findFetcher
+   * Bind the request interval
+   * Responsible for creating ONCE the interval fetcher for all rides related infos.
+   */
+  bindRequest_findFetcher() {
+    let globalObject = this;
+    //...
+    if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
+      this.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(function () {
+        //...
+        if (globalObject.props.App.intervalProgressLoop === false) {
+          globalObject.GPRS_resolver();
+          globalObject.updateRemoteLocationsData();
+        } //Kill the persister
+        else {
+          clearInterval(
+            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
+          );
+          if (
+            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME !== null
+          ) {
+            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME = null;
+          }
+        }
+      }, this.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME);
+    }
+  }
+
+  /**
+   * @func componentDidMount
+   * Main mounting point of the app
+   */
+
   async componentDidMount() {
-    //Check for the user_fp
+    //Check for the user_fp----------------------------
     await SyncStorage.init();
     let user_fp = SyncStorage.get('@ufp');
     if (
@@ -265,6 +298,7 @@ class Home extends React.PureComponent {
     else {
       this.props.navigation.navigate('EntryScreen');
     }
+    //-------------------------------------------------Not necessary - can be done once at start. - should be removed.
 
     let globalObject = this;
 
@@ -295,7 +329,7 @@ class Home extends React.PureComponent {
     //connection
     this.props.App.socket.on('connect', () => {
       if (
-        /(show_modalMore_tripDetails|show_rating_driver_modal)/i.test(
+        /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
         ) !== true
       ) {
@@ -314,20 +348,11 @@ class Home extends React.PureComponent {
           globalObject.props.App.generalErrorModalType,
         ) !== true
       ) {
-        if (
-          globalObject.props.App.generalErrorModal_vars
-            .showErrorGeneralModal === false ||
-          /service_unavailable/i.test(
-            globalObject.props.App.generalErrorModal_vars.generalErrorModalType,
-          ) === false
-        ) {
-          //console.log('updatinnnnnn leak');
-          globalObject.props.UpdateErrorModalLog(
-            true,
-            'service_unavailable',
-            'any',
-          );
-        }
+        globalObject.props.UpdateErrorModalLog(
+          true,
+          'service_unavailable',
+          'any',
+        );
       }
       globalObject.props.App.socket.connect();
     });
@@ -342,32 +367,11 @@ class Home extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
 
-    /**
-     * Bind the request interval
-     * Responsible for creating ONCE the interval fetcher for all rides related infos.
-     */
-    if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
-      this.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(function () {
-        //...
-        if (globalObject.props.App.intervalProgressLoop === false) {
-          globalObject.GPRS_resolver();
-          globalObject.updateRemoteLocationsData();
-        } //Kill the persister
-        else {
-          clearInterval(
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
-          );
-          if (
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME !== null
-          ) {
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME = null;
-          }
-        }
-      }, this.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME);
-    }
+    //Bind the requests interval persister
+    this.bindRequest_findFetcher();
 
     /**
-     * @socket 'trackdriverroute-response
+     * @socket trackdriverroute-response
      * Get route tracker response
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
@@ -377,7 +381,6 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
-        //console.log(response);
         //1. Trip in progress: in route to pickup or in route to drop off
         if (
           response.response === undefined &&
@@ -402,7 +405,6 @@ class Home extends React.PureComponent {
 
             //Update loop request
             if (globalObject.props.App.intervalProgressLoop === false) {
-              console.log('INterval persister for rides initiated!');
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
@@ -443,8 +445,6 @@ class Home extends React.PureComponent {
               );
             }
           }
-          //----------------------------------------------------------------------------------------
-
           //----------------------------------------------------------------------------------------
           /* let paddingFit = 100 * (20 / response.routePoints.length);
           //paddingFit += 7;
@@ -522,11 +522,6 @@ class Home extends React.PureComponent {
               globalObject.camera !== null
             ) {
               globalObject.camera.flyTo(response.pickupLocation_point, 2000);
-              /*globalObject.camera.fitBounds(
-              response.pickupLocation_point,
-              40,
-              1000,
-            );*/
             }
             globalObject.props.App.intervalProgressLoop = setInterval(
               function () {
@@ -586,8 +581,9 @@ class Home extends React.PureComponent {
         if (
           globalObject.props.App.isRideInProgress !== false ||
           /no_rides/i.test(globalObject.props.App.request_status) === false ||
-          Object.keys(globalObject.props.App.generalTRIP_details_driverDetails)
-            .length !== 0
+          JSON.stringify(
+            globalObject.props.App.generalTRIP_details_driverDetails,
+          ).trim().length !== 0
         ) {
           console.log('LEAK!');
           globalObject._RESET_STATE();
@@ -597,47 +593,31 @@ class Home extends React.PureComponent {
 
     /**
      * GET GEOCODED USER LOCATION
-     * event: geocode-this-point
+     * @event: geocode-this-point
      * Get the location of the user, parameter of interest: street name
      */
     this.props.App.socket.on(
       'geocode-this-point-response',
       function (response) {
         if (response !== undefined && response !== false) {
-          let localData = globalObject.props.App.userCurrentLocationMetaData;
-          //Only update if new metadata
-          if (localData.city !== undefined) {
-            let checkDataSim =
-              response.city === localData.city &&
-              response.street === localData.street &&
-              response.state === localData.state;
-
-            if (checkDataSim === false) {
-              globalObject.props.UpdateCurrentLocationMetadat(response);
-            }
-          } //Empty local data
-          else {
-            globalObject.props.UpdateCurrentLocationMetadat(response);
-          }
+          globalObject.props.UpdateCurrentLocationMetadat(response);
         }
       },
     );
 
     /**
      * IDENTIFY PICKUP LOCATION
-     * event: getPickupLocationNature
+     * @event: getPickupLocationNature
      * Responsible for identifying whether the user is standing at a taxi rank or a private location.
      * Possible types
      * Airport
-     * TaxiRank     //private location
-     * PrivateLocation  //Private location
+     * TaxiRank
+     * PrivateLocation
      */
     this.props.App.socket.on(
       'getPickupLocationNature-response',
       function (response) {
-        console.log(response);
         if (response !== undefined) {
-          //globalObject.resetAnimationLoader();
           //Correct
           if (response.locationType === 'PrivateLocation') {
             //PRIVATE LOCATION
@@ -671,7 +651,6 @@ class Home extends React.PureComponent {
         } //Defaults to private location
         else {
           let newState = globalObject.props.App.bottomVitalsFlow;
-          //newState.rideOrDeliveryMetadata.locationTypeIdentified = 'TaxiRank';
           newState.rideOrDeliveryMetadata.locationTypeIdentified =
             'PrivateLocation';
           globalObject.props.UpdateBottomVitalsState({
@@ -683,10 +662,10 @@ class Home extends React.PureComponent {
 
     /**
      * GET FARE ESTIMATION LIST FOR ALL THE RELEVANTS RIDES
-     * event: getPricingForRideorDelivery
-     * Responsible for getting the list of fare estimates based on the user-selected parameters
-     * from the pricing service.
-     * If invalid fare received, try again.
+     * @event: getPricingForRideorDelivery
+     * ? Responsible for getting the list of fare estimates based on the user-selected parameters
+     * ? from the pricing service.
+     * ! If invalid fare received, try again - leave that to the initiated interval persister.
      */
     this.props.App.socket.on(
       'getPricingForRideorDelivery-response',
@@ -751,9 +730,9 @@ class Home extends React.PureComponent {
               globalObject.resetAnimationLoader();
             });
           });
-        } //No valid estimates due to a problem, try again
+        } //! No valid estimates due to a problem, try again
         else {
-          globalObject.getFareEstimation();
+          //Interval persister will try again after the specified timeout of the interval.
         }
       },
     );
@@ -768,7 +747,6 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'getRoute_to_destinationSnapshot-response',
       function (response) {
-        console.log('spanshot received');
         if (response !== false && response.destination !== undefined) {
           //Received something
           //Close animation
@@ -791,8 +769,8 @@ class Home extends React.PureComponent {
 
     /**
      * UPDATE THE CLOSEST DRIVERS ON THE MAP
-     * event: get_closest_drivers_to_point
-     * Responsible for updating the live closest drivers on the map, maximum of 7
+     * @event: get_closest_drivers_to_point
+     * ? Responsible for updating the live closest drivers on the map, maximum of 7
      */
     this.props.App.socket.on(
       'get_closest_drivers_to_point-response',
@@ -810,9 +788,9 @@ class Home extends React.PureComponent {
 
     /**
      * CHECK IF A RIDE WAS ACCEPTED
-     * event: requestRideOrDeliveryForThis
-     * Responsible for handling the request ride or wallet response after booking
-     * to know whether the request was successfully dispatched or not.
+     * @event: requestRideOrDeliveryForThis
+     * ? Responsible for handling the request ride or wallet response after booking
+     * ? to know whether the request was successfully dispatched or not.
      */
     //Remove snapshot data
     this.props.App.previewDestinationData.originDestinationPreviewData = false;
@@ -846,17 +824,21 @@ class Home extends React.PureComponent {
     //Remove any kind of interval fetcher
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null) {
       clearInterval(this.props.App._TMP_TRIP_INTERVAL_PERSISTER);
+      this.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
     }
     //...
     if (this.props.App._TMP_INTERVAL_PERSISTER !== null) {
       clearInterval(this.props.App._TMP_INTERVAL_PERSISTER);
+      this.props.App._TMP_INTERVAL_PERSISTER = null;
     }
     //...
     if (this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null) {
       clearInterval(this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS);
+      this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
     }
     //Clear the location watcher
     GeolocationP.clearWatch(this.props.App._MAIN_LOCATION_WATCHER);
+    this.props.App._MAIN_LOCATION_WATCHER = null;
   }
 
   /**
@@ -974,7 +956,6 @@ class Home extends React.PureComponent {
           if (
             globalObject.camera !== undefined &&
             globalObject.camera != null
-            //globalObject.props.App.bottomVitalsFlow.isUserLocationCentered === true
           ) {
             //Only recenter when the user was not centered already
             try {
@@ -1024,7 +1005,7 @@ class Home extends React.PureComponent {
       response.destinationData !== undefined
     ) {
       if (tripScenario === 'inRouteToPickup') {
-        //Update initialized scenari memory
+        //Update initialized scenario memory
         this.props.App.initializedScenario = tripScenario;
         if (this.camera !== undefined && this.camera != null) {
           this.camera.fitBounds(
@@ -1036,7 +1017,6 @@ class Home extends React.PureComponent {
         }
         //Update state
         this.props.InRouteToPickupInitVars(response);
-        //globalObject.startAnimateRoutePickup();
         resolve(true);
       } else if (tripScenario === 'inRouteToDestination') {
         //Update initialized scenario memory
@@ -1044,7 +1024,6 @@ class Home extends React.PureComponent {
         //----
         if (this.camera !== undefined && this.camera != null) {
           this.camera.fitBounds(
-            //[this.props.App.longitude, this.props.App.latitude],
             response.destinationPoint,
             [response.driverNextPoint[0], response.driverNextPoint[1]],
             70,
@@ -1053,33 +1032,12 @@ class Home extends React.PureComponent {
         }
         //...
         this.props.InRouteToDestinationInitVars(response);
-        //globalObject.startAnimateRoutePickup();
         resolve(true);
       }
     } else {
       resolve(false);
     }
   }
-
-  _updateUserLocation = () => {
-    var globalObject = this;
-    GeolocationP.getCurrentPosition(
-      (position) => {
-        globalObject.props.App.latitude = position.coords.latitude;
-        globalObject.props.App.longitude = position.coords.longitude;
-        //globalObject.recalibrateMap();
-      },
-      () => {
-        /*console.log(error)*/
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10,
-        maximumAge: 1000,
-        distanceFilter: 3,
-      },
-    );
-  };
 
   componentDidUpdate() {
     this.getCurrentPositionCusto;
@@ -1104,61 +1062,6 @@ class Home extends React.PureComponent {
           longitude: globalObject.props.App.longitude,
           user_fingerprint: globalObject.props.App.user_fingerprint,
         });
-        //Update the list of the closest drivers if no trip in progress
-        if (
-          globalObject.props.App.isRideInProgress === false &&
-          /mainView/i.test(globalObject.props.App.bottomVitalsFlow.currentStep)
-        ) {
-          //No rides in progress
-          //If a latitude, longitude, city and town are available
-          if (
-            globalObject.props.App.latitude !== undefined &&
-            globalObject.props.App.longitude !== undefined &&
-            globalObject.props.App.userCurrentLocationMetaData.city !==
-              undefined &&
-            globalObject.props.App.userCurrentLocationMetaData.country !==
-              undefined
-          ) {
-            if (
-              globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS ===
-              null
-            ) {
-              console.log('initialization');
-              //Initialize the interval if not yet set - only once
-              globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = setInterval(
-                function () {
-                  globalObject.props.App.socket.emit(
-                    'get_closest_drivers_to_point',
-                    {
-                      org_latitude: globalObject.props.App.latitude,
-                      org_longitude: globalObject.props.App.longitude,
-                      user_fingerprint: globalObject.props.App.user_fingerprint,
-                      city:
-                        globalObject.props.App.userCurrentLocationMetaData.city,
-                      country:
-                        globalObject.props.App.userCurrentLocationMetaData
-                          .country,
-                      ride_type: 'RIDE',
-                    },
-                  );
-                },
-                globalObject.props.App
-                  ._TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS,
-              );
-            }
-          }
-        } //Kill the interval persister for the closest drivers if any
-        else {
-          if (
-            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !==
-            null
-          ) {
-            clearInterval(
-              globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
-            );
-            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
-          }
-        }
       },
       (error) => {
         //...
@@ -1170,6 +1073,74 @@ class Home extends React.PureComponent {
         distanceFilter: 3,
         enableHighAccuracy: true,
       },
+    );
+    //Update the list of the closest drivers - Promisify
+    let promiseClosestDrivers = new Promise((res) => {
+      //Update the list of the closest drivers if no trip in progress
+      if (
+        globalObject.props.App.isRideInProgress === false &&
+        /mainView/i.test(globalObject.props.App.bottomVitalsFlow.currentStep)
+      ) {
+        //No rides in progress
+        //If a latitude, longitude, city and town are available
+        if (
+          globalObject.props.App.latitude !== undefined &&
+          globalObject.props.App.longitude !== undefined &&
+          globalObject.props.App.userCurrentLocationMetaData.city !==
+            undefined &&
+          globalObject.props.App.userCurrentLocationMetaData.country !==
+            undefined
+        ) {
+          if (
+            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS ===
+            null
+          ) {
+            //Initialize the interval if not yet set - only once
+            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = setInterval(
+              function () {
+                globalObject.props.App.socket.emit(
+                  'get_closest_drivers_to_point',
+                  {
+                    org_latitude: globalObject.props.App.latitude,
+                    org_longitude: globalObject.props.App.longitude,
+                    user_fingerprint: globalObject.props.App.user_fingerprint,
+                    city:
+                      globalObject.props.App.userCurrentLocationMetaData.city,
+                    country:
+                      globalObject.props.App.userCurrentLocationMetaData
+                        .country,
+                    ride_type: 'RIDE',
+                  },
+                );
+              },
+              globalObject.props.App
+                ._TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS,
+            );
+            res(true);
+          } //End the promise
+          else {
+            res(true);
+          }
+        } //End the promise
+        else {
+          res(true);
+        }
+      } //Kill the interval persister for the closest drivers if any
+      else {
+        if (
+          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !==
+          null
+        ) {
+          clearInterval(
+            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
+          );
+          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+          res(true);
+        }
+      }
+    }).then(
+      () => {},
+      () => {},
     );
   };
 
@@ -1191,9 +1162,9 @@ class Home extends React.PureComponent {
 
       //Avoid updating map when entering receiver's details and package size (DELIVERY)
       if (
-        this.props.App.bottomVitalsFlow.currentStep !==
-          'inputReceiverInformations' &&
-        this.props.App.bottomVitalsFlow.currentStep !== 'selectPackageSize'
+        /(inputReceiverInformations|selectPackageSize)/i.test(
+          this.props.App.bottomVitalsFlow.currentStep,
+        ) === false
       ) {
         if (
           this.props.App.previewDestinationData.originDestinationPreviewData ===
@@ -1212,12 +1183,9 @@ class Home extends React.PureComponent {
                   this.props.App.latitude != null &&
                   this.props.App.longitude != null
                 ) {
-                  if (this.props.App.intervalProgressLoop === false) {
-                    this.updateRemoteLocationsData();
-                  }
-                  this.camera.setCamera({
+                  /*this.camera.setCamera({
                     zoomLevel: INIT_ZOOM_LEVEL,
-                  });
+                  }); //Disable back to init zoom level */
                   if (
                     this.props.App._IS_MAP_INITIALIZED === false &&
                     this.props.App.gprsGlobals.hasGPRSPermissions &&
@@ -1246,14 +1214,8 @@ class Home extends React.PureComponent {
                         globalObject.resetAnimationLoader(); //Stop the line animation
                       }
                       clearTimeout(timeout);
-                    }, 2000);
+                    }, 400);
                   }
-                  /*this.camera.setCamera({
-                  centerCoordinate: [this.props.App.longitude, this.props.App.latitude],
-                  zoomLevel: INIT_ZOOM_LEVEL,
-                });
-                this.camera.moveTo([this.props.App.longitude, this.props.App.latitude], 200);*/
-                  //this.camera.flyTo([this.props.App.longitude, this.props.App.latitude], 2000);
                 }
               } //fROM RECENTER button
               else {
@@ -1299,7 +1261,7 @@ class Home extends React.PureComponent {
                 originPoint,
                 destinationPoint,
                 [100, 140, 40, 140],
-                3500,
+                1500,
               );
             }
           }
@@ -1326,8 +1288,8 @@ class Home extends React.PureComponent {
 
   /**
    * @func getItinarySnapshot()
-   * Start animation stimulus - get initial route informations for
-   * clear visualization of the driver's position and the destination
+   * ? Start animation stimulus - get initial route informations for
+   * ? clear visualization of the driver's position and the destination
    */
   getItinarySnapshot() {
     //Get the generl route detail - coordinates
@@ -1348,10 +1310,15 @@ class Home extends React.PureComponent {
   }
 
   /**
-   * ANIMATIONS' FUNCTIONS
+   * ?ANIMATIONS' FUNCTIONS
    * ONLY USE ANIMATION WITH NATIVE DRIVER ENABLED. - Make a way.
    */
-  //1. Loader animation - init or during an operation
+
+  /**
+   * @func fire_search_animation
+   * ? 1. Loader animation
+   * Responsible for launching the line animator for various processes.
+   */
   fire_search_animation() {
     if (this.props.App.showLocationSearch_loader) {
       let globalObject = this;
@@ -1392,7 +1359,8 @@ class Home extends React.PureComponent {
   }
 
   /**
-   * 2. Greeting animation - init and after init
+   * @func fire_initGreetingAnd_after
+   * ? 2. Greeting animation - init and after init
    * Launch greeting animations for hello1 and hello 2
    */
   fire_initGreetingAnd_after() {

@@ -713,40 +713,6 @@ class RenderMainMapView extends React.PureComponent {
   }
 
   customRenderOrderer() {
-    //Preview the route to destination and ETA- DEBUG
-    /*let globalObject = this;
-    if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
-      this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
-        if (
-          globalObject.props.App.previewDestinationData
-            .originDestinationPreviewData === false ||
-          globalObject.props.App.previewDestinationData
-            .originDestinationPreviewData === undefined
-        ) {
-          globalObject.fire_search_animation(); //Fire animation
-          //Not found yet -make a request
-          let previewTripRouteData = {
-            user_fingerprint:
-              '7c57cb6c9471fd33fd265d5441f253eced2a6307c0207dea57c987035b496e6e8dfa7105b86915da',
-            org_latitude: -22.576655,
-            org_longitude: 17.083548,
-            dest_latitude: -22.572605,
-            dest_longitude: 17.082044,
-          };
-          //..
-          globalObject.props.App.socket.emit(
-            'getRoute_to_destinationSnapshot',
-            previewTripRouteData,
-          );
-        } //Data already received - kill interval
-        else {
-          if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-            clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-            globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-          }
-        }
-      }, this.props.App._TMP_INTERVAL_PERSISTER_TIME);
-    }*/
     //...
     if (this.props.App.gprsGlobals.hasGPRSPermissions) {
       return (

@@ -103,7 +103,7 @@ class ErrorModal extends React.PureComponent {
           //Received a response
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
           //Reset all the trips
-          globalObject.props.ResetStateProps();
+          globalObject.props.ResetStateProps(globalObject.props.parentNode);
         } //error - close modal
         else {
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
