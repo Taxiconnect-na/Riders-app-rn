@@ -87,27 +87,123 @@ class Home extends React.PureComponent {
   }
 
   /**
-   * @func requestGPSPermission()
+   * @func GPRS_resolver()
    * Responsible for getting the permission to the GPRS location for the user and
    * lock them from useing the app without the proper GPRS permissions.
    *
    */
-  async requestGPSPermission(activateRest = true) {
+  async GPRS_resolver(promptActivation = false) {
     let globalObject = this;
-    if (this.props.App.gprsGlobals.didAskForGprs === false) {
-      this.props.App.gprsGlobals.didAskForGprs = true;
-      //Ask only once at start
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Location Permission',
-            message: 'TaxiConnect needs access to your location',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          if (activateRest) {
-            globalObject.getCurrentPositionCusto();
+
+    //Check if the app already has the GPRS permissions
+    try {
+      const checkGPRS = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      if (checkGPRS) {
+        //Permission already granted
+        //Unlock the platform if was locked
+
+        if (true) {
+          const requestLocationPermission = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Enable location',
+              message:
+                'TaxiConnect requires access to your location to provide an optimal experience.',
+              buttonPositive: 'Allow',
+              buttonNegative: 'Cancel',
+            },
+          );
+          //...
+          if (
+            requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
+          ) {
+            if (
+              this.props.App.gprsGlobals.hasGPRSPermissions === false ||
+              this.props.App.gprsGlobals.didAskForGprs === false ||
+              this.props.App.latitude === 0 ||
+              this.props.App.longitude === 0
+            ) {
+              globalObject.replaceHello2_text("How's your day?");
+              //Permission granted
+              this.getCurrentPositionCusto();
+              GeolocationP.getCurrentPosition(
+                (position) => {
+                  globalObject.props.App.latitude = position.coords.latitude;
+                  globalObject.props.App.longitude = position.coords.longitude;
+                  //Update GPRS permission global var
+                  let newStateVars = {};
+                  newStateVars.hasGPRSPermissions = true;
+                  newStateVars.didAskForGprs = true;
+                  globalObject.props.UpdateGrantedGRPS(newStateVars);
+                  //Launch recalibration
+                  globalObject.recalibrateMap();
+                },
+                () => {
+                  // See error code charts below.
+                  //Launch recalibration
+                  globalObject.recalibrateMap();
+                },
+                {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000},
+              );
+              this.props.App.isMapPermitted = true;
+            } else {
+              this.getCurrentPositionCusto();
+              //Check the zoom level
+              if (this.props._map !== undefined && this.props._map != null) {
+                if (
+                  this.props._map !== undefined &&
+                  this.props._map != null &&
+                  this.props.App.isRideInProgress === false
+                ) {
+                  const mapZoom = await this.props.parentNode._map.getZoom();
+                  if (mapZoom > 18) {
+                    globalObject.recalibrateMap();
+                  }
+                }
+              }
+            }
+          } //Permission denied
+          else {
+            //Permission denied, update gprs global vars and lock the platform
+            let newStateVars = {};
+            newStateVars.hasGPRSPermissions = false;
+            newStateVars.didAskForGprs = true;
+            this.props.UpdateGrantedGRPS(newStateVars);
+            //Close loading animation
+            this.resetAnimationLoader();
+          }
+        }
+      } //Permission denied
+      else {
+        if (promptActivation === false) {
+          //Permission denied, update gprs global vars and lock the platform
+          let newStateVars = {};
+          newStateVars.hasGPRSPermissions = false;
+          newStateVars.didAskForGprs = true;
+          this.props.UpdateGrantedGRPS(newStateVars);
+          //Close loading animation
+          this.resetAnimationLoader();
+        } //Prompt the activation
+        else {
+          const requestLocationPermission = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+            {
+              title: 'Enable location',
+              message:
+                'TaxiConnect requires access to your location to provide an optimal experience.',
+              buttonPositive: 'Allow',
+              buttonNegative: 'Cancel',
+            },
+          );
+          //...
+          console.log(requestLocationPermission);
+          if (
+            requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
+          ) {
+            //Permission granted
+            this.getCurrentPositionCusto();
             GeolocationP.getCurrentPosition(
               (position) => {
                 globalObject.props.App.latitude = position.coords.latitude;
@@ -127,62 +223,28 @@ class Home extends React.PureComponent {
               },
               {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000},
             );
-            globalObject.props.App.isMapPermitted = true;
-            GeolocationP.getCurrentPosition(
-              (position) => {
-                globalObject.props.App.latitude = position.coords.latitude;
-                globalObject.props.App.longitude = position.coords.longitude;
-                //Update GPRS permission global var
-                let newStateVars = {};
-                newStateVars.hasGPRSPermissions = true;
-                newStateVars.didAskForGprs = true;
-                globalObject.props.UpdateGrantedGRPS(newStateVars);
-                //Launch recalibration
-                globalObject.recalibrateMap();
-              },
-              () => {},
-              {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000},
-            );
+            this.props.App.isMapPermitted = true;
+          } //Permission denied
+          else {
+            //Permission denied, update gprs global vars and lock the platform
+            let newStateVars = {};
+            newStateVars.hasGPRSPermissions = false;
+            newStateVars.didAskForGprs = true;
+            this.props.UpdateGrantedGRPS(newStateVars);
+            //Close loading animation
+            this.resetAnimationLoader();
           }
-        } else {
-          console.log('GPS permission denied');
-          //Permission denied, update gprs global vars and lock the platform
-          let newStateVars = {};
-          newStateVars.hasGPRSPermissions = false;
-          newStateVars.didAskForGprs = true;
-          globalObject.props.UpdateGrantedGRPS(newStateVars);
         }
-      } catch (err) {
-        //console.warn(err);
-        //Permission denied, update gprs global vars and lock the platform
-        let newStateVars = {};
-        newStateVars.hasGPRSPermissions = false;
-        newStateVars.didAskForGprs = true;
-        globalObject.props.UpdateGrantedGRPS(newStateVars);
-        //Close loading animation
-        globalObject.resetAnimationLoader();
       }
-    } //Lock the interface
-    else {
-      //Check if the permission was given or not
-      if (this.props.App.gprsGlobals.hasGPRSPermissions) {
-        //Has the GPRS permissions
-        let newStateVars = {};
-        newStateVars.hasGPRSPermissions = true;
-        newStateVars.didAskForGprs = true;
-        globalObject.props.UpdateGrantedGRPS(newStateVars);
-        //Launch recalibration
-        globalObject.recalibrateMap();
-      } //No permissions
-      else {
-        //Permission denied, update gprs global vars and lock the platform
-        let newStateVars = {};
-        newStateVars.hasGPRSPermissions = false;
-        newStateVars.didAskForGprs = true;
-        globalObject.props.UpdateGrantedGRPS(newStateVars);
-        //Close loading animation
-        globalObject.resetAnimationLoader();
-      }
+    } catch (error) {
+      console.log(error);
+      //Permission denied, update gprs global vars and lock the platform
+      let newStateVars = {};
+      newStateVars.hasGPRSPermissions = false;
+      newStateVars.didAskForGprs = true;
+      this.props.UpdateGrantedGRPS(newStateVars);
+      //Close loading animation
+      this.resetAnimationLoader();
     }
   }
 
@@ -203,7 +265,6 @@ class Home extends React.PureComponent {
       this.props.navigation.navigate('EntryScreen');
     }
 
-    this.requestGPSPermission();
     let globalObject = this;
 
     //Network state checker
@@ -294,6 +355,7 @@ class Home extends React.PureComponent {
       this.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(function () {
         //...
         if (globalObject.props.App.intervalProgressLoop === false) {
+          globalObject.GPRS_resolver();
           globalObject.updateRemoteLocationsData();
         } //Kill the persister
         else {
@@ -2146,7 +2208,7 @@ class Home extends React.PureComponent {
     this.props.App.gprsGlobals.didAskForGprs = false;
     this.props.App.gprsGlobals.hasGPRSPermissions = false;
     //...
-    this.requestGPSPermission();
+    this.GPRS_resolver(true);
   }
 
   renderNoGPRSResolver() {
@@ -2158,8 +2220,8 @@ class Home extends React.PureComponent {
             styles.shadowBottomVitals,
             {
               flexDirection: 'row',
-              height: 80,
-              backgroundColor: '#000',
+              minHeight: 80,
+              backgroundColor: '#0e8491',
               padding: 20,
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
@@ -2168,28 +2230,36 @@ class Home extends React.PureComponent {
           <View
             style={{
               flex: 1,
-              alignItems: 'center',
               justifyContent: 'center',
             }}>
             <Text
               style={[
-                systemWeights.light,
-                {fontSize: 13, color: '#fff', lineHeight: 20},
+                {
+                  fontSize: 16,
+                  color: '#fff',
+                  lineHeight: 20,
+                  fontFamily: 'Allrounder-Grotesk-Book',
+                },
               ]}>
               Your location services need to be enabled for a better experience.
-              <Text style={[systemWeights.regular]}>
-                {' '}
-                Simply press here to do so.
-              </Text>
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontSize: 16,
+                marginTop: 10,
+                color: '#fff',
+              }}>
+              Simply press here to do so.
             </Text>
           </View>
           <View
             style={{
-              width: 50,
+              width: 40,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <IconAnt name="arrowright" color={'#fff'} size={15} />
+            <IconAnt name="arrowright" color={'#fff'} size={20} />
           </View>
         </TouchableOpacity>
       );

@@ -923,7 +923,7 @@ class RenderMainMapView extends React.PureComponent {
             flex: 1,
             resizeMode: 'cover',
             justifyContent: 'center',
-            opacity: 0.17,
+            opacity: 0.1,
           }}
         />
       );
