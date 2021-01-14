@@ -27,7 +27,7 @@ class PayDriverConfirmation extends React.PureComponent {
               systemWeights.semibold,
               {
                 fontSize: 19,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily: 'Allrounder-Grotesk-Medium',
                 marginBottom: 25,
               },
             ]}>
@@ -100,11 +100,9 @@ class PayDriverConfirmation extends React.PureComponent {
               <View style={[styles.bttnGenericTc]}>
                 <Text
                   style={[
-                    //systemWeights.semibold,
                     {
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 21,
-                      fontWeight: 'bold',
+                      fontSize: 23.5,
                       color: '#fff',
                     },
                   ]}>

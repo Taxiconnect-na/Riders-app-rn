@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  Share,
   TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -29,6 +30,7 @@ import {
   UpdateRatingDetailsDuringDropoff_process,
   ResetStateProps,
 } from '../Redux/HomeActionsCreators';
+import call from 'react-native-phone-call';
 
 class ErrorModal extends React.PureComponent {
   constructor(props) {
@@ -193,6 +195,29 @@ class ErrorModal extends React.PureComponent {
     }); //Hide send again and show after 30 sec
     parentNode.props.navigation.navigate('PhoneDetailsScreen');
   }
+
+  /**
+   * @func onShare
+   * Responsible for sharing ride content to friends or family
+   */
+  onShare = async (title, message) => {
+    try {
+      const result = await Share.share({
+        message: message,
+        title: title,
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {}
+  };
 
   /**
    * @func skipAddMoreProfileDetails
@@ -596,7 +621,7 @@ class ErrorModal extends React.PureComponent {
           style={{
             backgroundColor: '#fff',
             //padding: 20,
-            height: 300,
+            height: 340,
           }}>
           <View
             style={{
@@ -607,7 +632,7 @@ class ErrorModal extends React.PureComponent {
               paddingBottom: 5,
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 20}}>
+              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
               What do you want to see?
             </Text>
           </View>
@@ -620,7 +645,8 @@ class ErrorModal extends React.PureComponent {
                 styles.bttnGenericTc,
                 {
                   borderRadius: 2,
-                  marginBottom: 10,
+                  marginBottom: 15,
+                  paddingBottom: 20,
                   justifyContent: 'flex-start',
                   borderBottomColor: '#d0d0d0',
                   borderBottomWidth: 1,
@@ -640,13 +666,13 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 19,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
                   flex: 1,
                 }}>
-                Past rides
+                Past requests
               </Text>
               {/past/i.test(this.props.App.shownRides_types) ? (
                 <IconFeather name="check" color="#0e8491" size={20} />
@@ -663,7 +689,8 @@ class ErrorModal extends React.PureComponent {
                 styles.bttnGenericTc,
                 {
                   borderRadius: 2,
-                  marginBottom: 10,
+                  marginBottom: 15,
+                  paddingBottom: 20,
                   justifyContent: 'flex-start',
                   borderBottomColor: '#d0d0d0',
                   borderBottomWidth: 1,
@@ -683,13 +710,13 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 19,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
                   flex: 1,
                 }}>
-                Scheduled rides
+                Scheduled requests
               </Text>
               {/scheduled/i.test(this.props.App.shownRides_types) ? (
                 <IconFeather name="check" color="#0e8491" size={20} />
@@ -719,13 +746,13 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 19,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
                   color: '#d0d0d0',
                   marginLeft: 5,
                   flex: 1,
                 }}>
-                Business rides
+                Business requests
               </Text>
               {/business/i.test(this.props.App.shownRides_types) ? (
                 <IconFeather name="check" color="#0e8491" size={20} />
@@ -866,7 +893,7 @@ class ErrorModal extends React.PureComponent {
                         name="star"
                         size={14}
                         style={{marginLeft: 7}}
-                        color="gold"
+                        color="#ffbf00"
                       />
                       <Text
                         style={{
@@ -912,7 +939,14 @@ class ErrorModal extends React.PureComponent {
                   borderBottomWidth: 0.7,
                   borderBottomColor: '#d0d0d0',
                 }}>
-                <View
+                <TouchableOpacity
+                  onPress={() =>
+                    call({
+                      number: this.props.App.generalTRIP_details_driverDetails
+                        .driverDetails.phone_number,
+                      prompt: true,
+                    })
+                  }
                   style={{
                     flexDirection: 'row',
                     flex: 1,
@@ -931,25 +965,30 @@ class ErrorModal extends React.PureComponent {
                     }}>
                     Call
                   </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: 10,
-                  }}>
-                  <IconMaterialIcons name="block" color="#b22222" size={20} />
-                  <Text
+                </TouchableOpacity>
+                {/inRouteToDestination/i.test(
+                  this.props.App.generalTRIP_details_driverDetails
+                    .request_status,
+                ) ? (
+                  <TouchableOpacity
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
-                      fontSize: 17,
-                      color: '#b22222',
+                      flexDirection: 'row',
+                      flex: 1,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 10,
                     }}>
-                    Cancel trip
-                  </Text>
-                </View>
+                    <IconMaterialIcons name="block" color="#b22222" size={20} />
+                    <Text
+                      style={{
+                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontSize: 17,
+                        color: '#b22222',
+                      }}>
+                      Cancel trip
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
               </View>
               {/**Car details */}
               <View
@@ -1383,7 +1422,53 @@ class ErrorModal extends React.PureComponent {
                   Safety
                 </Text>
                 <View>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.onShare(
+                        'My TaxiConnect ride',
+                        "Hey, I'm in a TaxiConnect taxi " +
+                          (this.props.App.generalTRIP_details_driverDetails
+                            .carDetails.taxi_number !== false
+                            ? this.props.App.generalTRIP_details_driverDetails
+                                .carDetails.taxi_number
+                            : this.props.App.generalTRIP_details_driverDetails
+                                .carDetails.car_brand) +
+                          ' (Plate number: ' +
+                          this.props.App.generalTRIP_details_driverDetails
+                            .carDetails.plate_number +
+                          ') with the driver ' +
+                          this.props.App.generalTRIP_details_driverDetails
+                            .driverDetails.name +
+                          '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                          this.props.App.generalTRIP_details_driverDetails
+                            .basicTripDetails.ride_simplified_id,
+                      )
+                    }
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginBottom: 20,
+                      paddingBottom: 10,
+                    }}>
+                    <IconCommunity name="earth" color="#000" size={25} />
+                    <Text
+                      style={{
+                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontSize: 18,
+                        color: '#000',
+                        marginLeft: 5,
+                      }}>
+                      Share your trip
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      call({
+                        number: '061302302',
+                        prompt: true,
+                      })
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
                     <IconMaterialIcons
                       name="shield"
                       color="#b22222"
@@ -1392,13 +1477,13 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 17,
+                        fontSize: 18,
                         color: '#b22222',
                         marginLeft: 5,
                       }}>
                       Emergency call
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             </ScrollView>
@@ -1410,8 +1495,7 @@ class ErrorModal extends React.PureComponent {
         <View
           style={{
             backgroundColor: '#fff',
-            //padding: 20,
-            height: 300,
+            height: 340,
           }}>
           <View
             style={{
@@ -1422,23 +1506,44 @@ class ErrorModal extends React.PureComponent {
               paddingBottom: 5,
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 20}}>
+              style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 22}}>
               Safety
             </Text>
           </View>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() =>
+                this.onShare(
+                  'My TaxiConnect ride',
+                  "Hey, I'm in a TaxiConnect taxi " +
+                    (this.props.App.generalTRIP_details_driverDetails.carDetails
+                      .taxi_number !== false
+                      ? this.props.App.generalTRIP_details_driverDetails
+                          .carDetails.taxi_number
+                      : this.props.App.generalTRIP_details_driverDetails
+                          .carDetails.car_brand) +
+                    ' (Plate number: ' +
+                    this.props.App.generalTRIP_details_driverDetails.carDetails
+                      .plate_number +
+                    ') with the driver ' +
+                    this.props.App.generalTRIP_details_driverDetails
+                      .driverDetails.name +
+                    '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                    this.props.App.generalTRIP_details_driverDetails
+                      .basicTripDetails.ride_simplified_id,
+                )
+              }
               style={[
                 styles.bttnGenericTc,
                 {
                   borderRadius: 2,
-                  marginBottom: 10,
+                  marginBottom: 20,
                   justifyContent: 'flex-start',
                   borderBottomColor: '#d0d0d0',
-                  borderBottomWidth: 1,
+                  borderBottomWidth: 0.5,
                   paddingLeft: 20,
                   paddingRight: 20,
+                  height: 100,
                   backgroundColor: '#fff',
                   shadowColor: '#fff',
                   shadowOffset: {
@@ -1452,27 +1557,47 @@ class ErrorModal extends React.PureComponent {
                   flexDirection: 'row',
                 },
               ]}>
-              <IconMaterialIcons name="shield" color="#b22222" size={28} />
-              <Text
-                style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 19,
-                  marginLeft: 5,
-                  flex: 1,
-                  color: '#b22222',
-                }}>
-                Emergency call
-              </Text>
+              <View style={{height: '100%'}}>
+                <IconCommunity name="earth" color="#000" size={28} />
+              </View>
+              <View style={{flex: 1, marginLeft: 5}}>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 20,
+                    flex: 1,
+                    color: '#000',
+                  }}>
+                  Share your trip
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontSize: 14,
+                    lineHeight: 15,
+                    flex: 1,
+                  }}>
+                  Allows you to share with your friends and family the realtime
+                  details of your ongoing trip.
+                </Text>
+              </View>
             </TouchableOpacity>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                call({
+                  number: '061302302',
+                  prompt: true,
+                })
+              }
               style={[
                 styles.bttnGenericTc,
                 {
                   borderRadius: 2,
-                  marginBottom: 10,
+                  marginBottom: 20,
                   justifyContent: 'flex-start',
                   paddingLeft: 20,
                   paddingRight: 20,
+                  height: 100,
                   backgroundColor: '#fff',
                   shadowColor: '#fff',
                   shadowOffset: {
@@ -1483,21 +1608,33 @@ class ErrorModal extends React.PureComponent {
                   shadowRadius: 0,
 
                   elevation: 0,
+                  flexDirection: 'row',
                 },
               ]}>
-              <Text
-                style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 14,
-                  color: '#a5a5a5',
-                  marginLeft: 5,
-                  flex: 1,
-                  lineHeight: 17,
-                }}>
-                Use the Emergency call button only in the case of an extreme
-                emergency. Otherwise some additional charges may apply.
-              </Text>
-            </View>
+              <View style={{height: '100%'}}>
+                <IconMaterialIcons name="shield" color="#b22222" size={28} />
+              </View>
+              <View style={{flex: 1, marginLeft: 5}}>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 20,
+                    flex: 1,
+                    color: '#b22222',
+                  }}>
+                  Emergency call
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontSize: 14,
+                    lineHeight: 15,
+                    flex: 1,
+                  }}>
+                  Call immediatly the authorities if you feel a threaten.
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -2102,7 +2239,7 @@ class ErrorModal extends React.PureComponent {
               this.props.UpdateErrorModalLog(false, false, 'any')
             }
             onBackdropPress={() =>
-              /(show_guardian_toolkit|show_cancel_ride_modal)/i.test(
+              /(show_guardian_toolkit|show_cancel_ride_modal|show_select_ride_type_modal)/i.test(
                 this.props.error_status,
               )
                 ? this.props.UpdateErrorModalLog(false, false, 'any')

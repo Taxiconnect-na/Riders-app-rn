@@ -5,11 +5,9 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  Image,
   TouchableOpacity,
 } from 'react-native';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-import IconAnt from 'react-native-vector-icons/AntDesign';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export function MainDrawerContent(props) {
   return (
@@ -33,7 +31,15 @@ export function MainDrawerContent(props) {
 
             elevation: 10,
           }}>
-          <IconAnt name="user" size={30} />
+          <Image
+            source={require('../Media_assets/Images/woman.webp')}
+            style={{
+              resizeMode: 'cover',
+              width: '100%',
+              height: '100%',
+              borderRadius: 200,
+            }}
+          />
         </View>
         <View style={{flex: 1}}>
           <Text
@@ -57,15 +63,14 @@ export function MainDrawerContent(props) {
               width: '100%',
               alignItems: 'center',
             }}>
-            <IconMaterialIcons name="location-on" color="#fff" size={16} />
             <Text
               style={{
                 fontFamily: 'Allrounder-Grotesk-Regular',
-                fontSize: 14,
+                fontSize: 15,
                 textAlign: 'center',
                 color: '#ffff',
               }}>
-              Windhoek, Namibia
+              Windhoek
             </Text>
           </View>
         </View>
@@ -76,17 +81,17 @@ export function MainDrawerContent(props) {
           style={[styles.menuItem, {paddingTop: 30}]}>
           <Text style={styles.menuTitles}>Your rides</Text>
         </TouchableOpacity>
-        <View
+        <TouchableOpacity
           onPress={() => props.navigation.navigate('Wallet_drawer')}
           style={[styles.menuItem, {paddingTop: 15}]}>
           <Text style={styles.menuTitles}>Wallet</Text>
-        </View>
-        <View style={[styles.menuItem, {paddingTop: 15}]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.menuItem, {paddingTop: 15}]}>
           <Text style={styles.menuTitles}>Settings</Text>
-        </View>
-        <View style={[styles.menuItem, {paddingTop: 15}]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.menuItem, {paddingTop: 15}]}>
           <Text style={styles.menuTitles}>Support</Text>
-        </View>
+        </TouchableOpacity>
       </ScrollView>
       <View style={styles.footerDrawer}>
         <Text
@@ -105,7 +110,7 @@ export function MainDrawerContent(props) {
             color: '#a5a5a5',
             textAlign: 'right',
           }}>
-          v2.0.0
+          v2.0.202
         </Text>
       </View>
     </SafeAreaView>
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: 100,
-    backgroundColor: '#01101F',
+    backgroundColor: '#000',
     flexDirection: 'row',
     padding: 10,
     paddingLeft: 15,
@@ -128,8 +133,9 @@ const styles = StyleSheet.create({
   },
   menuItem: {
     padding: 20,
+    marginBottom: 10,
   },
-  menuTitles: {fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 19},
+  menuTitles: {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 20},
   footerDrawer: {
     borderTopWidth: 0.5,
     borderTopColor: '#d0d0d0',

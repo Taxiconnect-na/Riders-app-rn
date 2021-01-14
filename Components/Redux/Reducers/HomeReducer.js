@@ -117,6 +117,14 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.generalTRIP_details_driverDetails = {}; //WILL HOLD THE GENERAL TRIP DETAILS AND DRIVER DETAILS - Ref. to the server doc for more - ONLY RELEVANT TO USE WHEN THE TRIP HAS BEEN ACCEPTED BY A DRIVER already! - ALWAYS clean up after usage.
       newState.initializedScenario = null; //To know which scenario has been initialized for animation
       //Reset init hello and animation
+      newState.initialHello = false; //Will hold the first "Hello" message that appear when the app is opened
+      newState.initialHelloAnimationParams = {
+        top: new Animated.Value(10), //Hello 1
+        opacity: new Animated.Value(0), //Hello 1
+        top2: new Animated.Value(10), //Hello 2
+        opacity2: new Animated.Value(0), //Hello 2
+      };
+      //...
       if (
         action.payload !== true &&
         action.payload.fire_search_animation !== undefined

@@ -39,8 +39,8 @@ class RideLIstGenericElement extends React.PureComponent {
           <View style={{}}>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Medium',
-                fontSize: 16,
+                fontFamily: 'Allrounder-Grotesk-Regular',
+                fontSize: 17,
                 marginBottom: 5,
               }}>
               To{' '}
@@ -54,13 +54,12 @@ class RideLIstGenericElement extends React.PureComponent {
             <Text
               style={{
                 fontFamily: 'Allrounder-Grotesk-Book',
-                fontSize: 13.5,
+                fontSize: 14,
                 marginBottom: 5,
               }}>
               {this.props.requestLightData.date_requested}
             </Text>
-            <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 13.5}}>
+            <Text style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 14}}>
               {this.props.requestLightData.car_brand}
             </Text>
           </View>
@@ -70,6 +69,7 @@ class RideLIstGenericElement extends React.PureComponent {
             name="arrow-forward-ios"
             size={15}
             color="#0e8491"
+            style={{top: 3}}
           />
         </View>
       </TouchableOpacity>
@@ -79,11 +79,11 @@ class RideLIstGenericElement extends React.PureComponent {
 
 const styles = StyleSheet.create({
   rideItemMainView: {
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
     borderBottomColor: '#d0d0d0',
     padding: 20,
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 20,
   },
 });
 

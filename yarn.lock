@@ -7492,6 +7492,11 @@ react-native-otp-verify@^1.0.3:
   resolved "https://registry.yarnpkg.com/react-native-otp-verify/-/react-native-otp-verify-1.0.3.tgz#a205521bf19f1e448e563ddfa462559469fa8662"
   integrity sha512-BIKP89H5a6ItAcRXJBxQkc2uzA4jazaEHTRWZxqnUUb6njHKHOevKrtzfhUOoAXQGq3evCRldEot5EaNWTDq9g==
 
+react-native-phone-call@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-native-phone-call/-/react-native-phone-call-1.0.9.tgz#4468ec6f95856557fbff9bd69a0db04b54c35e1d"
+  integrity sha512-OPWYg8qeWNG/U4bWGMAKcQTH/ifqJnsvUPCH4lOkvWFHbQS3fbH5M8rFhXCzcfS0GVNzHhZX9ZByMM368TFAUQ==
+
 react-native-ratings@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-7.3.0.tgz#32e11e4ed944ba8adbbc995d601df3f131619b6f"

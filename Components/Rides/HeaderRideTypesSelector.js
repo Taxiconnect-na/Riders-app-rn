@@ -29,14 +29,9 @@ class HeaderRideTypesSelector extends React.PureComponent {
           onPress={() => this.showModalRideTypes()}
           style={styles.mainWindow}>
           <Text
-            style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 15}}>
+            style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 18}}>
             {this.props.App.shownRides_types}
           </Text>
-          <IconMaterialIcons
-            name="keyboard-arrow-down"
-            color={'#0e8491'}
-            size={22}
-          />
         </TouchableOpacity>
       </>
     );
@@ -46,7 +41,7 @@ class HeaderRideTypesSelector extends React.PureComponent {
 const styles = StyleSheet.create({
   mainWindow: {
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 200,
     borderColor: '#d0d0d0',
     backgroundColor: '#f0f0f0',
     right: 20,
@@ -54,7 +49,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     flexDirection: 'row',
+    alignItems: 'center',
     zIndex: 9000000,
+    minWidth: 100,
+    justifyContent: 'center',
   },
 });
 

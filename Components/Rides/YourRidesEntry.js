@@ -134,7 +134,10 @@ class YourRidesEntry extends React.PureComponent {
         if (
           response !== false &&
           response.response !== undefined &&
-          response.response !== false
+          response.response !== false &&
+          response.data !== undefined &&
+          response.data[0] !== undefined &&
+          response.data[0] !== false
         ) {
           //Got something
           if (/success/i.test(response.response)) {
@@ -178,12 +181,26 @@ class YourRidesEntry extends React.PureComponent {
 
     //Request for ride
     this.fetchRequestedRequests_history();
+
+    //Add home going back handler-----------------------------
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      globalObject.props.navigation.navigate('Home_drawer');
+      return;
+    });
+    //--------------------------------------------------------
   }
 
   componentWillUnmount() {
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
+    }
+
+    //Remove navigation event listener
+    if (this._navigatorEvent !== false && this._navigatorEvent !== undefined) {
+      this._navigatorEvent();
     }
   }
 
@@ -231,10 +248,11 @@ class YourRidesEntry extends React.PureComponent {
           <Text
             style={{
               fontFamily: 'Allrounder-Grotesk-Book',
-              fontSize: 16,
+              fontSize: 18,
               marginTop: 15,
+              color: '#a5a5a5',
             }}>
-            You're not yet made a request with us.
+            No requests so far.
           </Text>
         </View>
       );
@@ -251,10 +269,11 @@ class YourRidesEntry extends React.PureComponent {
           <Text
             style={{
               fontFamily: 'Allrounder-Grotesk-Book',
-              fontSize: 16,
+              fontSize: 18,
               marginTop: 15,
+              color: '#a5a5a5',
             }}>
-            No pending scheduled request so far.
+            No pending scheduled requests so far.
           </Text>
         </View>
       );
@@ -293,7 +312,7 @@ class YourRidesEntry extends React.PureComponent {
   render() {
     return (
       <View style={styles.mainWindow}>
-        <GenericLoader active={this.state.loaderState} />
+        <GenericLoader active={this.state.loaderState} thickness={4} />
         <ErrorModal
           active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
           error_status={

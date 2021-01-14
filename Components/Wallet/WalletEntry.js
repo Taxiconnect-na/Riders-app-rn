@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {
   SafeAreaView,
   View,
@@ -25,6 +27,7 @@ class WalletEntry extends React.PureComponent {
   }
 
   async componentDidMount() {
+    let globalObject = this;
     //Check for the user_fp
     await SyncStorage.init();
     let user_fp = SyncStorage.get('@ufp');
@@ -40,6 +43,14 @@ class WalletEntry extends React.PureComponent {
     else {
       this.props.navigation.navigate('EntryScreen');
     }
+    //Add home going back handler-----------------------------
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      globalObject.props.navigation.navigate('Home_drawer');
+      return;
+    });
+    //--------------------------------------------------------
   }
 
   render() {
@@ -71,7 +82,7 @@ class WalletEntry extends React.PureComponent {
                 style={{
                   flex: 1,
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 16,
+                  fontSize: 18,
                   color: '#fff',
                 }}>
                 Hey, Dominique
@@ -87,16 +98,21 @@ class WalletEntry extends React.PureComponent {
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
-                    height: 4,
+                    height: 7,
                   },
-                  shadowOpacity: 0.32,
-                  shadowRadius: 5.46,
+                  shadowOpacity: 0.41,
+                  shadowRadius: 9.11,
 
-                  elevation: 9,
+                  elevation: 14,
                 }}>
                 <Image
-                  source={require('../../Media_assets/Images/user.png')}
-                  style={{resizeMode: 'contain', width: '70%', height: '70%'}}
+                  source={require('../../Media_assets/Images/woman.webp')}
+                  style={{
+                    resizeMode: 'cover',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 200,
+                  }}
                 />
               </View>
             </View>
@@ -104,8 +120,7 @@ class WalletEntry extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontWeight: 'bold',
-                  fontSize: 27,
+                  fontSize: 35,
                   color: '#fff',
                 }}>
                 N$ 450
@@ -114,6 +129,7 @@ class WalletEntry extends React.PureComponent {
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Book',
                   color: '#9AE8FF',
+                  fontSize: 16,
                 }}>
                 Your balance
               </Text>
@@ -125,7 +141,8 @@ class WalletEntry extends React.PureComponent {
               padding: 20,
               justifyContent: 'center',
             }}>
-            <View
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('SendFundsEntry')}
               style={[
                 styles.selectMenu3,
                 {marginRight: '7%', backgroundColor: '#0e8491', borderWidth: 0},
@@ -134,8 +151,9 @@ class WalletEntry extends React.PureComponent {
               <Text style={[styles.textSelectMenu3, {color: '#fff'}]}>
                 Send
               </Text>
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('WalletTopUpEntry')}
               style={[
                 styles.selectMenu3,
                 {marginRight: '7%', backgroundColor: '#0e8491', borderWidth: 0},
@@ -148,18 +166,23 @@ class WalletEntry extends React.PureComponent {
               <Text style={[styles.textSelectMenu3, {color: '#fff'}]}>
                 Top-up
               </Text>
-            </View>
-            <View style={[styles.selectMenu3, {borderWidth: 2}]}>
+            </TouchableOpacity>
+            <View style={[styles.selectMenu3, {borderWidth: 2, opacity: 0}]}>
               <IconMaterialIcons name="shield" size={30} />
               <Text style={styles.textSelectMenu3}>Secure</Text>
             </View>
           </View>
           <View style={{padding: 20, flex: 1}}>
-            <TouchableOpacity style={{flexDirection: 'row', paddingBottom: 10}}>
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                paddingBottom: 10,
+                alignItems: 'center',
+              }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 16,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 17.5,
                   color: '#999999',
                   paddingBottom: 15,
                   flex: 1,
@@ -168,8 +191,8 @@ class WalletEntry extends React.PureComponent {
               </Text>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 14,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 15,
                   color: '#999999',
                   paddingBottom: 15,
                 }}>
@@ -180,10 +203,6 @@ class WalletEntry extends React.PureComponent {
             <View style={{flex: 1}}>
               <SectionList
                 sections={[
-                  {
-                    title: 'Top-up',
-                    data: [{transaction_type: 'topup', amount: 50}],
-                  },
                   {
                     title: 'Top-up',
                     data: [{transaction_type: 'topup', amount: 50}],
@@ -219,7 +238,7 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: 7,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -228,12 +247,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.32,
     shadowRadius: 5.46,
-
     elevation: 9,
   },
   textSelectMenu3: {
-    fontFamily: 'Allrounder-Grotesk-Regular',
-    fontSize: 16,
+    fontFamily: 'Allrounder-Grotesk-Medium',
+    fontSize: 17,
     marginTop: 10,
   },
   arrowCircledForwardBasic: {
@@ -273,4 +291,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WalletEntry;
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default connect(mapStateToProps)(WalletEntry);

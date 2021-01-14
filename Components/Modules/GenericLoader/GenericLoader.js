@@ -125,9 +125,19 @@ class GenericLoader extends React.PureComponent {
             styles.loader,
             // eslint-disable-next-line react-native/no-inline-styles
             {
+              borderTopWidth:
+                this.props.thickness !== undefined &&
+                this.props.thickness !== null
+                  ? this.props.thickness
+                  : 6,
               borderTopColor:
                 this.props.active !== undefined && this.props.active
-                  ? '#000'
+                  ? this.props.color !== undefined && this.props.color !== null
+                    ? this.props.color
+                    : '#000'
+                  : this.props.backgroundColor !== undefined &&
+                    this.props.backgroundColor
+                  ? this.props.backgroundColor
                   : '#fff',
               transform: [
                 {

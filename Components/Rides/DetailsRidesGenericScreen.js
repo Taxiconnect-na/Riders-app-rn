@@ -192,12 +192,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       //RIDE
       return (
         <>
-          <IconMaterialIcons name="calendar-today" size={20} color="#fff" />
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily: 'Allrounder-Grotesk-Regular',
               color: '#fff',
-              fontSize: 15,
+              fontSize: 16,
               marginLeft: 5,
             }}>
             {date}
@@ -208,12 +207,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     else {
       return (
         <>
-          <IconMaterialIcons name="calendar-today" size={20} color="#fff" />
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily: 'Allrounder-Grotesk-Regular',
               color: '#fff',
-              fontSize: 15,
+              fontSize: 16,
               marginLeft: 5,
               flex: 1,
             }}>
@@ -300,7 +298,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
           />
         }>
         {this.state.loaderState ? (
-          <GenericLoader active={this.state.loaderState} />
+          <GenericLoader active={this.state.loaderState} thickness={4} />
         ) : null}
         <ErrorModal
           active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
@@ -316,39 +314,54 @@ class DetailsRidesGenericScreen extends React.PureComponent {
             <>
               <View
                 style={{
-                  height: 200,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '100%',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.29,
+                  shadowRadius: 4.65,
+
+                  elevation: 7,
                 }}>
-                <Image
-                  source={require('../../Media_assets/Images/windhoekMap.png')}
+                <View
                   style={{
-                    resizeMode: 'cover',
+                    height: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     width: '100%',
-                    height: '100%',
-                  }}
-                />
+                  }}>
+                  <Image
+                    source={require('../../Media_assets/Images/windhoekMap.png')}
+                    style={{
+                      resizeMode: 'cover',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    padding: 20,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    flexDirection: 'row',
+                    backgroundColor: '#000',
+                    alignItems: 'center',
+                  }}>
+                  {this.renderCorrestHeaderDate(
+                    this.state.detailed_requestData.date_requested,
+                    this.state.detailed_requestData.ride_mode,
+                  )}
+                </View>
               </View>
-              <View
-                style={{
-                  borderWidth: 1,
-                  padding: 20,
-                  flexDirection: 'row',
-                  backgroundColor: '#000',
-                  alignItems: 'center',
-                }}>
-                {this.renderCorrestHeaderDate(
-                  this.state.detailed_requestData.date_requested,
-                  this.state.detailed_requestData.ride_mode,
-                )}
-              </View>
-              <View style={{}}>
+              <View style={{marginTop: 10}}>
                 <View style={{}}>
                   <Text
                     style={{
-                      fontSize: 16,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontSize: 17,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       color: '#a5a5a5',
                       padding: 20,
                       paddingBottom: 0,
@@ -360,35 +373,179 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   <View
                     style={{
                       padding: 20,
+                    }}>
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                        }}>
+                        <View style={{width: 16, height: '87%', top: 6}}>
+                          <View style={{position: 'absolute', top: 0}}>
+                            <View
+                              style={{
+                                height: 11,
+                                width: 11,
+                                borderRadius: 100,
+                                backgroundColor: '#000',
+                              }}
+                            />
+                          </View>
+
+                          <View
+                            style={{
+                              flex: 1,
+                              left: 5,
+                              width: 1.5,
+                              height: 50,
+                              backgroundColor: '#000',
+                            }}></View>
+                          <View style={{position: 'absolute', bottom: 0}}>
+                            <View
+                              style={{
+                                height: 11,
+                                width: 11,
+                                borderRadius: 0,
+                                backgroundColor: '#096ED4',
+                              }}
+                            />
+                          </View>
+                        </View>
+                        <View style={{flex: 1}}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                            }}>
+                            <View style={{width: 35}}>
+                              <Text
+                                style={{
+                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontSize: 13,
+                                  top: 2,
+                                }}>
+                                From
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: 'flex-start',
+                              }}>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: 'flex-start',
+                                }}>
+                                <Text
+                                  style={{
+                                    fontFamily: 'Allrounder-Grotesk-Medium',
+                                    fontSize: 15,
+                                    marginLeft: 5,
+                                    flex: 1,
+                                  }}>
+                                  {String(
+                                    this.state.detailed_requestData.pickup_name,
+                                  )}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          {/**Destination */}
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              marginTop: 25,
+                            }}>
+                            <View style={{width: 35}}>
+                              <Text
+                                style={{
+                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontSize: 13,
+                                  top: 1,
+                                }}>
+                                To
+                              </Text>
+                            </View>
+                            <View
+                              style={{
+                                flex: 1,
+                                alignItems: 'flex-start',
+                              }}>
+                              {this.state.detailed_requestData.destination_name
+                                .split(',')
+                                .map((destination, index) => {
+                                  return (
+                                    <View
+                                      key={String(index + 1)}
+                                      style={{
+                                        flex: 1,
+                                        alignItems: 'flex-start',
+                                        marginTop: index > 0 ? 5 : 0,
+                                      }}>
+                                      <Text
+                                        style={{
+                                          fontFamily:
+                                            'Allrounder-Grotesk-Regular',
+                                          fontSize: 16,
+                                          marginLeft: 5,
+                                          flex: 1,
+                                        }}>
+                                        {this.state.detailed_requestData.destination_name.split(
+                                          ',',
+                                        ).length > 1 ? (
+                                          <Text
+                                            style={{
+                                              fontFamily:
+                                                'Allrounder-Grotesk-Regular',
+                                              fontSize: 13,
+                                              marginLeft: 5,
+                                              flex: 1,
+                                              color: '#096ED4',
+                                            }}>
+                                            {index + 1 + '. '}
+                                          </Text>
+                                        ) : null}
+                                        {destination.trim()}
+                                      </Text>
+                                    </View>
+                                  );
+                                })}
+                            </View>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  {/**ETA */}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 20,
+                      borderTopWidth: 0.7,
+                      borderTopColor: '#d0d0d0',
                       borderBottomWidth: 0.7,
                       borderBottomColor: '#d0d0d0',
-                      height: 170,
+                      backgroundColor: '#fafafa',
                     }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        marginBottom: 25,
-                        alignItems: 'center',
-                      }}>
-                      <View>
-                        <View
-                          style={{
-                            height: 15,
-                            width: 15,
-                            borderRadius: 100,
-                            backgroundColor: '#000',
-                          }}
-                        />
-                        <View
-                          style={{
-                            position: 'absolute',
-                            top: 3,
-                            left: 7,
-                            width: 2,
-                            height: 50,
-                            backgroundColor: '#000',
-                          }}></View>
-                      </View>
+                    <View>
+                      <View
+                        style={{
+                          top: 1,
+                          height: 10,
+                          width: 10,
+                          borderWidth: 3,
+                          borderColor: '#096ED4',
+                          borderRadius: 100,
+                          backgroundColor: '#fff',
+                        }}
+                      />
+                    </View>
+                    {this.state.detailed_requestData.estimated_travel_time !==
+                      undefined &&
+                    this.state.detailed_requestData.estimated_travel_time !==
+                      false &&
+                    this.state.detailed_requestData.estimated_travel_time !==
+                      null ? (
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Book',
@@ -396,132 +553,32 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           marginLeft: 5,
                           flex: 1,
                         }}>
-                        {/ride/i.test(this.state.detailed_requestData.ride_mode)
-                          ? 'Pickup'
-                          : 'Collection'}{' '}
-                        at{' '}
+                        Approximately{' '}
                         <Text
                           style={{
                             fontFamily: 'Allrounder-Grotesk-Medium',
-                            fontSize: 15,
+                            fontSize: 16,
                             marginLeft: 5,
+                            color: '#096ED4',
                           }}>
-                          {String(this.state.detailed_requestData.pickup_name)
-                            .length < 30
-                            ? this.state.detailed_requestData.pickup_name
-                            : this.state.detailed_requestData.pickup_name.substring(
-                                0,
-                                19,
-                              ) + '...'}
+                          {this.state.detailed_requestData.estimated_travel_time.replace(
+                            ' away',
+                            '',
+                          )}
+                          .
                         </Text>
                       </Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        marginBottom: 25,
-                        alignItems: 'center',
-                      }}>
-                      <View>
-                        <View
-                          style={{
-                            height: 15,
-                            width: 15,
-                            borderRadius: 100,
-                            backgroundColor: '#096ED4',
-                          }}
-                        />
-                        <View
-                          style={{
-                            position: 'absolute',
-                            top: 3,
-                            left: 7,
-                            width: 2,
-                            height: 50,
-                            backgroundColor: '#096ED4',
-                          }}></View>
-                      </View>
+                    ) : (
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
+                          fontSize: 15,
                           marginLeft: 5,
                           flex: 1,
                         }}>
-                        {/ride/i.test(this.state.detailed_requestData.ride_mode)
-                          ? 'Drop off'
-                          : 'Delivery'}{' '}
-                        at{' '}
-                        <Text
-                          style={{
-                            fontFamily: 'Allrounder-Grotesk-Medium',
-                            fontSize: 15,
-                            marginLeft: 5,
-                          }}>
-                          {String(
-                            this.state.detailed_requestData.destination_name,
-                          ).length < 30
-                            ? this.state.detailed_requestData.destination_name
-                            : this.state.detailed_requestData.destination_name.substring(
-                                0,
-                                19,
-                              ) + '...'}
-                        </Text>
+                        Couldn't find the ETA.
                       </Text>
-                    </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <View>
-                        <View
-                          style={{
-                            height: 15,
-                            width: 15,
-                            borderWidth: 3,
-                            borderColor: '#096ED4',
-                            borderRadius: 100,
-                            backgroundColor: '#fff',
-                          }}
-                        />
-                      </View>
-                      {this.state.detailed_requestData.estimated_travel_time !==
-                        undefined &&
-                      this.state.detailed_requestData.estimated_travel_time !==
-                        false &&
-                      this.state.detailed_requestData.estimated_travel_time !==
-                        null ? (
-                        <Text
-                          style={{
-                            fontFamily: 'Allrounder-Grotesk-Book',
-                            fontSize: 14,
-                            marginLeft: 5,
-                            flex: 1,
-                          }}>
-                          Approximately{' '}
-                          <Text
-                            style={{
-                              fontFamily: 'Allrounder-Grotesk-Medium',
-                              fontSize: 15,
-                              marginLeft: 5,
-                              color: '#096ED4',
-                            }}>
-                            {
-                              this.state.detailed_requestData
-                                .estimated_travel_time
-                            }
-                            .
-                          </Text>
-                        </Text>
-                      ) : (
-                        <Text
-                          style={{
-                            fontFamily: 'Allrounder-Grotesk-Book',
-                            fontSize: 14,
-                            marginLeft: 5,
-                            flex: 1,
-                          }}>
-                          Couldn't find the ETA.
-                        </Text>
-                      )}
-                    </View>
+                    )}
                   </View>
                 </View>
                 <View
@@ -545,7 +602,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                     ) ? (
                       <IconCommunity
                         name="cash-usd"
-                        color={'green'}
+                        color={'black'}
                         size={25}
                       />
                     ) : (
@@ -574,7 +631,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   <Text
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 17,
+                      fontSize: 20,
                       color: 'green',
                       flex: 1,
                       textAlign: 'center',
@@ -588,11 +645,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       justifyContent: 'flex-end',
                       flex: 1,
                     }}>
-                    <IconAnt name="user" size={20} />
+                    <IconAnt name="user" size={17} />
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Medium',
-                        fontSize: 17,
+                        fontSize: 17.5,
                         marginLeft: 4,
                       }}>
                       {this.state.detailed_requestData.numberOf_passengers}
@@ -607,10 +664,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   }}>
                   <Text
                     style={{
-                      fontSize: 16,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontSize: 17,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       color: '#a5a5a5',
-                      paddingBottom: 15,
+                      paddingBottom: 25,
+                      marginBottom: 10,
                     }}>
                     Driver
                   </Text>
@@ -622,6 +680,8 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           height: 45,
                           borderRadius: 150,
                           alignItems: 'center',
+                          borderWidth: 0.5,
+                          borderColor: '#d0d0d0',
                           justifyContent: 'center',
                           backgroundColor: '#fff',
                           shadowColor: '#000',
@@ -632,15 +692,23 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           shadowOpacity: 0.25,
                           shadowRadius: 3.84,
 
-                          elevation: 5,
+                          elevation: 3,
                         }}>
-                        <IconAnt name="user" size={25} />
+                        <Image
+                          source={require('../../Media_assets/Images/driver.jpg')}
+                          style={{
+                            resizeMode: 'cover',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 150,
+                          }}
+                        />
                       </View>
                       <View style={{marginLeft: 10}}>
                         <Text
                           style={{
                             fontSize: 15,
-                            fontFamily: 'Allrounder-Grotesk-Book',
+                            fontFamily: 'Allrounder-Grotesk-Regular',
                           }}>
                           {this.state.detailed_requestData.driver_details.name}
                         </Text>
@@ -664,7 +732,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           fontFamily: 'Allrounder-Grotesk-Regular',
                           fontSize: 17,
                         }}>
-                        {this.state.detailed_requestData.ride_rating}
+                        {/notYet/i.test(
+                          this.state.detailed_requestData.ride_rating,
+                        )
+                          ? 'Not rated'
+                          : this.state.detailed_requestData.ride_rating}
                       </Text>
                     </View>
                   </View>
@@ -676,8 +748,8 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   }}>
                   <Text
                     style={{
-                      fontSize: 16,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontSize: 17,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       color: '#a5a5a5',
                       paddingBottom: 15,
                     }}>
@@ -694,13 +766,20 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}>
-                      <IconCommunity name="car" size={30} color="#a5a5a5" />
+                      <Image
+                        source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
+                        style={{
+                          resizeMode: 'cover',
+                          width: '100%',
+                          height: '100%',
+                        }}
+                      />
                     </View>
                     <View style={{marginLeft: 10, flex: 1}}>
                       <Text
                         style={{
                           fontSize: 16,
-                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          fontFamily: 'Allrounder-Grotesk-Medium',
                         }}>
                         {
                           this.state.detailed_requestData.car_details
@@ -720,7 +799,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           marginTop: 8,
                           alignItems: 'center',
                         }}>
-                        <IconFeather name="shield" color="green" size={17} />
+                        <IconFeather name="shield" color="green" size={16} />
                         <Text
                           style={{
                             fontSize: 14,

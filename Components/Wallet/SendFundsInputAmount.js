@@ -29,6 +29,7 @@ class SendFundsInputAmount extends React.PureComponent {
                 fontSize: 19,
                 fontFamily: 'Allrounder-Grotesk-Book',
                 marginBottom: 35,
+                marginTop: 10,
               },
             ]}>
             How much?
@@ -38,13 +39,14 @@ class SendFundsInputAmount extends React.PureComponent {
               flexDirection: 'row',
               alignItems: 'center',
               borderWidth: 0.5,
-              borderRadius: 7,
+              borderRadius: 3,
+              padding: 10,
               borderColor: '#d0d0d0',
             }}>
             <Text
               style={{
                 fontSize: 19,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily: 'Allrounder-Grotesk-Medium',
                 paddingLeft: 10,
                 paddingRight: 5,
               }}>
@@ -74,21 +76,22 @@ class SendFundsInputAmount extends React.PureComponent {
                 justifyContent: 'flex-start',
                 height: '100%',
               }}>
-              <IconAnt name="infocirlce" size={17} />
+              <IconAnt name="infocirlce" color="#a5a5a5" size={17} />
             </View>
             <Text
               style={[
                 {
                   fontFamily: 'Allrounder-Grotesk-Book',
                   color: '#0e8491',
-                  fontSize: 14,
+                  fontSize: 15,
                   lineHeight: 20,
                   color: '#a5a5a5',
                   flex: 1,
                 },
               ]}>
               The transfer is done instantly, but if you encounter any problems
-              in the process, please feel free to contact us using the Support.
+              in the process, please feel free to contact us using the Support
+              tab.
             </Text>
           </View>
 
@@ -110,6 +113,9 @@ class SendFundsInputAmount extends React.PureComponent {
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('SendFundsConfirmation')
+                }
                 style={[
                   styles.arrowCircledForwardBasic,
                   styles.shadowButtonArrowCircledForward,

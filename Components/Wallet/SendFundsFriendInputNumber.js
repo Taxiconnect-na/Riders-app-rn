@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {
   SafeAreaView,
   View,
@@ -29,9 +31,10 @@ class SendFundsFriendInputNumber extends React.PureComponent {
                 fontSize: 19,
                 fontFamily: 'Allrounder-Grotesk-Book',
                 marginBottom: 35,
+                marginTop: 10,
               },
             ]}>
-            What's the receiver's phone number?
+            Who's receiving?
           </Text>
           <PhoneNumberInput />
 
@@ -48,10 +51,10 @@ class SendFundsFriendInputNumber extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontSize: 13,
+                    fontSize: 13.5,
                     marginLeft: 6,
                     lineHeight: 18,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily: 'Allrounder-Grotesk-Regular',
                   },
                 ]}>
                 You can only send funds to active TaxiConnect accounts.
@@ -59,6 +62,9 @@ class SendFundsFriendInputNumber extends React.PureComponent {
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('SendFundsInputAmount')
+                }
                 style={[
                   styles.arrowCircledForwardBasic,
                   styles.shadowButtonArrowCircledForward,
@@ -123,4 +129,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SendFundsFriendInputNumber;
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default connect(mapStateToProps)(SendFundsFriendInputNumber);

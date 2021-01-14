@@ -15,15 +15,16 @@ class WalletTransacRecords extends React.PureComponent {
         <View>
           <IconMaterialIcons
             name="circle"
-            size={10}
-            style={{top: 6, marginRight: 7}}
+            size={6}
+            style={{top: 8, marginRight: 7}}
           />
         </View>
         <View style={{flex: 1}}>
-          <Text style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 16}}>
+          <Text
+            style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 17.5}}>
             Top-up
           </Text>
-          <Text style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 14}}>
+          <Text style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 15.5}}>
             Today at 15:45
           </Text>
         </View>
@@ -36,8 +37,8 @@ class WalletTransacRecords extends React.PureComponent {
           }}>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Medium',
-              fontSize: 17,
+              fontFamily: 'Allrounder-Grotesk-Regular',
+              fontSize: 17.5,
               color: '#0e8491',
             }}>
             N$50
@@ -50,7 +51,7 @@ class WalletTransacRecords extends React.PureComponent {
 
 const styles = StyleSheet.create({
   mainRecord: {
-    padding: 10,
+    padding: 15,
     flexDirection: 'row',
     borderRadius: 7,
     marginBottom: 13,
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
 
-    elevation: 2,
+    elevation: 0.5,
     borderWidth: 0.5,
     borderColor: '#d0d0d0',
   },

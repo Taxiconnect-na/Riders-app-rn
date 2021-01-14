@@ -58,7 +58,8 @@ const AnnotationPickup = ({title}) => (
           paddingLeft: 5,
           paddingRight: 10,
         }}>
-        <Text style={[{fontSize: 13, fontFamily: 'Allrounder-Grotesk-Book'}]}>
+        <Text
+          style={[{fontSize: 13.5, fontFamily: 'Allrounder-Grotesk-Regular'}]}>
           {title.length > 11 ? title.substring(0, 11) + '.' : title}
         </Text>
       </View>
@@ -112,9 +113,10 @@ const AnnotationDestination = ({title, etaInfos}) => (
         <Text
           style={[
             {
-              fontSize: 10,
+              fontSize: 11,
               color: '#fff',
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily: 'Allrounder-Grotesk-Regular',
+              bottom: 1,
             },
           ]}>
           {etaInfos.eta.split(' ')[1].toUpperCase()}
@@ -609,9 +611,7 @@ class RenderMainMapView extends React.PureComponent {
             coordinate={this.props.App.pickupLocation_metadata.coordinates.map(
               parseFloat,
             )}>
-            <AnnotationPickup
-              title={this.props.App.pickupLocation_metadata.pickupLocation_name}
-            />
+            <AnnotationPickup title={'Pickup'} />
           </PointAnnotation>
         </View>
       );

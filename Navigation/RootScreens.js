@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator, DrawerContent} from '@react-navigation/drawer';
-import IconAnt from 'react-native-vector-icons/AntDesign';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import EntryScreen from '../Components/Login/EntrySreen';
 import PhoneDetailsScreen from '../Components/Login/PhoneDetailsScreen';
 import OTPVerificationEntry from '../Components/Login/OTPVerificationEntry';
@@ -34,15 +33,19 @@ function YourRidesEntry_drawer() {
         options={{
           headerShown: true,
           headerTitle: (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconAnt name="arrowleft" size={25} style={{top: 1}} />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingRight: 10,
+              }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
-                  marginLeft: 5,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
                 }}>
-                Your rides
+                Your requests
               </Text>
             </View>
           ),
@@ -75,20 +78,19 @@ function YourRidesEntry_drawer() {
 //b. Wallet screens
 function Wallet_drawer() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="WalletEntry">
       <Stack.Screen
-        name="EntryScreen"
+        name="WalletEntry"
         component={WalletEntry}
         options={{
           headerShown: true,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconAnt name="arrowleft" size={25} style={{top: 1}} />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
-                  marginLeft: 5,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
                 }}>
                 Connect Wallet
               </Text>
@@ -97,18 +99,17 @@ function Wallet_drawer() {
         }}
       />
       <Stack.Screen
-        name="EntryScreen"
+        name="SendFundsEntry"
         component={SendFundsEntry}
         options={{
           headerShown: true,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconAnt name="arrowleft" size={25} style={{top: 1}} />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
-                  marginLeft: 5,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
                 }}>
                 Transfer funds
               </Text>
@@ -117,18 +118,17 @@ function Wallet_drawer() {
         }}
       />
       <Stack.Screen
-        name="EntryScreen"
+        name="PayTaxiInputNumber"
         component={PayTaxiInputNumber}
         options={{
           headerShown: true,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconAnt name="arrowleft" size={25} style={{top: 1}} />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
-                  marginLeft: 5,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
                 }}>
                 Pay a driver
               </Text>
@@ -137,18 +137,17 @@ function Wallet_drawer() {
         }}
       />
       <Stack.Screen
-        name="EntryScreen"
-        component={SendFundsFriendInputNumber}
+        name="SendFundsConfirmation"
+        component={SendFundsConfirmation}
         options={{
           headerShown: true,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconAnt name="arrowleft" size={25} style={{top: 1}} />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
-                  marginLeft: 5,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
                 }}>
                 Transfer funds
               </Text>
@@ -157,18 +156,55 @@ function Wallet_drawer() {
         }}
       />
       <Stack.Screen
-        name="EntryScreen"
+        name="SendFundsFriendInputNumber"
+        component={SendFundsFriendInputNumber}
+        options={{
+          headerShown: true,
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
+                }}>
+                Transfer funds
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="SendFundsInputAmount"
+        component={SendFundsInputAmount}
+        options={{
+          headerShown: true,
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
+                }}>
+                Transfer funds
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="WalletTopUpEntry"
         component={WalletTopUpEntry}
         options={{
           headerShown: true,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconAnt name="arrowleft" size={25} style={{top: 1}} />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
-                  marginLeft: 5,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  right: 20,
                 }}>
                 Payment settings
               </Text>
@@ -190,6 +226,7 @@ function MainDrawer_navigator() {
       <Drawer.Screen
         name="YourRidesEntry_drawer"
         component={YourRidesEntry_drawer}
+        options={{headerShown: false, headerMode: 'none'}}
       />
       <Drawer.Screen name="Wallet_drawer" component={Wallet_drawer} />
     </Drawer.Navigator>

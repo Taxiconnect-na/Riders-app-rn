@@ -1090,11 +1090,14 @@ class RenderBottomVital extends React.PureComponent {
                   style={{
                     marginRight: 5,
                   }}>
-                  <ActivityIndicator size="small" color="#0e8491" />
+                  <ActivityIndicator size="large" color="#0e8491" />
                 </View>
                 <Text
-                  style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 16}}>
-                  Finding you a Taxi...
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontSize: 19,
+                  }}>
+                  Finding you a Taxi
                 </Text>
               </View>
               <TouchableOpacity

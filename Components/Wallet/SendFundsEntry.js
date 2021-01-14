@@ -3,14 +3,11 @@ import {
   SafeAreaView,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Image,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 
@@ -27,30 +24,35 @@ class SendFundsEntry extends React.PureComponent {
             style={[
               systemWeights.semibold,
               {
-                fontSize: 18,
+                fontSize: 19,
                 fontFamily: 'Allrounder-Grotesk-Book',
-                marginBottom: 20,
+                marginBottom: 30,
+                marginTop: 10,
                 padding: 20,
               },
             ]}>
             Easily transfer funds to anyone.
           </Text>
           <View>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('SendFundsFriendInputNumber')
+              }
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 borderBottomWidth: 0.5,
-                paddingBottom: 25,
+                borderBottomColor: '#d0d0d0',
+                paddingBottom: 35,
                 paddingLeft: 20,
                 paddingRight: 20,
-                marginBottom: 30,
+                marginBottom: 40,
               }}>
               <View style={{flexDirection: 'row', flex: 1}}>
                 <View style={{width: 40}}>
                   <IconFontAwesome5
                     name="hands-helping"
-                    size={25}
+                    size={20}
                     style={{marginRight: 8}}
                   />
                 </View>
@@ -68,12 +70,13 @@ class SendFundsEntry extends React.PureComponent {
                 size={17}
                 color="#0e8491"
               />
-            </View>
+            </TouchableOpacity>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                borderBottomWidth: 0.5,
+                borderBottomWidth: 0,
+                borderBottomColor: '#d0d0d0',
                 paddingBottom: 25,
                 paddingLeft: 20,
                 paddingRight: 20,
@@ -90,7 +93,7 @@ class SendFundsEntry extends React.PureComponent {
                       color: '#0e8491',
                     },
                   ]}>
-                  Send to friends
+                  Pay a driver
                 </Text>
               </View>
               <IconMaterialIcons

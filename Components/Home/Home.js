@@ -462,9 +462,7 @@ class Home extends React.PureComponent {
             //Reposition the map
             if (
               globalObject.camera !== undefined &&
-              globalObject.camera !== null &&
-              globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
-                false
+              globalObject.camera !== null
             ) {
               globalObject.camera.flyTo(response.pickupLocation_point, 2000);
               /*globalObject.camera.fitBounds(
@@ -852,9 +850,7 @@ class Home extends React.PureComponent {
 
           if (
             globalObject.camera !== undefined &&
-            globalObject.camera != null &&
-            globalObject.props.App.bottomVitalsFlow.isUserLocationCentered ===
-              true
+            globalObject.camera != null
           ) {
             //Only recenter when the user was not centered already
             try {
@@ -1490,22 +1486,6 @@ class Home extends React.PureComponent {
         globalObject.props.App.showLocationSearch_loader = false;
       });
     });
-    /*AnimatedNative.parallel([
-      AnimatedNative.timing(globalObject.props.App.loaderPosition, {
-        toValue: 0,
-        duration: 500,
-        //easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-        useNativeDriver: true,
-      }),
-      AnimatedNative.timing(globalObject.props.App.loaderBasicWidth, {
-        toValue: this.props.App.windowWidth,
-        duration: 3000,
-        useNativeDriver: true,
-        easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-      }),
-    ]).start(() => {
-      globalObject.props.App.showLocationSearch_loader = false;
-    });*/
   }
 
   /**
@@ -2578,13 +2558,6 @@ class Home extends React.PureComponent {
   };
 
   render() {
-    //DEBUG
-    //this.props.App.bottomVitalsFlow.currentStep = 'gettingRideProcessScreen';
-    //this.props.App.gprsGlobals.hasGPRSPermissions = false; //DEBUG
-    //this.props.App.isSearchModuleOn = true; //DEBUG
-    //this.props.App.renderGlobalModal = true; //DEBUG
-    //this.props.App.isDeliveryReceiverInfosShown = true; //DEBUG
-    //this.resetAnimationLoader(); //DEBUG
     return (
       <View style={styles.window}>
         <StatusBar backgroundColor="#000" />
@@ -2595,17 +2568,6 @@ class Home extends React.PureComponent {
           }
           parentNode={this}
         />
-        {/*this.fire_search_animation() - so unefficient!*/}
-
-        {/*<Modal
-          testID={'modal'}
-          isVisible={this.props.App.renderGlobalModal}
-          animationInTiming={300}
-          animationOutTiming={300}
-          useNativeDriver={true}
-          style={styles.modalBottom}>
-          {this.renderModalContent()}
-        </Modal>*/}
         <DateTimePickerModal
           isVisible={this.props.App.isSelectDatePickerActive}
           mode="time"
@@ -2656,21 +2618,8 @@ const styles = StyleSheet.create({
   mainMainWindow: {
     flex: 1,
   },
-  modalBottom: {
-    justifyContent: 'flex-end',
-    margin: 0,
-  },
   map: {
     flex: 1,
-  },
-  buttonCnt: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    bottom: 16,
-    left: 0,
-    right: 0,
   },
   loader: {
     borderTopWidth: 3,
@@ -2686,91 +2635,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 90.7,
     elevation: 50,
-  },
-  shadowRideOrDeliveryNodes: {
-    backgroundColor: '#fff',
-    shadowColor: '#f0f0f0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 3,
-
-    elevation: 3,
-  },
-  shadowNumberOfRidersButtons: {
-    backgroundColor: '#fff',
-    shadowColor: '#d0d0d0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2,
-
-    elevation: 4,
-  },
-  bttnGenericTc: {
-    borderColor: '#000',
-    padding: 12,
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#000',
-    borderRadius: 200,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 5.84,
-
-    elevation: 3,
-  },
-  borderIconLocationType: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 70,
-    height: 70,
-    bottom: 10,
-    borderWidth: 2,
-    borderRadius: 100,
-    borderColor: '#000',
-  },
-  buttonNumberOfPassDefault: {
-    borderWidth: 1.5,
-    width: 55,
-    height: 55,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#0D8691',
-    borderRadius: 250,
-  },
-  parentButtonNoPassengers: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  arrowCircledForwardBasic: {
-    backgroundColor: '#0e8491',
-    width: 60,
-    height: 60,
-    borderRadius: 10000,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  shadowButtonArrowCircledForward: {
-    shadowColor: '#d0d0d0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.6,
-
-    elevation: 6,
   },
 });
 

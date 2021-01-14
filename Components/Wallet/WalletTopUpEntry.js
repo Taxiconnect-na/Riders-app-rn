@@ -3,12 +3,9 @@ import {
   SafeAreaView,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Image,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -29,6 +26,7 @@ class WalletTopUpEntry extends React.PureComponent {
                 borderBottomWidth: 0.5,
                 borderBottomColor: '#a5a5a5',
                 padding: 20,
+                paddingTop: 30,
               }}>
               <IconMaterialIcons
                 name="account-balance-wallet"
@@ -37,10 +35,9 @@ class WalletTopUpEntry extends React.PureComponent {
               />
               <Text
                 style={[
-                  systemWeights.semibold,
                   {
-                    fontSize: 19,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontSize: 19.5,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
                     marginLeft: 5,
                     flex: 1,
                   },
@@ -49,7 +46,7 @@ class WalletTopUpEntry extends React.PureComponent {
               </Text>
               <Text
                 style={{
-                  fontSize: 19,
+                  fontSize: 20,
                   fontFamily: 'Allrounder-Grotesk-Medium',
                   color: '#096ED4',
                 }}>
@@ -68,7 +65,7 @@ class WalletTopUpEntry extends React.PureComponent {
                   fontFamily: 'Allrounder-Grotesk-Book',
                   color: '#a5a5a5',
                   padding: 20,
-                  paddingBottom: 0,
+                  paddingBottom: 10,
                 }}>
                 Top up with
               </Text>
@@ -86,8 +83,8 @@ class WalletTopUpEntry extends React.PureComponent {
                   </View>
                   <Text
                     style={{
-                      fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontSize: 18,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                     }}>
                     Credit card
                   </Text>
@@ -101,7 +98,7 @@ class WalletTopUpEntry extends React.PureComponent {
                   fontFamily: 'Allrounder-Grotesk-Book',
                   color: '#a5a5a5',
                   padding: 20,
-                  paddingBottom: 0,
+                  paddingBottom: 10,
                 }}>
                 Preferred payment method
               </Text>
@@ -119,9 +116,9 @@ class WalletTopUpEntry extends React.PureComponent {
                   </View>
                   <Text
                     style={{
-                      fontSize: 17,
+                      fontSize: 18,
                       flex: 1,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                     }}>
                     Wallet
                   </Text>
@@ -145,9 +142,9 @@ class WalletTopUpEntry extends React.PureComponent {
                   </View>
                   <Text
                     style={{
-                      fontSize: 17,
+                      fontSize: 18,
                       flex: 1,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                     }}>
                     Cash
                   </Text>
@@ -169,15 +166,14 @@ class WalletTopUpEntry extends React.PureComponent {
                 borderWidth: 1,
                 borderColor: 'transparent',
                 width: '100%',
+                justifyContent: 'center',
               }}>
               <View style={[styles.bttnGenericTc]}>
                 <Text
                   style={[
-                    //systemWeights.semibold,
                     {
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 21,
-                      fontWeight: 'bold',
+                      fontSize: 23,
                       color: '#fff',
                     },
                   ]}>
