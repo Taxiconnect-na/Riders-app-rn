@@ -14,6 +14,7 @@ const INIT_STATE = STATE;
 const HomeReducer = (state = INIT_STATE, action) => {
   //Predefined variables
   let newState = state;
+  let generalPurposeReg = null;
   let route = null;
   let routeShape = null;
   let routeDestination = null;
@@ -1994,10 +1995,20 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_CLOSEST_DRIVERS_LIST':
-      newState._CLOSEST_DRIVERS_DATA = action.payload;
-
-      //...
-      return {...state, ...newState};
+      //Update data only if different
+      console.log(action.payload);
+      if (
+        JSON.stringify(action.payload) ===
+        JSON.stringify(newState._CLOSEST_DRIVERS_DATA)
+      ) {
+        //Same data - don't update
+        return state;
+      } //Different data - update state
+      else {
+        newState._CLOSEST_DRIVERS_DATA = action.payload;
+        //...
+        return {...state, ...newState};
+      }
 
     case 'UPDATE_ERROR_BOTTOM_VITALS':
       newState.bottomVitalsFlow._BOOKING_REQUESTED = 'error';

@@ -130,6 +130,7 @@ const STATE = {
   destinationLocation_metadata: {}, //Hold all the data on the destination location
   generalTRIP_details_driverDetails: {}, //WILL HOLD THE GENERAL TRIP DETAILS AND DRIVER DETAILS - Ref. to the server doc for more - ONLY RELEVANT TO USE WHEN THE TRIP HAS BEEN ACCEPTED BY A DRIVER already! - ALWAYS clean up after usage.
   initializedScenario: null, //To know which scenario has been initialized for animation
+  _MAIN_LOCATION_WATCHER: null, //To hold the location watching of the GPRS.
   //ANIMATION VARS
   //1. LOADER
   loaderPosition: new Animated.Value(0), //For animation loader

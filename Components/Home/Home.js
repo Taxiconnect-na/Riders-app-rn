@@ -125,7 +125,9 @@ class Home extends React.PureComponent {
               this.props.App.latitude === 0 ||
               this.props.App.longitude === 0
             ) {
-              globalObject.replaceHello2_text("How's your day?");
+              if (/off the map/i.test(this.props.App.hello2Text)) {
+                globalObject.replaceHello2_text("How's your day?");
+              }
               //Permission granted
               this.getCurrentPositionCusto();
               GeolocationP.getCurrentPosition(
@@ -198,7 +200,6 @@ class Home extends React.PureComponent {
             },
           );
           //...
-          console.log(requestLocationPermission);
           if (
             requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
           ) {
@@ -308,12 +309,6 @@ class Home extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      /**
-       * active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-       */
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
@@ -327,11 +322,11 @@ class Home extends React.PureComponent {
           ) === false
         ) {
           //console.log('updatinnnnnn leak');
-          /*globalObject.props.UpdateErrorModalLog(
+          globalObject.props.UpdateErrorModalLog(
             true,
             'service_unavailable',
             'any',
-          );*/
+          );
         }
       }
       globalObject.props.App.socket.connect();
@@ -860,6 +855,8 @@ class Home extends React.PureComponent {
     if (this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null) {
       clearInterval(this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS);
     }
+    //Clear the location watcher
+    GeolocationP.clearWatch(this.props.App._MAIN_LOCATION_WATCHER);
   }
 
   /**
@@ -1096,7 +1093,7 @@ class Home extends React.PureComponent {
 
   getCurrentPositionCusto = () => {
     let globalObject = this;
-    GeolocationP.getCurrentPosition(
+    this.props.App._MAIN_LOCATION_WATCHER = GeolocationP.watchPosition(
       (position) => {
         globalObject.props.App.latitude = position.coords.latitude;
         globalObject.props.App.longitude = position.coords.longitude;
@@ -1126,6 +1123,7 @@ class Home extends React.PureComponent {
               globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS ===
               null
             ) {
+              console.log('initialization');
               //Initialize the interval if not yet set - only once
               globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = setInterval(
                 function () {
@@ -1162,8 +1160,9 @@ class Home extends React.PureComponent {
           }
         }
       },
-      () => {
+      (error) => {
         //...
+        console.log(error);
       },
       {
         timeout: 10,
