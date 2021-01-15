@@ -2,6 +2,7 @@
 import {combineReducers} from 'redux';
 import {Animated as AnimatedMapbox} from '@react-native-mapbox-gl/maps';
 import parsePhoneNumber from 'libphonenumber-js';
+const escapeStringRegexp = require('escape-string-regexp');
 import {Animated, Easing} from 'react-native';
 import STATE from '../Constants/State';
 /**
@@ -1991,8 +1992,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
     case 'UPDATE_CLOSEST_DRIVERS_LIST':
       //Update data only if different
       if (
-        JSON.stringify(action.payload) ===
-        JSON.stringify(newState._CLOSEST_DRIVERS_DATA)
+        JSON.stringify(newState._CLOSEST_DRIVERS_DATA) ==
+        JSON.stringify(action.payload)
       ) {
         //Same data - don't update
         return state;

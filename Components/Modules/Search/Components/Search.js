@@ -489,17 +489,19 @@ class Search extends React.PureComponent {
                       name={place.icon}
                       size={20}
                       style={{paddingRight: 20}}
+                      color="#096ED4"
                     />
                   ) : (
                     <IconMaterial
                       name={place.icon}
                       size={21}
                       style={{paddingRight: 20}}
+                      color="#096ED4"
                     />
                   )}
                 </View>
                 <View>
-                  <Text style={[systemWeights.semibold, {fontSize: 15}]}>
+                  <Text style={[systemWeights.semibold, {fontSize: 16.5}]}>
                     {place.name}
                   </Text>
                   <View style={{flexDirection: 'row', marginTop: 5}}>

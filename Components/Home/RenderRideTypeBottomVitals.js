@@ -938,7 +938,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               {
                 color: '#fff',
                 fontSize: 14,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily: 'Allrounder-Grotesk-Regular',
               },
             ]}>
             {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
@@ -976,7 +976,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     {
                       fontSize: 17,
                       paddingLeft: 5,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily: 'Allrounder-Grotesk-Medium',
                     },
                   ]}>
                   {
@@ -990,9 +990,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 15,
+                      fontSize: 16,
                       paddingLeft: 0,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                     },
                   ]}>
                   {this.props.App.bottomVitalsFlow.connectType}
@@ -1018,7 +1018,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               {
                 fontSize: 15,
                 color: '#0D8691',
-                fontFamily: 'Allrounder-Grotesk-Regular',
+                fontFamily: 'Allrounder-Grotesk-Medium',
               },
             ]}>
             {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -2931,7 +2931,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Medium',
-                    fontSize: 23.5,
+                    fontSize: 22.5,
                     color: '#fff',
                   }}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)

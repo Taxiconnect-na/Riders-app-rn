@@ -688,15 +688,15 @@ class RenderMainMapView extends React.PureComponent {
       //Hook the recenter button state function
       this.props.parentNode.updateCenterMapButton();
       //...
-      //if (this.props.parentNode._map !== undefined && this.props.parentNode._map != null && this.props.App.isRideInProgress) {
-      /*const mapZoom = await this.props.parentNode._map.getZoom();
-      let carIconUpdateSize =
-        (mapZoom * 0.1) / MAX_MAP_ZOOM_RELATIVE_CAR +
-        MINIMAL_CAR_ICON -
-        DIFF_CAR_ICON_SIZE / 10;*/
-      //let carIconUpdateSize = 0.3;
+      /*if (
+        this.props.parentNode._map !== undefined &&
+        this.props.parentNode._map != null
+      ) {
+        const mapZoom = await this.props.parentNode._map.getZoom();
+        let carIconUpdateSize = this.props.App.carIconRelativeSize / mapZoom;
+        //let carIconUpdateSize = 0.3;
 
-      /*if (mapZoom < 12.6 && mapZoom >= 10.6) {
+        /*if (mapZoom < 12.6 && mapZoom >= 10.6) {
         carIconUpdateSize -= 0.08;
       } else if (mapZoom < 10.6) {
         carIconUpdateSize -= 0.08;
@@ -707,9 +707,10 @@ class RenderMainMapView extends React.PureComponent {
       } else if (carIconUpdateSize < 0.18) {
         carIconUpdateSize = 0.18;
       }
-      //Update Icon
-      if (this.props.App.carIconRelativeSize !== carIconUpdateSize) {
-        this.props.UpdateTinyCarOnMapIconSize(carIconUpdateSize);
+        //Update Icon
+        if (this.props.App.carIconRelativeSize !== carIconUpdateSize) {
+          this.props.UpdateTinyCarOnMapIconSize(carIconUpdateSize);
+        }
       }*/
     }
   }

@@ -2410,7 +2410,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 20,
+                fontSize: 21,
                 marginTop: 15,
                 marginBottom: 25,
                 fontFamily: 'Allrounder-Grotesk-Medium',
@@ -2441,17 +2441,21 @@ class RenderContentBottomVitals extends React.PureComponent {
               style={[
                 {
                   borderBottomWidth: 1.5,
-                  fontSize: 17,
+                  fontSize: 18,
                   paddingLeft: 0,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                 },
               ]}
             />
             {this.props.App.errorReceiverNameShow ? (
               <Text
                 style={[
-                  systemWeights.light,
-                  {color: '#b22222', fontSize: 13, top: 11},
+                  {
+                    color: '#b22222',
+                    fontSize: 14,
+                    top: 11,
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                  },
                 ]}>
                 {this.props.App.errorReceiverNameText}
               </Text>

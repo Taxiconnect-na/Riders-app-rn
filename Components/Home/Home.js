@@ -775,12 +775,14 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'get_closest_drivers_to_point-response',
       function (response) {
+        console.log(response);
         if (
           response !== false &&
           response.response === undefined &&
           response.length !== undefined &&
           response.length > 0
         ) {
+          console.log('inside');
           globalObject.props.UpdateClosestDriversList(response);
         }
       },
@@ -1039,10 +1041,6 @@ class Home extends React.PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    this.getCurrentPositionCusto;
-  }
-
   /**
    * @func getCurrentPositionCusto()
    * void
@@ -1183,9 +1181,15 @@ class Home extends React.PureComponent {
                   this.props.App.latitude != null &&
                   this.props.App.longitude != null
                 ) {
-                  /*this.camera.setCamera({
-                    zoomLevel: INIT_ZOOM_LEVEL,
-                  }); //Disable back to init zoom level */
+                  if (
+                    this.props.App.latitude === 0 ||
+                    this.props.App.longitude === 0
+                  ) {
+                    this.camera.setCamera({
+                      zoomLevel: INIT_ZOOM_LEVEL,
+                    }); //Back to init zoom level only if the coords are 0
+                  }
+                  //...
                   if (
                     this.props.App._IS_MAP_INITIALIZED === false &&
                     this.props.App.gprsGlobals.hasGPRSPermissions &&
