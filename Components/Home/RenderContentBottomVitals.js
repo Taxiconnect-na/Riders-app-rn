@@ -1757,7 +1757,16 @@ class RenderContentBottomVitals extends React.PureComponent {
     ) {
       //Preview the route to destination and ETA
       let globalObject = this;
-      if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
+      let initialCondition =
+        globalObject.props.App.previewDestinationData
+          .originDestinationPreviewData.routePoints === undefined ||
+        globalObject.props.App.previewDestinationData
+          .originDestinationPreviewData.routePoints === false ||
+        globalObject.props.App.previewDestinationData
+          .originDestinationPreviewData.routePoints === null;
+      //...
+      if (this.props.App._TMP_INTERVAL_PERSISTER === null && initialCondition) {
+        console.log('ESTIMATOR CALLED');
         //Make an initial preview to destination request
         this.findPreviewRouteToDestination();
         //this.props.parentNode.fire_search_animation(); //Fire animation
@@ -1772,8 +1781,24 @@ class RenderContentBottomVitals extends React.PureComponent {
               globalObject.props.App.search_passengersDestinations
                 .passenger1Destination !== false
             ) {
-              //Not found yet -make a request
-              globalObject.findPreviewRouteToDestination();
+              if (
+                globalObject.props.App.previewDestinationData
+                  .originDestinationPreviewData.routePoints === undefined ||
+                globalObject.props.App.previewDestinationData
+                  .originDestinationPreviewData.routePoints === false ||
+                globalObject.props.App.previewDestinationData
+                  .originDestinationPreviewData.routePoints === null
+              ) {
+                //Not found yet -make a request
+                globalObject.findPreviewRouteToDestination();
+              } //Data already received - kill interval
+              else {
+                if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
+                  clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+                  globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+                  globalObject.props.parentNode.resetAnimationLoader();
+                }
+              }
             } else {
               if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
                 clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
@@ -1789,6 +1814,12 @@ class RenderContentBottomVitals extends React.PureComponent {
             }
           }
         }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 1500);
+      } else {
+        if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
+          clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+          globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+          globalObject.props.parentNode.resetAnimationLoader();
+        }
       }
       //...
       return (

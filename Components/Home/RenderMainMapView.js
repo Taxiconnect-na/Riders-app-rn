@@ -630,7 +630,9 @@ class RenderMainMapView extends React.PureComponent {
     //Update the list of the closest drivers if no trip in progress
     if (
       this.props.App.isRideInProgress === false &&
-      /mainView/i.test(this.props.App.bottomVitalsFlow.currentStep) &&
+      /(mainView|selectRideOrDelivery|identifyLocation|selectConnectMeOrUs|selectNoOfPassengers|addMoreTripDetails|selectCarTypeAndPaymentMethod|confirmFareAmountORCustomize)/i.test(
+        this.props.App.bottomVitalsFlow.currentStep,
+      ) &&
       this.props.App._CLOSEST_DRIVERS_DATA !== null &&
       this.props.App._CLOSEST_DRIVERS_DATA.length !== undefined &&
       this.props.App._CLOSEST_DRIVERS_DATA.length > 0
@@ -650,8 +652,8 @@ class RenderMainMapView extends React.PureComponent {
         //...
         return (
           <ShapeSource
-            key={index + 1}
-            id={'currentLocationSource' + (index + 1)}
+            key={index}
+            id={'currentLocationSource' + index}
             shape={{
               type: 'Point',
               coordinates: [
@@ -660,7 +662,7 @@ class RenderMainMapView extends React.PureComponent {
               ],
             }}>
             <Animated.SymbolLayer
-              id={'symbolCarLayer' + (index + 2)}
+              id={'symbolCarLayer' + (index + 1)}
               minZoomLevel={1}
               style={{
                 iconAllowOverlap: true,

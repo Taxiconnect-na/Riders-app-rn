@@ -1990,7 +1990,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_CLOSEST_DRIVERS_LIST':
       //Update data only if different
-      console.log(action.payload);
       if (
         JSON.stringify(action.payload) ===
         JSON.stringify(newState._CLOSEST_DRIVERS_DATA)
@@ -2094,10 +2093,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_DROPFFDATA_FORDRIVER_RATING':
       //Update only if necessary
-      if (
-        JSON.stringify(newState.generalTRIP_details_driverDetails).trim()
-          .length > 0
-      ) {
+      if (Object.keys(newState.generalTRIP_details_driverDetails).length > 0) {
         //Already had something
         if (
           newState.generalTRIP_details_driverDetails.request_fp !==

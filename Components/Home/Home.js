@@ -581,9 +581,8 @@ class Home extends React.PureComponent {
         if (
           globalObject.props.App.isRideInProgress !== false ||
           /no_rides/i.test(globalObject.props.App.request_status) === false ||
-          JSON.stringify(
-            globalObject.props.App.generalTRIP_details_driverDetails,
-          ).trim().length !== 0
+          Object.keys(globalObject.props.App.generalTRIP_details_driverDetails)
+            .length !== 0
         ) {
           console.log('LEAK!');
           globalObject._RESET_STATE();
@@ -748,6 +747,7 @@ class Home extends React.PureComponent {
       'getRoute_to_destinationSnapshot-response',
       function (response) {
         if (response !== false && response.destination !== undefined) {
+          console.log(response);
           //Received something
           //Close animation
           globalObject.resetAnimationLoader();
@@ -1282,7 +1282,6 @@ class Home extends React.PureComponent {
         user_fingerprint: this.props.App.user_fingerprint,
       };
       this.props.App.socket.emit('update-passenger-location', bundle);
-      //this.getFareEstimation(); //DEBUG
     }
   }
 
