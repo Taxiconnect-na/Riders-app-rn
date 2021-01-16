@@ -888,7 +888,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
 
         globalObject.props.UpdateProcessFlowState({
           flowDirection: 'next',
-          parentTHIS: globalObject,
+          parentTHIS: globalObject.props.parentNodeHome,
         });
         //GATHER REQUEST METADATA FOR RIDE OR DELIVERY REQUEST
         //Check if a custom pickup location was specified
@@ -1035,12 +1035,27 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           globalObject.props.App._TMP_INTERVAL_PERSISTER = setInterval(
             function () {
               if (globalObject.props.App.isRideInProgress === false) {
-                //Check wheher an answer was already received - if not keep requesting
-                console.log('Ride or Delivery request');
-                globalObject.props.App.socket.emit(
-                  'requestRideOrDeliveryForThis',
-                  RIDE_OR_DELIVERY_BOOKING_DATA,
-                );
+                if (
+                  globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED ===
+                    false &&
+                  globalObject.props.App.bottomVitalsFlow
+                    ._error_booking_requested === false
+                ) {
+                  //Not yet request and no errors
+                  //Check wheher an answer was already received - if not keep requesting
+                  console.log('Ride or Delivery request');
+                  globalObject.props.App.socket.emit(
+                    'requestRideOrDeliveryForThis',
+                    RIDE_OR_DELIVERY_BOOKING_DATA,
+                  );
+                }
+                //Kill interval - if booking request data already received
+                else {
+                  clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+                  if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
+                    globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+                  }
+                }
               } //Kill interval - if booking request data already received
               else {
                 clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);

@@ -121,7 +121,7 @@ class PhoneDetailsScreen extends React.PureComponent {
               style={[
                 systemWeights.semibold,
                 {
-                  fontSize: 19,
+                  fontSize: 21,
                   fontFamily: 'Allrounder-Grotesk-Regular',
                   marginTop: 15,
                   marginBottom: 35,
@@ -143,7 +143,7 @@ class PhoneDetailsScreen extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 12,
+                      fontSize: 13,
                       marginLeft: 6,
                       lineHeight: 18,
                       fontFamily: 'Allrounder-Grotesk-Book',

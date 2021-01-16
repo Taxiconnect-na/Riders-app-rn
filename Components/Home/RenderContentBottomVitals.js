@@ -2270,7 +2270,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       if (
         this.props.App.pricingVariables.didPricingReceivedFromServer !== false
       ) {
-        this.props.parentNode.resetAnimationLoader();
+        //this.props.parentNode.resetAnimationLoader();
       }
 
       this.props.parentNode.getFareEstimation();

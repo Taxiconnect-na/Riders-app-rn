@@ -30,6 +30,7 @@ import {
   UpdateRatingDetailsDuringDropoff_process,
   ResetStateProps,
   UpdatePreferredPayment_method,
+  UpdateProcessFlowState,
 } from '../Redux/HomeActionsCreators';
 import call from 'react-native-phone-call';
 
@@ -251,6 +252,14 @@ class ErrorModal extends React.PureComponent {
   }
 
   /**
+   * @func tryAgain_erroredRequest
+   * Responsible for closing the error modal and going the the confirm bottom vitals for the trip request.
+   */
+  tryAgain_erroredRequest() {
+    this.props.UpdateErrorModalLog(false, false, 'any');
+  }
+
+  /**
    * @func renderModalContent()
    * @param error_status: the identify the error type
    * Render differents modals based on the situation: mainly integrated in the main map for
@@ -306,8 +315,7 @@ class ErrorModal extends React.PureComponent {
           </View>
         </View>
       );
-    }
-    if (/service_unavailable/i.test(error_status)) {
+    } else if (/service_unavailable/i.test(error_status)) {
       //Show delivery input modal
       return (
         <View
@@ -2221,6 +2229,57 @@ class ErrorModal extends React.PureComponent {
           </View>
         </View>
       );
+    } else if (/show_error_requesting_modal/i.test(error_status)) {
+      //Show delivery input modal
+      return (
+        <View
+          style={{
+            backgroundColor: '#fff',
+            padding: 20,
+            height: 300,
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <IconCommunity
+              name="network-strength-1-alert"
+              size={22}
+              style={{marginRight: 5}}
+            />
+            <Text
+              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              Unable to request
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: 'Allrounder-Grotesk-Book',
+                fontSize: 17,
+                marginTop: 10,
+              }}>
+              Sorry, something went wrong while we were trying to make your
+              request, please try again later.
+            </Text>
+          </View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <TouchableOpacity
+              onPress={() => this.tryAgain_erroredRequest()}
+              style={[
+                styles.bttnGenericTc,
+                {borderRadius: 2, marginBottom: 10},
+              ]}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 19,
+                  color: '#fff',
+                  marginLeft: 5,
+                }}>
+                Try again
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
     } else if (/show_preferedPaymentMethod_modal/i.test(error_status)) {
       return (
         <SafeAreaView
@@ -2566,6 +2625,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateRatingDetailsDuringDropoff_process,
       ResetStateProps,
       UpdatePreferredPayment_method,
+      UpdateProcessFlowState,
     },
     dispatch,
   );

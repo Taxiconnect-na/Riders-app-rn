@@ -111,6 +111,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
         receiverName: false, //The name of the receiver from entering the receiver's infos
         paymentMethod: 'CASH', //The customer's payment method
       }; //Current metadata for the booking process: for RIDE or DELIVERIES
+      newState.bottomVitalsFlow.currentStep = 'mainView'; //Reset current step to mainView
       newState.bottomVitalsFlow._BOOKING_REQUESTED = false;
       newState.bottomVitalsFlow._error_booking_requested = false;
       newState.bottomVitalsFlow.isUserLocationCentered = false;
@@ -699,6 +700,16 @@ const HomeReducer = (state = INIT_STATE, action) => {
               //Reset prices estimates
               newState.pricingVariables.didPricingReceivedFromServer = false;
               newState.pricingVariables.carTypesPricingMetada = [];
+              //Make sure that the height is at 400
+              newState.bottomVitalsFlow.genericContainerOpacity = new Animated.Value(
+                1,
+              );
+              newState.bottomVitalsFlow.genericContainerPosition = new Animated.Value(
+                0,
+              );
+              newState.bottomVitalsFlow.bottomVitalChildHeight = new Animated.Value(
+                400,
+              );
             }
 
             //Reset autoscroll tracking variablewhen selecting ride types
@@ -719,6 +730,16 @@ const HomeReducer = (state = INIT_STATE, action) => {
               newState.customFareTripSelected = false;
               //Close custom fare screen
               newState.isEnterCustomFareWindowOn = false;
+              //Make sure that the height is at 400
+              newState.bottomVitalsFlow.genericContainerOpacity = new Animated.Value(
+                1,
+              );
+              newState.bottomVitalsFlow.genericContainerPosition = new Animated.Value(
+                0,
+              );
+              newState.bottomVitalsFlow.bottomVitalChildHeight = new Animated.Value(
+                400,
+              );
             }
 
             //Reset auto-select of car types to true
@@ -799,6 +820,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
         //For deliveries
         //Loader manager
         if (action.payload.flowDirection === 'next') {
+          newState.bottomVitalsFlow._error_booking_requested = false; //Reset error booking to false
           if (
             action.payload.parentTHIS !== undefined ||
             newState._MAIN_PARENT !== null
@@ -1012,6 +1034,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
               ];
           }
         } else if (action.payload.flowDirection === 'previous') {
+          newState.bottomVitalsFlow._error_booking_requested = false; //Reset error booking to false
           if (
             action.payload.parentTHIS !== undefined ||
             newState._MAIN_PARENT !== null
@@ -1141,6 +1164,16 @@ const HomeReducer = (state = INIT_STATE, action) => {
               //Reset prices estimates
               newState.pricingVariables.didPricingReceivedFromServer = false;
               newState.pricingVariables.carTypesPricingMetada = [];
+              //Make sure that the height is at 400
+              newState.bottomVitalsFlow.genericContainerOpacity = new Animated.Value(
+                1,
+              );
+              newState.bottomVitalsFlow.genericContainerPosition = new Animated.Value(
+                0,
+              );
+              newState.bottomVitalsFlow.bottomVitalChildHeight = new Animated.Value(
+                400,
+              );
             }
 
             //Reset autoscroll tracking variablewhen selecting ride types
@@ -1161,6 +1194,16 @@ const HomeReducer = (state = INIT_STATE, action) => {
               newState.customFareTripSelected = false;
               //Close custom fare screen
               newState.isEnterCustomFareWindowOn = false;
+              //Make sure that the height is at 400
+              newState.bottomVitalsFlow.genericContainerOpacity = new Animated.Value(
+                1,
+              );
+              newState.bottomVitalsFlow.genericContainerPosition = new Animated.Value(
+                0,
+              );
+              newState.bottomVitalsFlow.bottomVitalChildHeight = new Animated.Value(
+                400,
+              );
             }
 
             //Reset auto-select of car types to true

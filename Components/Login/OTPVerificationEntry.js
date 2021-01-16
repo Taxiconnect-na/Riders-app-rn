@@ -402,15 +402,17 @@ class OTPVerificationEntry extends React.PureComponent {
    */
   moveForwardCheck() {
     //Request for otp check
-    this.setState({
-      showErrorUnmatchedOTP: false,
-      loaderState: true,
-      checkingOTP: true,
-    });
-    this.props.App.socket.emit('checkThisOTP_SMS', {
-      phone_number: this.props.App.finalPhoneNumber,
-      otp: this.state.otpValue,
-    });
+    if (this.state.checkingOTP === false) {
+      this.setState({
+        showErrorUnmatchedOTP: false,
+        loaderState: true,
+        checkingOTP: true,
+      });
+      this.props.App.socket.emit('checkThisOTP_SMS', {
+        phone_number: this.props.App.finalPhoneNumber,
+        otp: this.state.otpValue,
+      });
+    }
   }
 
   /**
@@ -456,8 +458,8 @@ class OTPVerificationEntry extends React.PureComponent {
               style={[
                 systemWeights.semibold,
                 {
-                  fontSize: 19,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontSize: 21,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   marginTop: 15,
                   marginBottom: 35,
                 },

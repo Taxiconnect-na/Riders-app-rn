@@ -259,6 +259,7 @@ class Home extends React.PureComponent {
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
       this.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(function () {
+        console.log('request fetcher interval running');
         //...
         if (globalObject.props.App.intervalProgressLoop === false) {
           globalObject.GPRS_resolver();
@@ -270,13 +271,9 @@ class Home extends React.PureComponent {
           });
         } //Kill the persister
         else {
-          clearInterval(
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
-          );
-          if (
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME !== null
-          ) {
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME = null;
+          clearInterval(globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER);
+          if (globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null) {
+            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
           }
         }
       }, this.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME);
@@ -288,24 +285,7 @@ class Home extends React.PureComponent {
    * Main mounting point of the app
    */
 
-  async componentDidMount() {
-    //Check for the user_fp----------------------------
-    await SyncStorage.init();
-    let user_fp = SyncStorage.get('@ufp');
-    if (
-      user_fp !== undefined &&
-      user_fp !== null &&
-      user_fp !== false &&
-      user_fp.length > 50
-    ) {
-      //Valid
-      this.props.App.user_fingerprint = user_fp;
-    } //Invalid user fp - back to home
-    else {
-      this.props.navigation.navigate('EntryScreen');
-    }
-    //-------------------------------------------------Not necessary - can be done once at start. - should be removed.
-
+  componentDidMount() {
     let globalObject = this;
 
     //Network state checker
@@ -399,7 +379,7 @@ class Home extends React.PureComponent {
      * Get route tracker response
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
-    this.props.App.socket.on('trackdriverroute-response', function (response) {
+    /*this.props.App.socket.on('trackdriverroute-response', function (response) {
       if (
         response !== null &&
         response !== undefined &&
@@ -413,6 +393,7 @@ class Home extends React.PureComponent {
             response.request_status,
           )
         ) {
+          globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
           //Save the driver's details - car details - and Static ETA to destination info
           globalObject.props.App.generalTRIP_details_driverDetails = {
             eta: response.eta,
@@ -433,6 +414,7 @@ class Home extends React.PureComponent {
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
                     console.log('Interval running.');
+                    globalObject.GPRS_resolver();
                     globalObject.updateRemoteLocationsData();
                   } //clear interval
                   else {
@@ -458,6 +440,7 @@ class Home extends React.PureComponent {
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
                     console.log('Interval running.');
+                    globalObject.GPRS_resolver();
                     globalObject.updateRemoteLocationsData();
                   } //clear interval
                   else {
@@ -470,14 +453,14 @@ class Home extends React.PureComponent {
             }
           }
           //----------------------------------------------------------------------------------------
-          /* let paddingFit = 100 * (20 / response.routePoints.length);
+          //let paddingFit = 100 * (20 / response.routePoints.length);
           //paddingFit += 7;
-          paddingFit =
-            paddingFit -
-            Math.round((paddingFit / PADDING_LIMIT - 1) * PADDING_LIMIT);
-          if (paddingFit > PADDING_LIMIT) {
+          //paddingFit =
+          //  paddingFit -
+          //  Math.round((paddingFit / PADDING_LIMIT - 1) * PADDING_LIMIT);
+          //if (paddingFit > PADDING_LIMIT) {
             //paddingFit = PADDING_LIMIT;
-          }*/
+          //}
           let paddingFit = PADDING_LIMIT;
 
           //Get driver's next point
@@ -535,6 +518,7 @@ class Home extends React.PureComponent {
           }
           //...
         } else if (/pending/i.test(response.request_status)) {
+          globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
           //Save the main object
           globalObject.props.App.generalTRIP_details_driverDetails = response;
 
@@ -545,12 +529,21 @@ class Home extends React.PureComponent {
               globalObject.camera !== undefined &&
               globalObject.camera !== null
             ) {
-              globalObject.camera.flyTo(response.pickupLocation_point, 2000);
+              globalObject.camera.flyTo(
+                response.pickupLocation_point.map(parseFloat),
+                2000,
+              );
+              globalObject.camera.setCamera({
+                centerCoordinate: response.pickupLocation_point.map(parseFloat),
+                zoomLevel: 14,
+                animationDuration: 1000,
+              });
             }
             globalObject.props.App.intervalProgressLoop = setInterval(
               function () {
                 if (globalObject.props.App.isRideInProgress === true) {
                   console.log('Interval running.');
+                  globalObject.GPRS_resolver();
                   globalObject.updateRemoteLocationsData();
                 } //clear interval
                 else {
@@ -585,6 +578,7 @@ class Home extends React.PureComponent {
           response.request_status !== null &&
           /riderDropoffConfirmation_left/i.test(response.request_status)
         ) {
+          globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
           //User drop off confirmation
           globalObject.props.App.request_status = response.request_status;
           globalObject.props.App.isRideInProgress = true;
@@ -612,7 +606,7 @@ class Home extends React.PureComponent {
           globalObject._RESET_STATE();
         }
       }
-    });
+    }); //UNNABLE WHEN DONE!!!!!!!!!!*/
 
     /**
      * GET GEOCODED USER LOCATION
@@ -819,20 +813,69 @@ class Home extends React.PureComponent {
     this.props.App.previewDestinationData.originDestinationPreviewData = false;
     //...
     this.props.App.socket.on(
-      'requestRideOrDeliveryForThis',
+      'requestRideOrDeliveryForThis-response',
       function (response) {
-        if (
+        /*if (
           response !== false &&
           response.response !== undefined &&
           /successfully_requested/i.test(response.response)
-        ) {
+        ) -UNABLE WHEN DONE!!!!*/
+        if (response === false) {
           //Successfully requested
           //Leave it to the request checker
+          //clear any basic interval persister
+          clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+          globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+          //clear the closest drivers interval persister
+          clearInterval(
+            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
+          );
+          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+          //Reset
+          globalObject._RESET_STATE();
+          //Recalibrate map
+          if (
+            globalObject.map !== undefined &&
+            globalObject.map !== null &&
+            globalObject.camera !== undefined &&
+            globalObject.camera !== null
+          ) {
+            globalObject.camera.setCamera({
+              centerCoordinate: [
+                globalObject.props.App.longitude,
+                globalObject.props.App.latitude,
+              ],
+              zoomLevel: 14,
+              animationDuration: 2000,
+            });
+          }
         } //An unxepected error occured
         else {
+          //clear any basic interval persister
+          globalObject.props.App.bottomVitalsFlow._error_booking_requested = true;
+          //globalObject.props.App.bottomVitalsFlow.currentStep ='confirmFareAmountORCustomize';
+          //clear the closest drivers interval persister
+          clearInterval(
+            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
+          );
+          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
           //Update error bottom vitals
-          globalObject.props.UpdateErrorBottomVitals(
+          /*globalObject.props.UpdateErrorBottomVitals(
             'Sorry we were unable to make the request due to an unexpected error, please try again.',
+          );*/
+          //Go back to previous screen
+          globalObject.rerouteBookingProcessFlow(
+            'previous',
+            globalObject.props.App.bottomVitalsFlow.flowParent.toUpperCase(),
+          );
+          globalObject.props.App.bottomVitalsFlow.bottomVitalChildHeight = new AnimatedNative.Value(
+            400,
+          );
+          //Show error modal
+          globalObject.props.UpdateErrorModalLog(
+            true,
+            'show_error_requesting_modal',
+            'any',
           );
         }
       },
@@ -1191,11 +1234,7 @@ class Home extends React.PureComponent {
         ) {
           //If the preview of the route to destination is off
           //Only when a gprs permission is granted
-          if (
-            this.camera !== undefined &&
-            this.camera !== null &&
-            this.camera != null
-          ) {
+          if (this.camera !== undefined && this.camera !== null) {
             if (this.props.App.isRideInProgress === false) {
               if (fromRecenterButton === false) {
                 if (
