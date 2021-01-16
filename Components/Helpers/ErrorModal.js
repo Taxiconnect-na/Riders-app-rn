@@ -11,6 +11,7 @@ import {
   ScrollView,
   Image,
   Share,
+  Animated,
   TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -30,7 +31,6 @@ import {
   UpdateRatingDetailsDuringDropoff_process,
   ResetStateProps,
   UpdatePreferredPayment_method,
-  UpdateProcessFlowState,
 } from '../Redux/HomeActionsCreators';
 import call from 'react-native-phone-call';
 
@@ -256,6 +256,9 @@ class ErrorModal extends React.PureComponent {
    * Responsible for closing the error modal and going the the confirm bottom vitals for the trip request.
    */
   tryAgain_erroredRequest() {
+    this.props.App.bottomVitalsFlow.bottomVitalChildHeight = new Animated.Value(
+      400,
+    );
     this.props.UpdateErrorModalLog(false, false, 'any');
   }
 
@@ -2625,7 +2628,6 @@ const mapDispatchToProps = (dispatch) =>
       UpdateRatingDetailsDuringDropoff_process,
       ResetStateProps,
       UpdatePreferredPayment_method,
-      UpdateProcessFlowState,
     },
     dispatch,
   );

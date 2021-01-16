@@ -259,7 +259,6 @@ class Home extends React.PureComponent {
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
       this.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(function () {
-        console.log('request fetcher interval running');
         //...
         if (globalObject.props.App.intervalProgressLoop === false) {
           globalObject.GPRS_resolver();
@@ -379,7 +378,7 @@ class Home extends React.PureComponent {
      * Get route tracker response
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
-    /*this.props.App.socket.on('trackdriverroute-response', function (response) {
+    this.props.App.socket.on('trackdriverroute-response', function (response) {
       if (
         response !== null &&
         response !== undefined &&
@@ -459,7 +458,7 @@ class Home extends React.PureComponent {
           //  paddingFit -
           //  Math.round((paddingFit / PADDING_LIMIT - 1) * PADDING_LIMIT);
           //if (paddingFit > PADDING_LIMIT) {
-            //paddingFit = PADDING_LIMIT;
+          //paddingFit = PADDING_LIMIT;
           //}
           let paddingFit = PADDING_LIMIT;
 
@@ -606,7 +605,7 @@ class Home extends React.PureComponent {
           globalObject._RESET_STATE();
         }
       }
-    }); //UNNABLE WHEN DONE!!!!!!!!!!*/
+    });
 
     /**
      * GET GEOCODED USER LOCATION
@@ -815,12 +814,11 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'requestRideOrDeliveryForThis-response',
       function (response) {
-        /*if (
+        if (
           response !== false &&
           response.response !== undefined &&
           /successfully_requested/i.test(response.response)
-        ) -UNABLE WHEN DONE!!!!*/
-        if (response === false) {
+        ) {
           //Successfully requested
           //Leave it to the request checker
           //clear any basic interval persister
@@ -853,23 +851,16 @@ class Home extends React.PureComponent {
         else {
           //clear any basic interval persister
           globalObject.props.App.bottomVitalsFlow._error_booking_requested = true;
-          //globalObject.props.App.bottomVitalsFlow.currentStep ='confirmFareAmountORCustomize';
           //clear the closest drivers interval persister
           clearInterval(
             globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
           );
           globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
           //Update error bottom vitals
-          /*globalObject.props.UpdateErrorBottomVitals(
-            'Sorry we were unable to make the request due to an unexpected error, please try again.',
-          );*/
           //Go back to previous screen
           globalObject.rerouteBookingProcessFlow(
             'previous',
             globalObject.props.App.bottomVitalsFlow.flowParent.toUpperCase(),
-          );
-          globalObject.props.App.bottomVitalsFlow.bottomVitalChildHeight = new AnimatedNative.Value(
-            400,
           );
           //Show error modal
           globalObject.props.UpdateErrorModalLog(
@@ -1160,20 +1151,39 @@ class Home extends React.PureComponent {
             //Initialize the interval if not yet set - only once
             globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = setInterval(
               function () {
-                globalObject.props.App.socket.emit(
-                  'get_closest_drivers_to_point',
-                  {
-                    org_latitude: globalObject.props.App.latitude,
-                    org_longitude: globalObject.props.App.longitude,
-                    user_fingerprint: globalObject.props.App.user_fingerprint,
-                    city:
-                      globalObject.props.App.userCurrentLocationMetaData.city,
-                    country:
-                      globalObject.props.App.userCurrentLocationMetaData
-                        .country,
-                    ride_type: 'RIDE',
-                  },
-                );
+                if (
+                  globalObject.props.App.intervalProgressLoop === false &&
+                  /(mainView|selectRideOrDelivery|identifyLocation|selectConnectMeOrUs|selectNoOfPassengers|addMoreTripDetails)/i.test(
+                    globalObject.props.App.bottomVitalsFlow.currentStep,
+                  )
+                ) {
+                  globalObject.props.App.socket.emit(
+                    'get_closest_drivers_to_point',
+                    {
+                      org_latitude: globalObject.props.App.latitude,
+                      org_longitude: globalObject.props.App.longitude,
+                      user_fingerprint: globalObject.props.App.user_fingerprint,
+                      city:
+                        globalObject.props.App.userCurrentLocationMetaData.city,
+                      country:
+                        globalObject.props.App.userCurrentLocationMetaData
+                          .country,
+                      ride_type: 'RIDE',
+                    },
+                  );
+                } //Kill closest drivers interval persister
+                else {
+                  if (
+                    globalObject.props.App
+                      ._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null
+                  ) {
+                    clearInterval(
+                      globalObject.props.App
+                        ._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
+                    );
+                    globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+                  }
+                }
               },
               globalObject.props.App
                 ._TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS,
