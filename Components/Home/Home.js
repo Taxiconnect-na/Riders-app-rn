@@ -45,6 +45,7 @@ import {
   UpdateErrorBottomVitals,
   UpdateErrorModalLog,
   UpdateDropoffDataFor_driverRating,
+  UpdateTotalWalletAmount,
 } from '../Redux/HomeActionsCreators';
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
@@ -262,6 +263,11 @@ class Home extends React.PureComponent {
         if (globalObject.props.App.intervalProgressLoop === false) {
           globalObject.GPRS_resolver();
           globalObject.updateRemoteLocationsData();
+          //Request for the total wallet balance
+          globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
+            user_fingerprint: globalObject.props.App.user_fingerprint,
+            mode: 'total',
+          });
         } //Kill the persister
         else {
           clearInterval(
@@ -329,7 +335,7 @@ class Home extends React.PureComponent {
     //connection
     this.props.App.socket.on('connect', () => {
       if (
-        /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal)/i.test(
+        /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
         ) !== true
       ) {
@@ -344,7 +350,7 @@ class Home extends React.PureComponent {
     });
     this.props.App.socket.on('connect_error', () => {
       if (
-        /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal)/i.test(
+        /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
         ) !== true
       ) {
@@ -369,6 +375,24 @@ class Home extends React.PureComponent {
 
     //Bind the requests interval persister
     this.bindRequest_findFetcher();
+
+    /**
+     * @socket getRiders_walletInfos_io-response
+     * Get total wallet balance
+     * Responsible for only getting the total current balance of the rider and update the global state if different.
+     */
+    this.props.App.socket.on(
+      'getRiders_walletInfos_io-response',
+      function (response) {
+        if (
+          response !== null &&
+          response !== undefined &&
+          response.total !== undefined
+        ) {
+          globalObject.props.UpdateTotalWalletAmount(response);
+        }
+      },
+    );
 
     /**
      * @socket trackdriverroute-response
@@ -747,7 +771,6 @@ class Home extends React.PureComponent {
       'getRoute_to_destinationSnapshot-response',
       function (response) {
         if (response !== false && response.destination !== undefined) {
-          console.log(response);
           //Received something
           //Close animation
           globalObject.resetAnimationLoader();
@@ -775,14 +798,12 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'get_closest_drivers_to_point-response',
       function (response) {
-        console.log(response);
         if (
           response !== false &&
           response.response === undefined &&
           response.length !== undefined &&
           response.length > 0
         ) {
-          console.log('inside');
           globalObject.props.UpdateClosestDriversList(response);
         }
       },
@@ -2647,6 +2668,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateErrorBottomVitals,
       UpdateErrorModalLog,
       UpdateDropoffDataFor_driverRating,
+      UpdateTotalWalletAmount,
     },
     dispatch,
   );

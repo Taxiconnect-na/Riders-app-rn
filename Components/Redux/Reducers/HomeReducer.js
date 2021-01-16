@@ -342,6 +342,33 @@ const HomeReducer = (state = INIT_STATE, action) => {
       ) {
         newState.customFareTripSelected = action.payload.fareTripSelected;
       }
+      //Update the payment method
+      //Auto select cash if the amount in the wallet is not enough
+      if (/wallet/i.test(newState.wallet_state_vars.selectedPayment_method)) {
+        if (newState.wallet_state_vars.totalWallet_amount === 0) {
+          newState.wallet_state_vars.selectedPayment_method = 'cash';
+        } else {
+          if (newState.customFareTripSelected !== false) {
+            if (
+              newState.customFareTripSelected <=
+              newState.wallet_state_vars.totalWallet_amount
+            ) {
+              //Do nothing - leave wallet
+            } else {
+              newState.wallet_state_vars.selectedPayment_method = 'cash';
+            }
+          } else {
+            if (
+              newState.fareTripSelected <=
+              newState.wallet_state_vars.totalWallet_amount
+            ) {
+              //Do nothing - leave wallet
+            } else {
+              newState.wallet_state_vars.selectedPayment_method = 'cash';
+            }
+          }
+        }
+      }
       //...
       return {...state, ...newState};
 
@@ -1553,6 +1580,34 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.fareTripSelected = action.payload.fare;
       }
 
+      //Update the payment method
+      //Auto select cash if the amount in the wallet is not enough
+      if (/wallet/i.test(newState.wallet_state_vars.selectedPayment_method)) {
+        if (newState.wallet_state_vars.totalWallet_amount === 0) {
+          newState.wallet_state_vars.selectedPayment_method = 'cash';
+        } else {
+          if (newState.customFareTripSelected !== false) {
+            if (
+              newState.customFareTripSelected <=
+              newState.wallet_state_vars.totalWallet_amount
+            ) {
+              //Do nothing - leave wallet
+            } else {
+              newState.wallet_state_vars.selectedPayment_method = 'cash';
+            }
+          } else {
+            if (
+              newState.fareTripSelected <=
+              newState.wallet_state_vars.totalWallet_amount
+            ) {
+              //Do nothing - leave wallet
+            } else {
+              newState.wallet_state_vars.selectedPayment_method = 'cash';
+            }
+          }
+        }
+      }
+
       //...
       return {...state, ...newState};
 
@@ -2112,6 +2167,27 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.generalTRIP_details_driverDetails = action.payload;
         return {...state, ...newState};
       }
+
+    case 'UPDATE_TOTAL_WALLET_AMOUNT':
+      //Update the total wallet amount only when necessary
+      if (
+        newState.wallet_state_vars.totalWallet_amount !== action.payload.total
+      ) {
+        //New values
+        newState.wallet_state_vars.totalWallet_amount = action.payload.total;
+        return {...state, ...newState};
+      } //Same values
+      else {
+        return state;
+      }
+
+    case 'UPDATE_PREFERRED_PAYMENT_METHOD':
+      //Update preferred payment method
+      newState.wallet_state_vars.selectedPayment_method = action.payload;
+
+      //...
+      return {...state, ...newState};
+
     default:
       return state;
   }

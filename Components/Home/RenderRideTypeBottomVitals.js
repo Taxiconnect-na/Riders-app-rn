@@ -27,6 +27,7 @@ import {
   UpdateProcessFlowState,
   UpdateRideTypesOnScrollCategories,
   UpdateRideTypesScales,
+  UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
 
 /**
@@ -48,6 +49,199 @@ import {
 class RenderRideTypeBottomVitals extends React.PureComponent {
   constructor(props) {
     super(props);
+  }
+
+  /**
+   * @func rideTypeToSchedulerTransistor()
+   * @param isSchedulerOnVal: value of the props.App value isSelectTripScheduleOn
+   * true: will transition to show the scheduler
+   * false: will transition to show the select ride type
+   * Responsible for transitionaing the view from the ride type to the scheduler and vice versa
+   * and all the animations in between based on which view is currently active.
+   * REFERENCE
+   * titleSelectRideOpacity: new AnimatedNative.Value(1), //Opacity of the header when select ride is active - default: 0
+   * titleSelectRidePosition: new AnimatedNative.Value(0), //Left offset position of the header when select ride is active - default : 10
+   * selectRideContentOpacity: new AnimatedNative.Value(1), //Opacity of the content holder when select ride is active - default 0
+   * selectRideContentPosition: new AnimatedNative.Value(0), //Top offset position of the content holder when select ride is active - default 20
+   * //---
+   * titleSchedulerSelectRideOpacity: new AnimatedNative.Value(0), //Opacity of the header when schedule ride is active - default: 0
+   * titleSchedulerSelectRidePostion: new AnimatedNative.Value(10), //Left offset position of the header when schedule is active - default : 10
+   * scheduleRideContentOpacity: new AnimatedNative.Value(0), //Opacity of the content holder when schedule ride is active - default 0
+   * scheduleRideContentPosition: new AnimatedNative.Value(20), //Top offset position of the content holder when schedule ride is active - default 20
+   */
+  rideTypeToSchedulerTransistor(isSchedulerOnVal) {
+    //Work if only props.App value changes
+    let globalObject = this;
+    if (isSchedulerOnVal === this.props.App.isSelectTripScheduleOn) {
+      return; //Cancel repetition to avoid execessive props.App update
+    }
+    //...
+    if (isSchedulerOnVal !== true) {
+      //this.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+      //Reinforce the scheduled context
+      if (this.props.App.selectedScheduleTime !== 'now') {
+        this.props.App.scheduledScenarioContextHeader = this.props.App.scheduledScenarioContext;
+        this.props.App.scheduledScreenHeaderNotNowOpacity = new AnimatedNative.Value(
+          1,
+        );
+        this.props.App.scheduledScreenHeaderNotNowPosition = new AnimatedNative.Value(
+          0,
+        );
+      } else {
+        this.props.App.scheduledScenarioContext = 'now';
+        this.props.App.scheduledScenarioContextHeader = 'now';
+      }
+      //Scheduler currently active
+      //Fade in the select ride
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.titleSchedulerSelectRideOpacity, {
+          toValue: 0,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.titleSchedulerSelectRidePostion, {
+          toValue: 10,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scheduleRideContentOpacity, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scheduleRideContentPosition, {
+          toValue: 20,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+        globalObject.forceUpdate(); //To refresh the new UI elements containing the select ride view
+        //Restore the current scroll level of the select ride scrollview
+        setTimeout(() => {
+          globalObject.scrollViewSelectRideRef.scrollTo({
+            x:
+              globalObject.props.App.windowWidth *
+              globalObject.props.App.headerRideTypesVars.currentHeaderIndex,
+            y: 0,
+            animated: true,
+          });
+        }, 1);
+
+        //...
+        //Fade away the  scheduler -> select ride
+        AnimatedNative.parallel([
+          AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
+            toValue: 1,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            globalObject.props.App.titleSelectRidePosition,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.selectRideContentOpacity,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.selectRideContentPosition,
+            {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start();
+      });
+    } //Select ride type currently active
+    else {
+      //Fade away the select ride -> scheduler
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.titleSelectRideOpacity, {
+          toValue: 0,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.titleSelectRidePosition, {
+          toValue: 10,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.selectRideContentOpacity, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.selectRideContentPosition, {
+          toValue: 20,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+        globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+        //Fade in the scheduler
+        AnimatedNative.parallel([
+          AnimatedNative.timing(
+            globalObject.props.App.titleSchedulerSelectRideOpacity,
+            {
+              toValue: 1,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.titleSchedulerSelectRidePostion,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.scheduleRideContentOpacity,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.scheduleRideContentPosition,
+            {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start();
+      });
+    }
   }
 
   /**
@@ -954,7 +1148,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 17,
+                fontSize: 17.5,
                 color: '#000',
                 fontFamily: 'Allrounder-Grotesk-Medium',
               },
@@ -974,7 +1168,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 17,
+                      fontSize: 17.5,
                       paddingLeft: 5,
                       fontFamily: 'Allrounder-Grotesk-Medium',
                     },
@@ -990,12 +1184,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 16,
+                      fontSize: 17.5,
                       paddingLeft: 0,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily: 'Allrounder-Grotesk-Medium',
                     },
                   ]}>
-                  {this.props.App.bottomVitalsFlow.connectType}
+                  {this.props.parentNodeHome.ucFirst(
+                    this.props.App.wallet_state_vars.selectedPayment_method,
+                  )}
                 </Text>
               </View>
             </View>
@@ -1143,7 +1339,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         ]}>
                         {this.props.App.selectedScheduleTime === 'now'
                           ? 'Set your time'
-                          : this.ucFirst(this.props.App.selectedScheduleTime)}
+                          : this.props.parentNodeHome.ucFirst(
+                              this.props.App.selectedScheduleTime,
+                            )}
                       </Text>
                     </TouchableOpacity>
                   </AnimatedNative.View>
@@ -1152,7 +1350,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               <View style={{flex: 1, width: '100%', bottom: 10}}>
                 <TouchableOpacity
                   onPressIn={() =>
-                    this.props.parentNode.reallocateScheduleContextCheck('now')
+                    this.props.parentNodeHome.reallocateScheduleContextCheck(
+                      'now',
+                    )
                   }
                   style={{
                     flexDirection: 'row',
@@ -1180,7 +1380,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 16.5,
+                          fontSize: 17,
                           fontFamily: 'Allrounder-Grotesk-Book',
                         },
                       ]}>
@@ -1189,11 +1389,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         : 'I want my delivery right away'}
                     </Text>
                   </View>
-                  {this.props.parentNode.renderCheckForScheduleContext('now')}
+                  {this.props.parentNodeHome.renderCheckForScheduleContext(
+                    'now',
+                  )}
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPressIn={() =>
-                    this.props.parentNode.reallocateScheduleContextCheck(
+                    this.props.parentNodeHome.reallocateScheduleContextCheck(
                       'today',
                     )
                   }
@@ -1223,18 +1425,20 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 16.5,
+                          fontSize: 17,
                           fontFamily: 'Allrounder-Grotesk-Book',
                         },
                       ]}>
                       For today
                     </Text>
                   </View>
-                  {this.props.parentNode.renderCheckForScheduleContext('today')}
+                  {this.props.parentNodeHome.renderCheckForScheduleContext(
+                    'today',
+                  )}
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPressIn={() =>
-                    this.props.parentNode.reallocateScheduleContextCheck(
+                    this.props.parentNodeHome.reallocateScheduleContextCheck(
                       'tomorrow',
                     )
                   }
@@ -1262,14 +1466,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 16.5,
+                          fontSize: 17,
                           fontFamily: 'Allrounder-Grotesk-Book',
                         },
                       ]}>
                       For tomorrow
                     </Text>
                   </View>
-                  {this.props.parentNode.renderCheckForScheduleContext(
+                  {this.props.parentNodeHome.renderCheckForScheduleContext(
                     'tomorrow',
                   )}
                 </TouchableOpacity>
@@ -1283,9 +1487,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 height: 100,
               }}>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.parentNodeHome.rideTypeToSchedulerTransistor(false)
-                }
+                onPress={() => this.rideTypeToSchedulerTransistor(false)}
                 style={{
                   borderWidth: 1,
                   borderColor: 'transparent',
@@ -2097,6 +2299,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   }}>
                   <View style={{border: 1, flexDirection: 'row', flex: 1}}>
                     <TouchableOpacity
+                      onPress={() =>
+                        this.props.UpdateErrorModalLog(
+                          true,
+                          'show_preferedPaymentMethod_modal',
+                          'any',
+                        )
+                      }
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -2106,7 +2315,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       }}>
                       <IconMaterialIcons
                         name="credit-card"
-                        size={22}
+                        size={23}
                         style={{marginRight: 3}}
                       />
                       <Text
@@ -2117,7 +2326,10 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily: 'Allrounder-Grotesk-Regular',
                           },
                         ]}>
-                        Wallet
+                        {this.props.parentNodeHome.ucFirst(
+                          this.props.App.wallet_state_vars
+                            .selectedPayment_method,
+                        )}
                       </Text>
                     </TouchableOpacity>
                     <View
@@ -2126,7 +2338,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         alignItems: 'center',
                         padding: 5,
                       }}>
-                      <IconAnt name="user" size={15} style={{marginRight: 3}} />
+                      <IconAnt name="user" size={14} style={{marginRight: 3}} />
                       <Text
                         style={[
                           {
@@ -2142,11 +2354,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     </View>
                   </View>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.parentNodeHome.rideTypeToSchedulerTransistor(
-                        true,
-                      )
-                    }
+                    onPress={() => this.rideTypeToSchedulerTransistor(true)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -2169,7 +2377,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       ]}>
                       {this.props.App.selectedScheduleTime === 'now'
                         ? 'Schedule'
-                        : this.ucFirst(this.props.App.selectedScheduleTime)}
+                        : this.props.parentNodeHome.ucFirst(
+                            this.props.App.selectedScheduleTime,
+                          )}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -2244,7 +2454,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       justifyContent: 'center',
                       alignItems: 'center',
                       top: '12%',
-                      //width: this.props.App.windowWidth,
                       height: 140,
                     }}>
                     {/**ECONOMY->STANDARD */}
@@ -2762,6 +2971,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   }}>
                   <View style={{border: 1, flexDirection: 'row', flex: 1}}>
                     <TouchableOpacity
+                      onPress={() =>
+                        this.props.UpdateErrorModalLog(
+                          true,
+                          'show_preferedPaymentMethod_modal',
+                          'any',
+                        )
+                      }
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -2771,7 +2987,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       }}>
                       <IconMaterialIcons
                         name="credit-card"
-                        size={22}
+                        size={23}
                         style={{marginRight: 3}}
                       />
                       <Text
@@ -2782,7 +2998,10 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily: 'Allrounder-Grotesk-Regular',
                           },
                         ]}>
-                        Wallet
+                        {this.props.parentNodeHome.ucFirst(
+                          this.props.App.wallet_state_vars
+                            .selectedPayment_method,
+                        )}
                       </Text>
                     </TouchableOpacity>
 
@@ -2797,13 +3016,16 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         }}>
                         <IconEntypo
                           name="user"
-                          size={15}
+                          size={14}
                           style={{marginRight: 3}}
                         />
                         <Text
                           style={[
-                            systemWeights.regular,
-                            {fontSize: 17, top: 1},
+                            {
+                              fontSize: 17,
+                              top: 1,
+                              fontFamily: 'Allrounder-Grotesk-Regular',
+                            },
                           ]}>
                           {
                             this.props.App.bottomVitalsFlow
@@ -2814,11 +3036,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     ) : null}
                   </View>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.parentNodeHome.rideTypeToSchedulerTransistor(
-                        true,
-                      )
-                    }
+                    onPress={() => this.rideTypeToSchedulerTransistor(true)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -2838,7 +3056,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       ]}>
                       {this.props.App.selectedScheduleTime === 'now'
                         ? 'Schedule'
-                        : this.ucFirst(this.props.App.selectedScheduleTime)}
+                        : this.props.parentNodeHome.ucFirst(
+                            this.props.App.selectedScheduleTime,
+                          )}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -2966,9 +3186,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             <View
               style={{
                 flex: 1,
-                //justifyContent: 'center',
                 alignItems: 'center',
-                width: '90%',
+                width: '100%',
                 marginTop: '10%',
               }}>
               <TextInput
@@ -2980,29 +3199,38 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }
                 style={[
                   {
-                    borderWidth: 1,
-                    borderRadius: 4,
-                    borderColor: '#d0d0d0',
-                    fontSize: 18,
+                    borderBottomWidth: 1,
+                    width: '100%',
+                    borderBottomColor: '#a5a5a5',
+                    fontSize: 19,
                     padding: 15,
+                    paddingLeft: 0,
                     height: 50,
-                    width: 250,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily: 'Allrounder-Grotesk-Regular',
                   },
                 ]}
               />
-              <View style={{flexDirection: 'row', marginTop: 30}}>
-                <IconFeather
-                  name="info"
-                  size={16}
-                  style={{marginRight: 4, top: 2}}
-                />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 20,
+                  width: '100%',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}>
+                <IconFeather name="info" size={16} style={{marginRight: 4}} />
                 <Text
                   style={[
-                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {fontSize: 16, fontFamily: 'Allrounder-Grotesk-Book'},
                   ]}>
                   Your minimum fare is{' '}
-                  <Text style={[{fontFamily: 'Allrounder-Grotesk-Medium'}]}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        color: '#096ED4',
+                      },
+                    ]}>
                     N${this.props.App.fareTripSelected}
                   </Text>
                 </Text>
@@ -3234,6 +3462,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               }}>
               <View style={{border: 1, flexDirection: 'row', flex: 1}}>
                 <TouchableOpacity
+                  onPress={() =>
+                    this.props.UpdateErrorModalLog(
+                      true,
+                      'show_preferedPaymentMethod_modal',
+                      'any',
+                    )
+                  }
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -3251,14 +3486,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       systemWeights.semibold,
                       {fontSize: 17, top: 1, color: '#0D8691'},
                     ]}>
-                    Wallet
+                    {this.props.parentNodeHome.ucFirst(
+                      this.props.App.wallet_state_vars.selectedPayment_method,
+                    )}
                   </Text>
                 </TouchableOpacity>
               </View>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.parentNodeHome.rideTypeToSchedulerTransistor(true)
-                }
+                onPress={() => this.rideTypeToSchedulerTransistor(true)}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -3271,7 +3506,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text style={[systemWeights.light, {fontSize: 15, top: 1}]}>
                   {this.props.App.selectedScheduleTime === 'now'
                     ? 'Schedule'
-                    : this.ucFirst(this.props.App.selectedScheduleTime)}
+                    : this.props.parentNodeHome.ucFirst(
+                        this.props.App.selectedScheduleTime,
+                      )}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -3334,6 +3571,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateProcessFlowState,
       UpdateRideTypesOnScrollCategories,
       UpdateRideTypesScales,
+      UpdateErrorModalLog,
     },
     dispatch,
   );
@@ -3355,7 +3593,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 200,
+    borderRadius: 5,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

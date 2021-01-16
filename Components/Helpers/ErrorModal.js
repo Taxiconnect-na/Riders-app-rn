@@ -29,6 +29,7 @@ import {
   UpdateType_rideShown_YourRides_screen,
   UpdateRatingDetailsDuringDropoff_process,
   ResetStateProps,
+  UpdatePreferredPayment_method,
 } from '../Redux/HomeActionsCreators';
 import call from 'react-native-phone-call';
 
@@ -2220,6 +2221,263 @@ class ErrorModal extends React.PureComponent {
           </View>
         </View>
       );
+    } else if (/show_preferedPaymentMethod_modal/i.test(error_status)) {
+      return (
+        <SafeAreaView
+          style={{
+            backgroundColor: '#fff',
+            //padding: 20,
+            flex: 1,
+          }}>
+          <View style={styles.presentationWindow}>
+            <View
+              style={{
+                padding: 20,
+                paddingTop: 15,
+                paddingBottom: 15,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(false, false, 'any')
+                }
+                style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{top: 0}}>
+                  <IconAnt name="arrowleft" size={25} />
+                </View>
+              </TouchableOpacity>
+              <Text
+                style={[
+                  systemWeights.semibold,
+                  {
+                    fontSize: 22,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    marginTop: 15,
+                  },
+                ]}>
+                Select a payment method
+              </Text>
+            </View>
+            <ScrollView style={{flex: 1}}>
+              <View style={{flex: 1}}>
+                <View style={{flex: 1}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: '#a5a5a5',
+                      padding: 20,
+                      paddingTop: 30,
+                    }}>
+                    <IconMaterialIcons
+                      name="account-balance-wallet"
+                      size={30}
+                      color={'#096ED4'}
+                    />
+                    <Text
+                      style={[
+                        {
+                          fontSize: 19.5,
+                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          marginLeft: 5,
+                          flex: 1,
+                        },
+                      ]}>
+                      Your wallet
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        color: '#096ED4',
+                      }}>
+                      N${this.props.App.wallet_state_vars.totalWallet_amount}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      borderBottomWidth: 0.5,
+                      paddingBottom: '10%',
+                      borderBottomColor: '#a5a5a5',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Allrounder-Grotesk-Book',
+                        color: '#a5a5a5',
+                        padding: 20,
+                        paddingBottom: 10,
+                      }}>
+                      Top up with
+                    </Text>
+                    <View style={{marginTop: 15}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingTop: 0,
+                          paddingBottom: 10,
+                        }}>
+                        <View style={{width: 40}}>
+                          <IconAnt name="creditcard" size={28} />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                          }}>
+                          Credit card
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Allrounder-Grotesk-Book',
+                        color: '#a5a5a5',
+                        padding: 20,
+                        paddingBottom: 10,
+                      }}>
+                      Preferred payment method
+                    </Text>
+                    <View style={{marginTop: 15}}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.App.wallet_state_vars
+                            .totalWallet_amount === 0
+                            ? {}
+                            : this.props.App.customFareTripSelected !== false
+                            ? this.props.App.customFareTripSelected <=
+                              this.props.App.wallet_state_vars
+                                .totalWallet_amount
+                              ? this.props.UpdatePreferredPayment_method(
+                                  'wallet',
+                                )
+                              : this.props.UpdatePreferredPayment_method('cash')
+                            : this.props.App.fareTripSelected <=
+                              this.props.App.wallet_state_vars
+                                .totalWallet_amount
+                            ? this.props.UpdatePreferredPayment_method('wallet')
+                            : this.props.UpdatePreferredPayment_method('cash')
+                        }
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingTop: 0,
+                          paddingBottom: 5,
+                          marginBottom: 20,
+                          opacity:
+                            this.props.App.wallet_state_vars
+                              .totalWallet_amount === 0
+                              ? 0.15
+                              : 1,
+                        }}>
+                        <View style={{width: 40}}>
+                          <IconMaterialIcons name="credit-card" size={32} />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            flex: 1,
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                          }}>
+                          Wallet
+                        </Text>
+                        {this.props.App.wallet_state_vars.totalWallet_amount ===
+                        0 ? null : /wallet/i.test(
+                            this.props.App.wallet_state_vars
+                              .selectedPayment_method,
+                          ) ? (
+                          <IconCommunity
+                            name="check-circle"
+                            size={25}
+                            style={{top: 1}}
+                            color={'#096ED4'}
+                          />
+                        ) : null}
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.props.UpdatePreferredPayment_method('cash');
+                        }}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingBottom: 10,
+                          borderTopWidth: 0.5,
+                          borderTopColor: '#d0d0d0',
+                        }}>
+                        <View style={{width: 40}}>
+                          <IconCommunity
+                            name="cash-usd"
+                            color={'#000'}
+                            size={32}
+                          />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            flex: 1,
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                          }}>
+                          Cash
+                        </Text>
+                        {this.props.App.wallet_state_vars.totalWallet_amount ===
+                        0 ? null : /cash/i.test(
+                            this.props.App.wallet_state_vars
+                              .selectedPayment_method,
+                          ) ? (
+                          <IconCommunity
+                            name="check-circle"
+                            size={25}
+                            style={{top: 1}}
+                            color={'#096ED4'}
+                          />
+                        ) : null}
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </ScrollView>
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                height: 100,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(false, false, 'any')
+                }
+                style={{
+                  borderColor: 'transparent',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}>
+                <View style={[styles.bttnGenericTc]}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23,
+                        color: '#fff',
+                      },
+                    ]}>
+                    Done
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </SafeAreaView>
+      );
     } else {
       return <></>;
     }
@@ -2277,7 +2535,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 200,
+    borderRadius: 5,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -2307,6 +2565,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateType_rideShown_YourRides_screen,
       UpdateRatingDetailsDuringDropoff_process,
       ResetStateProps,
+      UpdatePreferredPayment_method,
     },
     dispatch,
   );

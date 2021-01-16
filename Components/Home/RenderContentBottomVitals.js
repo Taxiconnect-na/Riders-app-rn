@@ -2333,14 +2333,6 @@ class RenderContentBottomVitals extends React.PureComponent {
       'confirmFareAmountORCustomize'
     ) {
       this.props.parentNode.resetAnimationLoader();
-      //DEBUG
-      //this.props.App.isSelectTripScheduleOn = true;
-      //this.rideTypeToSchedulerTransistor(true);
-      //DEBUG
-      //DEBUG
-      //this.props.App.isEnterCustomFareWindowOn = true;
-      //DEBUG
-
       return (
         <AnimatedNative.View
           style={{
@@ -2829,10 +2821,6 @@ class RenderContentBottomVitals extends React.PureComponent {
       'selectCarTypeAndPaymentMethodDelivery'
     ) {
       this.props.parentNode.resetAnimationLoader();
-      //DEBUG
-      //this.props.App.isSelectTripScheduleOn = true;
-      //this.rideTypeToSchedulerTransistor(true);
-      //DEBUG
       return (
         <AnimatedNative.View
           style={{

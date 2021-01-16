@@ -502,6 +502,13 @@ const STATE = {
     request_fp: false, //The request fingerprint
     user_fp: false,
   },
+
+  //WALLET VARS
+  wallet_state_vars: {
+    totalWallet_amount: 0, //Current wallet balance - default: 0
+    transactions_data: null, //Contains the detailed wallet transactions made from trips or normal wallet transfers. - default: nll
+    selectedPayment_method: 'cash', //Default selected payment method - default: cash - auto select wallet after selecting a car type based on the fare amount.
+  },
 };
 
 export default STATE;

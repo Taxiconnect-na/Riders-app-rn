@@ -338,7 +338,7 @@ export const UpdateRatingDetailsDuringDropoff_process = (updateBundle) => ({
   payload: updateBundle,
 });
 
-/*
+/**
  * 42. Update dropoff data for driver rating after drop off
  * Responsible for updating the state vars for the trip after the driver has confirmed drop off.
  * @param tripResponse: the summary for the trip coming straight from the server.
@@ -346,4 +346,24 @@ export const UpdateRatingDetailsDuringDropoff_process = (updateBundle) => ({
 export const UpdateDropoffDataFor_driverRating = (tripResponse) => ({
   type: 'UPDATE_DROPFFDATA_FORDRIVER_RATING',
   payload: tripResponse,
+});
+
+/**
+ * 44. Update the total wallet amount for the rider
+ * Responsible for upddating the state vars for the total amount in the wallet.
+ * @param totalWalletAmount: the current total wallet amount.
+ */
+export const UpdateTotalWalletAmount = (totalWalletAmount) => ({
+  type: 'UPDATE_TOTAL_WALLET_AMOUNT',
+  payload: totalWalletAmount,
+});
+
+/**
+ * 45. Update preferred payment method
+ * Responsible to update the preferred payment method.
+ * @param paymentMethod: preferred selected payment method.
+ */
+export const UpdatePreferredPayment_method = (paymentMethod) => ({
+  type: 'UPDATE_PREFERRED_PAYMENT_METHOD',
+  payload: paymentMethod,
 });
