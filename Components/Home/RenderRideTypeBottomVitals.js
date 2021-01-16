@@ -1195,7 +1195,25 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 </Text>
               </View>
             </View>
-          ) : null}
+          ) : (
+            <View style={{flexDirection: 'row'}}>
+              <Text style={{paddingLeft: 10, paddingRight: 10}}>-</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text
+                  style={[
+                    {
+                      fontSize: 17.5,
+                      paddingLeft: 0,
+                      fontFamily: 'Allrounder-Grotesk-Medium',
+                    },
+                  ]}>
+                  {this.props.parentNodeHome.ucFirst(
+                    this.props.App.wallet_state_vars.selectedPayment_method,
+                  )}
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
         <Text
           style={[
@@ -1247,7 +1265,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               style={{
                 flex: 1,
                 width: '90%',
-                //paddingTop: 15,
                 alignItems: 'center',
               }}>
               <>

@@ -2530,7 +2530,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 20,
+                fontSize: 21,
                 marginTop: 15,
                 marginBottom: 25,
                 fontFamily: 'Allrounder-Grotesk-Medium',
@@ -2569,9 +2569,19 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={{
                   alignItems: 'center',
                   paddingTop: 10,
-                  //justifyContent: 'center',
                 }}>
-                <IconFeather name="box" size={24} />
+                <IconFeather
+                  name="box"
+                  color={
+                    /envelope/i.test(
+                      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                        .selectedPackageSize,
+                    )
+                      ? '#0D8691'
+                      : '#000'
+                  }
+                  size={24}
+                />
               </View>
               <View
                 style={{
@@ -2582,17 +2592,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 17, fontFamily: 'Allrounder-Grotesk-Regular'},
+                    {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
                   ]}>
                   Envelope
                 </Text>
                 <Text
                   style={[
                     {
-                      fontSize: 13,
-                      color: '#8a8a8a',
+                      fontSize: 13.5,
+                      color: '#a5a5a5',
                       marginTop: 5,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                     },
                   ]}>
                   Small package (24cm x 25cm)
@@ -2647,9 +2657,19 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={{
                   alignItems: 'center',
                   paddingTop: 10,
-                  //justifyContent: 'center',
                 }}>
-                <IconFeather name="package" size={24} />
+                <IconFeather
+                  name="package"
+                  color={
+                    /small/i.test(
+                      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                        .selectedPackageSize,
+                    )
+                      ? '#0D8691'
+                      : '#000'
+                  }
+                  size={24}
+                />
               </View>
               <View
                 style={{
@@ -2660,15 +2680,15 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 17, fontFamily: 'Allrounder-Grotesk-Regular'},
+                    {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
                   ]}>
                   Small box
                 </Text>
                 <Text
                   style={[
                     {
-                      fontSize: 13,
-                      color: '#8a8a8a',
+                      fontSize: 13.5,
+                      color: '#a5a5a5',
                       marginTop: 5,
                       fontFamily: 'Allrounder-Grotesk-Book',
                     },
@@ -2726,7 +2746,18 @@ class RenderContentBottomVitals extends React.PureComponent {
                   paddingTop: 10,
                   //justifyContent: 'center',
                 }}>
-                <IconCommunity name="package" size={24} />
+                <IconCommunity
+                  name="package"
+                  color={
+                    /large/i.test(
+                      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                        .selectedPackageSize,
+                    )
+                      ? '#0D8691'
+                      : '#000'
+                  }
+                  size={24}
+                />
               </View>
               <View
                 style={{
@@ -2737,15 +2768,15 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 17, fontFamily: 'Allrounder-Grotesk-Regular'},
+                    {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
                   ]}>
                   Large box
                 </Text>
                 <Text
                   style={[
                     {
-                      fontSize: 13,
-                      color: '#8a8a8a',
+                      fontSize: 13.5,
+                      color: '#a5a5a5',
                       marginTop: 5,
                       fontFamily: 'Allrounder-Grotesk-Book',
                     },
@@ -2782,7 +2813,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               width: '100%',
             }}>
             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-              <IconCommunity name="truck" size={18} style={{bottom: 15}} />
+              <IconCommunity name="truck" size={16} style={{bottom: 15}} />
               <Text
                 style={{
                   fontSize: 13,

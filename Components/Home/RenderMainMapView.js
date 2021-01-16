@@ -630,7 +630,7 @@ class RenderMainMapView extends React.PureComponent {
     //Update the list of the closest drivers if no trip in progress
     if (
       this.props.App.isRideInProgress === false &&
-      /(mainView|selectRideOrDelivery|identifyLocation|selectConnectMeOrUs|selectNoOfPassengers|addMoreTripDetails|selectCarTypeAndPaymentMethod|confirmFareAmountORCustomize)/i.test(
+      /(mainView|selectRideOrDelivery|identifyLocation|selectConnectMeOrUs|selectNoOfPassengers|addMoreTripDetails)/i.test(
         this.props.App.bottomVitalsFlow.currentStep,
       ) &&
       this.props.App._CLOSEST_DRIVERS_DATA !== null &&
@@ -792,12 +792,12 @@ class RenderMainMapView extends React.PureComponent {
                     circleStrokeWidth: 0.5,
                   }}
                   innerCirclePulseStyle={{
-                    circleColor: /(addMoreTripDetails|selectCarTypeAndPaymentMethod)/i.test(
+                    circleColor: /(addMoreTripDetails|selectCarTypeAndPaymentMethod|confirmFareAmountORCustomize|gettingRideProcessScreen|errorRequestingProcessScreen)/i.test(
                       this.props.App.bottomVitalsFlow.currentStep,
                     )
                       ? '#096ED4'
                       : '#0e8491',
-                    circleStrokeColor: /(addMoreTripDetails|selectCarTypeAndPaymentMethod)/i.test(
+                    circleStrokeColor: /(addMoreTripDetails|selectCarTypeAndPaymentMethod|confirmFareAmountORCustomize|gettingRideProcessScreen|errorRequestingProcessScreen)/i.test(
                       this.props.App.bottomVitalsFlow.currentStep,
                     )
                       ? '#000'
