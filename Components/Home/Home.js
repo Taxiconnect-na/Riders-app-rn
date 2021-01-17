@@ -593,16 +593,16 @@ class Home extends React.PureComponent {
       } //No rides
       else {
         //Update status
-        globalObject.props.App.request_status = response.request_status;
         //Reset the state partially depending on the state of the trip variables
-        if (
-          globalObject.props.App.isRideInProgress !== false ||
-          /no_rides/i.test(globalObject.props.App.request_status) === false ||
-          Object.keys(globalObject.props.App.generalTRIP_details_driverDetails)
-            .length !== 0
-        ) {
-          console.log('LEAK!');
-          globalObject._RESET_STATE();
+        globalObject.props.App.intervalProgressLoop = false;
+        let testReg = new RegExp(response.request_status, 'i');
+        if (testReg.test(globalObject.props.App.request_status) === false) {
+          if (globalObject.props.App.request_status !== null) {
+            console.log('LEAK!');
+            globalObject._RESET_STATE();
+          }
+          //...
+          globalObject.props.App.request_status = response.request_status;
         }
       }
     });
@@ -814,6 +814,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'requestRideOrDeliveryForThis-response',
       function (response) {
+        console.log(response);
         if (
           response !== false &&
           response.response !== undefined &&
@@ -821,6 +822,7 @@ class Home extends React.PureComponent {
         ) {
           //Successfully requested
           //Leave it to the request checker
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
           //clear any basic interval persister
           clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
           globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
@@ -848,7 +850,22 @@ class Home extends React.PureComponent {
             });
           }
         } //An unxepected error occured
-        else {
+        else if (
+          response !== false &&
+          response.response !== undefined &&
+          /already_have_a_pending_request/i.test(response.response)
+        ) {
+          //Do nothing
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
+          //clear any basic interval persister
+          clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+          globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+          //clear the closest drivers interval persister
+          clearInterval(
+            globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
+          );
+          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+        } else {
           //clear any basic interval persister
           globalObject.props.App.bottomVitalsFlow._error_booking_requested = true;
           //clear the closest drivers interval persister
@@ -2417,9 +2434,6 @@ class Home extends React.PureComponent {
    * Very important router for rendering the corrects modules
    */
   renderAppropriateModules() {
-    //DEBUG
-    //this.props.App.isSearchModuleOn = true;
-    //DEBUG-------
     return (
       <>
         <View style={styles.mainMainWindow}>
@@ -2562,8 +2576,9 @@ class Home extends React.PureComponent {
         {this.renderNoGPRSResolver()}
         {this.props.App.isSearchModuleOn ? (
           <Search />
-        ) : this.props.App.bottomVitalsFlow.currentStep !==
-          'gettingRideProcessScreen' ? (
+        ) : /(gettingRideProcessScreen)/i.test(
+            this.props.App.bottomVitalsFlow.currentStep,
+          ) !== true ? (
           <RenderBottomVital parentNode={this} />
         ) : null}
       </>

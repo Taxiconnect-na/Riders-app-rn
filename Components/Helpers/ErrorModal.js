@@ -2193,19 +2193,19 @@ class ErrorModal extends React.PureComponent {
               }
               style={[
                 styles.bttnGenericTc,
-                {borderRadius: 2, marginBottom: 15, backgroundColor: '#f0f0f0'},
+                {borderRadius: 2, marginBottom: 30, backgroundColor: '#f0f0f0'},
               ]}>
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
                 }}>
                 {this.state.isLoading_something === false ? (
                   'Yes, cancel'
                 ) : (
-                  <ActivityIndicator size="small" color="#000" />
+                  <ActivityIndicator size="large" color="#000" />
                 )}
               </Text>
             </TouchableOpacity>
@@ -2215,14 +2215,11 @@ class ErrorModal extends React.PureComponent {
                   ? this.props.UpdateErrorModalLog(false, false, 'any')
                   : {}
               }
-              style={[
-                styles.bttnGenericTc,
-                {borderRadius: 2, marginBottom: 10},
-              ]}>
+              style={[styles.bttnGenericTc, {borderRadius: 2}]}>
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   color: '#fff',
                   marginLeft: 5,
                 }}>

@@ -41,7 +41,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.isInRouteToDestination = false; //Responsible for knowledge of whether to duo (passenger+driver) are heading to destination
       newState.destinationPoint = null; //Will hold the coordinates to the passenger's destination location.
       newState.pickupPoint = null; //Will hodl the coordinations to the passenger's pickup locatiom.
-      newState.request_status = null; //To know the status of the request: pending, in route to pickup, in route to drop off or completed
+
       newState.pickupLocation_metadata = {pickupLocation_name: null}; //Hold all the metadata related to the pickup location, -- pickupLocation_name: null, //Hold the name of the pickup location.
       newState.initializedScenario = null; //To know which scenario has been initialized for animation
       //Update stored trip related variables
@@ -112,6 +112,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
         paymentMethod: 'CASH', //The customer's payment method
       }; //Current metadata for the booking process: for RIDE or DELIVERIES
       newState.bottomVitalsFlow.currentStep = 'mainView'; //Reset current step to mainView
+      newState.intervalProgressLoop = false; //Faslify the interval progress loop
+      newState.isRideInProgress = false; //Falsify the key variable to know if there's a ride in progress or not.
       newState.bottomVitalsFlow._BOOKING_REQUESTED = false;
       newState.bottomVitalsFlow._error_booking_requested = false;
       newState.bottomVitalsFlow.isUserLocationCentered = false;
@@ -119,6 +121,21 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.destinationLocation_metadata = {}; //Hold all the data on the destination location
       newState.generalTRIP_details_driverDetails = {}; //WILL HOLD THE GENERAL TRIP DETAILS AND DRIVER DETAILS - Ref. to the server doc for more - ONLY RELEVANT TO USE WHEN THE TRIP HAS BEEN ACCEPTED BY A DRIVER already! - ALWAYS clean up after usage.
       newState.initializedScenario = null; //To know which scenario has been initialized for animation
+      //Reset bottom vital height
+      newState.bottomVitalsFlow.bottomVitalChildHeight = new Animated.Value(
+        150,
+      ); //Height of the bottom vital component, default 150 - for booking 250
+      //Initial container Hello animations variables
+      newState.bottomVitalsFlow.mainHelloContentPosition = new Animated.Value(
+        0,
+      ); //Top offset position of the hello content container - default: 0 -> max: 20
+      newState.bottomVitalsFlow.mainHelloContentOpacity = new Animated.Value(1); //Opacity of the hello content container - default: 1
+      //Common process flow animation variables
+      //These variables are common to all the process flows
+      newState.bottomVitalsFlow.genericContainerPosition = new Animated.Value(
+        20,
+      ); //Top offset position of the generic flow container - default: 0 -> max: 20
+      newState.bottomVitalsFlow.genericContainerOpacity = new Animated.Value(0); //Opacity of the generic flow container - default: 0 -> max: 20
       //Reset init hello and animation
       newState.initialHello = false; //Will hold the first "Hello" message that appear when the app is opened
       newState.initialHelloAnimationParams = {

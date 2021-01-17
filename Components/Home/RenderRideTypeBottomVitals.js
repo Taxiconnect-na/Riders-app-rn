@@ -1034,13 +1034,15 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         if (globalObject.props.App._TMP_INTERVAL_PERSISTER === null) {
           globalObject.props.App._TMP_INTERVAL_PERSISTER = setInterval(
             function () {
-              if (globalObject.props.App.isRideInProgress === false) {
+              if (globalObject.props.App.intervalProgressLoop === false) {
+                console.log('Inside 0');
                 if (
                   globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED ===
                     false &&
                   globalObject.props.App.bottomVitalsFlow
                     ._error_booking_requested === false
                 ) {
+                  console.log('Inside 1');
                   //Not yet request and no errors
                   //Check wheher an answer was already received - if not keep requesting
                   console.log('Ride or Delivery request');
@@ -1051,6 +1053,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }
                 //Kill interval - if booking request data already received
                 else {
+                  console.log('clear 0');
                   clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
                   if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
                     globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
@@ -1058,6 +1061,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }
               } //Kill interval - if booking request data already received
               else {
+                console.log('clear 1');
                 clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
                 if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
                   globalObject.props.App._TMP_INTERVAL_PERSISTER = null;

@@ -346,7 +346,7 @@ class RenderMainMapView extends React.PureComponent {
             />
           </Animated.ShapeSource>
 
-          <PointAnnotation
+          <MarkerView
             id={'originAnnotationPreview'}
             aboveLayerID={'lineRoutePickup'}
             //anchor={{x: -0.2, y: 0.5}}
@@ -366,7 +366,7 @@ class RenderMainMapView extends React.PureComponent {
                 backgroundColor: '#096ED4',
               }}
             />
-          </PointAnnotation>
+          </MarkerView>
           <MarkerView
             id="riderPickupLocation_tooltip"
             anchor={this.props.App.previewDestinationData.originAnchor}
@@ -568,7 +568,7 @@ class RenderMainMapView extends React.PureComponent {
             </Animated.ShapeSource>
           )}
 
-          <PointAnnotation
+          <MarkerView
             id="riderPickupLocation_tooltip"
             //anchor={{x: 1, y: 1}}
             anchor={this.props.App.previewDestinationData.destinationAnchor}
@@ -577,7 +577,7 @@ class RenderMainMapView extends React.PureComponent {
               title={'Destination'}
               etaInfos={this.props.App.destinationLocation_metadata}
             />
-          </PointAnnotation>
+          </MarkerView>
           {/*<Animated.ShapeSource
             id="symbolCarIcon"
             shape={
@@ -599,20 +599,23 @@ class RenderMainMapView extends React.PureComponent {
             </Animated.ShapeSource>*/}
         </View>
       );
-    } else if (/pending/i.test(this.props.App.request_status)) {
+    } else if (
+      /pending/i.test(this.props.App.request_status) &&
+      this.props.App.isRideInProgress
+    ) {
       //....
       //Pending request
       //Pickup location and request status bar
       return (
         <View>
-          <PointAnnotation
+          <MarkerView
             id="riderPickupLocation_tooltip"
             anchor={{x: 1, y: 1}}
             coordinate={this.props.App.pickupLocation_metadata.coordinates.map(
               parseFloat,
             )}>
             <AnnotationPickup title={'Pickup'} />
-          </PointAnnotation>
+          </MarkerView>
         </View>
       );
     } else {
@@ -635,7 +638,8 @@ class RenderMainMapView extends React.PureComponent {
       ) &&
       this.props.App._CLOSEST_DRIVERS_DATA !== null &&
       this.props.App._CLOSEST_DRIVERS_DATA.length !== undefined &&
-      this.props.App._CLOSEST_DRIVERS_DATA.length > 0
+      this.props.App._CLOSEST_DRIVERS_DATA.length > 0 &&
+      this.props.App.intervalProgressLoop === false
     ) {
       let tmp = this.props.App._CLOSEST_DRIVERS_DATA.map((driver, index) => {
         //Compute the bearing
@@ -664,8 +668,9 @@ class RenderMainMapView extends React.PureComponent {
             <Animated.SymbolLayer
               id={'symbolCarLayer' + (index + 1)}
               minZoomLevel={1}
+              layerIndex={5000}
               style={{
-                iconAllowOverlap: true,
+                iconAllowOverlap: false,
                 iconImage: globalObject.props.App.carIcon_black,
                 iconSize: globalObject.props.App.carIconRelativeSize,
                 iconRotate: carBearing,

@@ -558,7 +558,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       //Update process flow to select ride or delivery
       globalObject.props.UpdateProcessFlowState({
         flowDirection: 'next',
-        parentTHIS: this,
+        parentTHIS: globalObject.props.parentNode,
       });
 
       AnimatedNative.parallel([
@@ -1307,7 +1307,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                paddingBottom: 20,
+                paddingBottom: 30,
               }}>
               {this.props.App.initialHello ? (
                 <AnimatedNative.View
@@ -1332,7 +1332,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                     style={[
                       systemWeights.semibold,
                       {
-                        fontSize: 20,
+                        fontSize: /(off the map)/i.test(
+                          this.props.App.hello2Text,
+                        )
+                          ? 20
+                          : 22,
                         color: '#000',
                         fontFamily: 'Allrounder-Grotesk-Medium',
                         bottom: 5,
@@ -1348,7 +1352,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     {
                       fontFamily: 'Allrounder-Grotesk-Medium',
                       bottom: 3,
-                      fontSize: 18.5,
+                      fontSize: 22,
                       color: '#000',
                       opacity: this.props.App.initialHelloAnimationParams
                         .opacity,
