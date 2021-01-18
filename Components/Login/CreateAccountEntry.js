@@ -1,17 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   StyleSheet,
   Image,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {
   ResetGenericPhoneNumberInput,
@@ -19,7 +18,6 @@ import {
 } from '../Redux/HomeActionsCreators';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import ErrorModal from '../Helpers/ErrorModal';
-import SyncStorage from 'sync-storage';
 import NetInfo from '@react-native-community/netinfo';
 
 class CreateAccountEntry extends React.PureComponent {
@@ -49,23 +47,20 @@ class CreateAccountEntry extends React.PureComponent {
       else {
         globalObject.props.UpdateErrorModalLog(false, false, state.type);
       }
-
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
     });
     //connection
-    this.props.App.socket.on('connect', () => {
+    SOCKET_CORE.on('connect', () => {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {
+    SOCKET_CORE.on('error', (error) => {
       //console.log('something');
     });
-    this.props.App.socket.on('disconnect', () => {
+    SOCKET_CORE.on('disconnect', () => {
       //console.log('something');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_error', () => {
+    SOCKET_CORE.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
@@ -73,57 +68,45 @@ class CreateAccountEntry extends React.PureComponent {
         'connection_no_network',
         'any',
       );
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_timeout', () => {
+    SOCKET_CORE.on('connect_timeout', () => {
       console.log('connect_timeout');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
+    SOCKET_CORE.on('reconnect', () => {
       ////console.log('something');
     });
-    this.props.App.socket.on('reconnect_error', () => {
+    SOCKET_CORE.on('reconnect_error', () => {
       console.log('reconnect_error');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect_failed', () => {
+    SOCKET_CORE.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
     //1. Creating account response
-    this.props.App.socket.on(
-      'createInitialRider_account-response',
-      function (response) {
-        globalObject.setState({loaderState: false}); //Stop loader
-        //...
-        if (response !== false && response.response != undefined) {
-          if (
-            !/error/i.test(response.response) &&
-            response.user_fp !== undefined &&
-            response.user_fp !== null
-          ) {
-            //Successfully created
-            //Save the fingerprint
-            SyncStorage.set('@ufp', response.user_fp);
-            //Move forward
-            globalObject.props.navigation.navigate(
-              'NewAccountAdditionalDetails',
-            );
-          } //error creating account
-          else {
-            globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
-            globalObject.props.UpdateErrorModalLog(
-              true,
-              'error_creating_account',
-              'any',
-            );
-          }
-        } //Error creating the account
+    SOCKET_CORE.on('createInitialRider_account-response', function (response) {
+      globalObject.setState({loaderState: false}); //Stop loader
+      //...
+      if (response !== false && response.response !== undefined) {
+        if (
+          !/error/i.test(response.response) &&
+          response.user_fp !== undefined &&
+          response.user_fp !== null
+        ) {
+          //Successfully created
+          //Save the fingerprint
+          globalObject.props.App.user_fingerprint = response.user_fp; //Save user fingerprint
+          //Move forward
+          globalObject.props.navigation.navigate('NewAccountAdditionalDetails');
+        } //error creating account
         else {
+          globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
           globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
           globalObject.props.UpdateErrorModalLog(
             true,
@@ -131,8 +114,17 @@ class CreateAccountEntry extends React.PureComponent {
             'any',
           );
         }
-      },
-    );
+      } //Error creating the account
+      else {
+        globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+        globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
+        globalObject.props.UpdateErrorModalLog(
+          true,
+          'error_creating_account',
+          'any',
+        );
+      }
+    });
   }
 
   /**
@@ -162,7 +154,7 @@ class CreateAccountEntry extends React.PureComponent {
     ) {
       //Create
       this.setState({loaderState: true, creatingAccount: true});
-      this.props.App.socket.emit('createInitialRider_account', {
+      SOCKET_CORE.emit('createInitialRider_account', {
         phone_number: this.props.App.finalPhoneNumber,
         pushnotif_token: this.props.App.pushnotif_token,
       });
@@ -177,14 +169,14 @@ class CreateAccountEntry extends React.PureComponent {
    * Reponsible for going back to entry screen and auto erase the user fp
    */
   gobackFromAdditionalDetails() {
-    SyncStorage.remove('@ufp');
+    this.props.App.user_fingerprint = null; //Nullify user fingerprint
     this.props.navigation.navigate('EntryScreen');
   }
 
   render() {
     return (
       <SafeAreaView style={styles.mainWindow}>
-        <GenericLoader active={this.state.loaderState} />
+        <GenericLoader active={this.state.loaderState} thickness={4} />
         <ErrorModal
           active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
           error_status={
@@ -197,10 +189,9 @@ class CreateAccountEntry extends React.PureComponent {
           </TouchableOpacity>
           <Text
             style={[
-              systemWeights.semibold,
               {
                 fontSize: 30,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily: 'Allrounder-Grotesk-Medium',
                 marginTop: 15,
                 marginBottom: 35,
                 width: '100%',
@@ -226,7 +217,7 @@ class CreateAccountEntry extends React.PureComponent {
                 flex: 1,
                 fontFamily: 'Allrounder-Grotesk-Regular',
                 color: '#000',
-                fontSize: 18,
+                fontSize: 21,
                 marginTop: '10%',
                 textAlign: 'center',
                 width: '100%',
@@ -243,17 +234,23 @@ class CreateAccountEntry extends React.PureComponent {
                   {
                     fontFamily: 'Allrounder-Grotesk-Book',
                     color: '#000',
-                    fontSize: 13,
+                    fontSize: 14,
                     textAlign: 'left',
                     width: '100%',
                     lineHeight: 20,
-                    marginBottom: 10,
+                    marginBottom: 15,
                   },
                 ]}>
                 By clicking{' '}
-                <Text style={{fontWeight: 'bold'}}>Create your account</Text>,
-                you automatically accept our{' '}
-                <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
+                <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                  Create your account
+                </Text>
+                , you automatically accept our{' '}
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    color: '#0e8491',
+                  }}>
                   terms and conditions.
                 </Text>
               </Text>
@@ -274,9 +271,8 @@ class CreateAccountEntry extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 21,
-                          fontWeight: 'bold',
+                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontSize: 23,
                           color: '#fff',
                         },
                       ]}>
@@ -346,7 +342,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 200,
+    borderRadius: 5,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

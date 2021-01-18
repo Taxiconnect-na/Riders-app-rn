@@ -235,7 +235,7 @@ function MainDrawer_navigator() {
 
 function RootScreens() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={'EntryScreen'}>
       <Stack.Screen
         name="EntryScreen"
         component={EntryScreen}

@@ -2,6 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import GeolocationP from 'react-native-geolocation-service';
 import {point} from '@turf/helpers';
 import {
@@ -24,7 +25,6 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
 import Search from '../Modules/Search/Components/Search';
-import SyncStorage from 'sync-storage';
 //Import of action creators
 import {
   ResetStateProps,
@@ -49,18 +49,9 @@ import {
 } from '../Redux/HomeActionsCreators';
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 //DEBUG
 //import {ROUTE} from './Route';
-
-//Origin coords - driver
-//const blon = 17.099327;
-//const blat = -22.579195;
-const blon = 17.060507;
-const blat = -22.514987;
-//Destination coords
-const destinationLat = -22.577673;
-const destinationLon = 17.086427;
-
 const INIT_ZOOM_LEVEL = 0.384695086717085;
 const PADDING_LIMIT = 150;
 
@@ -264,7 +255,7 @@ class Home extends React.PureComponent {
           globalObject.GPRS_resolver();
           globalObject.updateRemoteLocationsData();
           //Request for the total wallet balance
-          globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
+          SOCKET_CORE.emit('getRiders_walletInfos_io', {
             user_fingerprint: globalObject.props.App.user_fingerprint,
             mode: 'total',
           });
@@ -304,6 +295,10 @@ class Home extends React.PureComponent {
     //Initialize loader
     if (this.props.App.showLocationSearch_loader === false) {
       this.props.App.showLocationSearch_loader = true;
+      //INit template
+      this.props.App.loaderPosition = new AnimatedNative.Value(0);
+      this.props.App.loaderBasicWidth = new AnimatedNative.Value(1);
+
       this.fire_search_animation();
     }
     //Initialize initial hello
@@ -312,7 +307,7 @@ class Home extends React.PureComponent {
     }
 
     //connection
-    this.props.App.socket.on('connect', () => {
+    SOCKET_CORE.on('connect', () => {
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
@@ -323,11 +318,11 @@ class Home extends React.PureComponent {
       }
     });
 
-    this.props.App.socket.on('error', () => {});
-    this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
+    SOCKET_CORE.on('error', () => {});
+    SOCKET_CORE.on('disconnect', () => {
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_error', () => {
+    SOCKET_CORE.on('connect_error', () => {
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
@@ -339,17 +334,17 @@ class Home extends React.PureComponent {
           'any',
         );
       }
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
+    SOCKET_CORE.on('connect_timeout', () => {
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
+    SOCKET_CORE.on('reconnect', () => {});
+    SOCKET_CORE.on('reconnect_error', () => {
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
+    SOCKET_CORE.on('reconnect_failed', () => {
+      SOCKET_CORE.connect();
     });
 
     //Bind the requests interval persister
@@ -360,25 +355,22 @@ class Home extends React.PureComponent {
      * Get total wallet balance
      * Responsible for only getting the total current balance of the rider and update the global state if different.
      */
-    this.props.App.socket.on(
-      'getRiders_walletInfos_io-response',
-      function (response) {
-        if (
-          response !== null &&
-          response !== undefined &&
-          response.total !== undefined
-        ) {
-          globalObject.props.UpdateTotalWalletAmount(response);
-        }
-      },
-    );
+    SOCKET_CORE.on('getRiders_walletInfos_io-response', function (response) {
+      if (
+        response !== null &&
+        response !== undefined &&
+        response.total !== undefined
+      ) {
+        globalObject.props.UpdateTotalWalletAmount(response);
+      }
+    });
 
     /**
      * @socket trackdriverroute-response
      * Get route tracker response
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
-    this.props.App.socket.on('trackdriverroute-response', function (response) {
+    SOCKET_CORE.on('trackdriverroute-response', function (response) {
       if (
         response !== null &&
         response !== undefined &&
@@ -612,14 +604,11 @@ class Home extends React.PureComponent {
      * @event: geocode-this-point
      * Get the location of the user, parameter of interest: street name
      */
-    this.props.App.socket.on(
-      'geocode-this-point-response',
-      function (response) {
-        if (response !== undefined && response !== false) {
-          globalObject.props.UpdateCurrentLocationMetadat(response);
-        }
-      },
-    );
+    SOCKET_CORE.on('geocode-this-point-response', function (response) {
+      if (response !== undefined && response !== false) {
+        globalObject.props.UpdateCurrentLocationMetadat(response);
+      }
+    });
 
     /**
      * IDENTIFY PICKUP LOCATION
@@ -630,42 +619,31 @@ class Home extends React.PureComponent {
      * TaxiRank
      * PrivateLocation
      */
-    this.props.App.socket.on(
-      'getPickupLocationNature-response',
-      function (response) {
-        if (response !== undefined) {
-          //Correct
-          if (response.locationType === 'PrivateLocation') {
-            //PRIVATE LOCATION
-            let newState = globalObject.props.App.bottomVitalsFlow;
-            newState.rideOrDeliveryMetadata.locationTypeIdentified =
-              'PrivateLocation';
-            globalObject.props.UpdateBottomVitalsState({
-              bottomVitalsFlow: newState,
-            });
-          } else if (response.locationType === 'Airport') {
-            let newState = globalObject.props.App.bottomVitalsFlow;
-            newState.rideOrDeliveryMetadata.locationTypeIdentified = 'Airport';
-            globalObject.props.UpdateBottomVitalsState({
-              bottomVitalsFlow: newState,
-            });
-          } //Taxi rank
-          else if (response.locationType === 'TaxiRank') {
-            let newState = globalObject.props.App.bottomVitalsFlow;
-            newState.rideOrDeliveryMetadata.locationTypeIdentified = 'TaxiRank';
-            globalObject.props.UpdateBottomVitalsState({
-              bottomVitalsFlow: newState,
-            });
-          } else {
-            let newState = globalObject.props.App.bottomVitalsFlow;
-            newState.rideOrDeliveryMetadata.locationTypeIdentified =
-              'PrivateLocation';
-            globalObject.props.UpdateBottomVitalsState({
-              bottomVitalsFlow: newState,
-            });
-          }
-        } //Defaults to private location
-        else {
+    SOCKET_CORE.on('getPickupLocationNature-response', function (response) {
+      if (response !== undefined) {
+        //Correct
+        if (response.locationType === 'PrivateLocation') {
+          //PRIVATE LOCATION
+          let newState = globalObject.props.App.bottomVitalsFlow;
+          newState.rideOrDeliveryMetadata.locationTypeIdentified =
+            'PrivateLocation';
+          globalObject.props.UpdateBottomVitalsState({
+            bottomVitalsFlow: newState,
+          });
+        } else if (response.locationType === 'Airport') {
+          let newState = globalObject.props.App.bottomVitalsFlow;
+          newState.rideOrDeliveryMetadata.locationTypeIdentified = 'Airport';
+          globalObject.props.UpdateBottomVitalsState({
+            bottomVitalsFlow: newState,
+          });
+        } //Taxi rank
+        else if (response.locationType === 'TaxiRank') {
+          let newState = globalObject.props.App.bottomVitalsFlow;
+          newState.rideOrDeliveryMetadata.locationTypeIdentified = 'TaxiRank';
+          globalObject.props.UpdateBottomVitalsState({
+            bottomVitalsFlow: newState,
+          });
+        } else {
           let newState = globalObject.props.App.bottomVitalsFlow;
           newState.rideOrDeliveryMetadata.locationTypeIdentified =
             'PrivateLocation';
@@ -673,8 +651,16 @@ class Home extends React.PureComponent {
             bottomVitalsFlow: newState,
           });
         }
-      },
-    );
+      } //Defaults to private location
+      else {
+        let newState = globalObject.props.App.bottomVitalsFlow;
+        newState.rideOrDeliveryMetadata.locationTypeIdentified =
+          'PrivateLocation';
+        globalObject.props.UpdateBottomVitalsState({
+          bottomVitalsFlow: newState,
+        });
+      }
+    });
 
     /**
      * GET FARE ESTIMATION LIST FOR ALL THE RELEVANTS RIDES
@@ -683,28 +669,49 @@ class Home extends React.PureComponent {
      * ? from the pricing service.
      * ! If invalid fare received, try again - leave that to the initiated interval persister.
      */
-    this.props.App.socket.on(
-      'getPricingForRideorDelivery-response',
-      function (response) {
-        if (response !== false && response.response === undefined) {
-          //Estimates computed
-          //Convert to object
-          if (typeof response === String) {
-            try {
-              response = JSON.parse(response);
-            } catch (error) {
-              response = response;
-            }
+    SOCKET_CORE.on('getPricingForRideorDelivery-response', function (response) {
+      if (response !== false && response.response === undefined) {
+        //Estimates computed
+        //Convert to object
+        if (typeof response === String) {
+          try {
+            response = JSON.parse(response);
+          } catch (error) {
+            response = response;
           }
-          //...
-          //Fade loading screen and show results
-          //Fade the origin content
+        }
+        //...
+        //Fade loading screen and show results
+        //Fade the origin content
+        AnimatedNative.parallel([
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
+            {
+              toValue: 20,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          //Update pricing data in general state
+          globalObject.props.UpdatePricingStateData(response);
+
           AnimatedNative.parallel([
             AnimatedNative.timing(
               globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
               {
-                toValue: 0,
-                duration: 250,
+                toValue: 1,
+                duration: 450,
                 easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
                 useNativeDriver: true,
               },
@@ -712,46 +719,21 @@ class Home extends React.PureComponent {
             AnimatedNative.timing(
               globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
               {
-                toValue: 20,
-                duration: 250,
+                toValue: 0,
+                duration: 450,
                 easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
                 useNativeDriver: true,
               },
             ),
           ]).start(() => {
-            //Update pricing data in general state
-            globalObject.props.UpdatePricingStateData(response);
-
-            AnimatedNative.parallel([
-              AnimatedNative.timing(
-                globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
-                {
-                  toValue: 1,
-                  duration: 450,
-                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                  useNativeDriver: true,
-                },
-              ),
-              AnimatedNative.timing(
-                globalObject.props.App.bottomVitalsFlow
-                  .genericContainerPosition,
-                {
-                  toValue: 0,
-                  duration: 450,
-                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                  useNativeDriver: true,
-                },
-              ),
-            ]).start(() => {
-              globalObject.resetAnimationLoader();
-            });
+            globalObject.resetAnimationLoader();
           });
-        } //! No valid estimates due to a problem, try again
-        else {
-          //Interval persister will try again after the specified timeout of the interval.
-        }
-      },
-    );
+        });
+      } //! No valid estimates due to a problem, try again
+      else {
+        //Interval persister will try again after the specified timeout of the interval.
+      }
+    });
 
     /**
      * GET ROUTE SNAPSHOT PREVIEW OF THE DESTINATION
@@ -760,7 +742,7 @@ class Home extends React.PureComponent {
      * the wanted destination location (only consider the first one) and update the map with a preview
      * of the route to the destination and corresponding ETA.
      */
-    this.props.App.socket.on(
+    SOCKET_CORE.on(
       'getRoute_to_destinationSnapshot-response',
       function (response) {
         if (response !== false && response.destination !== undefined) {
@@ -788,7 +770,7 @@ class Home extends React.PureComponent {
      * @event: get_closest_drivers_to_point
      * ? Responsible for updating the live closest drivers on the map, maximum of 7
      */
-    this.props.App.socket.on(
+    SOCKET_CORE.on(
       'get_closest_drivers_to_point-response',
       function (response) {
         if (
@@ -811,7 +793,7 @@ class Home extends React.PureComponent {
     //Remove snapshot data
     this.props.App.previewDestinationData.originDestinationPreviewData = false;
     //...
-    this.props.App.socket.on(
+    SOCKET_CORE.on(
       'requestRideOrDeliveryForThis-response',
       function (response) {
         console.log(response);
@@ -1127,7 +1109,7 @@ class Home extends React.PureComponent {
         globalObject.props.App.longitude = position.coords.longitude;
         //---
         //Get user location
-        globalObject.props.App.socket.emit('geocode-this-point', {
+        SOCKET_CORE.emit('geocode-this-point', {
           latitude: globalObject.props.App.latitude,
           longitude: globalObject.props.App.longitude,
           user_fingerprint: globalObject.props.App.user_fingerprint,
@@ -1174,20 +1156,17 @@ class Home extends React.PureComponent {
                     globalObject.props.App.bottomVitalsFlow.currentStep,
                   )
                 ) {
-                  globalObject.props.App.socket.emit(
-                    'get_closest_drivers_to_point',
-                    {
-                      org_latitude: globalObject.props.App.latitude,
-                      org_longitude: globalObject.props.App.longitude,
-                      user_fingerprint: globalObject.props.App.user_fingerprint,
-                      city:
-                        globalObject.props.App.userCurrentLocationMetaData.city,
-                      country:
-                        globalObject.props.App.userCurrentLocationMetaData
-                          .country,
-                      ride_type: 'RIDE',
-                    },
-                  );
+                  SOCKET_CORE.emit('get_closest_drivers_to_point', {
+                    org_latitude: globalObject.props.App.latitude,
+                    org_longitude: globalObject.props.App.longitude,
+                    user_fingerprint: globalObject.props.App.user_fingerprint,
+                    city:
+                      globalObject.props.App.userCurrentLocationMetaData.city,
+                    country:
+                      globalObject.props.App.userCurrentLocationMetaData
+                        .country,
+                    ride_type: 'RIDE',
+                  });
                 } //Kill closest drivers interval persister
                 else {
                   if (
@@ -1243,7 +1222,7 @@ class Home extends React.PureComponent {
 
     if (this.props.App.gprsGlobals.hasGPRSPermissions) {
       //Get user location
-      this.props.App.socket.emit('geocode-this-point', {
+      SOCKET_CORE.emit('geocode-this-point', {
         latitude: this.props.App.latitude,
         longitude: this.props.App.longitude,
         user_fingerprint: globalObject.props.App.user_fingerprint,
@@ -1372,31 +1351,8 @@ class Home extends React.PureComponent {
         longitude: this.props.App.longitude,
         user_fingerprint: this.props.App.user_fingerprint,
       };
-      this.props.App.socket.emit('update-passenger-location', bundle);
+      SOCKET_CORE.emit('update-passenger-location', bundle);
     }
-  }
-
-  /**
-   * @func getItinarySnapshot()
-   * ? Start animation stimulus - get initial route informations for
-   * ? clear visualization of the driver's position and the destination
-   */
-  getItinarySnapshot() {
-    //Get the generl route detail - coordinates
-    //Bundle passenger and driver point
-    let bundle = {
-      driver: {latitude: blat, longitude: blon},
-      passenger: {
-        latitude: this.props.App.latitude,
-        longitude: this.props.App.longitude,
-      },
-      destination: {
-        latitude: destinationLat,
-        longitude: destinationLon,
-      },
-    };
-    //Get infos from server
-    this.props.App.socket.emit('getIteinerayDestinationInfos', bundle);
   }
 
   /**
@@ -1412,6 +1368,7 @@ class Home extends React.PureComponent {
   fire_search_animation() {
     if (this.props.App.showLocationSearch_loader) {
       let globalObject = this;
+      console.log(this.props.App.loaderPosition);
       AnimatedNative.timing(this.props.App.loaderPosition, {
         toValue: this.props.App.windowWidth,
         duration: 500,
@@ -1834,10 +1791,7 @@ class Home extends React.PureComponent {
           destinationData: this.props.App.search_passengersDestinations,
         };
         //..ask
-        this.props.App.socket.emit(
-          'getPricingForRideorDelivery',
-          pricingInputDataRaw,
-        );
+        SOCKET_CORE.emit('getPricingForRideorDelivery', pricingInputDataRaw);
       } else if (/DELIVERY/i.test(this.props.App.bottomVitalsFlow.flowParent)) {
         //DEBUG
         //this.resetAnimationLoader();
@@ -1874,10 +1828,7 @@ class Home extends React.PureComponent {
           destinationData: this.props.App.search_passengersDestinations,
         };
         //..ask
-        this.props.App.socket.emit(
-          'getPricingForRideorDelivery',
-          pricingInputDataRaw,
-        );
+        SOCKET_CORE.emit('getPricingForRideorDelivery', pricingInputDataRaw);
       }
     } //Reset search animation
     else {
@@ -2684,24 +2635,26 @@ class Home extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.window}>
-        <StatusBar backgroundColor="#000" />
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-        <DateTimePickerModal
-          isVisible={this.props.App.isSelectDatePickerActive}
-          mode="time"
-          is24Hour={true}
-          onConfirm={this.handleConfirmDateSchedule}
-          onCancel={this.handleCancelScheduleTrip}
-        />
-        <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
-      </View>
+      <DismissKeyboard>
+        <View style={styles.window}>
+          <StatusBar backgroundColor="#000" />
+          <ErrorModal
+            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+            error_status={
+              this.props.App.generalErrorModal_vars.generalErrorModalType
+            }
+            parentNode={this}
+          />
+          <DateTimePickerModal
+            isVisible={this.props.App.isSelectDatePickerActive}
+            mode="time"
+            is24Hour={true}
+            onConfirm={this.handleConfirmDateSchedule}
+            onCancel={this.handleCancelScheduleTrip}
+          />
+          <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
+        </View>
+      </DismissKeyboard>
     );
   }
 }

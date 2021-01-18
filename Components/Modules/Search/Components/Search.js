@@ -2,6 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../../../Helpers/managerNode';
 import {
   View,
   ScrollView,
@@ -35,33 +36,33 @@ class Search extends React.PureComponent {
   componentDidMount() {
     this.invoke_searchNode();
     var globalObj = this;
-    this.props.App.socket.on('connect', () => {
+    SOCKET_CORE.on('connect', () => {
       //Auto cancel anything
       //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
       //console.log('something');
     });
-    this.props.App.socket.on('error', (error) => {
+    SOCKET_CORE.on('error', (error) => {
       //console.log('something');
     });
-    this.props.App.socket.on('disconnect', () => {
+    SOCKET_CORE.on('disconnect', () => {
       //console.log('something');
     });
-    this.props.App.socket.on('connect_error', () => {
+    SOCKET_CORE.on('connect_error', () => {
       //console.log('something');
     });
-    this.props.App.socket.on('connect_timeout', () => {
+    SOCKET_CORE.on('connect_timeout', () => {
       //console.log('something');
     });
-    this.props.App.socket.on('reconnect', () => {
+    SOCKET_CORE.on('reconnect', () => {
       ////console.log('something');
     });
-    this.props.App.socket.on('reconnect_error', () => {
+    SOCKET_CORE.on('reconnect_error', () => {
       //console.log('something');
     });
-    this.props.App.socket.on('reconnect_failed', () => {
+    SOCKET_CORE.on('reconnect_failed', () => {
       //console.log('something');
     });
-    this.props.App.socket.on('getLocations-response', function (response) {
+    SOCKET_CORE.on('getLocations-response', function (response) {
       let timeReceived = new Date();
       if (globalObj.props.App.search_time_requested == null) {
         globalObj.props.App.search_time_requested = new Date();
@@ -156,7 +157,7 @@ class Search extends React.PureComponent {
         this.props.UpdateSearchMetadataLoaderState({
           search_showLocationSearch_loader: true,
         });
-        this.props.App.socket.emit('getLocations', requestPackage);
+        SOCKET_CORE.emit('getLocations', requestPackage);
       } //NO queries to process
       else {
         this.props.UpdateSearchMetadataLoaderState({

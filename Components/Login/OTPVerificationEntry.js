@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
@@ -103,7 +104,6 @@ class OTPVerificationEntry extends React.PureComponent {
           otpValue: '',
           showErrorUnmatchedOTP: false,
         }); //reset the error message, reset the otp textvalue, reset the sms limiter
-        //globalObject.requestForOTP();
       },
     );
 
@@ -119,24 +119,21 @@ class OTPVerificationEntry extends React.PureComponent {
       else {
         globalObject.props.UpdateErrorModalLog(false, false, state.type);
       }
-
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
     });
 
     //connection
-    this.props.App.socket.on('connect', () => {
+    SOCKET_CORE.on('connect', () => {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', () => {
+    SOCKET_CORE.on('error', () => {
       //console.log('something');
     });
-    this.props.App.socket.on('disconnect', () => {
+    SOCKET_CORE.on('disconnect', () => {
       //console.log('something');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_error', () => {
+    SOCKET_CORE.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
@@ -144,29 +141,29 @@ class OTPVerificationEntry extends React.PureComponent {
         'service_unavailable',
         'any',
       );
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_timeout', () => {
+    SOCKET_CORE.on('connect_timeout', () => {
       console.log('connect_timeout');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
+    SOCKET_CORE.on('reconnect', () => {
       ////console.log('something');
     });
-    this.props.App.socket.on('reconnect_error', () => {
+    SOCKET_CORE.on('reconnect_error', () => {
       console.log('reconnect_error');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect_failed', () => {
+    SOCKET_CORE.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
     //1. OTP response and user status
-    this.props.App.socket.on(
+    SOCKET_CORE.on(
       'sendOtpAndCheckerUserStatusTc-response',
       function (response) {
         console.log(response);
@@ -189,9 +186,10 @@ class OTPVerificationEntry extends React.PureComponent {
               //Registered user
               globalObject.state.userStatus = 'registered_user';
               //Save the user_fp!!!!
-              syncStorage.set('@ufp', response.user_fp);
+              globalObject.props.App.user_fingerprint = response.user_fp;
             } //Error
             else {
+              globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
               globalObject.props.UpdateErrorModalLog(
                 true,
                 'error_checking_user_status_login',
@@ -200,6 +198,7 @@ class OTPVerificationEntry extends React.PureComponent {
             }
           } //Error - call error modal with try again button going back to phone number input
           else {
+            globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
             globalObject.setState({loaderState: false});
             globalObject.props.UpdateErrorModalLog(
               true,
@@ -209,6 +208,7 @@ class OTPVerificationEntry extends React.PureComponent {
           }
         } //Error - go back to phone number
         else {
+          globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
           globalObject.setState({loaderState: false});
           globalObject.goBackFUnc();
         }
@@ -218,7 +218,7 @@ class OTPVerificationEntry extends React.PureComponent {
     /**
      * CHECK OTP
      */
-    this.props.App.socket.on('checkThisOTP_SMS-response', function (response) {
+    SOCKET_CORE.on('checkThisOTP_SMS-response', function (response) {
       globalObject.setState({loaderState: false}); //Disable the loader
       if (response.response !== undefined) {
         if (response.response === true) {
@@ -385,7 +385,7 @@ class OTPVerificationEntry extends React.PureComponent {
         }, 30000);
 
         //Has a final number
-        this.props.App.socket.emit('sendOtpAndCheckerUserStatusTc', {
+        SOCKET_CORE.emit('sendOtpAndCheckerUserStatusTc', {
           phone_number: phoneNumber,
         });
       }
@@ -408,7 +408,7 @@ class OTPVerificationEntry extends React.PureComponent {
         loaderState: true,
         checkingOTP: true,
       });
-      this.props.App.socket.emit('checkThisOTP_SMS', {
+      SOCKET_CORE.emit('checkThisOTP_SMS', {
         phone_number: this.props.App.finalPhoneNumber,
         otp: this.state.otpValue,
       });

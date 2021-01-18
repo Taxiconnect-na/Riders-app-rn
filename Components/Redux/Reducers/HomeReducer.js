@@ -1,14 +1,26 @@
 /* eslint-disable prettier/prettier */
-import {combineReducers} from 'redux';
 import {Animated as AnimatedMapbox} from '@react-native-mapbox-gl/maps';
 import parsePhoneNumber from 'libphonenumber-js';
-const escapeStringRegexp = require('escape-string-regexp');
+import {persistCombineReducers, createTransform} from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {parse as Flatted_Parse, stringify as Flatted_Stringify} from 'flatted';
 import {Animated, Easing} from 'react-native';
 import STATE from '../Constants/State';
 /**
  * Reducer responsible for all the home actions (trip booking, tracking, etc)
  * Centralized file.
  */
+
+export const transformCircular = createTransform(
+  (inboundState, key) => Flatted_Stringify(inboundState),
+  (outboundState, key) => Flatted_Parse(outboundState),
+);
+
+const reduxPersistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  transforms: [transformCircular],
+};
 
 const INIT_STATE = STATE;
 
@@ -1961,10 +1973,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.errorReceiverNameShow = false; //Hide corresponding error text
         newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName = newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName.trim();
         //Check the phone number validity
-        console.log(
-          newState.countryPhoneCode +
-            newState.phoneNumberEntered.replace(/ /g, '').replace(/^0/, ''),
-        );
         phoneNumberModuleTmp = parsePhoneNumber(
           newState.countryPhoneCode +
             newState.phoneNumberEntered.replace(/ /g, '').replace(/^0/, ''),
@@ -2032,10 +2040,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'VALIDATE_GENERIC_PHONE_NUMBER':
       //Check the phone number validity
-      console.log(
-        newState.countryPhoneCode +
-          newState.phoneNumberEntered.replace(/ /g, '').replace(/^0/, ''),
-      );
       phoneNumberModuleTmp = parsePhoneNumber(
         newState.countryPhoneCode +
           newState.phoneNumberEntered.replace(/ /g, '').replace(/^0/, ''),
@@ -2086,6 +2090,13 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'RESET_GENERIC_PHONE_NUMBER_INPUT':
+      //Generic phone number input variable
+      newState.countriesDialDataState = null; //Data for all the considered countries - default: complete set, can be filtereed but not altered! - to be initialized in the constructor of the module
+      newState.renderCountryCodeSeacher = false; //Whether to show or not the list of country code to select one
+      newState.phoneNumberEntered = ''; //Phone number entered by the user
+      newState.isFilterCountryShown = false; //Whether or not to show the country search filter on user action - default: false
+      newState.typedCountrySearchQuery = ''; //Query typed to search a specific country
+      newState.finalPhoneNumber = false; //Store the final generated phone number
       //Generic phone number input variable
       newState.isPhoneNumberValid = false; //TO know if the phone number is valid or not.
 
@@ -2253,6 +2264,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
   }
 };
 
-export default combineReducers({
+export default persistCombineReducers(reduxPersistConfig, {
   App: HomeReducer,
 });

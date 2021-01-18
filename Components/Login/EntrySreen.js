@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {
   SafeAreaView,
   View,
@@ -12,26 +11,20 @@ import {
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import SyncStorage from 'sync-storage';
 
 class EntryScreen extends React.PureComponent {
   constructor(props) {
     super(props);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     //Check for the user_fp
-    await SyncStorage.init();
-    let user_fp = SyncStorage.get('@ufp');
-    console.log(user_fp);
     if (
-      user_fp !== undefined &&
-      user_fp !== null &&
-      user_fp !== false &&
-      user_fp.length > 50
+      this.props.App.user_fingerprint !== undefined &&
+      this.props.App.user_fingerprint !== null &&
+      this.props.App.user_fingerprint !== false &&
+      this.props.App.user_fingerprint.length > 40
     ) {
-      //Valid - move to home
-      this.props.App.user_fingerprint = user_fp;
       this.props.navigation.navigate('Home');
     }
   }
@@ -103,7 +96,7 @@ class EntryScreen extends React.PureComponent {
               <Text
                 style={[
                   systemWeights.regular,
-                  {fontFamily: 'Allrounder-Grotesk-Book', fontSize: 18.5},
+                  {fontFamily: 'Allrounder-Grotesk-Book', fontSize: 19},
                 ]}>
                 What's your phone number?
               </Text>

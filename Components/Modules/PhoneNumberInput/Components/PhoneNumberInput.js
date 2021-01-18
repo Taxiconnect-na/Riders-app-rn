@@ -38,6 +38,13 @@ class PhoneNumberInput extends React.PureComponent {
 
     //Initialize emojis data
     this.props.App.countriesDialDataState = countriesDialData;
+
+    this.state = {
+      selection: {
+        start: 0,
+        end: 0,
+      },
+    };
   }
 
   /**
@@ -382,6 +389,14 @@ class PhoneNumberInput extends React.PureComponent {
     ]).start();
   }
 
+  /**
+   * @func handleSelectionChange
+   * Responsible for
+   * selection is an object: { start:number, end:number }
+   */
+  handleSelectionChange = ({nativeEvent: {selection}}) =>
+    this.setState({selection});
+
   render() {
     return (
       <>
@@ -438,6 +453,8 @@ class PhoneNumberInput extends React.PureComponent {
           <View style={{flex: 1}}>
             <TextInput
               placeholder={this.props.App.phoneNumberPlaceholder}
+              /*selection={this.state.selection}
+              onSelectionChange={this.handleSelectionChange}*/
               onFocus={() =>
                 this.props.UpdateErrorMessagesStateInputRecDelivery({
                   kidName: 'number',

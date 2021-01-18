@@ -1,14 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Image,
   Keyboard,
   TextInput,
 } from 'react-native';
@@ -27,7 +26,6 @@ import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import EmailValidator from '../Helpers/EmailValidator';
-import SyncStorage from 'sync-storage';
 
 class NewAccountAdditionalDetails extends React.PureComponent {
   constructor(props) {
@@ -41,6 +39,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       showEmailError: false, //When the email's format is wrong. - defautl:false
       completingAccountProfile: false, //To know whether the app is completing the profile or not - default:false
       networkStateChecker: false,
+      currentFocusName: 'name', //To know which field is currently focused
     };
   }
 
@@ -60,12 +59,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       else {
         globalObject.props.UpdateErrorModalLog(false, false, state.type);
       }
-
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
     });
     //connection
-    this.props.App.socket.on('connect', () => {
+    SOCKET_CORE.on('connect', () => {
       if (
         !/gender_select/i.test(globalObject.props.App.generalErrorModalType)
       ) {
@@ -74,14 +70,14 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       }
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {
+    SOCKET_CORE.on('error', (error) => {
       //console.log('something');
     });
-    this.props.App.socket.on('disconnect', () => {
+    SOCKET_CORE.on('disconnect', () => {
       //console.log('something');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_error', () => {
+    SOCKET_CORE.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       if (
@@ -90,53 +86,43 @@ class NewAccountAdditionalDetails extends React.PureComponent {
         //Do not interrupt the select gender process
         globalObject.props.UpdateErrorModalLog(
           true,
-          'connection_no_network',
+          'service_unavailable',
           'any',
         );
       }
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('connect_timeout', () => {
+    SOCKET_CORE.on('connect_timeout', () => {
       console.log('connect_timeout');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
+    SOCKET_CORE.on('reconnect', () => {
       ////console.log('something');
     });
-    this.props.App.socket.on('reconnect_error', () => {
+    SOCKET_CORE.on('reconnect_error', () => {
       console.log('reconnect_error');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
-    this.props.App.socket.on('reconnect_failed', () => {
+    SOCKET_CORE.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      globalObject.props.App.socket.connect();
+      SOCKET_CORE.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
     //1. Complete profile details.
-    this.props.App.socket.on(
-      'updateAdditionalProfileData-response',
-      function (response) {
-        globalObject.setState({loaderState: false}); //stop loader
-        if (response !== false && response.response !== undefined) {
-          if (!/error/i.test(response.response)) {
-            //Success
-            //Update the general state infos and move forward
-            globalObject.props.App.username = response.name;
-            globalObject.props.App.gender_user = response.gender;
-            globalObject.props.App.email = response.email;
-            //Move to home
-            globalObject.props.navigation.navigate('Home');
-          } //Error updating the addition details - show error, but can proceed
-          else {
-            globalObject.props.UpdateErrorModalLog(
-              true,
-              'error_adding_additional_profile_details_new_account',
-              'any',
-            );
-          }
+    SOCKET_CORE.on('updateAdditionalProfileData-response', function (response) {
+      globalObject.setState({loaderState: false}); //stop loader
+      if (response !== false && response.response !== undefined) {
+        if (!/error/i.test(response.response)) {
+          //Success
+          //Update the general state infos and move forward
+          globalObject.props.App.username = response.name;
+          globalObject.props.App.gender_user = response.gender;
+          globalObject.props.App.email = response.email;
+          //Move to home
+          globalObject.props.navigation.navigate('Home');
         } //Error updating the addition details - show error, but can proceed
         else {
           globalObject.props.UpdateErrorModalLog(
@@ -145,8 +131,15 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             'any',
           );
         }
-      },
-    );
+      } //Error updating the addition details - show error, but can proceed
+      else {
+        globalObject.props.UpdateErrorModalLog(
+          true,
+          'error_adding_additional_profile_details_new_account',
+          'any',
+        );
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -154,6 +147,20 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
     }
+  }
+
+  /**
+   * @func updateCurrentFocused_field
+   * To update the current field under focused.
+   * @param name: the name of the field or none for no fields unfocused.
+   * Also hide errors
+   */
+  updateCurrentFocused_field(name) {
+    this.setState({
+      currentFocusName: name,
+      showEmailError: /email/i.test(name) ? false : this.state.showEmailError,
+      showErrorName: /name/i.test(name) ? false : this.state.showErrorName,
+    });
   }
 
   /**
@@ -183,11 +190,16 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       //Check the email
       if (EmailValidator(this.state.email)) {
         //Good
-        let user_fingerprint = SyncStorage.get('@ufp');
-        if (user_fingerprint !== undefined) {
+        let user_fingerprint = this.props.App.user_fingerprint;
+        if (
+          user_fingerprint !== undefined &&
+          user_fingerprint !== null &&
+          user_fingerprint.length !== undefined &&
+          user_fingerprint.length > 50
+        ) {
           //Good
           //Request for profile update
-          this.props.App.socket.emit('updateAdditionalProfileData', {
+          SOCKET_CORE.emit('updateAdditionalProfileData', {
             name: this.state.name,
             email: this.state.email,
             gender: this.props.App.gender_user,
@@ -225,12 +237,12 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             </TouchableOpacity>
             <Text
               style={[
-                systemWeights.semibold,
                 {
-                  fontSize: 19,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontSize: 22,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
                   marginTop: 15,
                   marginBottom: 35,
+                  textAlign: 'center',
                 },
               ]}>
               Welcome to TaxiConnect!
@@ -239,12 +251,19 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             <View>
               <TextInput
                 placeholder="What's your name?"
+                onFocus={() => this.updateCurrentFocused_field('name')}
+                onBlur={() => this.updateCurrentFocused_field('none')}
                 autoFocus
                 onChangeText={(text) => this.setState({name: text})}
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 18,
-                  borderBottomWidth: 0.7,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 19,
+                  borderBottomWidth: /name/i.test(this.state.currentFocusName)
+                    ? 1
+                    : 0.7,
+                  borderBottomColor: /name/i.test(this.state.currentFocusName)
+                    ? '#0e8491'
+                    : '#000',
                   paddingBottom: 20,
                   paddingLeft: 0,
                 }}
@@ -255,7 +274,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                     {
                       fontFamily: 'Allrounder-Grotesk-Book',
                       color: '#b22222',
-                      fontSize: 15,
+                      fontSize: 16,
                       marginTop: 10,
                     },
                   ]}>
@@ -268,8 +287,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               style={{
                 fontFamily: 'Allrounder-Grotesk-Book',
                 marginTop: '10%',
-                marginBottom: 10,
-                fontSize: 13,
+                marginBottom: 15,
+                fontSize: 14,
+                color: '#a5a5a5',
               }}>
               Gender
             </Text>
@@ -277,8 +297,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               onPress={() => this.showModalGenderSelecter()}
               style={{
                 borderBottomWidth: 0.7,
-                paddingBottom: 10,
+                paddingBottom: 20,
                 flexDirection: 'row',
+                alignItems: 'center',
               }}>
               {/^male$/i.test(this.props.App.gender_user) ? (
                 <IconFontisto name="male" size={18} color="#0e8491" />
@@ -296,7 +317,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
+                  fontSize: 19,
                   marginLeft: 5,
                   flex: 1,
                   alignItems: 'center',
@@ -309,7 +330,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-down"
-                color={'#0e8491'}
+                color={'#000'}
                 size={22}
               />
             </TouchableOpacity>
@@ -318,10 +339,17 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               <TextInput
                 placeholder="Email"
                 onChangeText={(text) => this.setState({email: text})}
+                onFocus={() => this.updateCurrentFocused_field('email')}
+                onBlur={() => this.updateCurrentFocused_field('none')}
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  fontSize: 18,
-                  borderBottomWidth: 0.7,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 19,
+                  borderBottomWidth: /email/i.test(this.state.currentFocusName)
+                    ? 1
+                    : 0.7,
+                  borderBottomColor: /email/i.test(this.state.currentFocusName)
+                    ? '#0e8491'
+                    : '#000',
                   paddingBottom: 20,
                   paddingLeft: 0,
                   marginTop: '11%',
@@ -334,7 +362,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                     {
                       fontFamily: 'Allrounder-Grotesk-Book',
                       color: '#b22222',
-                      fontSize: 15,
+                      fontSize: 16,
                       marginTop: 10,
                     },
                   ]}>

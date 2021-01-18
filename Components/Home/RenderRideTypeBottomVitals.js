@@ -1046,7 +1046,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   //Not yet request and no errors
                   //Check wheher an answer was already received - if not keep requesting
                   console.log('Ride or Delivery request');
-                  globalObject.props.App.socket.emit(
+                  SOCKET_CORE.emit(
                     'requestRideOrDeliveryForThis',
                     RIDE_OR_DELIVERY_BOOKING_DATA,
                   );

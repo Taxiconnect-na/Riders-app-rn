@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -59,7 +60,7 @@ class ErrorModal extends React.PureComponent {
      * SOCKET.IO RESPONSES
      */
     //1. Handle request dropoff request response
-    this.props.App.socket.on(
+    SOCKET_CORE.on(
       'confirmRiderDropoff_requests_io-response',
       function (response) {
         //Stop the loader and restore
@@ -92,26 +93,23 @@ class ErrorModal extends React.PureComponent {
     );
 
     //2 Handle cancel request response
-    this.props.App.socket.on(
-      'cancelRiders_request_io-response',
-      function (response) {
-        //Stop the loader and restore
-        globalObject.setState({isLoading_something: false});
-        if (
-          response !== false &&
-          response.response !== undefined &&
-          response.response !== null
-        ) {
-          //Received a response
-          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-          //Reset all the trips
-          globalObject.props.ResetStateProps(globalObject.props.parentNode);
-        } //error - close modal
-        else {
-          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-        }
-      },
-    );
+    SOCKET_CORE.on('cancelRiders_request_io-response', function (response) {
+      //Stop the loader and restore
+      globalObject.setState({isLoading_something: false});
+      if (
+        response !== false &&
+        response.response !== undefined &&
+        response.response !== null
+      ) {
+        //Received a response
+        globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+        //Reset all the trips
+        globalObject.props.ResetStateProps(globalObject.props.parentNode);
+      } //error - close modal
+      else {
+        globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+      }
+    });
   }
 
   /**
@@ -129,10 +127,7 @@ class ErrorModal extends React.PureComponent {
       request_fp: request_fp,
     };
     //..
-    this.props.App.socket.emit(
-      'confirmRiderDropoff_requests_io',
-      dropoff_bundle,
-    );
+    SOCKET_CORE.emit('confirmRiderDropoff_requests_io', dropoff_bundle);
   }
 
   /**
@@ -173,7 +168,7 @@ class ErrorModal extends React.PureComponent {
         user_fingerprint: this.props.App.user_fingerprint,
       };
       ///...
-      this.props.App.socket.emit('cancelRiders_request_io', bundleData);
+      SOCKET_CORE.emit('cancelRiders_request_io', bundleData);
     } //Invalid request fp - close the modal
     else {
       this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
@@ -512,7 +507,7 @@ class ErrorModal extends React.PureComponent {
           style={{
             backgroundColor: '#fff',
             padding: 20,
-            height: 300,
+            height: 360,
           }}>
           <View
             style={{
@@ -530,13 +525,13 @@ class ErrorModal extends React.PureComponent {
               onPress={() => this.props.UpdateUserGenderState('male')}
               style={[
                 styles.bttnGenericTc,
-                {borderRadius: 2, marginBottom: 10},
+                {borderRadius: 2, marginBottom: 20},
               ]}>
               <IconFontisto name="male" size={20} color="#fff" />
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   color: '#fff',
                   marginLeft: 5,
                 }}>
@@ -547,13 +542,13 @@ class ErrorModal extends React.PureComponent {
               onPress={() => this.props.UpdateUserGenderState('female')}
               style={[
                 styles.bttnGenericTc,
-                {borderRadius: 2, marginBottom: 10},
+                {borderRadius: 2, marginBottom: 20},
               ]}>
               <IconFontisto name="female" size={20} color="#fff" />
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   color: '#fff',
                   marginLeft: 5,
                 }}>
@@ -561,14 +556,17 @@ class ErrorModal extends React.PureComponent {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.bttnGenericTc, {borderRadius: 2}]}
+              style={[
+                styles.bttnGenericTc,
+                {borderRadius: 2, backgroundColor: '#f0f0f0'},
+              ]}
               onPress={() => this.props.UpdateUserGenderState('unknown')}>
-              <IconEntypo name="block" size={20} color="#fff" top={10} />
+              <IconEntypo name="block" size={20} color="#000" top={10} />
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
-                  color: '#fff',
+                  fontSize: 20,
+                  color: '#000',
                   marginLeft: 5,
                 }}>
                 Rather not say
