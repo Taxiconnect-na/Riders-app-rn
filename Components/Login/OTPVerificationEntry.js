@@ -29,7 +29,7 @@ import {
 } from '../Redux/HomeActionsCreators';
 import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
-import syncStorage from 'sync-storage';
+import SyncStorage from 'sync-storage';
 
 const App = ({valueM, parentNode, editable}) => {
   const [value, setValue] = useState('');
@@ -89,7 +89,7 @@ class OTPVerificationEntry extends React.PureComponent {
     this.otpHandler = this.otpHandler.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let globalObject = this;
     //RNOtpVerify.getHash().then(console.log).catch(console.log);
     this.initOTPListener();
@@ -187,9 +187,12 @@ class OTPVerificationEntry extends React.PureComponent {
               globalObject.state.userStatus = 'registered_user';
               //Save the user_fp!!!!
               globalObject.props.App.user_fingerprint = response.user_fp;
+              SyncStorage.set('@user_fp', response.user_fp);
             } //Error
             else {
               globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+              SyncStorage.remove('@user_fp');
+
               globalObject.props.UpdateErrorModalLog(
                 true,
                 'error_checking_user_status_login',
@@ -199,6 +202,8 @@ class OTPVerificationEntry extends React.PureComponent {
           } //Error - call error modal with try again button going back to phone number input
           else {
             globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+            SyncStorage.remove('@user_fp');
+
             globalObject.setState({loaderState: false});
             globalObject.props.UpdateErrorModalLog(
               true,
@@ -209,6 +214,8 @@ class OTPVerificationEntry extends React.PureComponent {
         } //Error - go back to phone number
         else {
           globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+          SyncStorage.remove('@user_fp');
+
           globalObject.setState({loaderState: false});
           globalObject.goBackFUnc();
         }

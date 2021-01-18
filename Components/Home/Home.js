@@ -50,6 +50,7 @@ import {
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import SyncStorage from 'sync-storage';
 //DEBUG
 //import {ROUTE} from './Route';
 const INIT_ZOOM_LEVEL = 0.384695086717085;
@@ -295,9 +296,6 @@ class Home extends React.PureComponent {
     //Initialize loader
     if (this.props.App.showLocationSearch_loader === false) {
       this.props.App.showLocationSearch_loader = true;
-      //INit template
-      this.props.App.loaderPosition = new AnimatedNative.Value(0);
-      this.props.App.loaderBasicWidth = new AnimatedNative.Value(1);
 
       this.fire_search_animation();
     }
@@ -1219,7 +1217,6 @@ class Home extends React.PureComponent {
    */
   recalibrateMap(fromRecenterButton = false) {
     let globalObject = this;
-
     if (this.props.App.gprsGlobals.hasGPRSPermissions) {
       //Get user location
       SOCKET_CORE.emit('geocode-this-point', {
@@ -1254,6 +1251,16 @@ class Home extends React.PureComponent {
                     this.camera.setCamera({
                       zoomLevel: INIT_ZOOM_LEVEL,
                     }); //Back to init zoom level only if the coords are 0
+                  } //Set the user on the point
+                  else {
+                    globalObject.camera.setCamera({
+                      centerCoordinate: [
+                        globalObject.props.App.longitude,
+                        globalObject.props.App.latitude,
+                      ],
+                      zoomLevel: 14,
+                      animationDuration: 2000,
+                    });
                   }
                   //...
                   if (
@@ -1264,6 +1271,7 @@ class Home extends React.PureComponent {
                   ) {
                     //Initialize view
                     let timeout = setTimeout(function () {
+                      console.log('in HERE');
                       globalObject.camera.setCamera({
                         centerCoordinate: [
                           globalObject.props.App.longitude,
@@ -1346,6 +1354,27 @@ class Home extends React.PureComponent {
    */
   updateRemoteLocationsData() {
     if (this.props.App._IS_MAP_INITIALIZED) {
+      let globalObject = this;
+      //Save the coordinates in storage
+      let promiseSync = new Promise((res) => {
+        SyncStorage.set(
+          '@userLocationPoint',
+          JSON.stringify({
+            latitude: globalObject.props.App.latitude,
+            longitude: globalObject.props.App.longitude,
+          }),
+        ).then(
+          () => {
+            res(true);
+          },
+          () => {
+            res(false);
+          },
+        );
+      }).then(
+        () => {},
+        () => {},
+      );
       let bundle = {
         latitude: this.props.App.latitude,
         longitude: this.props.App.longitude,
@@ -1368,7 +1397,6 @@ class Home extends React.PureComponent {
   fire_search_animation() {
     if (this.props.App.showLocationSearch_loader) {
       let globalObject = this;
-      console.log(this.props.App.loaderPosition);
       AnimatedNative.timing(this.props.App.loaderPosition, {
         toValue: this.props.App.windowWidth,
         duration: 500,

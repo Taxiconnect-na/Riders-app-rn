@@ -26,6 +26,7 @@ import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import EmailValidator from '../Helpers/EmailValidator';
+import SyncStorage from 'sync-storage';
 
 class NewAccountAdditionalDetails extends React.PureComponent {
   constructor(props) {
@@ -120,11 +121,20 @@ class NewAccountAdditionalDetails extends React.PureComponent {
           //Update the general state infos and move forward
           globalObject.props.App.username = response.name;
           globalObject.props.App.gender_user = response.gender;
-          globalObject.props.App.email = response.email;
+          globalObject.props.App.user_email = response.email;
+          //Update storage
+          SyncStorage.set('@username', response.name);
+          SyncStorage.set('@gender_user', response.gender);
+          SyncStorage.set('@user_email', response.email);
           //Move to home
           globalObject.props.navigation.navigate('Home');
         } //Error updating the addition details - show error, but can proceed
         else {
+          //Remove storage
+          SyncStorage.remove('@username');
+          SyncStorage.remove('@gender_user');
+          SyncStorage.remove('@user_email');
+
           globalObject.props.UpdateErrorModalLog(
             true,
             'error_adding_additional_profile_details_new_account',
@@ -133,6 +143,11 @@ class NewAccountAdditionalDetails extends React.PureComponent {
         }
       } //Error updating the addition details - show error, but can proceed
       else {
+        //Remove storage
+        SyncStorage.remove('@username');
+        SyncStorage.remove('@gender_user');
+        SyncStorage.remove('@user_email');
+
         globalObject.props.UpdateErrorModalLog(
           true,
           'error_adding_additional_profile_details_new_account',

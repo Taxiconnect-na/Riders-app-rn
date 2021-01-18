@@ -19,6 +19,7 @@ import {
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
+import SyncStorage from 'sync-storage';
 
 class CreateAccountEntry extends React.PureComponent {
   constructor(props) {
@@ -102,11 +103,14 @@ class CreateAccountEntry extends React.PureComponent {
           //Successfully created
           //Save the fingerprint
           globalObject.props.App.user_fingerprint = response.user_fp; //Save user fingerprint
+          SyncStorage.set('@user_fp', response.user_fp);
           //Move forward
           globalObject.props.navigation.navigate('NewAccountAdditionalDetails');
         } //error creating account
         else {
           globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+          SyncStorage.remove('@user_fp');
+
           globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
           globalObject.props.UpdateErrorModalLog(
             true,
@@ -117,6 +121,8 @@ class CreateAccountEntry extends React.PureComponent {
       } //Error creating the account
       else {
         globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+        SyncStorage.remove('@user_fp');
+
         globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
         globalObject.props.UpdateErrorModalLog(
           true,

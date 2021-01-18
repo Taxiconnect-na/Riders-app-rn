@@ -2544,7 +2544,6 @@ class ErrorModal extends React.PureComponent {
     return (
       <View>
         {/**Check if the modal is not yet active with the same error status message */}
-        {console.log('Modal called')}
         {
           <Modal
             testID={'modal'}

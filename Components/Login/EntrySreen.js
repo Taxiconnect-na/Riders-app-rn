@@ -11,14 +11,56 @@ import {
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import SyncStorage from 'sync-storage';
 
 class EntryScreen extends React.PureComponent {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     //Check for the user_fp
+    //Get persisted data and update the general state
+    //user_fp, pushnotif_token, userCurrentLocationMetaData, latitude, longitude
+    await SyncStorage.init();
+    let user_fp = SyncStorage.get('@user_fp');
+    let pushnotif_token = SyncStorage.get('@pushnotif_token');
+    let userCurrentLocationMetaData = SyncStorage.get(
+      '@userCurrentLocationMetaData',
+    );
+    let userLocationPoint = SyncStorage.get('@userLocationPoint');
+    let gender_user = SyncStorage.get('@gender_user');
+    let username = SyncStorage.get('@username');
+    let user_email = SyncStorage.get('@user_email');
+
+    //Update globals
+    this.props.App.gender_user = gender_user;
+    this.props.App.username = username;
+    this.props.App.user_email = user_email;
+    this.props.App.user_fingerprint = user_fp;
+    this.props.App.pushnotif_token = pushnotif_token;
+    try {
+      userCurrentLocationMetaData = JSON.parse(userCurrentLocationMetaData);
+      this.props.App.userCurrentLocationMetaData = userCurrentLocationMetaData;
+    } catch (error) {
+      this.props.App.userCurrentLocationMetaData = {};
+    }
+    //..
+    try {
+      userLocationPoint = JSON.parse(userLocationPoint);
+      this.props.App.latitude = userLocationPoint.latitude;
+      this.props.App.longitude = userLocationPoint.longitude;
+    } catch (error) {
+      this.props.App.latitude = 0;
+      this.props.App.longitude = 0;
+    }
+    //...
+    console.log(
+      user_fp,
+      pushnotif_token,
+      userCurrentLocationMetaData,
+      userLocationPoint,
+    );
     if (
       this.props.App.user_fingerprint !== undefined &&
       this.props.App.user_fingerprint !== null &&

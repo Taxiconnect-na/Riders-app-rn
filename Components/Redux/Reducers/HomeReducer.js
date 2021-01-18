@@ -1,26 +1,14 @@
 /* eslint-disable prettier/prettier */
+import {combineReducers} from 'redux';
 import {Animated as AnimatedMapbox} from '@react-native-mapbox-gl/maps';
+import SOCKET_CORE from '../../Helpers/managerNode';
 import parsePhoneNumber from 'libphonenumber-js';
-import {persistCombineReducers, createTransform} from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {parse as Flatted_Parse, stringify as Flatted_Stringify} from 'flatted';
 import {Animated, Easing} from 'react-native';
 import STATE from '../Constants/State';
 /**
  * Reducer responsible for all the home actions (trip booking, tracking, etc)
  * Centralized file.
  */
-
-export const transformCircular = createTransform(
-  (inboundState, key) => Flatted_Stringify(inboundState),
-  (outboundState, key) => Flatted_Parse(outboundState),
-);
-
-const reduxPersistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  transforms: [transformCircular],
-};
 
 const INIT_STATE = STATE;
 
@@ -415,7 +403,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
     case 'UPDATE_PROCESS_FLOW_STATE':
       //Launch the loader - should be done conditionally to the flow states that require a loader period!
       if (action.payload.parentTHIS !== undefined) {
-        newState.socket.emit('geocode-this-point', {
+        SOCKET_CORE.emit('geocode-this-point', {
           latitude: newState.latitude,
           longitude: newState.longitude,
           user_fingerprint: newState.user_fingerprint,
@@ -2264,6 +2252,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
   }
 };
 
-export default persistCombineReducers(reduxPersistConfig, {
+export default combineReducers({
   App: HomeReducer,
 });

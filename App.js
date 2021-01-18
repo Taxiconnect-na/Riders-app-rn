@@ -14,11 +14,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import RootScreens from './Navigation/RootScreens';
 import config from './Components/Helpers/config';
 import StorageManager from './Components/Helpers/StorageManager';
-import {persistStore} from 'redux-persist';
-import {PersistGate} from 'redux-persist/integration/react';
-//import {LogBox} from 'react-native';
+import {LogBox} from 'react-native';
 
-//LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs();
 
 //Initiate the storage
 StorageManager('init');
@@ -29,16 +27,12 @@ MapboxGL.removeCustomHeader('Authorization');
 const store = createStore(HomeReducer);
 
 const App: () => React$Node = () => {
-  let persistor = persistStore(store);
-
   return (
     <>
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer>
-            <RootScreens />
-          </NavigationContainer>
-        </PersistGate>
+        <NavigationContainer>
+          <RootScreens />
+        </NavigationContainer>
       </Provider>
     </>
   );
