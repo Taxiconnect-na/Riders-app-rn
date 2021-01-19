@@ -43,23 +43,7 @@ class YourRidesEntry extends React.PureComponent {
     this.props.UpdateType_rideShown_YourRides_screen(type);
   }
 
-  async componentDidMount() {
-    //Check for the user_fp
-    await SyncStorage.init();
-    let user_fp = SyncStorage.get('@ufp');
-    if (
-      user_fp !== undefined &&
-      user_fp !== null &&
-      user_fp !== false &&
-      user_fp.length > 50
-    ) {
-      //Valid
-      this.props.App.user_fingerprint = user_fp;
-    } //Invalid user fp - back to home
-    else {
-      this.props.navigation.navigate('EntryScreen');
-    }
-
+  componentDidMount() {
     let globalObject = this;
     //Get initial rides - set default: past (always)
     this.updateYourRidesSHownOnes('Past');

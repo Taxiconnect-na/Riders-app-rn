@@ -32,10 +32,13 @@ class CreateAccountEntry extends React.PureComponent {
     };
   }
 
-  componentDidMount() {
-    let globalObject = this;
+  componentWillUnmount() {
     //Reset phone number
     this.props.ResetGenericPhoneNumberInput();
+  }
+
+  componentDidMount() {
+    let globalObject = this;
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {

@@ -3,7 +3,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import SOCKET_CORE from '../Helpers/managerNode';
-import GeolocationP from 'react-native-geolocation-service';
+//import GeolocationP from 'react-native-geolocation-service';
+import GeolocationP from '@react-native-community/geolocation';
 import {point} from '@turf/helpers';
 import {
   View,
@@ -140,7 +141,12 @@ class Home extends React.PureComponent {
                   //Launch recalibration
                   globalObject.recalibrateMap();
                 },
-                {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000},
+                {
+                  enableHighAccuracy: true,
+                  timeout: 200000,
+                  maximumAge: 1000,
+                  distanceFilter: 3,
+                },
               );
               this.props.App.isMapPermitted = true;
             } else {
@@ -215,7 +221,12 @@ class Home extends React.PureComponent {
                 //Launch recalibration
                 globalObject.recalibrateMap();
               },
-              {enableHighAccuracy: true, timeout: 10000, maximumAge: 3000},
+              {
+                enableHighAccuracy: true,
+                timeout: 2000,
+                maximumAge: 1000,
+                distanceFilter: 3,
+              },
             );
             this.props.App.isMapPermitted = true;
           } //Permission denied
@@ -276,8 +287,19 @@ class Home extends React.PureComponent {
    * Main mounting point of the app
    */
 
-  componentDidMount() {
+  async componentDidMount() {
     let globalObject = this;
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Enable location',
+        message:
+          'TaxiConnect requires access to your location to provide an optimal experience.',
+        buttonPositive: 'Allow',
+        buttonNegative: 'Cancel',
+      },
+    );
+    globalObject.GPRS_resolver();
 
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
@@ -1101,29 +1123,32 @@ class Home extends React.PureComponent {
 
   getCurrentPositionCusto = () => {
     let globalObject = this;
-    this.props.App._MAIN_LOCATION_WATCHER = GeolocationP.watchPosition(
-      (position) => {
-        globalObject.props.App.latitude = position.coords.latitude;
-        globalObject.props.App.longitude = position.coords.longitude;
-        //---
-        //Get user location
-        SOCKET_CORE.emit('geocode-this-point', {
-          latitude: globalObject.props.App.latitude,
-          longitude: globalObject.props.App.longitude,
-          user_fingerprint: globalObject.props.App.user_fingerprint,
-        });
-      },
-      (error) => {
-        //...
-        console.log(error);
-      },
-      {
-        timeout: 10,
-        maximumAge: 1000,
-        distanceFilter: 3,
-        enableHighAccuracy: true,
-      },
-    );
+    if (this.props.App._MAIN_LOCATION_WATCHER === null) {
+      this.props.App._MAIN_LOCATION_WATCHER = GeolocationP.watchPosition(
+        (position) => {
+          globalObject.props.App.latitude = position.coords.latitude;
+          globalObject.props.App.longitude = position.coords.longitude;
+          //---
+          //Get user location
+          SOCKET_CORE.emit('geocode-this-point', {
+            latitude: globalObject.props.App.latitude,
+            longitude: globalObject.props.App.longitude,
+            user_fingerprint: globalObject.props.App.user_fingerprint,
+          });
+        },
+        (error) => {
+          //...
+          console.log(error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 200000,
+          maximumAge: 1000,
+          distanceFilter: 3,
+        },
+      );
+    }
+
     //Update the list of the closest drivers - Promisify
     let promiseClosestDrivers = new Promise((res) => {
       //Update the list of the closest drivers if no trip in progress
@@ -1271,7 +1296,6 @@ class Home extends React.PureComponent {
                   ) {
                     //Initialize view
                     let timeout = setTimeout(function () {
-                      console.log('in HERE');
                       globalObject.camera.setCamera({
                         centerCoordinate: [
                           globalObject.props.App.longitude,

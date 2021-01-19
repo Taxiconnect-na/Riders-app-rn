@@ -26,23 +26,8 @@ class WalletEntry extends React.PureComponent {
     super(props);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     let globalObject = this;
-    //Check for the user_fp
-    await SyncStorage.init();
-    let user_fp = SyncStorage.get('@ufp');
-    if (
-      user_fp !== undefined &&
-      user_fp !== null &&
-      user_fp !== false &&
-      user_fp.length > 50
-    ) {
-      //Valid
-      this.props.App.user_fingerprint = user_fp;
-    } //Invalid user fp - back to home
-    else {
-      this.props.navigation.navigate('EntryScreen');
-    }
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
