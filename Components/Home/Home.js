@@ -3,8 +3,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import SOCKET_CORE from '../Helpers/managerNode';
-//import GeolocationP from 'react-native-geolocation-service';
-import GeolocationP from '@react-native-community/geolocation';
+import GeolocationP from 'react-native-geolocation-service';
+//import GeolocationP from '@react-native-community/geolocation';
 import {point} from '@turf/helpers';
 import {
   View,
@@ -88,7 +88,6 @@ class Home extends React.PureComponent {
    */
   async GPRS_resolver(promptActivation = false) {
     let globalObject = this;
-
     //Check if the app already has the GPRS permissions
     try {
       const checkGPRS = await PermissionsAndroid.check(
@@ -126,6 +125,7 @@ class Home extends React.PureComponent {
               this.getCurrentPositionCusto();
               GeolocationP.getCurrentPosition(
                 (position) => {
+                  console.log(position);
                   globalObject.props.App.latitude = position.coords.latitude;
                   globalObject.props.App.longitude = position.coords.longitude;
                   //Update GPRS permission global var
@@ -150,7 +150,34 @@ class Home extends React.PureComponent {
               );
               this.props.App.isMapPermitted = true;
             } else {
-              this.getCurrentPositionCusto();
+              GeolocationP.getCurrentPosition(
+                (position) => {
+                  globalObject.props.App.latitude = position.coords.latitude;
+                  globalObject.props.App.longitude = position.coords.longitude;
+                  //Get user location
+                  SOCKET_CORE.emit('geocode-this-point', {
+                    latitude: globalObject.props.App.latitude,
+                    longitude: globalObject.props.App.longitude,
+                    user_fingerprint: globalObject.props.App.user_fingerprint,
+                  });
+                  //Update GPRS permission global var
+                  let newStateVars = {};
+                  newStateVars.hasGPRSPermissions = true;
+                  newStateVars.didAskForGprs = true;
+                  globalObject.props.UpdateGrantedGRPS(newStateVars);
+                },
+                () => {
+                  // See error code charts below.
+                  //Launch recalibration
+                  globalObject.recalibrateMap();
+                },
+                {
+                  enableHighAccuracy: true,
+                  timeout: 200000,
+                  maximumAge: 10000,
+                  distanceFilter: 3,
+                },
+              );
               //Check the zoom level
               if (this.props._map !== undefined && this.props._map != null) {
                 if (
@@ -396,6 +423,7 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
+        console.log(response);
         //1. Trip in progress: in route to pickup or in route to drop off
         if (
           response.response === undefined &&
@@ -1124,8 +1152,10 @@ class Home extends React.PureComponent {
   getCurrentPositionCusto = () => {
     let globalObject = this;
     if (this.props.App._MAIN_LOCATION_WATCHER === null) {
+      console.log('Inside');
       this.props.App._MAIN_LOCATION_WATCHER = GeolocationP.watchPosition(
         (position) => {
+          console.log(position);
           globalObject.props.App.latitude = position.coords.latitude;
           globalObject.props.App.longitude = position.coords.longitude;
           //---
@@ -1142,7 +1172,7 @@ class Home extends React.PureComponent {
         },
         {
           enableHighAccuracy: true,
-          timeout: 200000,
+          timeout: 2000,
           maximumAge: 1000,
           distanceFilter: 3,
         },
@@ -1244,11 +1274,11 @@ class Home extends React.PureComponent {
     let globalObject = this;
     if (this.props.App.gprsGlobals.hasGPRSPermissions) {
       //Get user location
-      SOCKET_CORE.emit('geocode-this-point', {
+      /*SOCKET_CORE.emit('geocode-this-point', {
         latitude: this.props.App.latitude,
         longitude: this.props.App.longitude,
         user_fingerprint: globalObject.props.App.user_fingerprint,
-      });
+      });*/
 
       //Avoid updating map when entering receiver's details and package size (DELIVERY)
       if (
@@ -1284,7 +1314,7 @@ class Home extends React.PureComponent {
                         globalObject.props.App.latitude,
                       ],
                       zoomLevel: 14,
-                      animationDuration: 2000,
+                      animationDuration: 700,
                     });
                   }
                   //...
@@ -1296,14 +1326,6 @@ class Home extends React.PureComponent {
                   ) {
                     //Initialize view
                     let timeout = setTimeout(function () {
-                      globalObject.camera.setCamera({
-                        centerCoordinate: [
-                          globalObject.props.App.longitude,
-                          globalObject.props.App.latitude,
-                        ],
-                        zoomLevel: 14,
-                        animationDuration: 2000,
-                      });
                       globalObject.props.App._IS_MAP_INITIALIZED = true;
                       //Enable map usages : zoom, pitch, scrool and rotate
                       globalObject.props.UpdateMapUsabilityState(true);
@@ -1331,7 +1353,7 @@ class Home extends React.PureComponent {
                     globalObject.props.App.latitude,
                   ],
                   zoomLevel: 14,
-                  animationDuration: 1200,
+                  animationDuration: 1000,
                 });
               }
             }

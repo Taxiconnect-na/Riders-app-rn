@@ -2,6 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
