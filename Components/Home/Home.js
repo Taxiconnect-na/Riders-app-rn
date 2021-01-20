@@ -2694,7 +2694,6 @@ class Home extends React.PureComponent {
     } //Ride set for tomorrow - so just update the time strings
     else {
       //Update date string
-      //Update date string
       this.props.UpdateSchedulerState({
         selectedScheduleTime:
           this.props.App.scheduledScenarioContext +

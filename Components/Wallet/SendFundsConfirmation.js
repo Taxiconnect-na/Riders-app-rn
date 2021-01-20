@@ -26,31 +26,95 @@ class PayDriverConfirmation extends React.PureComponent {
             style={[
               systemWeights.semibold,
               {
-                fontSize: 19,
-                fontFamily: 'Allrounder-Grotesk-Medium',
-                marginBottom: 25,
+                fontSize: 17,
+                lineHeight: 20,
+                fontFamily: 'Allrounder-Grotesk-Book',
+                marginBottom: 20,
               },
             ]}>
-            Summary
+            You are about to send money to a friend or family.
           </Text>
+
           <View style={{flex: 1}}>
-            <Text
+            <View
+              style={{borderBottomWidth: 0.5, borderBottomColor: '#d0d0d0'}}>
+              <Text
+                style={[
+                  systemWeights.semibold,
+                  {
+                    fontSize: 17,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    marginBottom: 5,
+                  },
+                ]}>
+                Sender's information
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  marginBottom: 5,
+                }}>
+                MR. REINHOLD
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  marginBottom: 10,
+                  color: '#0e8491',
+                }}>
+                +264817563369
+              </Text>
+            </View>
+            {/**Destination infos */}
+            <View
               style={{
-                fontSize: 17,
-                fontFamily: 'Allrounder-Grotesk-Regular',
-                marginBottom: 10,
+                borderBottomWidth: 0.5,
+                borderBottomColor: '#d0d0d0',
+                marginTop: 15,
               }}>
-              MR. REINHOLD
-            </Text>
-            <Text
-              style={{
-                fontSize: 17,
-                fontFamily: 'Allrounder-Grotesk-Medium',
-                marginBottom: 15,
-                color: '#0e8491',
-              }}>
-              TAXI H09
-            </Text>
+              <Text
+                style={[
+                  systemWeights.semibold,
+                  {
+                    fontSize: 18,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    marginBottom: 5,
+                  },
+                ]}>
+                Receiver's information
+              </Text>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  marginBottom: 5,
+                }}>
+                MR. DAVID
+              </Text>
+              {/**ONLY FOR DRIVERS */}
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  marginBottom: 5,
+                  color: '#0e8491',
+                }}>
+                TAXI H09
+              </Text>
+              {/**--- */}
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  marginBottom: 20,
+                  color: '#0e8491',
+                }}>
+                +264856997167
+              </Text>
+            </View>
+
             <View style={{marginTop: 20}}>
               <Text
                 style={{
@@ -75,7 +139,7 @@ class PayDriverConfirmation extends React.PureComponent {
                   fontFamily: 'Allrounder-Grotesk-Book',
                   color: '#0e8491',
                   fontSize: 14,
-                  lineHeight: 20,
+                  lineHeight: 19,
                   color: '#a5a5a5',
                   flex: 1,
                 },
@@ -169,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 200,
+    borderRadius: 5,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

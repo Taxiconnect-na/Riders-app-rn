@@ -14,11 +14,13 @@ import SendFundsInputAmount from '../Components/Wallet/SendFundsInputAmount';
 import SendFundsConfirmation from '../Components/Wallet/SendFundsConfirmation';
 import SendFundsFriendInputNumber from '../Components/Wallet/SendFundsFriendInputNumber';
 import WalletTopUpEntry from '../Components/Wallet/WalletTopUpEntry';
+import TopUpWalletScreen from '../Components/Wallet/TopUpWalletScreen';
 import Home from '../Components/Home/Home';
 import YourRidesEntry from '../Components/Rides/YourRidesEntry';
 import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector';
 import DetailsRidesGenericScreen from '../Components/Rides/DetailsRidesGenericScreen';
 import {MainDrawerContent} from './MainDrawerContent';
+import IconAnt from 'react-native-vector-icons/AntDesign';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -86,11 +88,14 @@ function Wallet_drawer() {
           headerShown: true,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{top: 0}}>
+                <IconAnt name="arrowleft" size={23} />
+              </View>
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
-                  right: 20,
+                  fontSize: 20,
+                  left: 15,
                 }}>
                 Connect Wallet
               </Text>
@@ -108,7 +113,7 @@ function Wallet_drawer() {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   right: 20,
                 }}>
                 Transfer funds
@@ -127,7 +132,7 @@ function Wallet_drawer() {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   right: 20,
                 }}>
                 Pay a driver
@@ -141,15 +146,22 @@ function Wallet_drawer() {
         component={SendFundsConfirmation}
         options={{
           headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="TopUpWalletScreen"
+        component={TopUpWalletScreen}
+        options={{
+          headerShown: false,
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   right: 20,
                 }}>
-                Transfer funds
+                Top-up your wallet
               </Text>
             </View>
           ),
@@ -165,7 +177,7 @@ function Wallet_drawer() {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   right: 20,
                 }}>
                 Transfer funds
@@ -184,7 +196,7 @@ function Wallet_drawer() {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   right: 20,
                 }}>
                 Transfer funds
@@ -203,7 +215,7 @@ function Wallet_drawer() {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontSize: 20,
                   right: 20,
                 }}>
                 Payment settings
@@ -220,7 +232,7 @@ function Wallet_drawer() {
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Home_drawer"
+      initialRouteName="Wallet_drawer"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen
@@ -235,7 +247,7 @@ function MainDrawer_navigator() {
 
 function RootScreens() {
   return (
-    <Stack.Navigator initialRouteName={'EntryScreen'}>
+    <Stack.Navigator initialRouteName={'Home'}>
       <Stack.Screen
         name="EntryScreen"
         component={EntryScreen}

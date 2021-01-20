@@ -28,8 +28,8 @@ class SendFundsFriendInputNumber extends React.PureComponent {
             style={[
               systemWeights.semibold,
               {
-                fontSize: 19,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontSize: 21,
+                fontFamily: 'Allrounder-Grotesk-Regular',
                 marginBottom: 35,
                 marginTop: 10,
               },
@@ -54,7 +54,7 @@ class SendFundsFriendInputNumber extends React.PureComponent {
                     fontSize: 13.5,
                     marginLeft: 6,
                     lineHeight: 18,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily: 'Allrounder-Grotesk-Book',
                   },
                 ]}>
                 You can only send funds to active TaxiConnect accounts.

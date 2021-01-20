@@ -26,8 +26,8 @@ class SendFundsInputAmount extends React.PureComponent {
             style={[
               systemWeights.semibold,
               {
-                fontSize: 19,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontSize: 21,
+                fontFamily: 'Allrounder-Grotesk-Regular',
                 marginBottom: 35,
                 marginTop: 10,
               },
@@ -66,7 +66,7 @@ class SendFundsInputAmount extends React.PureComponent {
           <View
             style={{
               flexDirection: 'row',
-              marginTop: '15%',
+              marginTop: '8%',
               alignItems: 'center',
               width: '100%',
             }}>
@@ -76,22 +76,22 @@ class SendFundsInputAmount extends React.PureComponent {
                 justifyContent: 'flex-start',
                 height: '100%',
               }}>
-              <IconAnt name="infocirlce" color="#a5a5a5" size={17} />
+              <IconAnt name="infocirlce" color="#0e8491" size={17} />
             </View>
             <Text
               style={[
                 {
                   fontFamily: 'Allrounder-Grotesk-Book',
-                  color: '#0e8491',
+                  color: '#000',
                   fontSize: 15,
                   lineHeight: 20,
-                  color: '#a5a5a5',
                   flex: 1,
                 },
               ]}>
-              The transfer is done instantly, but if you encounter any problems
-              in the process, please feel free to contact us using the Support
-              tab.
+              Your maximum amount is{' '}
+              <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                N$1000.
+              </Text>
             </Text>
           </View>
 
@@ -107,9 +107,19 @@ class SendFundsInputAmount extends React.PureComponent {
             <View style={{flexDirection: 'row', flex: 1}}>
               <Text
                 style={[
-                  systemWeights.light,
-                  {fontSize: 12, marginLeft: 6},
-                ]}></Text>
+                  {
+                    fontSize: 13.5,
+                    marginLeft: 6,
+                    lineHeight: 18,
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                  },
+                ]}>
+                Visit to the{' '}
+                <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                  Support
+                </Text>{' '}
+                tab for any queries.
+              </Text>
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <TouchableOpacity

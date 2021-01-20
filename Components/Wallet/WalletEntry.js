@@ -5,21 +5,15 @@ import {
   SafeAreaView,
   View,
   Text,
-  StatusBar,
   TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView,
   SectionList,
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
-import DropDownPicker from 'react-native-dropdown-picker';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
-import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFeather from 'react-native-vector-icons/Feather';
 import WalletTransacRecords from './WalletTransacRecords';
-import SyncStorage from 'sync-storage';
+import {human, systemWeights} from 'react-native-typography';
 
 class WalletEntry extends React.PureComponent {
   constructor(props) {
@@ -45,37 +39,29 @@ class WalletEntry extends React.PureComponent {
           <View
             style={{
               padding: 20,
-              backgroundColor: '#0e8491',
-              paddingBottom: 30,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-
-              elevation: 5,
+              backgroundColor: '#fff',
+              height: 200,
+              marginBottom: 15,
             }}>
             <View
               style={{
                 flexDirection: 'row',
-                height: 60,
+                flex: 1,
                 alignItems: 'center',
               }}>
               <Text
                 style={{
                   flex: 1,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 18,
-                  color: '#fff',
+                  color: '#0e8491',
                 }}>
                 Hey, Dominique
               </Text>
               <View
                 style={{
-                  width: 50,
-                  height: 50,
+                  width: 60,
+                  height: 60,
                   borderRadius: 200,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -101,19 +87,27 @@ class WalletEntry extends React.PureComponent {
                 />
               </View>
             </View>
-            <View style={{marginTop: 25}}>
+            <View
+              style={{
+                //marginTop: 25,
+                flex: 1,
+                justifyContent: 'center',
+              }}>
               <Text
-                style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 35,
-                  color: '#fff',
-                }}>
-                N$ 450
+                style={[
+                  systemWeights.bold,
+                  {
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 36,
+                    color: '#0e8491',
+                  },
+                ]}>
+                N$450
               </Text>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  color: '#9AE8FF',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  color: '#a5a5a5',
                   fontSize: 16,
                 }}>
                 Your balance
@@ -122,85 +116,124 @@ class WalletEntry extends React.PureComponent {
           </View>
           <View
             style={{
-              flexDirection: 'row',
-              padding: 20,
-              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: '#d0d0d0',
+              borderBottomWidth: 1,
+              flex: 1,
+              borderTopLeftRadius: 30,
+              borderTopRightRadius: 30,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 3.84,
+              elevation: 5,
+              backgroundColor: '#fff',
             }}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('SendFundsEntry')}
-              style={[
-                styles.selectMenu3,
-                {marginRight: '7%', backgroundColor: '#0e8491', borderWidth: 0},
-              ]}>
-              <IconFeather name="share" size={30} color={'#fff'} />
-              <Text style={[styles.textSelectMenu3, {color: '#fff'}]}>
-                Send
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('WalletTopUpEntry')}
-              style={[
-                styles.selectMenu3,
-                {marginRight: '7%', backgroundColor: '#0e8491', borderWidth: 0},
-              ]}>
-              <IconMaterialIcons
-                name="account-balance-wallet"
-                size={30}
-                color={'#fff'}
-              />
-              <Text style={[styles.textSelectMenu3, {color: '#fff'}]}>
-                Top-up
-              </Text>
-            </TouchableOpacity>
-            <View style={[styles.selectMenu3, {borderWidth: 2, opacity: 0}]}>
-              <IconMaterialIcons name="shield" size={30} />
-              <Text style={styles.textSelectMenu3}>Secure</Text>
-            </View>
-          </View>
-          <View style={{padding: 20, flex: 1}}>
-            <TouchableOpacity
+            <View
               style={{
                 flexDirection: 'row',
-                paddingBottom: 10,
-                alignItems: 'center',
+                padding: 20,
               }}>
-              <Text
-                style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17.5,
-                  color: '#999999',
-                  paddingBottom: 15,
-                  flex: 1,
-                }}>
-                History
-              </Text>
-              <Text
-                style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 15,
-                  color: '#999999',
-                  paddingBottom: 15,
-                }}>
-                Show all
-              </Text>
-            </TouchableOpacity>
+              {/**Send money */}
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('SendFundsEntry')}
+                style={{alignItems: 'center', marginRight: '11%'}}>
+                <View
+                  style={[
+                    styles.selectMenu3,
+                    {
+                      backgroundColor: '#000',
+                      borderWidth: 0,
+                    },
+                  ]}>
+                  <IconFeather name="share" size={30} color={'#fff'} />
+                </View>
+                <Text style={[styles.textSelectMenu3, {color: '#000'}]}>
+                  Send
+                </Text>
+              </TouchableOpacity>
 
-            <View style={{flex: 1}}>
-              <SectionList
-                sections={[
-                  {
-                    title: 'Top-up',
-                    data: [{transaction_type: 'topup', amount: 50}],
-                  },
-                  {
-                    title: 'Top-up',
-                    data: [{transaction_type: 'topup', amount: 50}],
-                  },
-                ]}
-                keyboardShouldPersistTaps={'always'}
-                keyExtractor={(item, index) => item + index}
-                renderItem={({item}) => <WalletTransacRecords />}
-              />
+              {/**Top-up wallet */}
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('WalletTopUpEntry')
+                }
+                style={{alignItems: 'center', marginRight: '11%'}}>
+                <View
+                  style={[
+                    styles.selectMenu3,
+                    {
+                      backgroundColor: '#000',
+                      borderWidth: 0,
+                    },
+                  ]}>
+                  <IconMaterialIcons
+                    name="account-balance-wallet"
+                    size={30}
+                    color={'#fff'}
+                  />
+                </View>
+                <Text style={[styles.textSelectMenu3, {color: '#000'}]}>
+                  Top-up
+                </Text>
+              </TouchableOpacity>
+
+              <View style={[styles.selectMenu3, {borderWidth: 2, opacity: 0}]}>
+                <IconMaterialIcons name="shield" size={30} />
+                <Text style={styles.textSelectMenu3}>Secure</Text>
+              </View>
+            </View>
+            <View style={{padding: 20, flex: 1}}>
+              <TouchableOpacity
+                style={{
+                  flexDirection: 'row',
+                  paddingBottom: 10,
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontSize: 18,
+                    color: '#a5a5a5',
+                    paddingBottom: 15,
+                    flex: 1,
+                  }}>
+                  Last transaction
+                </Text>
+                <Text
+                  style={[
+                    {
+                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontSize: 17.5,
+                      color: '#a5a5a5',
+                      paddingBottom: 15,
+                      fontWeight: 'bold',
+                    },
+                  ]}>
+                  Show all
+                </Text>
+              </TouchableOpacity>
+
+              <View style={{flex: 1}}>
+                <SectionList
+                  sections={[
+                    {
+                      title: 'Top-up',
+                      data: [{transaction_type: 'topup', amount: 50}],
+                    },
+                    {
+                      title: 'Top-up',
+                      data: [{transaction_type: 'topup', amount: 50}],
+                    },
+                  ]}
+                  keyboardShouldPersistTaps={'always'}
+                  keyExtractor={(item, index) => item + index}
+                  renderItem={({item}) => <WalletTransacRecords />}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -219,11 +252,11 @@ const styles = StyleSheet.create({
   },
   selectMenu3: {
     borderWidth: 1,
-    width: '28%',
-    height: 100,
+    width: 70,
+    height: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 250,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -236,7 +269,7 @@ const styles = StyleSheet.create({
   },
   textSelectMenu3: {
     fontFamily: 'Allrounder-Grotesk-Medium',
-    fontSize: 17,
+    fontSize: 17.5,
     marginTop: 10,
   },
   arrowCircledForwardBasic: {

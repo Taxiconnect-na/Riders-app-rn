@@ -24,7 +24,7 @@ class SendFundsEntry extends React.PureComponent {
             style={[
               systemWeights.semibold,
               {
-                fontSize: 19,
+                fontSize: 21,
                 fontFamily: 'Allrounder-Grotesk-Book',
                 marginBottom: 30,
                 marginTop: 10,
@@ -48,28 +48,45 @@ class SendFundsEntry extends React.PureComponent {
                 paddingRight: 20,
                 marginBottom: 40,
               }}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <View style={{width: 40}}>
+              <View style={{flexDirection: 'row', flex: 1, minHeight: 70}}>
+                <View style={{width: 35, paddingTop: 1}}>
                   <IconFontAwesome5
-                    name="hands-helping"
-                    size={20}
+                    name="mobile"
+                    size={25}
                     style={{marginRight: 8}}
                   />
                 </View>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
-                    color: '#0e8491',
-                  }}>
-                  Send to friends
-                </Text>
+                <View style={{flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 19,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        color: '#0e8491',
+                        flex: 1,
+                      },
+                    ]}>
+                    Send to friends
+                  </Text>
+                  <Text
+                    style={{
+                      flex: 1,
+                      fontFamily: 'Allrounder-Grotesk-Book',
+                      lineHeight: 17,
+                      fontSize: 13.5,
+                    }}>
+                    Send rides or deliveries money to your friends and family
+                    instantlly and hustle free.
+                  </Text>
+                </View>
               </View>
-              <IconMaterialIcons
-                name="arrow-forward-ios"
-                size={17}
-                color="#0e8491"
-              />
+              <View style={{height: '100%', paddingTop: 5}}>
+                <IconMaterialIcons
+                  name="arrow-forward-ios"
+                  size={14}
+                  color="#000"
+                />
+              </View>
             </TouchableOpacity>
             <View
               style={{
@@ -81,26 +98,41 @@ class SendFundsEntry extends React.PureComponent {
                 paddingLeft: 20,
                 paddingRight: 20,
               }}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <View style={{width: 40}}>
+              <View style={{flexDirection: 'row', flex: 1, minHeight: 70}}>
+                <View style={{width: 35, paddingTop: 1}}>
                   <IconEntypo name="flash" size={25} style={{marginRight: 8}} />
                 </View>
-                <Text
-                  style={[
-                    {
-                      fontSize: 18,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
-                      color: '#0e8491',
-                    },
-                  ]}>
-                  Pay a driver
-                </Text>
+                <View style={{flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 19,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        color: '#0e8491',
+                        flex: 1,
+                      },
+                    ]}>
+                    Pay a driver
+                  </Text>
+                  <Text
+                    style={{
+                      flex: 1,
+                      fontFamily: 'Allrounder-Grotesk-Book',
+                      lineHeight: 17,
+                      fontSize: 13.5,
+                    }}>
+                    Directly send payments to your driver's wallet seamlessly
+                    without any VAT.
+                  </Text>
+                </View>
               </View>
-              <IconMaterialIcons
-                name="arrow-forward-ios"
-                size={18}
-                color="#0e8491"
-              />
+              <View style={{height: '100%', paddingTop: 5}}>
+                <IconMaterialIcons
+                  name="arrow-forward-ios"
+                  size={14}
+                  color="#000"
+                />
+              </View>
             </View>
           </View>
         </View>
