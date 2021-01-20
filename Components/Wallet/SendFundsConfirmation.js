@@ -12,6 +12,7 @@ import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {TextInput} from 'react-native-gesture-handler';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 class PayDriverConfirmation extends React.PureComponent {
   constructor(props) {
@@ -20,163 +21,166 @@ class PayDriverConfirmation extends React.PureComponent {
 
   render() {
     return (
-      <SafeAreaView style={styles.mainWindow}>
-        <View style={styles.presentationWindow}>
-          <Text
-            style={[
-              systemWeights.semibold,
-              {
-                fontSize: 17,
-                lineHeight: 20,
-                fontFamily: 'Allrounder-Grotesk-Book',
-                marginBottom: 20,
-              },
-            ]}>
-            You are about to send money to a friend or family.
-          </Text>
-
-          <View style={{flex: 1}}>
-            <View
-              style={{borderBottomWidth: 0.5, borderBottomColor: '#d0d0d0'}}>
-              <Text
-                style={[
-                  systemWeights.semibold,
-                  {
-                    fontSize: 17,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
-                    marginBottom: 5,
-                  },
-                ]}>
-                Sender's information
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  marginBottom: 5,
-                }}>
-                MR. REINHOLD
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  marginBottom: 10,
-                  color: '#0e8491',
-                }}>
-                +264817563369
-              </Text>
-            </View>
-            {/**Destination infos */}
-            <View
-              style={{
-                borderBottomWidth: 0.5,
-                borderBottomColor: '#d0d0d0',
-                marginTop: 15,
-              }}>
-              <Text
-                style={[
-                  systemWeights.semibold,
-                  {
-                    fontSize: 18,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
-                    marginBottom: 5,
-                  },
-                ]}>
-                Receiver's information
-              </Text>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  marginBottom: 5,
-                }}>
-                MR. DAVID
-              </Text>
-              {/**ONLY FOR DRIVERS */}
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  marginBottom: 5,
-                  color: '#0e8491',
-                }}>
-                TAXI H09
-              </Text>
-              {/**--- */}
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  marginBottom: 20,
-                  color: '#0e8491',
-                }}>
-                +264856997167
-              </Text>
-            </View>
-
-            <View style={{marginTop: 20}}>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: 'Allrounder-Grotesk-Book',
-                  marginBottom: 10,
-                }}>
-                Windhoek, Namibia.
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              width: '100%',
-              marginBottom: 10,
-            }}>
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <StatusBar backgroundColor="#000" />
+          <View style={styles.presentationWindow}>
             <Text
               style={[
+                systemWeights.semibold,
                 {
+                  fontSize: 17,
+                  lineHeight: 20,
                   fontFamily: 'Allrounder-Grotesk-Book',
-                  color: '#0e8491',
-                  fontSize: 14,
-                  lineHeight: 19,
-                  color: '#a5a5a5',
-                  flex: 1,
+                  marginBottom: 20,
                 },
               ]}>
-              There will be no VAT or operational charges deducted, every
-              transaction is free.
+              You are about to send money to a friend or family.
             </Text>
-          </View>
 
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              height: 100,
-            }}>
-            <TouchableOpacity
-              style={{
-                borderWidth: 1,
-                borderColor: 'transparent',
-                width: '100%',
-              }}>
-              <View style={[styles.bttnGenericTc]}>
+            <View style={{flex: 1}}>
+              <View
+                style={{borderBottomWidth: 0.5, borderBottomColor: '#d0d0d0'}}>
                 <Text
                   style={[
+                    systemWeights.semibold,
                     {
+                      fontSize: 17,
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 23.5,
-                      color: '#fff',
+                      marginBottom: 5,
                     },
                   ]}>
-                  Proceed - N$50
+                  Sender's information
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    marginBottom: 5,
+                  }}>
+                  MR. REINHOLD
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    marginBottom: 10,
+                    color: '#0e8491',
+                  }}>
+                  +264817563369
                 </Text>
               </View>
-            </TouchableOpacity>
+              {/**Destination infos */}
+              <View
+                style={{
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: '#d0d0d0',
+                  marginTop: 15,
+                }}>
+                <Text
+                  style={[
+                    systemWeights.semibold,
+                    {
+                      fontSize: 18,
+                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      marginBottom: 5,
+                    },
+                  ]}>
+                  Receiver's information
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    marginBottom: 5,
+                  }}>
+                  MR. DAVID
+                </Text>
+                {/**ONLY FOR DRIVERS */}
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    marginBottom: 5,
+                    color: '#0e8491',
+                  }}>
+                  TAXI H09
+                </Text>
+                {/**--- */}
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    marginBottom: 20,
+                    color: '#0e8491',
+                  }}>
+                  +264856997167
+                </Text>
+              </View>
+
+              <View style={{marginTop: 20}}>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                    marginBottom: 10,
+                  }}>
+                  Windhoek, Namibia.
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '100%',
+                marginBottom: 10,
+              }}>
+              <Text
+                style={[
+                  {
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                    color: '#0e8491',
+                    fontSize: 14,
+                    lineHeight: 19,
+                    color: '#a5a5a5',
+                    flex: 1,
+                  },
+                ]}>
+                There will be no VAT or operational charges deducted, every
+                transaction is free.
+              </Text>
+            </View>
+
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                height: 100,
+              }}>
+              <TouchableOpacity
+                style={{
+                  borderWidth: 1,
+                  borderColor: 'transparent',
+                  width: '100%',
+                }}>
+                <View style={[styles.bttnGenericTc]}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23.5,
+                        color: '#fff',
+                      },
+                    ]}>
+                    Proceed - N$50
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

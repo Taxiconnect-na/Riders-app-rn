@@ -24,56 +24,65 @@ class RideLIstGenericElement extends React.PureComponent {
   }
 
   render() {
-    return (
-      <TouchableOpacity
-        onPress={() =>
-          this.onSelectThisRequest_forDetails(
-            this.props.requestLightData.request_fp,
-          )
-        }
-        style={styles.rideItemMainView}>
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <View style={{marginRight: 4}}>
-            <IconOcticons name="primitive-square" size={12} style={{top: 6}} />
+    if (this.props.requestLightData.destination_name !== undefined) {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            this.onSelectThisRequest_forDetails(
+              this.props.requestLightData.request_fp,
+            )
+          }
+          style={styles.rideItemMainView}>
+          <View style={{flexDirection: 'row', flex: 1}}>
+            <View style={{marginRight: 4}}>
+              <IconOcticons
+                name="primitive-square"
+                size={12}
+                style={{top: 6}}
+              />
+            </View>
+            <View style={{}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 17,
+                  marginBottom: 5,
+                }}>
+                To{' '}
+                {this.props.requestLightData.destination_name.length < 25
+                  ? this.props.requestLightData.destination_name
+                  : this.props.requestLightData.destination_name.substring(
+                      0,
+                      25,
+                    ) + '...'}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontSize: 14,
+                  marginBottom: 5,
+                }}>
+                {this.props.requestLightData.date_requested}
+              </Text>
+              <Text
+                style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 14}}>
+                {this.props.requestLightData.car_brand}
+              </Text>
+            </View>
           </View>
-          <View style={{}}>
-            <Text
-              style={{
-                fontFamily: 'Allrounder-Grotesk-Regular',
-                fontSize: 17,
-                marginBottom: 5,
-              }}>
-              To{' '}
-              {this.props.requestLightData.destination_name.length < 18
-                ? this.props.requestLightData.destination_name
-                : this.props.requestLightData.destination_name.substring(
-                    0,
-                    15,
-                  ) + '...'}
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
-                fontSize: 14,
-                marginBottom: 5,
-              }}>
-              {this.props.requestLightData.date_requested}
-            </Text>
-            <Text style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 14}}>
-              {this.props.requestLightData.car_brand}
-            </Text>
+          <View>
+            <IconMaterialIcons
+              name="arrow-forward-ios"
+              size={15}
+              color="#0e8491"
+              style={{top: 3}}
+            />
           </View>
-        </View>
-        <View>
-          <IconMaterialIcons
-            name="arrow-forward-ios"
-            size={15}
-            color="#0e8491"
-            style={{top: 3}}
-          />
-        </View>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

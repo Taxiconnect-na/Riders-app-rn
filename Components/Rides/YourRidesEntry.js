@@ -2,7 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import SOCKET_CORE from '../Helpers/managerNode';
-import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+  StatusBar,
+} from 'react-native';
 import {
   UpdateErrorModalLog,
   UpdateType_rideShown_YourRides_screen,
@@ -297,6 +304,7 @@ class YourRidesEntry extends React.PureComponent {
   render() {
     return (
       <View style={styles.mainWindow}>
+        <StatusBar backgroundColor="#000" />
         <GenericLoader active={this.state.loaderState} thickness={4} />
         <ErrorModal
           active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}

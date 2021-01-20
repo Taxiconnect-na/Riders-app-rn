@@ -14,6 +14,7 @@ import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 class SendFundsFriendInputNumber extends React.PureComponent {
   constructor(props) {
@@ -22,63 +23,66 @@ class SendFundsFriendInputNumber extends React.PureComponent {
 
   render() {
     return (
-      <SafeAreaView style={styles.mainWindow}>
-        <View style={styles.presentationWindow}>
-          <Text
-            style={[
-              systemWeights.semibold,
-              {
-                fontSize: 21,
-                fontFamily: 'Allrounder-Grotesk-Regular',
-                marginBottom: 35,
-                marginTop: 10,
-              },
-            ]}>
-            Who's receiving?
-          </Text>
-          <PhoneNumberInput />
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <StatusBar backgroundColor="#000" />
+          <View style={styles.presentationWindow}>
+            <Text
+              style={[
+                systemWeights.semibold,
+                {
+                  fontSize: 21,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  marginBottom: 35,
+                  marginTop: 10,
+                },
+              ]}>
+              Who's receiving?
+            </Text>
+            <PhoneNumberInput />
 
-          <View
-            style={{
-              flexDirection: 'row',
-              position: 'absolute',
-              bottom: '10%',
-              left: 20,
-              right: 20,
-              width: '100%',
-            }}>
-            <View style={{flexDirection: 'row', flex: 1}}>
-              <Text
-                style={[
-                  {
-                    fontSize: 13.5,
-                    marginLeft: 6,
-                    lineHeight: 18,
-                    fontFamily: 'Allrounder-Grotesk-Book',
-                  },
-                ]}>
-                You can only send funds to active TaxiConnect accounts.
-              </Text>
-            </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('SendFundsInputAmount')
-                }
-                style={[
-                  styles.arrowCircledForwardBasic,
-                  styles.shadowButtonArrowCircledForward,
-                ]}>
-                <IconMaterialIcons
-                  name="arrow-forward-ios"
-                  size={30}
-                  color="#fff"
-                />
-              </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: '10%',
+                left: 20,
+                right: 20,
+                width: '100%',
+              }}>
+              <View style={{flexDirection: 'row', flex: 1}}>
+                <Text
+                  style={[
+                    {
+                      fontSize: 13.5,
+                      marginLeft: 6,
+                      lineHeight: 18,
+                      fontFamily: 'Allrounder-Grotesk-Book',
+                    },
+                  ]}>
+                  You can only send funds to active TaxiConnect accounts.
+                </Text>
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('SendFundsInputAmount')
+                  }
+                  style={[
+                    styles.arrowCircledForwardBasic,
+                    styles.shadowButtonArrowCircledForward,
+                  ]}>
+                  <IconMaterialIcons
+                    name="arrow-forward-ios"
+                    size={30}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

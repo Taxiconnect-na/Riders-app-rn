@@ -34,6 +34,8 @@ function YourRidesEntry_drawer() {
         component={YourRidesEntry}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View
               style={{
@@ -43,9 +45,10 @@ function YourRidesEntry_drawer() {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 19,
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Your requests
               </Text>
@@ -59,13 +62,16 @@ function YourRidesEntry_drawer() {
         component={DetailsRidesGenericScreen}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 18,
+                  fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Details
               </Text>
@@ -86,16 +92,18 @@ function Wallet_drawer() {
         component={WalletEntry}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{top: 0}}>
-                <IconAnt name="arrowleft" size={23} />
+                <IconAnt name="arrowleft" size={23} color="#fff" />
               </View>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   left: 15,
+                  color: '#fff',
                 }}>
                 Connect Wallet
               </Text>
@@ -108,13 +116,16 @@ function Wallet_drawer() {
         component={SendFundsEntry}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Transfer funds
               </Text>
@@ -127,13 +138,16 @@ function Wallet_drawer() {
         component={PayTaxiInputNumber}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Pay a driver
               </Text>
@@ -146,6 +160,21 @@ function Wallet_drawer() {
         component={SendFundsConfirmation}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
+                  right: 20,
+                  color: '#fff',
+                }}>
+                Confirmation
+              </Text>
+            </View>
+          ),
         }}
       />
       <Stack.Screen
@@ -153,13 +182,16 @@ function Wallet_drawer() {
         component={TopUpWalletScreen}
         options={{
           headerShown: false,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Top-up your wallet
               </Text>
@@ -172,13 +204,16 @@ function Wallet_drawer() {
         component={SendFundsFriendInputNumber}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Transfer funds
               </Text>
@@ -191,13 +226,16 @@ function Wallet_drawer() {
         component={SendFundsInputAmount}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Transfer funds
               </Text>
@@ -210,13 +248,16 @@ function Wallet_drawer() {
         component={WalletTopUpEntry}
         options={{
           headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
                   right: 20,
+                  color: '#fff',
                 }}>
                 Payment settings
               </Text>
@@ -232,7 +273,7 @@ function Wallet_drawer() {
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Wallet_drawer"
+      initialRouteName="YourRidesEntry_drawer"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen

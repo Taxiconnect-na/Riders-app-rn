@@ -9,6 +9,7 @@ import {
   ScrollView,
   StyleSheet,
   Image,
+  StatusBar,
   RefreshControl,
 } from 'react-native';
 import {
@@ -200,7 +201,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
               fontSize: 16,
               marginLeft: 5,
             }}>
-            {date}
+            {date.replace(/\//g, '-')}
           </Text>
         </>
       );
@@ -298,6 +299,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
             refreshing={this.state.pullRefreshing}
           />
         }>
+        <StatusBar backgroundColor="#000" />
         {this.state.loaderState ? (
           <GenericLoader active={this.state.loaderState} thickness={4} />
         ) : null}
@@ -343,13 +345,21 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                 </View>
                 <View
                   style={{
-                    borderWidth: 1,
                     padding: 20,
-                    paddingTop: 10,
-                    paddingBottom: 10,
+                    paddingTop: 6,
+                    paddingBottom: 6,
                     flexDirection: 'row',
-                    backgroundColor: '#000',
+                    backgroundColor: '#1a1a1a',
                     alignItems: 'center',
+                    shadowColor: '#707070',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 4.65,
+
+                    elevation: 5,
                   }}>
                   {this.renderCorrestHeaderDate(
                     this.state.detailed_requestData.date_requested,
@@ -420,7 +430,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                               <Text
                                 style={{
                                   fontFamily: 'Allrounder-Grotesk-Book',
-                                  fontSize: 13,
+                                  fontSize: 14,
                                   top: 2,
                                 }}>
                                 From
@@ -439,7 +449,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                 <Text
                                   style={{
                                     fontFamily: 'Allrounder-Grotesk-Medium',
-                                    fontSize: 15,
+                                    fontSize: 17,
                                     marginLeft: 5,
                                     flex: 1,
                                   }}>
@@ -460,7 +470,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                               <Text
                                 style={{
                                   fontFamily: 'Allrounder-Grotesk-Book',
-                                  fontSize: 13,
+                                  fontSize: 14,
                                   top: 1,
                                 }}>
                                 To
@@ -486,7 +496,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                         style={{
                                           fontFamily:
                                             'Allrounder-Grotesk-Regular',
-                                          fontSize: 16,
+                                          fontSize: 17,
                                           marginLeft: 5,
                                           flex: 1,
                                         }}>
@@ -497,7 +507,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                             style={{
                                               fontFamily:
                                                 'Allrounder-Grotesk-Regular',
-                                              fontSize: 13,
+                                              fontSize: 17,
                                               marginLeft: 5,
                                               flex: 1,
                                               color: '#096ED4',
@@ -550,7 +560,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
+                          fontSize: 16.5,
                           marginLeft: 5,
                           flex: 1,
                         }}>
@@ -573,11 +583,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 15,
+                          fontSize: 16.5,
                           marginLeft: 5,
                           flex: 1,
                         }}>
-                        Couldn't find the ETA.
+                        ...
                       </Text>
                     )}
                   </View>
@@ -613,7 +623,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 17,
+                        fontSize: 18,
                         marginLeft: 4,
                       }}>
                       {String(
@@ -650,7 +660,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Medium',
-                        fontSize: 17.5,
+                        fontSize: 18,
                         marginLeft: 4,
                       }}>
                       {this.state.detailed_requestData.numberOf_passengers}
@@ -708,14 +718,14 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <View style={{marginLeft: 10}}>
                         <Text
                           style={{
-                            fontSize: 15,
+                            fontSize: 16.5,
                             fontFamily: 'Allrounder-Grotesk-Regular',
                           }}>
                           {this.state.detailed_requestData.driver_details.name}
                         </Text>
                         <Text
                           style={{
-                            fontSize: 16,
+                            fontSize: 17,
                             fontFamily: 'Allrounder-Grotesk-Medium',
                             color: '#096ED4',
                           }}>
@@ -731,7 +741,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Regular',
-                          fontSize: 17,
+                          fontSize: 17.5,
                         }}>
                         {/notYet/i.test(
                           this.state.detailed_requestData.ride_rating,
@@ -779,7 +789,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                     <View style={{marginLeft: 10, flex: 1}}>
                       <Text
                         style={{
-                          fontSize: 16,
+                          fontSize: 17,
                           fontFamily: 'Allrounder-Grotesk-Medium',
                         }}>
                         {
@@ -789,7 +799,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       </Text>
                       <Text
                         style={{
-                          fontSize: 14,
+                          fontSize: 16.5,
                           fontFamily: 'Allrounder-Grotesk-Book',
                         }}>
                         {this.state.detailed_requestData.car_details.car_brand}

@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
-import {systemWeights} from 'react-native-typography';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 class WalletTopUpEntry extends React.PureComponent {
   constructor(props) {
@@ -21,226 +22,232 @@ class WalletTopUpEntry extends React.PureComponent {
 
   render() {
     return (
-      <SafeAreaView style={styles.mainWindow}>
-        <View style={styles.presentationWindow}>
-          <ScrollView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <View style={styles.presentationWindow}>
+            <ScrollView style={{flex: 1}}>
               <View style={{flex: 1}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    borderBottomWidth: 0.5,
-                    borderBottomColor: '#a5a5a5',
-                    padding: 20,
-                    paddingTop: 30,
-                  }}>
-                  <IconMaterialIcons
-                    name="account-balance-wallet"
-                    size={30}
-                    color={'#096ED4'}
-                  />
-                  <Text
-                    style={[
-                      {
-                        fontSize: 19.5,
-                        fontFamily: 'Allrounder-Grotesk-Regular',
-                        marginLeft: 5,
-                        flex: 1,
-                      },
-                    ]}>
-                    Your wallet
-                  </Text>
-                  <Text
+                <View style={{flex: 1}}>
+                  <View
                     style={{
-                      fontSize: 20,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
-                      color: '#096ED4',
-                    }}>
-                    N${this.props.App.wallet_state_vars.totalWallet_amount}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    borderBottomWidth: 0.5,
-                    paddingBottom: '10%',
-                    borderBottomColor: '#a5a5a5',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontFamily: 'Allrounder-Grotesk-Book',
-                      color: '#a5a5a5',
+                      flexDirection: 'row',
+                      borderBottomWidth: 0.5,
+                      borderBottomColor: '#a5a5a5',
                       padding: 20,
-                      paddingBottom: 10,
+                      paddingTop: 30,
                     }}>
-                    Top up with
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.props.navigation.navigate('TopUpWalletScreen')
-                    }
-                    style={{marginTop: 15}}>
-                    <View
+                    <IconMaterialIcons
+                      name="account-balance-wallet"
+                      size={30}
+                      color={'#096ED4'}
+                    />
+                    <Text
+                      style={[
+                        {
+                          fontSize: 19.5,
+                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          marginLeft: 5,
+                          flex: 1,
+                        },
+                      ]}>
+                      Your wallet
+                    </Text>
+                    <Text
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
+                        fontSize: 20,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        color: '#096ED4',
+                      }}>
+                      N${this.props.App.wallet_state_vars.totalWallet_amount}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      borderBottomWidth: 0.5,
+                      paddingBottom: '10%',
+                      borderBottomColor: '#a5a5a5',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        fontFamily: 'Allrounder-Grotesk-Book',
+                        color: '#a5a5a5',
                         padding: 20,
-                        paddingTop: 0,
                         paddingBottom: 10,
                       }}>
-                      <View style={{width: 40}}>
-                        <IconAnt name="creditcard" size={28} />
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontFamily: 'Allrounder-Grotesk-Regular',
-                        }}>
-                        Credit card
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontFamily: 'Allrounder-Grotesk-Book',
-                      color: '#a5a5a5',
-                      padding: 20,
-                      paddingBottom: 10,
-                    }}>
-                    Preferred payment method
-                  </Text>
-                  <View style={{marginTop: 15}}>
+                      Top up with
+                    </Text>
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.App.wallet_state_vars.totalWallet_amount ===
-                        0
-                          ? {}
-                          : this.props.App.customFareTripSelected !== false
-                          ? this.props.App.customFareTripSelected <=
-                            this.props.App.wallet_state_vars.totalWallet_amount
-                            ? this.props.UpdatePreferredPayment_method('wallet')
-                            : this.props.UpdatePreferredPayment_method('cash')
-                          : this.props.App.fareTripSelected <=
-                            this.props.App.wallet_state_vars.totalWallet_amount
-                          ? this.props.UpdatePreferredPayment_method('wallet')
-                          : this.props.UpdatePreferredPayment_method('cash')
+                        this.props.navigation.navigate('TopUpWalletScreen')
                       }
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        padding: 20,
-                        paddingTop: 0,
-                        paddingBottom: 5,
-                        marginBottom: 20,
-                        opacity:
-                          this.props.App.wallet_state_vars
-                            .totalWallet_amount === 0
-                            ? 0.15
-                            : 1,
-                      }}>
-                      <View style={{width: 40}}>
-                        <IconMaterialIcons name="credit-card" size={32} />
-                      </View>
-                      <Text
+                      style={{marginTop: 15}}>
+                      <View
                         style={{
-                          fontSize: 18,
-                          flex: 1,
-                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingTop: 0,
+                          paddingBottom: 10,
                         }}>
-                        Wallet
-                      </Text>
-                      {this.props.App.wallet_state_vars.totalWallet_amount ===
-                      0 ? null : /wallet/i.test(
-                          this.props.App.wallet_state_vars
-                            .selectedPayment_method,
-                        ) ? (
-                        <IconCommunity
-                          name="check-circle"
-                          size={25}
-                          style={{top: 1}}
-                          color={'#096ED4'}
-                        />
-                      ) : null}
+                        <View style={{width: 40}}>
+                          <IconAnt name="creditcard" size={28} />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                          }}>
+                          Credit card
+                        </Text>
+                      </View>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.props.UpdatePreferredPayment_method('cash');
-                      }}
+                  </View>
+                  <View>
+                    <Text
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
+                        fontSize: 16,
+                        fontFamily: 'Allrounder-Grotesk-Book',
+                        color: '#a5a5a5',
                         padding: 20,
                         paddingBottom: 10,
-                        borderTopWidth: 0.5,
-                        borderTopColor: '#d0d0d0',
                       }}>
-                      <View style={{width: 40}}>
-                        <IconCommunity
-                          name="cash-usd"
-                          color={'#000'}
-                          size={32}
-                        />
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          flex: 1,
-                          fontFamily: 'Allrounder-Grotesk-Regular',
-                        }}>
-                        Cash
-                      </Text>
-                      {this.props.App.wallet_state_vars.totalWallet_amount ===
-                      0 ? null : /cash/i.test(
+                      Preferred payment method
+                    </Text>
+                    <View style={{marginTop: 15}}>
+                      <TouchableOpacity
+                        onPress={() =>
                           this.props.App.wallet_state_vars
-                            .selectedPayment_method,
-                        ) ? (
-                        <IconCommunity
-                          name="check-circle"
-                          size={25}
-                          style={{top: 1}}
-                          color={'#096ED4'}
-                        />
-                      ) : null}
-                    </TouchableOpacity>
+                            .totalWallet_amount === 0
+                            ? {}
+                            : this.props.App.customFareTripSelected !== false
+                            ? this.props.App.customFareTripSelected <=
+                              this.props.App.wallet_state_vars
+                                .totalWallet_amount
+                              ? this.props.UpdatePreferredPayment_method(
+                                  'wallet',
+                                )
+                              : this.props.UpdatePreferredPayment_method('cash')
+                            : this.props.App.fareTripSelected <=
+                              this.props.App.wallet_state_vars
+                                .totalWallet_amount
+                            ? this.props.UpdatePreferredPayment_method('wallet')
+                            : this.props.UpdatePreferredPayment_method('cash')
+                        }
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingTop: 0,
+                          paddingBottom: 5,
+                          marginBottom: 20,
+                          opacity:
+                            this.props.App.wallet_state_vars
+                              .totalWallet_amount === 0
+                              ? 0.15
+                              : 1,
+                        }}>
+                        <View style={{width: 40}}>
+                          <IconMaterialIcons name="credit-card" size={32} />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            flex: 1,
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                          }}>
+                          Wallet
+                        </Text>
+                        {this.props.App.wallet_state_vars.totalWallet_amount ===
+                        0 ? null : /wallet/i.test(
+                            this.props.App.wallet_state_vars
+                              .selectedPayment_method,
+                          ) ? (
+                          <IconCommunity
+                            name="check-circle"
+                            size={25}
+                            style={{top: 1}}
+                            color={'#096ED4'}
+                          />
+                        ) : null}
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.props.UpdatePreferredPayment_method('cash');
+                        }}
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingBottom: 10,
+                          borderTopWidth: 0.5,
+                          borderTopColor: '#d0d0d0',
+                        }}>
+                        <View style={{width: 40}}>
+                          <IconCommunity
+                            name="cash-usd"
+                            color={'#000'}
+                            size={32}
+                          />
+                        </View>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            flex: 1,
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                          }}>
+                          Cash
+                        </Text>
+                        {this.props.App.wallet_state_vars.totalWallet_amount ===
+                        0 ? null : /cash/i.test(
+                            this.props.App.wallet_state_vars
+                              .selectedPayment_method,
+                          ) ? (
+                          <IconCommunity
+                            name="check-circle"
+                            size={25}
+                            style={{top: 1}}
+                            color={'#096ED4'}
+                          />
+                        ) : null}
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-          </ScrollView>
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              paddingLeft: 20,
-              paddingRight: 20,
-              height: 100,
-            }}>
-            <TouchableOpacity
-              onPress={() => {}}
+            </ScrollView>
+            <View
               style={{
-                borderColor: 'transparent',
                 width: '100%',
-                justifyContent: 'center',
+                alignItems: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                height: 100,
               }}>
-              <View style={[styles.bttnGenericTc]}>
-                <Text
-                  style={[
-                    {
-                      fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 23,
-                      color: '#fff',
-                    },
-                  ]}>
-                  Done
-                </Text>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {}}
+                style={{
+                  borderColor: 'transparent',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}>
+                <View style={[styles.bttnGenericTc]}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23,
+                        color: '#fff',
+                      },
+                    ]}>
+                    Done
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

@@ -11,6 +11,8 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import SOCKET_CORE from '../Helpers/managerNode';
 import {CreditCardInput} from '../Modules/react-native-credit-card-input';
@@ -20,6 +22,7 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import NetInfo from '@react-native-community/netinfo';
 import Modal from 'react-native-modal';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -545,149 +548,154 @@ class TopUpWalletScreen extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.mainWindow}>
-        <Modal
-          testID={'modal'}
-          isVisible={this.state.renderPayModal}
-          animationInTiming={300}
-          animationOutTiming={300}
-          useNativeDriver={true}
-          style={styles.modalBottom}>
-          {this.renderModalContent()}
-        </Modal>
-        <View
-          style={{
-            flex: 1,
-            padding: 20,
-            paddingTop: 10,
-            paddingLeft: 0,
-            paddingRight: 0,
-          }}>
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <StatusBar backgroundColor="#000" />
+          <Modal
+            testID={'modal'}
+            isVisible={this.state.renderPayModal}
+            animationInTiming={300}
+            animationOutTiming={300}
+            useNativeDriver={true}
+            style={styles.modalBottom}>
+            {this.renderModalContent()}
+          </Modal>
           <View
             style={{
               flex: 1,
+              padding: 20,
+              paddingTop: 10,
+              paddingLeft: 0,
+              paddingRight: 0,
             }}>
             <View
               style={{
-                padding: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
+                flex: 1,
               }}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.goBack();
-                }}
-                style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" size={25} />
-                </View>
-              </TouchableOpacity>
-              <Text
-                style={[
-                  {
-                    fontSize: 22.5,
-                    fontFamily: 'Allrounder-Grotesk-Book',
-                    marginTop: 15,
-                  },
-                ]}>
-                Payment information
-              </Text>
-            </View>
-            <View
-              style={{
-                minHeight: 50,
-              }}>
-              <CreditCardInput
-                ref={(c) => (this._cardInput = c)}
-                placeholders={{
-                  number: 'Card number',
-                  expiry: 'MM/YY',
-                  cvc: 'CVV',
-                }}
-                labels={{
-                  cvc: '',
-                  number: '',
-                  expiry: '',
-                }}
-                requiresName={false}
-                requiresCVC={true}
-                allowScroll={false}
-                inputContainerStyle={{
-                  paddingBottom: 10,
-                  paddingTop: 10,
-                  paddingLeft: 5,
-                }}
-                inputStyle={[
-                  {
-                    fontSize: 19,
-                    paddingLeft: 0,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
-                  },
-                ]}
-                additionalInputsProps={{
-                  number: {
-                    maxLength: 19,
-                  },
-                  expiry: {
-                    maxLength: 5,
-                  },
-                  cvc: {
-                    maxLength: 3,
-                  },
-                }}
-                onChange={this._onChange}
-              />
-            </View>
-            <Animated.Text
-              style={[
-                systemWeights.light,
-                {
-                  opacity: this.state.errorMessageOpacity,
+              <View
+                style={{
                   padding: 20,
-                  color: 'red',
-                  transform: [{translateY: this.state.errorMessageTopPosition}],
-                },
-              ]}>
-              {this.state.errorMessageText}
-            </Animated.Text>
-          </View>
-          <View style={styles.nextArea}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignContent: 'center',
-                justifyContent: 'center',
-                paddingBottom: 10,
-              }}>
-              <IconMaterialIcons
-                name="shield"
-                size={15}
-                color={'#0D8691'}
-                style={{marginRight: 3, top: 1}}
-              />
-              <Text
+                  paddingTop: 15,
+                  paddingBottom: 15,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.goBack();
+                  }}
+                  style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{top: 0}}>
+                    <IconAnt name="arrowleft" size={25} />
+                  </View>
+                </TouchableOpacity>
+                <Text
+                  style={[
+                    {
+                      fontSize: 22.5,
+                      fontFamily: 'Allrounder-Grotesk-Book',
+                      marginTop: 15,
+                    },
+                  ]}>
+                  Payment information
+                </Text>
+              </View>
+              <View
+                style={{
+                  minHeight: 50,
+                }}>
+                <CreditCardInput
+                  ref={(c) => (this._cardInput = c)}
+                  placeholders={{
+                    number: 'Card number',
+                    expiry: 'MM/YY',
+                    cvc: 'CVV',
+                  }}
+                  labels={{
+                    cvc: '',
+                    number: '',
+                    expiry: '',
+                  }}
+                  requiresName={false}
+                  requiresCVC={true}
+                  allowScroll={false}
+                  inputContainerStyle={{
+                    paddingBottom: 10,
+                    paddingTop: 10,
+                    paddingLeft: 5,
+                  }}
+                  inputStyle={[
+                    {
+                      fontSize: 19,
+                      paddingLeft: 0,
+                      paddingLeft: 20,
+                      paddingRight: 20,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
+                    },
+                  ]}
+                  additionalInputsProps={{
+                    number: {
+                      maxLength: 19,
+                    },
+                    expiry: {
+                      maxLength: 5,
+                    },
+                    cvc: {
+                      maxLength: 3,
+                    },
+                  }}
+                  onChange={this._onChange}
+                />
+              </View>
+              <Animated.Text
                 style={[
-                  {fontSize: 14.5, fontFamily: 'Allrounder-Grotesk-Book'},
+                  systemWeights.light,
+                  {
+                    opacity: this.state.errorMessageOpacity,
+                    padding: 20,
+                    color: 'red',
+                    transform: [
+                      {translateY: this.state.errorMessageTopPosition},
+                    ],
+                  },
                 ]}>
-                All the information entered is secured.
-              </Text>
+                {this.state.errorMessageText}
+              </Animated.Text>
             </View>
-            <TouchableOpacity
-              onPress={() => {} /*this.execTopup*/}
-              style={{borderWidth: 1, borderColor: 'transparent'}}>
-              <Animated.View
-                style={[
-                  styles.bttnGenericTc,
-                  {opacity: this.state.buttonPayOpacity},
-                ]}>
-                {this.renderAppropriateScreens()}
-              </Animated.View>
-            </TouchableOpacity>
+            <View style={styles.nextArea}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  paddingBottom: 10,
+                }}>
+                <IconMaterialIcons
+                  name="shield"
+                  size={15}
+                  color={'#0D8691'}
+                  style={{marginRight: 3, top: 1}}
+                />
+                <Text
+                  style={[
+                    {fontSize: 14.5, fontFamily: 'Allrounder-Grotesk-Book'},
+                  ]}>
+                  All the information entered is secured.
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => {} /*this.execTopup*/}
+                style={{borderWidth: 1, borderColor: 'transparent'}}>
+                <Animated.View
+                  style={[
+                    styles.bttnGenericTc,
+                    {opacity: this.state.buttonPayOpacity},
+                  ]}>
+                  {this.renderAppropriateScreens()}
+                </Animated.View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </View>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

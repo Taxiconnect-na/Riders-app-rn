@@ -2548,7 +2548,7 @@ class ErrorModal extends React.PureComponent {
           <Modal
             testID={'modal'}
             useNativeDriver={true}
-            useNativeDriverForBackdrop={true}
+            //useNativeDriverForBackdrop={true}
             onBackButtonPress={() =>
               this.props.UpdateErrorModalLog(false, false, 'any')
             }
@@ -2567,8 +2567,8 @@ class ErrorModal extends React.PureComponent {
                   : false
                 : false
             }
-            animationInTiming={300}
-            animationOutTiming={300}
+            animationInTiming={200}
+            animationOutTiming={200}
             style={styles.modalBottom}>
             {this.renderModalContent(this.props.error_status)}
           </Modal>

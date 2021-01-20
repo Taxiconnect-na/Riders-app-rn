@@ -26,6 +26,7 @@ class PayTaxiInputNumber extends React.PureComponent {
   render() {
     return (
       <SafeAreaView style={styles.mainWindow}>
+        <StatusBar backgroundColor="#000" />
         <View style={styles.presentationWindow}>
           <Text
             style={[
