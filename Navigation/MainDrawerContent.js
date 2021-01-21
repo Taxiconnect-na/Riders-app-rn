@@ -83,13 +83,13 @@ export function MainDrawerContent(props) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('Wallet_drawer')}
-          style={[styles.menuItem, {paddingTop: 15}]}>
+          style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Wallet</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.menuItem, {paddingTop: 15}]}>
+        <TouchableOpacity style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.menuItem, {paddingTop: 15}]}>
+        <TouchableOpacity style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Support</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -110,7 +110,7 @@ export function MainDrawerContent(props) {
             color: '#a5a5a5',
             textAlign: 'right',
           }}>
-          v2.1.224
+          v2.1.226
         </Text>
       </View>
     </SafeAreaView>

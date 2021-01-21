@@ -24,6 +24,7 @@ class WalletEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen

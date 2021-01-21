@@ -125,7 +125,6 @@ class Home extends React.PureComponent {
               this.getCurrentPositionCusto();
               GeolocationP.getCurrentPosition(
                 (position) => {
-                  console.log(position);
                   globalObject.props.App.latitude = position.coords.latitude;
                   globalObject.props.App.longitude = position.coords.longitude;
                   //Update GPRS permission global var
@@ -423,7 +422,6 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
-        console.log(response);
         //1. Trip in progress: in route to pickup or in route to drop off
         if (
           response.response === undefined &&
@@ -452,7 +450,6 @@ class Home extends React.PureComponent {
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
-                    console.log('Interval running.');
                     globalObject.GPRS_resolver();
                     globalObject.updateRemoteLocationsData();
                   } //clear interval
@@ -478,7 +475,6 @@ class Home extends React.PureComponent {
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
-                    console.log('Interval running.');
                     globalObject.GPRS_resolver();
                     globalObject.updateRemoteLocationsData();
                   } //clear interval
@@ -581,7 +577,6 @@ class Home extends React.PureComponent {
             globalObject.props.App.intervalProgressLoop = setInterval(
               function () {
                 if (globalObject.props.App.isRideInProgress === true) {
-                  console.log('Interval running.');
                   globalObject.GPRS_resolver();
                   globalObject.updateRemoteLocationsData();
                 } //clear interval
@@ -844,7 +839,6 @@ class Home extends React.PureComponent {
     SOCKET_CORE.on(
       'requestRideOrDeliveryForThis-response',
       function (response) {
-        console.log(response);
         if (
           response !== false &&
           response.response !== undefined &&
@@ -1152,10 +1146,8 @@ class Home extends React.PureComponent {
   getCurrentPositionCusto = () => {
     let globalObject = this;
     if (this.props.App._MAIN_LOCATION_WATCHER === null) {
-      console.log('Inside');
       this.props.App._MAIN_LOCATION_WATCHER = GeolocationP.watchPosition(
         (position) => {
-          console.log(position);
           globalObject.props.App.latitude = position.coords.latitude;
           globalObject.props.App.longitude = position.coords.longitude;
           //---
@@ -2286,7 +2278,6 @@ class Home extends React.PureComponent {
    * able to use the platform
    */
   promptGPRSActivation() {
-    console.log('pressed');
     this.props.App.gprsGlobals.didAskForGprs = false;
     this.props.App.gprsGlobals.hasGPRSPermissions = false;
     //...

@@ -146,7 +146,6 @@ class ErrorModal extends React.PureComponent {
       //Update the compliment list
       //Auto toggle compliment array depending on whether the compliment was already selected or not
       this.state.compliment_array[data] = !this.state.compliment_array[data];
-      console.log(this.state.compliment_array);
       this.forceUpdate();
     }
   }
@@ -812,7 +811,7 @@ class ErrorModal extends React.PureComponent {
                   style={[
                     systemWeights.semibold,
                     {
-                      fontSize: 19,
+                      fontSize: 20,
                       fontFamily: 'Allrounder-Grotesk-Medium',
                       marginLeft: 5,
                     },
@@ -829,10 +828,8 @@ class ErrorModal extends React.PureComponent {
                   flexDirection: 'row',
                   padding: 20,
                   paddingTop: 18,
-                  paddingBottom: 15,
+                  paddingBottom: 25,
                   alignItems: 'center',
-                  borderBottomWidth: 0.7,
-                  borderBottomColor: '#d0d0d0',
                 }}>
                 <View style={{flexDirection: 'row', flex: 1}}>
                   <View
@@ -873,8 +870,8 @@ class ErrorModal extends React.PureComponent {
                     }}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 17,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 19,
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -890,7 +887,7 @@ class ErrorModal extends React.PureComponent {
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Medium',
-                          fontSize: 15,
+                          fontSize: 18,
                           color: '#096ED4',
                         }}>
                         {this.props.App.generalTRIP_details_driverDetails
@@ -899,22 +896,25 @@ class ErrorModal extends React.PureComponent {
                               .carDetails.taxi_number
                           : null}
                       </Text>
-                      <IconMaterialIcons
-                        name="star"
-                        size={14}
-                        style={{marginLeft: 7}}
-                        color="#ffbf00"
-                      />
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Regular',
-                          fontSize: 15,
-                        }}>
-                        {
-                          this.props.App.generalTRIP_details_driverDetails
-                            .driverDetails.global_rating
-                        }
-                      </Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <IconMaterialIcons
+                          name="star"
+                          size={17}
+                          style={{marginLeft: 7, marginRight: 4}}
+                          color="#ffbf00"
+                        />
+                        <Text
+                          style={{
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontSize: 17,
+                          }}>
+                          {
+                            this.props.App.generalTRIP_details_driverDetails
+                              .driverDetails.global_rating
+                          }
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -946,8 +946,8 @@ class ErrorModal extends React.PureComponent {
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  borderBottomWidth: 0.7,
-                  borderBottomColor: '#d0d0d0',
+                  paddingLeft: 20,
+                  paddingRight: 20,
                 }}>
                 <TouchableOpacity
                   onPress={() =>
@@ -959,46 +959,68 @@ class ErrorModal extends React.PureComponent {
                   }
                   style={{
                     flexDirection: 'row',
-                    flex: 1,
-                    borderRightWidth: 0.7,
-                    borderRightColor: '#d0d0d0',
+                    //borderRightWidth: 0.7,
+                    //borderRightColor: '#d0d0d0',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: 10,
+                    padding: 15,
+                    borderRadius: 4,
+                    height: 58,
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                    backgroundColor: '#096ED4',
+                    marginRight: 10,
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+
+                    elevation: 5,
                   }}>
-                  <IconMaterialIcons name="phone" color="#096ED4" size={20} />
-                  <Text
-                    style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
-                      fontSize: 17,
-                      color: '#096ED4',
-                    }}>
-                    Call
-                  </Text>
+                  <IconMaterialIcons name="phone" color="#fff" size={28} />
                 </TouchableOpacity>
+
                 {/inRouteToDestination/i.test(
                   this.props.App.generalTRIP_details_driverDetails
                     .request_status,
-                ) ? (
+                ) ? null : (
                   <TouchableOpacity
                     style={{
                       flexDirection: 'row',
                       flex: 1,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      padding: 10,
+                      padding: 15,
+                      height: 58,
+                      borderWidth: 1,
+                      borderColor: '#d0d0d0',
+                      borderRadius: 4,
+                      borderTopLeftRadius: 0,
+                      borderBottomLeftRadius: 0,
+                      backgroundColor: '#fff',
+                      shadowColor: '#d0d0d0',
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 3.84,
+
+                      elevation: 3,
                     }}>
-                    <IconMaterialIcons name="block" color="#b22222" size={20} />
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 17,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 19,
                         color: '#b22222',
                       }}>
-                      Cancel trip
+                      Cancel the trip
                     </Text>
                   </TouchableOpacity>
-                ) : null}
+                )}
               </View>
               {/**Car details */}
               <View
@@ -1012,9 +1034,9 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
                     color: '#a5a5a5',
-                    paddingBottom: 15,
+                    paddingBottom: 16,
                   }}>
                   Car details
                 </Text>
@@ -1024,7 +1046,7 @@ class ErrorModal extends React.PureComponent {
                       borderWidth: 1,
                       borderColor: '#d0d0d0',
                       width: 130,
-                      height: 70,
+                      height: 80,
                       borderRadius: 3,
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -1035,13 +1057,14 @@ class ErrorModal extends React.PureComponent {
                         resizeMode: 'cover',
                         width: '100%',
                         height: '100%',
+                        borderRadius: 3,
                       }}
                     />
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
                     <Text
                       style={{
-                        fontSize: 16,
+                        fontSize: 17.5,
                         fontFamily: 'Allrounder-Grotesk-Medium',
                       }}>
                       {
@@ -1051,8 +1074,8 @@ class ErrorModal extends React.PureComponent {
                     </Text>
                     <Text
                       style={{
-                        fontSize: 14,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontSize: 16,
+                        fontFamily: 'Allrounder-Grotesk-Regular',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1065,7 +1088,11 @@ class ErrorModal extends React.PureComponent {
                         marginTop: 8,
                         alignItems: 'center',
                       }}>
-                      <IconFeather name="shield" color="green" size={16} />
+                      <IconMaterialIcons
+                        name="shield"
+                        color="green"
+                        size={15}
+                      />
                       <Text
                         style={{
                           fontSize: 14,
@@ -1086,7 +1113,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
                     color: '#a5a5a5',
                     padding: 20,
                     paddingBottom: 0,
@@ -1144,11 +1171,11 @@ class ErrorModal extends React.PureComponent {
                           style={{
                             flexDirection: 'row',
                           }}>
-                          <View style={{width: 35}}>
+                          <View style={{width: 45}}>
                             <Text
                               style={{
                                 fontFamily: 'Allrounder-Grotesk-Book',
-                                fontSize: 13,
+                                fontSize: 15,
                                 top: 2,
                               }}>
                               From
@@ -1167,7 +1194,7 @@ class ErrorModal extends React.PureComponent {
                               <Text
                                 style={{
                                   fontFamily: 'Allrounder-Grotesk-Medium',
-                                  fontSize: 15,
+                                  fontSize: 17,
                                   marginLeft: 5,
                                   flex: 1,
                                 }}>
@@ -1208,7 +1235,7 @@ class ErrorModal extends React.PureComponent {
                             <Text
                               style={{
                                 fontFamily: 'Allrounder-Grotesk-Book',
-                                fontSize: 13,
+                                fontSize: 15,
                                 top: 1,
                               }}>
                               To
@@ -1234,7 +1261,7 @@ class ErrorModal extends React.PureComponent {
                                       style={{
                                         fontFamily:
                                           'Allrounder-Grotesk-Regular',
-                                        fontSize: 16,
+                                        fontSize: 17,
                                         marginLeft: 5,
                                         flex: 1,
                                       }}>
@@ -1244,8 +1271,8 @@ class ErrorModal extends React.PureComponent {
                                         <Text
                                           style={{
                                             fontFamily:
-                                              'Allrounder-Grotesk-Regular',
-                                            fontSize: 13,
+                                              'Allrounder-Grotesk-Medium',
+                                            fontSize: 15,
                                             marginLeft: 5,
                                             flex: 1,
                                             color: '#096ED4',
@@ -1270,10 +1297,7 @@ class ErrorModal extends React.PureComponent {
                     flexDirection: 'row',
                     alignItems: 'center',
                     padding: 20,
-                    borderTopWidth: 0.7,
-                    borderTopColor: '#d0d0d0',
-                    borderBottomWidth: 0.7,
-                    borderBottomColor: '#d0d0d0',
+
                     backgroundColor: '#fafafa',
                   }}>
                   <View>
@@ -1298,11 +1322,11 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Book',
-                        fontSize: 14,
+                        fontSize: 16.5,
                         marginLeft: 5,
                         flex: 1,
                       }}>
-                      Approximately{' '}
+                      About{' '}
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Medium',
@@ -1314,18 +1338,17 @@ class ErrorModal extends React.PureComponent {
                           ' away',
                           '',
                         )}
-                        .
                       </Text>
                     </Text>
                   ) : (
                     <Text
                       style={{
                         fontFamily: 'Allrounder-Grotesk-Book',
-                        fontSize: 14,
+                        fontSize: 15,
                         marginLeft: 5,
                         flex: 1,
                       }}>
-                      Couldn't find the ETA.
+                      ...
                     </Text>
                   )}
                 </View>
@@ -1361,7 +1384,7 @@ class ErrorModal extends React.PureComponent {
                   <Text
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Regular',
-                      fontSize: 17,
+                      fontSize: 18,
                       marginLeft: 4,
                     }}>
                     {String(
@@ -1385,7 +1408,7 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Medium',
-                    fontSize: 20,
+                    fontSize: 19,
                     color: 'green',
                     flex: 1,
                     textAlign: 'center',
@@ -1405,7 +1428,7 @@ class ErrorModal extends React.PureComponent {
                   <Text
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Medium',
-                      fontSize: 17.5,
+                      fontSize: 18,
                       marginLeft: 4,
                     }}>
                     {
@@ -1421,13 +1444,14 @@ class ErrorModal extends React.PureComponent {
                   padding: 20,
                   paddingBottom: 30,
                   marginBottom: 50,
+                  paddingTop: 30,
                 }}>
                 <Text
                   style={{
-                    fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontSize: 18,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
                     color: '#a5a5a5',
-                    paddingBottom: 25,
+                    paddingBottom: 35,
                   }}>
                   Safety
                 </Text>
@@ -1463,10 +1487,11 @@ class ErrorModal extends React.PureComponent {
                     <IconCommunity name="earth" color="#000" size={25} />
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 18,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 19,
                         color: '#000',
                         marginLeft: 5,
+                        flex: 1,
                       }}>
                       Share your trip
                     </Text>
@@ -1486,8 +1511,8 @@ class ErrorModal extends React.PureComponent {
                     />
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 18,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 19,
                         color: '#b22222',
                         marginLeft: 5,
                       }}>
@@ -1687,10 +1712,9 @@ class ErrorModal extends React.PureComponent {
                 </View>
                 <Text
                   style={[
-                    systemWeights.semibold,
                     {
-                      fontSize: 19,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontSize: 20,
+                      fontFamily: 'Allrounder-Grotesk-Regular',
                       marginLeft: 5,
                     },
                   ]}>
@@ -1739,8 +1763,8 @@ class ErrorModal extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Regular',
-                    fontSize: 18,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 20,
                     marginTop: 10,
                   }}>
                   {
@@ -1751,22 +1775,18 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Book',
-                    fontSize: 14.5,
+                    fontSize: 15.5,
                     marginTop: 4,
                   }}>
-                  {
-                    this.props.App.generalTRIP_details_driverDetails
-                      .trip_details.date_requested
-                  }
+                  {this.props.App.generalTRIP_details_driverDetails.trip_details.date_requested.replace(
+                    /\//g,
+                    '-',
+                  )}
                 </Text>
               </View>
               {/**Rating section */}
               <View
                 style={{
-                  borderTopWidth: 0.5,
-                  borderTopColor: '#d0d0d0',
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: '#d0d0d0',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: 25,
@@ -1803,8 +1823,8 @@ class ErrorModal extends React.PureComponent {
                 }}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Regular',
-                    fontSize: 16,
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontSize: 17,
                     width: '100%',
                     textAlign: 'center',
                     color: '#a5a5a5',

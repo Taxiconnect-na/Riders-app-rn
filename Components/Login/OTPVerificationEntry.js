@@ -39,8 +39,6 @@ const App = ({valueM, parentNode, editable}) => {
     setValue,
   });
 
-  console.log(valueM);
-
   return (
     <View style={styles.root}>
       <CodeField
@@ -98,7 +96,6 @@ class OTPVerificationEntry extends React.PureComponent {
     globalObject._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
-        console.log('screen focused');
         globalObject.setState({
           SMS_LIMITER: false,
           otpValue: '',
@@ -302,15 +299,12 @@ class OTPVerificationEntry extends React.PureComponent {
         //Request for otp
         globalObject.requestForOTP();
         //...
-        console.log('Can read sms');
         RNOtpVerify.getOtp()
           .then(() => {
-            console.log('here');
             RNOtpVerify.addListener(this.otpHandler);
           })
           .catch((p) => console.log(p));
       } else {
-        console.log('SMS reading permission denied.');
         //Request for otp
         globalObject.requestForOTP();
         //...
@@ -368,7 +362,6 @@ class OTPVerificationEntry extends React.PureComponent {
    */
   requestForOTP(reset = false) {
     if (reset) {
-      console.log('here');
       this.state.SMS_LIMITER = false;
     }
     //..
@@ -376,8 +369,6 @@ class OTPVerificationEntry extends React.PureComponent {
     if (phoneNumber !== false) {
       this.setState({loaderState: true});
       if (this.state.SMS_LIMITER === false) {
-        console.log(this.state.SMS_LIMITER);
-        console.log(phoneNumber);
         //Limit the sms
         //this.state.SMS_LIMITER = true;
         this.setState({
@@ -431,7 +422,6 @@ class OTPVerificationEntry extends React.PureComponent {
       this.state.otpValue.trim().length >= 5 &&
       this.state.didCheckOTP === false
     ) {
-      console.log('Autochecking launched');
       //Autocheck
       this.moveForwardCheck();
     }

@@ -1768,7 +1768,6 @@ class RenderContentBottomVitals extends React.PureComponent {
           .originDestinationPreviewData.routePoints === null;
       //...
       if (this.props.App._TMP_INTERVAL_PERSISTER === null && initialCondition) {
-        console.log('ESTIMATOR CALLED');
         //Make an initial preview to destination request
         this.findPreviewRouteToDestination();
         //this.props.parentNode.fire_search_animation(); //Fire animation
@@ -1815,7 +1814,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               globalObject.props.parentNode.resetAnimationLoader();
             }
           }
-        }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 1500);
+        }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 500);
       } else {
         if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
           clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);

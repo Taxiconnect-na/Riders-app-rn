@@ -95,8 +95,7 @@ const STATE = {
   cardeliveryNormal: cardeliveryNormal,
   vandeliveryNormal: vandeliveryNormal,
   //...
-  user_fingerprint:
-    '7c57cb6c9471fd33fd265d5441f253eced2a6307c0207dea57c987035b496e6e8dfa7105b86915da', //User fingerprint - default: null
+  user_fingerprint: null, //User fingerprint - default: null
 
   pushnotif_token: false, //Notification push notification - default: false
   userCurrentLocationMetaData: {}, //Metadata of the user's current location - directly geocoded and shallowly processed

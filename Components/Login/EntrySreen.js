@@ -55,12 +55,6 @@ class EntryScreen extends React.PureComponent {
       this.props.App.longitude = 0;
     }
     //...
-    console.log(
-      user_fp,
-      pushnotif_token,
-      userCurrentLocationMetaData,
-      userLocationPoint,
-    );
     if (
       this.props.App.user_fingerprint !== undefined &&
       this.props.App.user_fingerprint !== null &&

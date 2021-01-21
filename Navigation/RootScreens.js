@@ -273,7 +273,7 @@ function Wallet_drawer() {
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="YourRidesEntry_drawer"
+      initialRouteName="Home_drawer"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen

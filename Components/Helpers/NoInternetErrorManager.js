@@ -5,10 +5,7 @@
 import NetInfo from '@react-native-community/netinfo';
 
 const NoInternetErrorManager = () => {
-  NetInfo.addEventListener((state) => {
-    console.log('Connection type', state.type);
-    console.log('Is connected?', state.isConnected);
-  });
+  NetInfo.addEventListener((state) => {});
 };
 
 export default NoInternetErrorManager;

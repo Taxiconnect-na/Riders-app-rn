@@ -1861,13 +1861,11 @@ const HomeReducer = (state = INIT_STATE, action) => {
           newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.riderPhoneNumber = false;
         } //Someone else is riding - update
         else {
-          console.log('Other riding');
           newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.whoIsRiding = action.payload.riderString
             .toLowerCase()
             .trim();
         }
       } else if (action.payload.action === 'doneCustomizing') {
-        console.log('DOne switching');
         //- close
         newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.openRiderSwitcher = false;
         if (
@@ -1876,12 +1874,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
           newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.riderPhoneNumber.trim()
             .length >= 9
         ) {
-          console.log('validated');
           //Acceptable - but will need a more advanced check
           newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.riderPhoneNumber = newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.riderPhoneNumber.trim();
         } //Wrong number switch back to account holder
         else {
-          console.log('not validated');
           newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.whoIsRiding =
             'me';
           newState.bottomVitalsFlow.riderOrPackagePosseserSwitchingVars.riderPhoneNumber = false;
@@ -2202,7 +2198,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
           );
         }
       }
-      console.log(newState.dropoff_rating_metadata.compliment_array);
       //...
       return {...state, ...newState};
 
@@ -2211,8 +2206,9 @@ const HomeReducer = (state = INIT_STATE, action) => {
       if (Object.keys(newState.generalTRIP_details_driverDetails).length > 0) {
         //Already had something
         if (
-          newState.generalTRIP_details_driverDetails.request_fp !==
-          action.payload.request_fp
+          /riderDropoffConfirmation_left/i.test(
+            newState.generalTRIP_details_driverDetails.request_status,
+          ) !== true
         ) {
           //Update
           newState.generalTRIP_details_driverDetails = action.payload;

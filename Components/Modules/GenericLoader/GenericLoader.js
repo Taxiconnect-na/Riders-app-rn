@@ -98,7 +98,6 @@ class GenericLoader extends React.PureComponent {
    * based on the received props.
    */
   checkAnimationState(state) {
-    console.log(state);
     if (state !== undefined && state !== null) {
       if (state && this.state.showLocationSearch_loader === false) {
         //Active

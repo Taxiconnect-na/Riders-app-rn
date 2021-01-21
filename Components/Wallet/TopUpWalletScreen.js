@@ -178,7 +178,6 @@ class TopUpWalletScreen extends React.PureComponent {
       //Auto validate if it reached 19 chars and is saying incomplete
       form.status.number = 'valid';
     }
-    console.log(form);
     //...
     if (
       /valid/i.test(form.status.number) &&
@@ -255,7 +254,6 @@ class TopUpWalletScreen extends React.PureComponent {
         }, 2000);*/
       }
     } else {
-      console.log('Invalid card infos');
       if (this.cardData !== null) {
         this.highlightErrors();
       }

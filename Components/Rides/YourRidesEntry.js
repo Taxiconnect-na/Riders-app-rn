@@ -68,9 +68,6 @@ class YourRidesEntry extends React.PureComponent {
       else {
         globalObject.props.UpdateErrorModalLog(false, false, state.type);
       }
-
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
     });
 
     //connection
@@ -117,7 +114,6 @@ class YourRidesEntry extends React.PureComponent {
     SOCKET_CORE.on(
       'getRides_historyRiders_batchOrNot-response',
       function (response) {
-        console.log(response);
         globalObject.setState({
           loaderState: false,
           fetchingRides_Data: false,

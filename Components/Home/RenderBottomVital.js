@@ -444,10 +444,49 @@ class RenderBottomVital extends React.PureComponent {
                 left: 0,
                 width: '100%',
                 padding: 20,
-                paddingBottom: 26,
+                paddingLeft: 10,
+                paddingRight: 10,
+                paddingBottom: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
+              <View
+                style={{
+                  backgroundColor: '#f0f0f0',
+                  width: '100%',
+                  padding: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderTopLeftRadius: 7,
+                  borderTopRightRadius: 7,
+                  borderColor: '#d0d0d0',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+
+                  elevation: 6,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    color: '#000',
+                    fontSize: 17.5,
+                    flex: 1,
+                  }}>
+                  {this.props.App.generalTRIP_details_driverDetails.eta !==
+                    null &&
+                  this.props.App.generalTRIP_details_driverDetails.eta !==
+                    false &&
+                  this.props.App.generalTRIP_details_driverDetails.eta !==
+                    undefined
+                    ? this.props.App.generalTRIP_details_driverDetails.eta
+                    : 'Driver on his way'}
+                </Text>
+              </View>
               <TouchableOpacity
                 onPress={() =>
                   /inroute/i.test(this.props.App.request_status)
@@ -462,6 +501,8 @@ class RenderBottomVital extends React.PureComponent {
                   flex: 1,
                   backgroundColor: '#fff',
                   flexDirection: 'row',
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
                   padding: 20,
                   paddingTop: 18,
                   paddingLeft: 15,
@@ -512,8 +553,8 @@ class RenderBottomVital extends React.PureComponent {
                   <View style={{marginLeft: 7, flex: 1}}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
-                        fontSize: 17,
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 19,
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -529,7 +570,7 @@ class RenderBottomVital extends React.PureComponent {
                       <Text
                         style={{
                           fontFamily: 'Allrounder-Grotesk-Medium',
-                          fontSize: 14,
+                          fontSize: 19,
                           color: '#096ED4',
                         }}>
                         {this.props.App.generalTRIP_details_driverDetails
@@ -539,38 +580,25 @@ class RenderBottomVital extends React.PureComponent {
                           : this.props.App.generalTRIP_details_driverDetails
                               .carDetails.car_brand}
                       </Text>
-                      <IconMaterialIcons
-                        name="star"
-                        size={14}
-                        style={{marginLeft: 7}}
-                      />
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          fontSize: 14,
-                        }}>
-                        {
-                          this.props.App.generalTRIP_details_driverDetails
-                            .driverDetails.global_rating
-                        }
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
-                          color: '#096ED4',
-                          fontSize: 15,
-                        }}>
-                        {this.props.App.generalTRIP_details_driverDetails
-                          .eta !== null &&
-                        this.props.App.generalTRIP_details_driverDetails.eta !==
-                          false &&
-                        this.props.App.generalTRIP_details_driverDetails.eta !==
-                          undefined
-                          ? this.props.App.generalTRIP_details_driverDetails.eta
-                          : 'Driver on his way'}
-                      </Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <IconMaterialIcons
+                          name="star"
+                          size={17}
+                          color="#ffbf00"
+                          style={{marginLeft: 7, marginRight: 4}}
+                        />
+                        <Text
+                          style={{
+                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontSize: 18,
+                          }}>
+                          {
+                            this.props.App.generalTRIP_details_driverDetails
+                              .driverDetails.global_rating
+                          }
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -580,7 +608,7 @@ class RenderBottomVital extends React.PureComponent {
                     justifyContent: 'center',
                     marginRight: 5,
                   }}>
-                  <IconAnt name="caretdown" size={13} />
+                  <IconMaterialIcons name="arrow-forward-ios" size={15} />
                 </View>
               </TouchableOpacity>
             </View>
@@ -589,6 +617,14 @@ class RenderBottomVital extends React.PureComponent {
       } else if (
         /riderDropoffConfirmation_left/i.test(this.props.App.request_status)
       ) {
+        if (
+          this.props.App.generalTRIP_details_driverDetails.trip_details ===
+            undefined ||
+          this.props.App.generalTRIP_details_driverDetails.trip_details
+            .ride_mode === undefined
+        ) {
+          return null;
+        }
         //Confirm drop off
         return (
           <View
@@ -633,7 +669,7 @@ class RenderBottomVital extends React.PureComponent {
                   <Text
                     style={{
                       fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily: 'Allrounder-Grotesk-Medium',
                       color: '#a5a5a5',
                       padding: 20,
                       paddingTop: 0,
@@ -677,7 +713,7 @@ class RenderBottomVital extends React.PureComponent {
                               height: 50,
                               backgroundColor: '#000',
                             }}></View>
-                          <View style={{position: 'absolute', bottom: 0}}>
+                          <View style={{position: 'absolute', bottom: -3}}>
                             <View
                               style={{
                                 height: 11,
@@ -693,11 +729,11 @@ class RenderBottomVital extends React.PureComponent {
                             style={{
                               flexDirection: 'row',
                             }}>
-                            <View style={{width: 35}}>
+                            <View style={{width: 45}}>
                               <Text
                                 style={{
                                   fontFamily: 'Allrounder-Grotesk-Book',
-                                  fontSize: 13,
+                                  fontSize: 15,
                                   top: 2,
                                 }}>
                                 From
@@ -716,7 +752,7 @@ class RenderBottomVital extends React.PureComponent {
                                 <Text
                                   style={{
                                     fontFamily: 'Allrounder-Grotesk-Medium',
-                                    fontSize: 15,
+                                    fontSize: 16,
                                     marginLeft: 5,
                                     flex: 1,
                                   }}>
@@ -735,11 +771,11 @@ class RenderBottomVital extends React.PureComponent {
                               flexDirection: 'row',
                               marginTop: 25,
                             }}>
-                            <View style={{width: 35}}>
+                            <View style={{width: 45}}>
                               <Text
                                 style={{
                                   fontFamily: 'Allrounder-Grotesk-Book',
-                                  fontSize: 13,
+                                  fontSize: 15,
                                   top: 1,
                                 }}>
                                 To
@@ -775,8 +811,8 @@ class RenderBottomVital extends React.PureComponent {
                                           <Text
                                             style={{
                                               fontFamily:
-                                                'Allrounder-Grotesk-Regular',
-                                              fontSize: 13,
+                                                'Allrounder-Grotesk-Medium',
+                                              fontSize: 15,
                                               marginLeft: 5,
                                               flex: 1,
                                               color: '#096ED4',
@@ -840,7 +876,7 @@ class RenderBottomVital extends React.PureComponent {
                 <Text
                   style={{
                     fontFamily: 'Allrounder-Grotesk-Medium',
-                    fontSize: 21,
+                    fontSize: 22.5,
                     marginLeft: 5,
                     color: '#fff',
                   }}>
