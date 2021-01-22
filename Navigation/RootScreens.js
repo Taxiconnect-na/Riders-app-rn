@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import EntryScreen from '../Components/Login/EntrySreen';
 import PhoneDetailsScreen from '../Components/Login/PhoneDetailsScreen';
@@ -20,7 +20,6 @@ import YourRidesEntry from '../Components/Rides/YourRidesEntry';
 import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector';
 import DetailsRidesGenericScreen from '../Components/Rides/DetailsRidesGenericScreen';
 import {MainDrawerContent} from './MainDrawerContent';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -28,7 +27,9 @@ const Drawer = createDrawerNavigator();
 //a. Your rides screens
 function YourRidesEntry_drawer() {
   return (
-    <Stack.Navigator initialRouteName="YourRidesEntry">
+    <Stack.Navigator
+      initialRouteName="YourRidesEntry"
+      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="YourRidesEntry"
         component={YourRidesEntry}
@@ -86,23 +87,23 @@ function YourRidesEntry_drawer() {
 //b. Wallet screens
 function Wallet_drawer() {
   return (
-    <Stack.Navigator initialRouteName="WalletEntry">
+    <Stack.Navigator
+      initialRouteName="WalletEntry"
+      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="WalletEntry"
         component={WalletEntry}
         options={{
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{top: 0}}>
-                <IconAnt name="arrowleft" size={23} color="#fff" />
-              </View>
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
                   fontSize: 20,
-                  left: 15,
+                  right: 20,
                   color: '#fff',
                 }}>
                 Connect Wallet
@@ -288,7 +289,9 @@ function MainDrawer_navigator() {
 
 function RootScreens() {
   return (
-    <Stack.Navigator initialRouteName={'Home'}>
+    <Stack.Navigator
+      initialRouteName={'EntryScreen'}
+      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="EntryScreen"
         component={EntryScreen}

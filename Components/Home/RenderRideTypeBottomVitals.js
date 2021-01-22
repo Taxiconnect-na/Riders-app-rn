@@ -1787,7 +1787,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         />
                                         <View
                                           style={{
-                                            width: 95,
+                                            width: 110,
                                             padding: 7,
                                             borderRadius: 200,
                                             backgroundColor: /^available$/i.test(
@@ -1809,7 +1809,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 14,
+                                                fontSize: 15,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Regular',
                                               },
@@ -1825,7 +1825,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
-                                                fontSize: 17,
+                                                fontSize: 19,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Medium',
                                                 color: /^available$/i.test(
@@ -2008,7 +2008,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         />
                                         <View
                                           style={{
-                                            width: 95,
+                                            width: 110,
                                             padding: 7,
                                             borderRadius: 200,
                                             backgroundColor: /^available$/i.test(
@@ -2030,7 +2030,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 14,
+                                                fontSize: 15,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Regular',
                                               },
@@ -2046,7 +2046,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
-                                                fontSize: 17,
+                                                fontSize: 19,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Medium',
                                                 color: /^available$/i.test(
@@ -2219,7 +2219,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         />
                                         <View
                                           style={{
-                                            width: 95,
+                                            width: 110,
                                             padding: 7,
                                             borderRadius: 200,
                                             backgroundColor: /^available$/i.test(
@@ -2241,7 +2241,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 14,
+                                                fontSize: 15,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Regular',
                                               },
@@ -2257,7 +2257,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
-                                                fontSize: 17,
+                                                fontSize: 19,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Medium',
                                                 color: /^available$/i.test(
@@ -2347,15 +2347,15 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       }}>
                       <IconMaterialIcons
                         name="credit-card"
-                        size={23}
+                        size={28}
                         style={{marginRight: 3}}
                       />
                       <Text
                         style={[
                           {
-                            fontSize: 17,
+                            fontSize: 19,
                             color: '#0D8691',
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily: 'Allrounder-Grotesk-Medium',
                           },
                         ]}>
                         {this.props.parentNodeHome.ucFirst(
@@ -2370,11 +2370,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         alignItems: 'center',
                         padding: 5,
                       }}>
-                      <IconAnt name="user" size={14} style={{marginRight: 3}} />
+                      <IconAnt name="user" size={16} style={{marginRight: 3}} />
                       <Text
                         style={[
                           {
-                            fontSize: 17,
+                            fontSize: 19,
                             fontFamily: 'Allrounder-Grotesk-Regular',
                           },
                         ]}>
@@ -2403,7 +2403,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 15.5,
+                          fontSize: 16.5,
                           fontFamily: 'Allrounder-Grotesk-Book',
                         },
                       ]}>

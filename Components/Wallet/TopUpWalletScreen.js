@@ -623,7 +623,6 @@ class TopUpWalletScreen extends React.PureComponent {
                   inputStyle={[
                     {
                       fontSize: 19,
-                      paddingLeft: 0,
                       paddingLeft: 20,
                       paddingRight: 20,
                       fontFamily: 'Allrounder-Grotesk-Regular',

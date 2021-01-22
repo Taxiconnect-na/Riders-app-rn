@@ -16,7 +16,6 @@ import PulseCircleLayer from '../Modules/PulseCircleLayer';
 import bearing from '@turf/bearing';
 var turf = require('@turf/turf');
 import {UpdateTinyCarOnMapIconSize} from '../Redux/HomeActionsCreators';
-import {ROUTE} from './Route';
 
 const AnnotationPickup = ({title}) => (
   <View

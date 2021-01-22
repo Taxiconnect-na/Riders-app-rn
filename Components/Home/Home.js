@@ -315,6 +315,7 @@ class Home extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
+    //Initiate component by asking for the necessary permissions.
     await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
@@ -326,6 +327,7 @@ class Home extends React.PureComponent {
       },
     );
     globalObject.GPRS_resolver();
+    //...
 
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
@@ -2702,20 +2704,26 @@ class Home extends React.PureComponent {
       <DismissKeyboard>
         <View style={styles.window}>
           <StatusBar backgroundColor="#000" />
-          <ErrorModal
-            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-            error_status={
-              this.props.App.generalErrorModal_vars.generalErrorModalType
-            }
-            parentNode={this}
-          />
-          <DateTimePickerModal
-            isVisible={this.props.App.isSelectDatePickerActive}
-            mode="time"
-            is24Hour={true}
-            onConfirm={this.handleConfirmDateSchedule}
-            onCancel={this.handleCancelScheduleTrip}
-          />
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+            <ErrorModal
+              active={
+                this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              }
+              error_status={
+                this.props.App.generalErrorModal_vars.generalErrorModalType
+              }
+              parentNode={this}
+            />
+          ) : null}
+          {this.props.App.isSelectDatePickerActive ? (
+            <DateTimePickerModal
+              isVisible={this.props.App.isSelectDatePickerActive}
+              mode="time"
+              is24Hour={true}
+              onConfirm={this.handleConfirmDateSchedule}
+              onCancel={this.handleCancelScheduleTrip}
+            />
+          ) : null}
           <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
         </View>
       </DismissKeyboard>

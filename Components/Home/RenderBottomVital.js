@@ -46,7 +46,7 @@ class RenderBottomVital extends React.PureComponent {
                   style={{
                     position: 'absolute',
                     width: 100,
-                    top: -70,
+                    top: -75,
                     right: 0,
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -72,8 +72,8 @@ class RenderBottomVital extends React.PureComponent {
                           this.props.parentNode.recalibrateMap(true)
                         }
                         style={{
-                          width: 47,
-                          height: 47,
+                          width: 53,
+                          height: 53,
                           backgroundColor: '#fff',
                           borderRadius: 200,
                           alignItems: 'center',
