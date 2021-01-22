@@ -15,6 +15,7 @@ import SendFundsConfirmation from '../Components/Wallet/SendFundsConfirmation';
 import SendFundsFriendInputNumber from '../Components/Wallet/SendFundsFriendInputNumber';
 import WalletTopUpEntry from '../Components/Wallet/WalletTopUpEntry';
 import TopUpWalletScreen from '../Components/Wallet/TopUpWalletScreen';
+import EnterTopupAmountScreen from '../Components/Wallet/EnterTopupAmountScreen';
 import Home from '../Components/Home/Home';
 import YourRidesEntry from '../Components/Rides/YourRidesEntry';
 import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector';
@@ -151,6 +152,29 @@ function Wallet_drawer() {
                   color: '#fff',
                 }}>
                 Pay a driver
+              </Text>
+            </View>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="EnterTopupAmountScreen"
+        component={EnterTopupAmountScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
+                  right: 20,
+                  color: '#fff',
+                }}>
+                Top-up amount
               </Text>
             </View>
           ),

@@ -79,7 +79,7 @@ class WalletTopUpEntry extends React.PureComponent {
                     </Text>
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.navigation.navigate('TopUpWalletScreen')
+                        this.props.navigation.navigate('EnterTopupAmountScreen')
                       }
                       style={{marginTop: 15}}>
                       <View

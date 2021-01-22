@@ -959,17 +959,30 @@ class ErrorModal extends React.PureComponent {
                   }
                   style={{
                     flexDirection: 'row',
-                    //borderRightWidth: 0.7,
-                    //borderRightColor: '#d0d0d0',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    flex: /inRouteToPickup/i.test(this.props.App.request_status)
+                      ? 0
+                      : 1,
                     padding: 15,
                     borderRadius: 4,
                     height: 58,
-                    borderTopRightRadius: 0,
-                    borderBottomRightRadius: 0,
+                    borderTopRightRadius: /inRouteToPickup/i.test(
+                      this.props.App.request_status,
+                    )
+                      ? 0
+                      : 4,
+                    borderBottomRightRadius: /inRouteToPickup/i.test(
+                      this.props.App.request_status,
+                    )
+                      ? 0
+                      : 4,
                     backgroundColor: '#096ED4',
-                    marginRight: 10,
+                    marginRight: /inRouteToPickup/i.test(
+                      this.props.App.request_status,
+                    )
+                      ? 10
+                      : 0,
                     shadowColor: '#000',
                     shadowOffset: {
                       width: 0,
@@ -983,11 +996,15 @@ class ErrorModal extends React.PureComponent {
                   <IconMaterialIcons name="phone" color="#fff" size={28} />
                 </TouchableOpacity>
 
-                {/inRouteToDestination/i.test(
-                  this.props.App.generalTRIP_details_driverDetails
-                    .request_status,
-                ) ? null : (
+                {/inRouteToPickup/i.test(this.props.App.request_status) ? (
                   <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(
+                        true,
+                        'show_cancel_ride_modal',
+                        'any',
+                      )
+                    }
                     style={{
                       flexDirection: 'row',
                       flex: 1,
@@ -1020,7 +1037,7 @@ class ErrorModal extends React.PureComponent {
                       Cancel the trip
                     </Text>
                   </TouchableOpacity>
-                )}
+                ) : null}
               </View>
               {/**Car details */}
               <View
@@ -1231,7 +1248,7 @@ class ErrorModal extends React.PureComponent {
                             flexDirection: 'row',
                             marginTop: 25,
                           }}>
-                          <View style={{width: 35}}>
+                          <View style={{width: 45}}>
                             <Text
                               style={{
                                 fontFamily: 'Allrounder-Grotesk-Book',
