@@ -13,6 +13,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  InteractionManager,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -50,6 +51,11 @@ import {
 class RenderRideTypeBottomVitals extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.handleChooseCarType = this.handleChooseCarType.bind(this);
+    this.rideTypeToSchedulerTransistor = this.rideTypeToSchedulerTransistor.bind(
+      this,
+    );
   }
 
   /**
@@ -73,176 +79,187 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
   rideTypeToSchedulerTransistor(isSchedulerOnVal) {
     //Work if only props.App value changes
     let globalObject = this;
-    if (isSchedulerOnVal === this.props.App.isSelectTripScheduleOn) {
-      return; //Cancel repetition to avoid execessive props.App update
-    }
-    //...
-    if (isSchedulerOnVal !== true) {
-      //this.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
-      //Reinforce the scheduled context
-      if (this.props.App.selectedScheduleTime !== 'now') {
-        this.props.App.scheduledScenarioContextHeader = this.props.App.scheduledScenarioContext;
-        this.props.App.scheduledScreenHeaderNotNowOpacity = new AnimatedNative.Value(
-          1,
-        );
-        this.props.App.scheduledScreenHeaderNotNowPosition = new AnimatedNative.Value(
-          0,
-        );
-      } else {
-        this.props.App.scheduledScenarioContext = 'now';
-        this.props.App.scheduledScenarioContextHeader = 'now';
+    InteractionManager.runAfterInteractions(() => {
+      if (isSchedulerOnVal === this.props.App.isSelectTripScheduleOn) {
+        return; //Cancel repetition to avoid execessive props.App update
       }
-      //Scheduler currently active
-      //Fade in the select ride
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.titleSchedulerSelectRideOpacity, {
-          toValue: 0,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.titleSchedulerSelectRidePostion, {
-          toValue: 10,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scheduleRideContentOpacity, {
-          toValue: 0,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scheduleRideContentPosition, {
-          toValue: 20,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
-        globalObject.forceUpdate(); //To refresh the new UI elements containing the select ride view
-        //Restore the current scroll level of the select ride scrollview
-        setTimeout(() => {
-          globalObject.scrollViewSelectRideRef.scrollTo({
-            x:
-              globalObject.props.App.windowWidth *
-              globalObject.props.App.headerRideTypesVars.currentHeaderIndex,
-            y: 0,
-            animated: true,
-          });
-        }, 1);
-
-        //...
-        //Fade away the  scheduler -> select ride
+      //...
+      if (isSchedulerOnVal !== true) {
+        //this.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+        //Reinforce the scheduled context
+        if (this.props.App.selectedScheduleTime !== 'now') {
+          this.props.App.scheduledScenarioContextHeader = this.props.App.scheduledScenarioContext;
+          this.props.App.scheduledScreenHeaderNotNowOpacity = new AnimatedNative.Value(
+            1,
+          );
+          this.props.App.scheduledScreenHeaderNotNowPosition = new AnimatedNative.Value(
+            0,
+          );
+        } else {
+          this.props.App.scheduledScenarioContext = 'now';
+          this.props.App.scheduledScenarioContextHeader = 'now';
+        }
+        //Scheduler currently active
+        //Fade in the select ride
         AnimatedNative.parallel([
-          AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
-            toValue: 1,
+          AnimatedNative.timing(
+            this.props.App.titleSchedulerSelectRideOpacity,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            this.props.App.titleSchedulerSelectRidePostion,
+            {
+              toValue: 10,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scheduleRideContentOpacity, {
+            toValue: 0,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scheduleRideContentPosition, {
+            toValue: 20,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+        ]).start(() => {
+          globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+          globalObject.forceUpdate(); //To refresh the new UI elements containing the select ride view
+          //Restore the current scroll level of the select ride scrollview
+          setTimeout(() => {
+            globalObject.scrollViewSelectRideRef.scrollTo({
+              x:
+                globalObject.props.App.windowWidth *
+                globalObject.props.App.headerRideTypesVars.currentHeaderIndex,
+              y: 0,
+              animated: true,
+            });
+          }, 1);
+
+          //...
+          //Fade away the  scheduler -> select ride
+          AnimatedNative.parallel([
+            AnimatedNative.timing(
+              globalObject.props.App.titleSelectRideOpacity,
+              {
+                toValue: 1,
+                duration: 250,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.titleSelectRidePosition,
+              {
+                toValue: 0,
+                duration: 250,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.selectRideContentOpacity,
+              {
+                toValue: 1,
+                duration: 200,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.selectRideContentPosition,
+              {
+                toValue: 0,
+                duration: 200,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+          ]).start();
+        });
+      } //Select ride type currently active
+      else {
+        //Fade away the select ride -> scheduler
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.titleSelectRideOpacity, {
+            toValue: 0,
             duration: 250,
             easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
             useNativeDriver: true,
           }),
-          AnimatedNative.timing(
-            globalObject.props.App.titleSelectRidePosition,
-            {
-              toValue: 0,
-              duration: 250,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(
-            globalObject.props.App.selectRideContentOpacity,
-            {
-              toValue: 1,
-              duration: 200,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(
-            globalObject.props.App.selectRideContentPosition,
-            {
-              toValue: 0,
-              duration: 200,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-        ]).start();
-      });
-    } //Select ride type currently active
-    else {
-      //Fade away the select ride -> scheduler
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.titleSelectRideOpacity, {
-          toValue: 0,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.titleSelectRidePosition, {
-          toValue: 10,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.selectRideContentOpacity, {
-          toValue: 0,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.selectRideContentPosition, {
-          toValue: 20,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
-        globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
-        //Fade in the scheduler
-        AnimatedNative.parallel([
-          AnimatedNative.timing(
-            globalObject.props.App.titleSchedulerSelectRideOpacity,
-            {
-              toValue: 1,
-              duration: 250,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(
-            globalObject.props.App.titleSchedulerSelectRidePostion,
-            {
-              toValue: 0,
-              duration: 250,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(
-            globalObject.props.App.scheduleRideContentOpacity,
-            {
-              toValue: 1,
-              duration: 200,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(
-            globalObject.props.App.scheduleRideContentPosition,
-            {
-              toValue: 0,
-              duration: 200,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-        ]).start();
-      });
-    }
+          AnimatedNative.timing(this.props.App.titleSelectRidePosition, {
+            toValue: 10,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.selectRideContentOpacity, {
+            toValue: 0,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.selectRideContentPosition, {
+            toValue: 20,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+        ]).start(() => {
+          globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+          globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+          //Fade in the scheduler
+          AnimatedNative.parallel([
+            AnimatedNative.timing(
+              globalObject.props.App.titleSchedulerSelectRideOpacity,
+              {
+                toValue: 1,
+                duration: 250,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.titleSchedulerSelectRidePostion,
+              {
+                toValue: 0,
+                duration: 250,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.scheduleRideContentOpacity,
+              {
+                toValue: 1,
+                duration: 200,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.scheduleRideContentPosition,
+              {
+                toValue: 0,
+                duration: 200,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+          ]).start();
+        });
+      }
+    });
   }
 
   /**
@@ -259,393 +276,434 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
     carName = false,
   ) {
     let globalObject = this;
-    if (carIcon !== false && carName !== false) {
-      //Update icon and car name only when provided
-      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = carIcon; //update car icon
-      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.nameCarSelected = carName; //Update car name label
-    }
-    //...RIDES OR DELIVERIES
-    if (carType === 'normalTaxiEconomy' || carType === 'electricBikes') {
-      //Economy: normal taxi
-      //Change focus colors to normal taxi and fade the other types - rescale as well
-      //Economy
-      this.props.App.carTypeSelected = carType;
-      this.props.App.colorCircleNormalTaxi = '#0D8691';
-      this.props.App.colorBannerRideTypeNormalTaxi = '#000';
-      //Electric
-      this.props.App.colorCircleElectricCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-      //Comfort
-      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-      //Luxury
-      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-      //...
-      //VERY IMPORTANT - UPDATE THE FARE
-      this.props.App.fareTripSelected = fare;
-      //...
-      this.forceUpdate();
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-          toValue: 1,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
-          rideType: carType,
-          fare: fare,
+    InteractionManager.runAfterInteractions(() => {
+      if (carIcon !== false && carName !== false) {
+        //Update icon and car name only when provided
+        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = carIcon; //update car icon
+        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.nameCarSelected = carName; //Update car name label
+      }
+      //...RIDES OR DELIVERIES
+      if (carType === 'normalTaxiEconomy' || carType === 'electricBikes') {
+        //Economy: normal taxi
+        //Change focus colors to normal taxi and fade the other types - rescale as well
+        //Economy
+        this.props.App.carTypeSelected = carType;
+        this.props.App.colorCircleNormalTaxi = '#0D8691';
+        this.props.App.colorBannerRideTypeNormalTaxi = '#000';
+        //Electric
+        this.props.App.colorCircleElectricCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+        //Comfort
+        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+        //Luxury
+        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+        //...
+        //VERY IMPORTANT - UPDATE THE FARE
+        this.props.App.fareTripSelected = fare;
+        //...
+        this.forceUpdate();
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+            toValue: 1,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricComfortTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricLuxuryTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.props.UpdateRideTypesScales({
+            rideType: carType,
+            fare: fare,
+          });
         });
-      });
-    } else if (carType === 'electricEconomy' || carType === 'bikes') {
-      //Economy: electric car
-      //Change focus colors to electric taxi and fade the other types - rescale as well
-      this.props.App.carTypeSelected = carType;
-      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-      this.props.App.colorCircleElectricCar = '#0D8691';
-      this.props.App.colorBannerRideTypeElectricCar = '#000';
-      //Comfort
-      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-      //Luxury
-      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-      //...
-      //VERY IMPORTANT - UPDATE THE FARE
-      this.props.App.fareTripSelected = fare;
-      //...
-      this.forceUpdate();
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-          toValue: 1,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
-          rideType: carType,
-          fare: fare,
+      } else if (carType === 'electricEconomy' || carType === 'bikes') {
+        //Economy: electric car
+        //Change focus colors to electric taxi and fade the other types - rescale as well
+        this.props.App.carTypeSelected = carType;
+        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+        this.props.App.colorCircleElectricCar = '#0D8691';
+        this.props.App.colorBannerRideTypeElectricCar = '#000';
+        //Comfort
+        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+        //Luxury
+        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+        //...
+        //VERY IMPORTANT - UPDATE THE FARE
+        this.props.App.fareTripSelected = fare;
+        //...
+        this.forceUpdate();
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+            toValue: 1,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricComfortTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricLuxuryTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.props.UpdateRideTypesScales({
+            rideType: carType,
+            fare: fare,
+          });
         });
-      });
-    } else if (carType === 'comfortNormalRide' || carType === 'carDelivery') {
-      //comfort: normal car
-      //Change focus colors to electric taxi and fade the other types - rescale as well
-      this.props.App.carTypeSelected = carType;
-      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-      this.props.App.colorCircleElectricCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-      //Comfort
-      this.props.App.colorCircleComfortTaxi = '#0D8691';
-      this.props.App.colorBannerRideTypeComfortTaxi = '#000';
-      //Electric
-      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-      //Luxury
-      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-      //...
-      //VERY IMPORTANT - UPDATE THE FARE
-      this.props.App.fareTripSelected = fare;
-      //...
-      this.forceUpdate();
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-          toValue: 1,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
-          rideType: carType,
-          fare: fare,
+      } else if (carType === 'comfortNormalRide' || carType === 'carDelivery') {
+        //comfort: normal car
+        //Change focus colors to electric taxi and fade the other types - rescale as well
+        this.props.App.carTypeSelected = carType;
+        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+        this.props.App.colorCircleElectricCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+        //Comfort
+        this.props.App.colorCircleComfortTaxi = '#0D8691';
+        this.props.App.colorBannerRideTypeComfortTaxi = '#000';
+        //Electric
+        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+        //Luxury
+        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+        //...
+        //VERY IMPORTANT - UPDATE THE FARE
+        this.props.App.fareTripSelected = fare;
+        //...
+        this.forceUpdate();
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+            toValue: 1,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricComfortTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricLuxuryTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.props.UpdateRideTypesScales({
+            rideType: carType,
+            fare: fare,
+          });
         });
-      });
-    } else if (carType === 'comfortElectricRide' || carType === 'vanDelivery') {
-      //comfort: normal car
-      //Change focus colors to electric taxi and fade the other types - rescale as well
-      this.props.App.carTypeSelected = carType;
-      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-      this.props.App.colorCircleElectricCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-      //Comfort
-      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricComfortCar = '#0D8691';
-      this.props.App.colorBannerRideTypeElectricComfortCar = '#000';
-      //Luxury
-      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-      //...
-      //VERY IMPORTANT - UPDATE THE FARE
-      this.props.App.fareTripSelected = fare;
-      //...
-      this.forceUpdate();
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
-          toValue: 1,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
-          rideType: carType,
-          fare: fare,
+      } else if (
+        carType === 'comfortElectricRide' ||
+        carType === 'vanDelivery'
+      ) {
+        //comfort: normal car
+        //Change focus colors to electric taxi and fade the other types - rescale as well
+        this.props.App.carTypeSelected = carType;
+        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+        this.props.App.colorCircleElectricCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+        //Comfort
+        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricComfortCar = '#0D8691';
+        this.props.App.colorBannerRideTypeElectricComfortCar = '#000';
+        //Luxury
+        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+        //...
+        //VERY IMPORTANT - UPDATE THE FARE
+        this.props.App.fareTripSelected = fare;
+        //...
+        this.forceUpdate();
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricComfortTaxi,
+            {
+              toValue: 1,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricLuxuryTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.props.UpdateRideTypesScales({
+            rideType: carType,
+            fare: fare,
+          });
         });
-      });
-    } else if (carType === 'luxuryNormalRide') {
-      //comfort: normal car
-      //Change focus colors to electric taxi and fade the other types - rescale as well
-      this.props.App.carTypeSelected = carType;
-      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-      this.props.App.colorCircleElectricCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-      //Comfort
-      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-      //Luxury
-      this.props.App.colorCircleLuxuryTaxi = '#0D8691';
-      this.props.App.colorBannerRideTypeLuxuryTaxi = '#000';
-      //Electric
-      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-      //...
-      //VERY IMPORTANT - UPDATE THE FARE
-      this.props.App.fareTripSelected = fare;
-      //...
-      this.forceUpdate();
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-          toValue: 1,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
-          rideType: carType,
-          fare: fare,
+      } else if (carType === 'luxuryNormalRide') {
+        //comfort: normal car
+        //Change focus colors to electric taxi and fade the other types - rescale as well
+        this.props.App.carTypeSelected = carType;
+        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+        this.props.App.colorCircleElectricCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+        //Comfort
+        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+        //Luxury
+        this.props.App.colorCircleLuxuryTaxi = '#0D8691';
+        this.props.App.colorBannerRideTypeLuxuryTaxi = '#000';
+        //Electric
+        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+        //...
+        //VERY IMPORTANT - UPDATE THE FARE
+        this.props.App.fareTripSelected = fare;
+        //...
+        this.forceUpdate();
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricComfortTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+            toValue: 1,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricLuxuryTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.props.UpdateRideTypesScales({
+            rideType: carType,
+            fare: fare,
+          });
         });
-      });
-    } else if (carType === 'luxuryElectricRide') {
-      //comfort: normal car
-      //Change focus colors to electric taxi and fade the other types - rescale as well
-      this.props.App.carTypeSelected = carType;
-      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-      this.props.App.colorCircleElectricCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-      //Comfort
-      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-      //Luxury
-      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-      //Electric
-      this.props.App.colorCircleElectricLuxuryCar = '#0D8691';
-      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#000';
-      //...
-      //VERY IMPORTANT - UPDATE THE FARE
-      this.props.App.fareTripSelected = fare;
-      //...
-      this.forceUpdate();
-      AnimatedNative.parallel([
-        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-          toValue: 0.9,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
-          toValue: 1,
-          duration: 250,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
-          rideType: carType,
-          fare: fare,
+      } else if (carType === 'luxuryElectricRide') {
+        //comfort: normal car
+        //Change focus colors to electric taxi and fade the other types - rescale as well
+        this.props.App.carTypeSelected = carType;
+        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+        this.props.App.colorCircleElectricCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+        //Comfort
+        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+        //Luxury
+        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+        //Electric
+        this.props.App.colorCircleElectricLuxuryCar = '#0D8691';
+        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#000';
+        //...
+        //VERY IMPORTANT - UPDATE THE FARE
+        this.props.App.fareTripSelected = fare;
+        //...
+        this.forceUpdate();
+        AnimatedNative.parallel([
+          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricComfortTaxi,
+            {
+              toValue: 0.9,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+            toValue: 0.9,
+            duration: 250,
+            useNativeDriver: true,
+          }),
+          AnimatedNative.timing(
+            this.props.App.scaleRideTypeElectricLuxuryTaxi,
+            {
+              toValue: 1,
+              duration: 250,
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.props.UpdateRideTypesScales({
+            rideType: carType,
+            fare: fare,
+          });
         });
-      });
-    }
+      }
+    });
   }
 
   /**
@@ -663,41 +721,49 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
       currentScreen
     ) {
       //New state
-      //Fade the title quickly and update the state, and reshow the title
-      //UpdateRideTypesOnScrollCategories
-      AnimatedNative.parallel([
-        AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
-          toValue: 0,
-          duration: 60,
-          useNativeDriver: true,
-        }),
-        AnimatedNative.timing(globalObject.props.App.titleSelectRidePosition, {
-          toValue: 10,
-          duration: 60,
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        //Update state
-        globalObject.props.UpdateRideTypesOnScrollCategories({
-          currentScreen: currentScreen,
-          currentScrollposition: currentOffset,
-        });
-        //The title back in
+      InteractionManager.runAfterInteractions(() => {
+        //Fade the title quickly and update the state, and reshow the title
+        //UpdateRideTypesOnScrollCategories
         AnimatedNative.parallel([
           AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
-            toValue: 1,
+            toValue: 0,
             duration: 60,
             useNativeDriver: true,
           }),
           AnimatedNative.timing(
             globalObject.props.App.titleSelectRidePosition,
             {
-              toValue: 0,
+              toValue: 10,
               duration: 60,
               useNativeDriver: true,
             },
           ),
-        ]).start();
+        ]).start(() => {
+          //Update state
+          globalObject.props.UpdateRideTypesOnScrollCategories({
+            currentScreen: currentScreen,
+            currentScrollposition: currentOffset,
+          });
+          //The title back in
+          AnimatedNative.parallel([
+            AnimatedNative.timing(
+              globalObject.props.App.titleSelectRideOpacity,
+              {
+                toValue: 1,
+                duration: 60,
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.titleSelectRidePosition,
+              {
+                toValue: 0,
+                duration: 60,
+                useNativeDriver: true,
+              },
+            ),
+          ]).start();
+        });
       });
     }
   }
@@ -1347,8 +1413,10 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     }}>
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.UpdateSchedulerState({
-                          isSelectDatePickerActive: true,
+                        InteractionManager.runAfterInteractions(() => {
+                          this.props.UpdateSchedulerState({
+                            isSelectDatePickerActive: true,
+                          });
                         })
                       }
                       style={{
@@ -1382,9 +1450,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               <View style={{flex: 1, width: '100%', bottom: 10}}>
                 <TouchableOpacity
                   onPressIn={() =>
-                    this.props.parentNodeHome.reallocateScheduleContextCheck(
-                      'now',
-                    )
+                    InteractionManager.runAfterInteractions(() => {
+                      this.props.parentNodeHome.reallocateScheduleContextCheck(
+                        'now',
+                      );
+                    })
                   }
                   style={{
                     flexDirection: 'row',
@@ -1427,9 +1497,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPressIn={() =>
-                    this.props.parentNodeHome.reallocateScheduleContextCheck(
-                      'today',
-                    )
+                    InteractionManager.runAfterInteractions(() => {
+                      this.props.parentNodeHome.reallocateScheduleContextCheck(
+                        'today',
+                      );
+                    })
                   }
                   style={{
                     flexDirection: 'row',
@@ -1470,9 +1542,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPressIn={() =>
-                    this.props.parentNodeHome.reallocateScheduleContextCheck(
-                      'tomorrow',
-                    )
+                    InteractionManager.runAfterInteractions(() => {
+                      this.props.parentNodeHome.reallocateScheduleContextCheck(
+                        'tomorrow',
+                      );
+                    })
                   }
                   style={{
                     flexDirection: 'row',
@@ -1519,7 +1593,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 height: 100,
               }}>
               <TouchableOpacity
-                onPress={() => this.rideTypeToSchedulerTransistor(false)}
+                onPress={() =>
+                  InteractionManager.runAfterInteractions(() => {
+                    this.rideTypeToSchedulerTransistor(false);
+                  })
+                }
                 style={{
                   borderWidth: 1,
                   borderColor: 'transparent',
@@ -1542,7 +1620,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         );
       } //Render select ride type
       else {
-        //Separate RIDE from DELIBERY
+        //Separate RIDE from DELIVERY
         if (/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)) {
           //Rides
           return (
@@ -2332,11 +2410,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   <View style={{border: 1, flexDirection: 'row', flex: 1}}>
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.UpdateErrorModalLog(
-                          true,
-                          'show_preferedPaymentMethod_modal',
-                          'any',
-                        )
+                        InteractionManager.runAfterInteractions(() => {
+                          this.props.UpdateErrorModalLog(
+                            true,
+                            'show_preferedPaymentMethod_modal',
+                            'any',
+                          );
+                        })
                       }
                       style={{
                         flexDirection: 'row',
@@ -2386,7 +2466,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     </View>
                   </View>
                   <TouchableOpacity
-                    onPress={() => this.rideTypeToSchedulerTransistor(true)}
+                    onPress={() => {
+                      InteractionManager.runAfterInteractions(() => {
+                        this.rideTypeToSchedulerTransistor(true);
+                      });
+                    }}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -3004,11 +3088,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   <View style={{border: 1, flexDirection: 'row', flex: 1}}>
                     <TouchableOpacity
                       onPress={() =>
-                        this.props.UpdateErrorModalLog(
-                          true,
-                          'show_preferedPaymentMethod_modal',
-                          'any',
-                        )
+                        InteractionManager.runAfterInteractions(() => {
+                          this.props.UpdateErrorModalLog(
+                            true,
+                            'show_preferedPaymentMethod_modal',
+                            'any',
+                          );
+                        })
                       }
                       style={{
                         flexDirection: 'row',

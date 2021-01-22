@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import SOCKET_CORE from '../Helpers/managerNode';
 import GeolocationP from 'react-native-geolocation-service';
-//import GeolocationP from '@react-native-community/geolocation';
 import {point} from '@turf/helpers';
 import {
   View,
@@ -15,11 +14,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
+  InteractionManager,
+  TouchableHighlightBase,
 } from 'react-native';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-//import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
@@ -133,12 +133,16 @@ class Home extends React.PureComponent {
                   newStateVars.didAskForGprs = true;
                   globalObject.props.UpdateGrantedGRPS(newStateVars);
                   //Launch recalibration
-                  globalObject.recalibrateMap();
+                  InteractionManager.runAfterInteractions(() => {
+                    globalObject.recalibrateMap();
+                  });
                 },
                 () => {
                   // See error code charts below.
                   //Launch recalibration
-                  globalObject.recalibrateMap();
+                  InteractionManager.runAfterInteractions(() => {
+                    globalObject.recalibrateMap();
+                  });
                 },
                 {
                   enableHighAccuracy: true,
@@ -168,7 +172,9 @@ class Home extends React.PureComponent {
                 () => {
                   // See error code charts below.
                   //Launch recalibration
-                  globalObject.recalibrateMap();
+                  InteractionManager.runAfterInteractions(() => {
+                    globalObject.recalibrateMap();
+                  });
                 },
                 {
                   enableHighAccuracy: true,
@@ -186,7 +192,9 @@ class Home extends React.PureComponent {
                 ) {
                   const mapZoom = await this.props.parentNode._map.getZoom();
                   if (mapZoom > 18) {
-                    globalObject.recalibrateMap();
+                    InteractionManager.runAfterInteractions(() => {
+                      globalObject.recalibrateMap();
+                    });
                   }
                 }
               }
@@ -240,12 +248,16 @@ class Home extends React.PureComponent {
                 newStateVars.didAskForGprs = true;
                 globalObject.props.UpdateGrantedGRPS(newStateVars);
                 //Launch recalibration
-                globalObject.recalibrateMap();
+                InteractionManager.runAfterInteractions(() => {
+                  globalObject.recalibrateMap();
+                });
               },
               () => {
                 // See error code charts below.
                 //Launch recalibration
-                globalObject.recalibrateMap();
+                InteractionManager.runAfterInteractions(() => {
+                  globalObject.recalibrateMap();
+                });
               },
               {
                 enableHighAccuracy: true,
@@ -287,24 +299,35 @@ class Home extends React.PureComponent {
     let globalObject = this;
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
-      this.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(function () {
-        //...
-        if (globalObject.props.App.intervalProgressLoop === false) {
-          globalObject.GPRS_resolver();
-          globalObject.updateRemoteLocationsData();
-          //Request for the total wallet balance
-          SOCKET_CORE.emit('getRiders_walletInfos_io', {
-            user_fingerprint: globalObject.props.App.user_fingerprint,
-            mode: 'total',
-          });
-        } //Kill the persister
-        else {
-          clearInterval(globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER);
-          if (globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null) {
-            globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
-          }
-        }
-      }, this.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME);
+      InteractionManager.runAfterInteractions(() => {
+        globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
+          function () {
+            //...
+            if (globalObject.props.App.intervalProgressLoop === false) {
+              InteractionManager.runAfterInteractions(() => {
+                globalObject.GPRS_resolver();
+                globalObject.updateRemoteLocationsData();
+              });
+              //Request for the total wallet balance
+              SOCKET_CORE.emit('getRiders_walletInfos_io', {
+                user_fingerprint: globalObject.props.App.user_fingerprint,
+                mode: 'total',
+              });
+            } //Kill the persister
+            else {
+              clearInterval(
+                globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER,
+              );
+              if (
+                globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null
+              ) {
+                globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
+              }
+            }
+          },
+          globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
+        );
+      });
     }
   }
 
@@ -346,7 +369,6 @@ class Home extends React.PureComponent {
     //Initialize loader
     if (this.props.App.showLocationSearch_loader === false) {
       this.props.App.showLocationSearch_loader = true;
-
       this.fire_search_animation();
     }
     //Initialize initial hello
@@ -726,37 +748,15 @@ class Home extends React.PureComponent {
           }
         }
         //...
-        //Fade loading screen and show results
-        //Fade the origin content
-        AnimatedNative.parallel([
-          AnimatedNative.timing(
-            globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
-            {
-              toValue: 0,
-              duration: 250,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(
-            globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
-            {
-              toValue: 20,
-              duration: 250,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          //Update pricing data in general state
-          globalObject.props.UpdatePricingStateData(response);
-
+        InteractionManager.runAfterInteractions(() => {
+          //Fade loading screen and show results
+          //Fade the origin content
           AnimatedNative.parallel([
             AnimatedNative.timing(
               globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
               {
-                toValue: 1,
-                duration: 450,
+                toValue: 0,
+                duration: 250,
                 easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
                 useNativeDriver: true,
               },
@@ -764,14 +764,39 @@ class Home extends React.PureComponent {
             AnimatedNative.timing(
               globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
               {
-                toValue: 0,
-                duration: 450,
+                toValue: 20,
+                duration: 250,
                 easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
                 useNativeDriver: true,
               },
             ),
           ]).start(() => {
-            globalObject.resetAnimationLoader();
+            //Update pricing data in general state
+            globalObject.props.UpdatePricingStateData(response);
+
+            AnimatedNative.parallel([
+              AnimatedNative.timing(
+                globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
+                {
+                  toValue: 1,
+                  duration: 450,
+                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                  useNativeDriver: true,
+                },
+              ),
+              AnimatedNative.timing(
+                globalObject.props.App.bottomVitalsFlow
+                  .genericContainerPosition,
+                {
+                  toValue: 0,
+                  duration: 450,
+                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                  useNativeDriver: true,
+                },
+              ),
+            ]).start(() => {
+              globalObject.resetAnimationLoader();
+            });
           });
         });
       } //! No valid estimates due to a problem, try again
@@ -1341,13 +1366,15 @@ class Home extends React.PureComponent {
                 this.props.App.bottomVitalsFlow.tmpVisibleBounds = false;
                 globalObject.updateCenterMapButton(true);
                 //...
-                globalObject.camera.setCamera({
-                  centerCoordinate: [
-                    globalObject.props.App.longitude,
-                    globalObject.props.App.latitude,
-                  ],
-                  zoomLevel: 14,
-                  animationDuration: 1000,
+                InteractionManager.runAfterInteractions(() => {
+                  globalObject.camera.setCamera({
+                    centerCoordinate: [
+                      globalObject.props.App.longitude,
+                      globalObject.props.App.latitude,
+                    ],
+                    zoomLevel: 14,
+                    animationDuration: 1000,
+                  });
                 });
               }
             }
@@ -1375,12 +1402,14 @@ class Home extends React.PureComponent {
               this.camera !== null &&
               this.camera != null
             ) {
-              globalObject.camera.fitBounds(
-                originPoint,
-                destinationPoint,
-                [100, 140, 40, 140],
-                1500,
-              );
+              InteractionManager.runAfterInteractions(() => {
+                globalObject.camera.fitBounds(
+                  originPoint,
+                  destinationPoint,
+                  [100, 140, 40, 140],
+                  1500,
+                );
+              });
             }
           }
         }
@@ -1644,81 +1673,83 @@ class Home extends React.PureComponent {
    */
   deInitialTouchForRideOrDelivery() {
     let globalObject = this;
-    //Fade to the origin content
-    AnimatedNative.parallel([
-      AnimatedNative.timing(
-        globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
-        {
-          toValue: 0,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        },
-      ),
-      AnimatedNative.timing(
-        globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
-        {
-          toValue: 20,
-          duration: 250,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        },
-      ),
-    ]).start(() => {
-      //Update process flow to select ride or delivery
-      globalObject.props.UpdateProcessFlowState({
-        flowDirection: 'previous',
-        flowParent: 'RIDE',
-        parentTHIS: globalObject,
-      });
+    InteractionManager.runAfterInteractions(() => {
+      //Fade to the origin content
       AnimatedNative.parallel([
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.bottomVitalChildHeight,
+          globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
           {
-            toValue: 150,
+            toValue: 0,
             duration: 250,
             easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: false,
-          },
-        ),
-        AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.mainHelloContentOpacity,
-          {
-            toValue: 1,
-            duration: 200,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
             useNativeDriver: true,
           },
         ),
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.mainHelloContentPosition,
+          globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
           {
-            toValue: 0,
-            duration: 200,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          },
-        ),
-        AnimatedNative.timing(
-          globalObject.props.App.initialHelloAnimationParams.top2,
-          {
-            toValue: 0,
-            duration: 200,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          },
-        ),
-        AnimatedNative.timing(
-          globalObject.props.App.initialHelloAnimationParams.opacity2,
-          {
-            toValue: 1,
-            duration: 200,
+            toValue: 20,
+            duration: 250,
             easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
             useNativeDriver: true,
           },
         ),
       ]).start(() => {
-        globalObject.resetAnimationLoader();
+        //Update process flow to select ride or delivery
+        globalObject.props.UpdateProcessFlowState({
+          flowDirection: 'previous',
+          flowParent: 'RIDE',
+          parentTHIS: globalObject,
+        });
+        AnimatedNative.parallel([
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.bottomVitalChildHeight,
+            {
+              toValue: 150,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: false,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.mainHelloContentOpacity,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.mainHelloContentPosition,
+            {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.initialHelloAnimationParams.top2,
+            {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.initialHelloAnimationParams.opacity2,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          globalObject.resetAnimationLoader();
+        });
       });
     });
   }
@@ -2452,6 +2483,7 @@ class Home extends React.PureComponent {
    * Very important router for rendering the corrects modules
    */
   renderAppropriateModules() {
+    let globalObject = this;
     return (
       <>
         <View style={styles.mainMainWindow}>

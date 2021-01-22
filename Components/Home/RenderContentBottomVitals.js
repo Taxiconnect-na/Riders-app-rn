@@ -12,6 +12,7 @@ import {
   TextInput,
   Switch,
   Easing,
+  InteractionManager,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -523,62 +524,64 @@ class RenderContentBottomVitals extends React.PureComponent {
    */
   initialTouchForRideOrDelivery() {
     let globalObject = this;
-    //Fade the origin content
-    AnimatedNative.parallel([
-      AnimatedNative.timing(
-        this.props.App.bottomVitalsFlow.bottomVitalChildHeight,
-        {
-          toValue: 400,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: false,
-        },
-      ),
-      AnimatedNative.timing(
-        this.props.App.bottomVitalsFlow.mainHelloContentOpacity,
-        {
-          toValue: 0,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        },
-      ),
-      AnimatedNative.timing(
-        this.props.App.bottomVitalsFlow.mainHelloContentPosition,
-        {
-          toValue: 20,
-          duration: 200,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        },
-      ),
-    ]).start(() => {
-      //Update process flow to select ride or delivery
-      globalObject.props.UpdateProcessFlowState({
-        flowDirection: 'next',
-        parentTHIS: globalObject.props.parentNode,
-      });
-
+    InteractionManager.runAfterInteractions(() => {
+      //Fade the origin content
       AnimatedNative.parallel([
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
+          this.props.App.bottomVitalsFlow.bottomVitalChildHeight,
           {
-            toValue: 1,
-            duration: 250,
+            toValue: 400,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: false,
+          },
+        ),
+        AnimatedNative.timing(
+          this.props.App.bottomVitalsFlow.mainHelloContentOpacity,
+          {
+            toValue: 0,
+            duration: 200,
             easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
             useNativeDriver: true,
           },
         ),
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
+          this.props.App.bottomVitalsFlow.mainHelloContentPosition,
           {
-            toValue: 0,
-            duration: 250,
+            toValue: 20,
+            duration: 200,
             easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
             useNativeDriver: true,
           },
         ),
-      ]).start();
+      ]).start(() => {
+        //Update process flow to select ride or delivery
+        globalObject.props.UpdateProcessFlowState({
+          flowDirection: 'next',
+          parentTHIS: globalObject.props.parentNode,
+        });
+
+        AnimatedNative.parallel([
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
+            {
+              toValue: 1,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          AnimatedNative.timing(
+            globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start();
+      });
     });
   }
 
@@ -2271,7 +2274,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       if (
         this.props.App.pricingVariables.didPricingReceivedFromServer !== false
       ) {
-        //this.props.parentNode.resetAnimationLoader();
+        this.props.parentNode.resetAnimationLoader();
       }
 
       this.props.parentNode.getFareEstimation();

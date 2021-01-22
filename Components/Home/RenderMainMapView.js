@@ -10,6 +10,7 @@ import {
   PointAnnotation,
   MarkerView,
 } from '@react-native-mapbox-gl/maps';
+import {InteractionManager} from 'react-native';
 import {point} from '@turf/helpers';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import PulseCircleLayer from '../Modules/PulseCircleLayer';
@@ -138,6 +139,11 @@ const AnnotationDestination = ({title, etaInfos}) => (
 class RenderMainMapView extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.renderDriverTracker = this.renderDriverTracker.bind(this);
+    this.updateClosestLiveDriversMap = this.updateClosestLiveDriversMap.bind(
+      this,
+    );
   }
 
   /**
@@ -224,6 +230,7 @@ class RenderMainMapView extends React.PureComponent {
    * the destination location on the booking flow. -> Find the best anchor combination
    */
   previewRouteToDestinationSnapshot() {
+    let globalObject = this;
     if (
       this.props.App.previewDestinationData.originDestinationPreviewData !==
         undefined &&
@@ -232,23 +239,26 @@ class RenderMainMapView extends React.PureComponent {
     ) {
       //Reposition MarkerViews optimally
       //Destination anchor
-      this.repositionMaviewMarker(
-        this.props.App.previewDestinationData.originDestinationPreviewData
-          .routePoints.coordinates[
-          this.props.App.previewDestinationData.originDestinationPreviewData
-            .routePoints.coordinates.length - 1
-        ],
-        'destination',
-      );
-      //Origin anchor
-      this.repositionMaviewMarker(
-        this.props.App.previewDestinationData.originDestinationPreviewData
-          .routePoints.coordinates[0],
-        'origin',
-      );
+      InteractionManager.runAfterInteractions(() => {
+        globalObject.repositionMaviewMarker(
+          globalObject.props.App.previewDestinationData
+            .originDestinationPreviewData.routePoints.coordinates[
+            globalObject.props.App.previewDestinationData
+              .originDestinationPreviewData.routePoints.coordinates.length - 1
+          ],
+          'destination',
+        );
+        //Origin anchor
+        globalObject.repositionMaviewMarker(
+          globalObject.props.App.previewDestinationData
+            .originDestinationPreviewData.routePoints.coordinates[0],
+          'origin',
+        );
 
-      //Fit to bounds
-      this.props.parentNode.recalibrateMap();
+        //Fit to bounds
+        globalObject.props.parentNode.recalibrateMap();
+      });
+      //...
       return (
         <>
           <MarkerView
@@ -284,47 +294,7 @@ class RenderMainMapView extends React.PureComponent {
               }}
             />
           </MarkerView>
-          {/*<PulseCircleLayer
-            radius={8}
-            aboveLayerID={'lineRoutePickup'}
-            innerCircleStyle={{
-              circleColor: '#fff',
-              circleStrokeColor: '#096ED4',
-              circleStrokeWidth: 0.5,
-            }}
-            outerCircleStyle={{
-              circleOpacity: 0.4,
-              circleColor: '#096ED4',
-            }}
-            pulseRadius={20}
-            shape={{
-              type: 'Point',
-              coordinates: this.props.App.previewDestinationData
-                .originDestinationPreviewData.routePoints.coordinates[
-                this.props.App.previewDestinationData
-                  .originDestinationPreviewData.routePoints.coordinates.length -
-                  1
-              ],
-            }}
-          />*/}
 
-          {/*<Animated.ShapeSource
-            id={'shape'}
-            shape={
-              new Animated.Shape(
-                this.props.App.previewDestinationData.originDestinationPreviewData.routePoints,
-              )
-            }>
-            <Animated.LineLayer
-              id={'lineRoutePickup'}
-              style={{
-                lineCap: 'square',
-                lineWidth: 4,
-                //lineOpacity: 0.8,
-                lineColor: '#096ED4',
-              }}
-            />
-            </Animated.ShapeSource>*/}
           <Animated.ShapeSource
             id={'shapeas'}
             shape={
@@ -338,17 +308,16 @@ class RenderMainMapView extends React.PureComponent {
               id={'lineRoutePickupLine'}
               style={{
                 lineCap: 'round',
-                lineWidth: 3,
+                lineWidth: 4,
                 lineOpacity: 1,
                 lineColor: '#096ED4',
               }}
             />
           </Animated.ShapeSource>
 
-          <MarkerView
+          <PointAnnotation
             id={'originAnnotationPreview'}
             aboveLayerID={'lineRoutePickup'}
-            //anchor={{x: -0.2, y: 0.5}}
             coordinate={
               this.props.App.previewDestinationData.originDestinationPreviewData
                 .routePoints.coordinates[
@@ -365,11 +334,10 @@ class RenderMainMapView extends React.PureComponent {
                 backgroundColor: '#096ED4',
               }}
             />
-          </MarkerView>
+          </PointAnnotation>
           <MarkerView
             id="riderPickupLocation_tooltip"
             anchor={this.props.App.previewDestinationData.originAnchor}
-            //anchor={{x: 0, y: 1}}
             coordinate={
               this.props.App.previewDestinationData.originDestinationPreviewData
                 .routePoints.coordinates[0]
@@ -404,6 +372,10 @@ class RenderMainMapView extends React.PureComponent {
     }
   }
 
+  /**
+   * @func renderDriverTracker
+   * Responsible for rndering the driver's car scenarios.
+   */
   renderDriverTracker() {
     if (
       this.props.App.route != null &&
@@ -434,23 +406,6 @@ class RenderMainMapView extends React.PureComponent {
             />
           </Animated.ShapeSource>
 
-          {/*<Animated.ShapeSource
-            id="currentLocationSource"
-            shape={
-              new Animated.Shape({
-                type: 'Point',
-                coordinates: this.props.App.actPoint,
-              })
-            }>
-            <Animated.CircleLayer
-              id="currentLocationCircle"
-              style={{
-                circleOpacity: 1,
-                circleColor: '#000',
-                circleRadius: 10,
-              }}
-            />
-            </Animated.ShapeSource>*/}
           {this.props.App.actPointToMinusOne === false ? (
             <ShapeSource
               id="currentLocationSource"
@@ -500,10 +455,12 @@ class RenderMainMapView extends React.PureComponent {
       this.props.App.isInRouteToDestination &&
       /inRouteToDestination/i.test(this.props.App.request_status)
     ) {
-      this.repositionMaviewMarker(
-        this.props.App.destinationPoint,
-        'destination',
-      );
+      InteractionManager.runAfterInteractions(() => {
+        this.repositionMaviewMarker(
+          this.props.App.destinationPoint,
+          'destination',
+        );
+      });
       //Destination routes animation scenarios
       return (
         <View>
@@ -577,25 +534,6 @@ class RenderMainMapView extends React.PureComponent {
               etaInfos={this.props.App.destinationLocation_metadata}
             />
           </MarkerView>
-          {/*<Animated.ShapeSource
-            id="symbolCarIcon"
-            shape={
-              new Animated.Shape({
-                type: 'Point',
-                coordinates: this.props.App.actPointDestination,
-              })
-            }>
-            <Animated.SymbolLayer
-              id="symbolCarLayer"
-              minZoomLevel={1}
-              style={{
-                iconAllowOverlap: true,
-                iconImage: this.props.App.carIcon,
-                iconSize: this.props.App.carIconRelativeSize,
-                iconRotate: this.props.App.lastDriverBearing,
-              }}
-            />
-            </Animated.ShapeSource>*/}
         </View>
       );
     } else if (
@@ -640,45 +578,47 @@ class RenderMainMapView extends React.PureComponent {
       this.props.App._CLOSEST_DRIVERS_DATA.length > 0 &&
       this.props.App.intervalProgressLoop === false
     ) {
-      let tmp = this.props.App._CLOSEST_DRIVERS_DATA.map((driver, index) => {
-        //Compute the bearing
-        let carBearing = bearing(
-          point([
-            driver.driver_coordinates.longitude,
-            driver.driver_coordinates.latitude,
-          ]),
-          point([
-            driver.prev_driver_coordinates.longitude,
-            driver.prev_driver_coordinates.latitude,
-          ]),
-        );
-        //...
-        return (
-          <ShapeSource
-            key={index}
-            id={'currentLocationSource' + index}
-            shape={{
-              type: 'Point',
-              coordinates: [
-                driver.driver_coordinates.longitude,
-                driver.driver_coordinates.latitude,
-              ],
-            }}>
-            <Animated.SymbolLayer
-              id={'symbolCarLayer' + (index + 1)}
-              minZoomLevel={1}
-              layerIndex={5000}
-              style={{
-                iconAllowOverlap: false,
-                iconImage: globalObject.props.App.carIcon_black,
-                iconSize: globalObject.props.App.carIconRelativeSize,
-                iconRotate: carBearing,
-              }}
-            />
-          </ShapeSource>
-        );
+      InteractionManager.runAfterInteractions(() => {
+        let tmp = this.props.App._CLOSEST_DRIVERS_DATA.map((driver, index) => {
+          //Compute the bearing
+          let carBearing = bearing(
+            point([
+              driver.driver_coordinates.longitude,
+              driver.driver_coordinates.latitude,
+            ]),
+            point([
+              driver.prev_driver_coordinates.longitude,
+              driver.prev_driver_coordinates.latitude,
+            ]),
+          );
+          //...
+          return (
+            <ShapeSource
+              key={index}
+              id={'currentLocationSource' + index}
+              shape={{
+                type: 'Point',
+                coordinates: [
+                  driver.driver_coordinates.longitude,
+                  driver.driver_coordinates.latitude,
+                ],
+              }}>
+              <Animated.SymbolLayer
+                id={'symbolCarLayer' + (index + 1)}
+                minZoomLevel={1}
+                layerIndex={5000}
+                style={{
+                  iconAllowOverlap: false,
+                  iconImage: globalObject.props.App.carIcon_black,
+                  iconSize: globalObject.props.App.carIconRelativeSize,
+                  iconRotate: carBearing,
+                }}
+              />
+            </ShapeSource>
+          );
+        });
+        return tmp;
       });
-      return tmp;
     } else {
       return null;
     }
@@ -760,8 +700,6 @@ class RenderMainMapView extends React.PureComponent {
           <Camera
             ref={(c) => (this.props.parentNode.camera = c)}
             zoomLevel={20}
-            //centerCoordinate={[this.props.App.longitude, this.props.App.latitude]}
-            //followUserLocation={this.props.App.isRideInProgress ? false : true} //<------------------BREAKS FITBOUNDS.
           />
 
           {this.props.App.isRideInProgress === false ||

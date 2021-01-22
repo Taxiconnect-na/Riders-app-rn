@@ -91,6 +91,7 @@ class PulseCircleLayer extends React.PureComponent {
     this._loopAnim.start(() => {
       this.setState({pulseOpacity: 1});
     });
+    this._loopAnim.stop();
   }
 
   componentWillUnmount() {
