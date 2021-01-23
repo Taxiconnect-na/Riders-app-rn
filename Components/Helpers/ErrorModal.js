@@ -2336,7 +2336,7 @@ class ErrorModal extends React.PureComponent {
                 }
                 style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" size={25} />
+                  <IconAnt name="arrowleft" size={30} />
                 </View>
               </TouchableOpacity>
               <Text
@@ -2565,6 +2565,88 @@ class ErrorModal extends React.PureComponent {
                       },
                     ]}>
                     Done
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </SafeAreaView>
+      );
+    } else if (/show_changePersonalDetails_modal/i.test(error_status)) {
+      return (
+        <SafeAreaView
+          style={{
+            backgroundColor: '#fff',
+            flex: 1,
+          }}>
+          <View style={styles.presentationWindow}>
+            <View
+              style={{
+                padding: 20,
+                paddingTop: 15,
+                paddingBottom: 15,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(false, false, 'any')
+                }
+                style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{top: 0}}>
+                  <IconAnt name="arrowleft" size={30} />
+                </View>
+              </TouchableOpacity>
+              <Text
+                style={[
+                  systemWeights.semibold,
+                  {
+                    fontSize: 22,
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    marginTop: 15,
+                  },
+                ]}>
+                {/^name$/i.test(this.props.detailToModify)
+                  ? 'Change your name?'
+                  : /^surname$/i.test(this.props.detailToModify)
+                  ? 'Change your surname?'
+                  : /^gender$/i.test(this.props.detailToModify)
+                  ? 'Modify the gender?'
+                  : /^phone$/i.test(this.props.detailToModify)
+                  ? 'Change your phone number?'
+                  : /^email$/i.test(this.props.detailToModify)
+                  ? 'Change your email?'
+                  : 'Oups try restarting the app.'}
+              </Text>
+            </View>
+            <View style={{borderWidth: 1, padding: 20, flex: 1}}>
+              <Text>Details...</Text>
+            </View>
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                height: 100,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(false, false, 'any')
+                }
+                style={{
+                  borderColor: 'transparent',
+                  width: '100%',
+                  justifyContent: 'center',
+                }}>
+                <View style={[styles.bttnGenericTc]}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontSize: 23,
+                        color: '#fff',
+                      },
+                    ]}>
+                    Save
                   </Text>
                 </View>
               </TouchableOpacity>

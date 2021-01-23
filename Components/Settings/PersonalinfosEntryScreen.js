@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Notifiyer from '../Helpers/Notifiyer';
+import ErrorModal from '../Helpers/ErrorModal';
 
 class PersonalinfosEntryScreen extends React.PureComponent {
   constructor(props) {
@@ -20,6 +21,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
       showNotifiyer: false, //Whether to show to status notifiyer or not.
       notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
       statusColor: '#048320', //The status color - #048320:green, #b22222:red
+      detailToModify: 'name', //The focused detail to modify: name, surname, gender, phone number, email
     };
   }
 
@@ -33,6 +35,11 @@ class PersonalinfosEntryScreen extends React.PureComponent {
             message={this.state.notifiyerMessage}
           />
         ) : null}
+        <ErrorModal
+          active={true}
+          error_status={'show_changePersonalDetails_modal'}
+          detailToModify={'name'}
+        />
         <ScrollView style={styles.presentationWindow}>
           {/**Name */}
           <View
