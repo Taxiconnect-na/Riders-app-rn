@@ -86,7 +86,9 @@ export function MainDrawerContent(props) {
           style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Wallet</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.menuItem, {paddingTop: 10}]}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('SettingsEntryScreen')}
+          style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Settings</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.menuItem, {paddingTop: 10}]}>

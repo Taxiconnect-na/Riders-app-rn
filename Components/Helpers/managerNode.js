@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import io from 'socket.io-client';
 //const nodeURL = 'http://taxiconnectna.com:7005/'; //Local
-const nodeURL = 'http://taxiconnectna.com:9097/';
+const nodeURL = 'http://localhost:9097/';
 //...
 const socket = io(nodeURL, {
   transports: ['websocket', 'polling'],

@@ -20,6 +20,8 @@ import Home from '../Components/Home/Home';
 import YourRidesEntry from '../Components/Rides/YourRidesEntry';
 import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector';
 import DetailsRidesGenericScreen from '../Components/Rides/DetailsRidesGenericScreen';
+import SettingsEntryScreen from '../Components/Settings/SettingsEntryScreen';
+import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryScreen';
 import {MainDrawerContent} from './MainDrawerContent';
 
 const Stack = createStackNavigator();
@@ -294,11 +296,63 @@ function Wallet_drawer() {
   );
 }
 
+function SettingsDrawer_navigator() {
+  return (
+    <Stack.Navigator initialRouteName="PersonalinfosEntryScreen">
+      <Stack.Screen
+        name="SettingsEntryScreen"
+        component={SettingsEntryScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
+                  right: 20,
+                  color: '#fff',
+                }}>
+                Settings
+              </Text>
+            </View>
+          ),
+        }}
+      />
+
+      <Stack.Screen
+        name="PersonalinfosEntryScreen"
+        component={PersonalinfosEntryScreen}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
+                  right: 20,
+                  color: '#fff',
+                }}>
+                Personal information
+              </Text>
+            </View>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 //1. MAIN SCREEN DRAWER NAVIGATOR
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Home_drawer"
+      initialRouteName="SettingsEntryScreen"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen
@@ -307,6 +361,10 @@ function MainDrawer_navigator() {
         options={{headerShown: false, headerMode: 'none'}}
       />
       <Drawer.Screen name="Wallet_drawer" component={Wallet_drawer} />
+      <Drawer.Screen
+        name="SettingsEntryScreen"
+        component={SettingsDrawer_navigator}
+      />
     </Drawer.Navigator>
   );
 }
@@ -314,7 +372,7 @@ function MainDrawer_navigator() {
 function RootScreens() {
   return (
     <Stack.Navigator
-      initialRouteName={'EntryScreen'}
+      initialRouteName={'Home'}
       screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="EntryScreen"
