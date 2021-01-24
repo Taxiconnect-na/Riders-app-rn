@@ -55,6 +55,10 @@
 		229198E094124310B5BB8C26 /* Allrounder-Monument-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 53BE8C8AE2824349903DFFF2 /* Allrounder-Monument-Book.otf */; };
 		5DC3949E64A64006876399C2 /* Allrounder-Monument-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0E80EA864D9B4ABFA83771BC /* Allrounder-Monument-Medium.otf */; };
 		855434E3258E47D2A7ABC791 /* Allrounder-Monument-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F73B1D41A575456FA47EA7F4 /* Allrounder-Monument-Regular.otf */; };
+		CE190602985F4E12B7128779 /* MoveBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1DAA4246804440F0B3D17B92 /* MoveBold.otf */; };
+		463FA003A52C49F8976238B4 /* MoveLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8566E669034E4709A3F7E3DB /* MoveLight.ttf */; };
+		81953A53EBF649339FA16EEE /* MoveMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F746225DF0C94B0198BFA3CB /* MoveMedium.otf */; };
+		9CDBF58699324390B514DC40 /* MoveRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B571D3CC35384A3B90D2E288 /* MoveRegular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +141,10 @@
 		53BE8C8AE2824349903DFFF2 /* Allrounder-Monument-Book.otf */ = {isa = PBXFileReference; name = "Allrounder-Monument-Book.otf"; path = "../Media_assets/fonts/Allrounder-Monument-Book.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		0E80EA864D9B4ABFA83771BC /* Allrounder-Monument-Medium.otf */ = {isa = PBXFileReference; name = "Allrounder-Monument-Medium.otf"; path = "../Media_assets/fonts/Allrounder-Monument-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F73B1D41A575456FA47EA7F4 /* Allrounder-Monument-Regular.otf */ = {isa = PBXFileReference; name = "Allrounder-Monument-Regular.otf"; path = "../Media_assets/fonts/Allrounder-Monument-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1DAA4246804440F0B3D17B92 /* MoveBold.otf */ = {isa = PBXFileReference; name = "MoveBold.otf"; path = "../Media_assets/fonts/MoveBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8566E669034E4709A3F7E3DB /* MoveLight.ttf */ = {isa = PBXFileReference; name = "MoveLight.ttf"; path = "../Media_assets/fonts/MoveLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F746225DF0C94B0198BFA3CB /* MoveMedium.otf */ = {isa = PBXFileReference; name = "MoveMedium.otf"; path = "../Media_assets/fonts/MoveMedium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B571D3CC35384A3B90D2E288 /* MoveRegular.ttf */ = {isa = PBXFileReference; name = "MoveRegular.ttf"; path = "../Media_assets/fonts/MoveRegular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +315,10 @@
 				53BE8C8AE2824349903DFFF2 /* Allrounder-Monument-Book.otf */,
 				0E80EA864D9B4ABFA83771BC /* Allrounder-Monument-Medium.otf */,
 				F73B1D41A575456FA47EA7F4 /* Allrounder-Monument-Regular.otf */,
+				1DAA4246804440F0B3D17B92 /* MoveBold.otf */,
+				8566E669034E4709A3F7E3DB /* MoveLight.ttf */,
+				F746225DF0C94B0198BFA3CB /* MoveMedium.otf */,
+				B571D3CC35384A3B90D2E288 /* MoveRegular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -491,6 +503,10 @@
 				229198E094124310B5BB8C26 /* Allrounder-Monument-Book.otf in Resources */,
 				5DC3949E64A64006876399C2 /* Allrounder-Monument-Medium.otf in Resources */,
 				855434E3258E47D2A7ABC791 /* Allrounder-Monument-Regular.otf in Resources */,
+				CE190602985F4E12B7128779 /* MoveBold.otf in Resources */,
+				463FA003A52C49F8976238B4 /* MoveLight.ttf in Resources */,
+				81953A53EBF649339FA16EEE /* MoveMedium.otf in Resources */,
+				9CDBF58699324390B514DC40 /* MoveRegular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

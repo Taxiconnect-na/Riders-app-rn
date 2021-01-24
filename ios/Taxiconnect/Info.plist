@@ -90,6 +90,10 @@
 		<string>Allrounder-Monument-Book.otf</string>
 		<string>Allrounder-Monument-Medium.otf</string>
 		<string>Allrounder-Monument-Regular.otf</string>
+		<string>MoveBold.otf</string>
+		<string>MoveLight.ttf</string>
+		<string>MoveMedium.otf</string>
+		<string>MoveRegular.ttf</string>
 	</array>
 </dict>
 </plist>

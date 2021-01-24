@@ -61,7 +61,7 @@ class EntryScreen extends React.PureComponent {
       this.props.App.user_fingerprint !== false &&
       this.props.App.user_fingerprint.length > 40
     ) {
-      this.props.navigation.navigate('Home');
+      //this.props.navigation.navigate('Home');
     }
   }
 

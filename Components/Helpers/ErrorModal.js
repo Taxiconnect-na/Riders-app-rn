@@ -34,6 +34,9 @@ import {
   UpdatePreferredPayment_method,
 } from '../Redux/HomeActionsCreators';
 import call from 'react-native-phone-call';
+import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
+import GenericLoader from '../Modules/GenericLoader/GenericLoader';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 class ErrorModal extends React.PureComponent {
   constructor(props) {
@@ -2574,85 +2577,144 @@ class ErrorModal extends React.PureComponent {
       );
     } else if (/show_changePersonalDetails_modal/i.test(error_status)) {
       return (
-        <SafeAreaView
-          style={{
-            backgroundColor: '#fff',
-            flex: 1,
-          }}>
-          <View style={styles.presentationWindow}>
-            <View
-              style={{
-                padding: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
-              }}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.UpdateErrorModalLog(false, false, 'any')
-                }
-                style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" size={30} />
-                </View>
-              </TouchableOpacity>
-              <Text
-                style={[
-                  systemWeights.semibold,
-                  {
-                    fontSize: 22,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
-                    marginTop: 15,
-                  },
-                ]}>
-                {/^name$/i.test(this.props.detailToModify)
-                  ? 'Change your name?'
-                  : /^surname$/i.test(this.props.detailToModify)
-                  ? 'Change your surname?'
-                  : /^gender$/i.test(this.props.detailToModify)
-                  ? 'Modify the gender?'
-                  : /^phone$/i.test(this.props.detailToModify)
-                  ? 'Change your phone number?'
-                  : /^email$/i.test(this.props.detailToModify)
-                  ? 'Change your email?'
-                  : 'Oups try restarting the app.'}
-              </Text>
-            </View>
-            <View style={{borderWidth: 1, padding: 20, flex: 1}}>
-              <Text>Details...</Text>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                paddingLeft: 20,
-                paddingRight: 20,
-                height: 100,
-              }}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.UpdateErrorModalLog(false, false, 'any')
-                }
+        <DismissKeyboard>
+          <SafeAreaView
+            style={{
+              backgroundColor: '#fff',
+              flex: 1,
+            }}>
+            <GenericLoader
+              active={this.state.isLoading_something}
+              thickness={5}
+            />
+            <View style={styles.presentationWindow}>
+              <View
                 style={{
-                  borderColor: 'transparent',
-                  width: '100%',
-                  justifyContent: 'center',
+                  padding: 20,
+                  paddingTop: 15,
+                  paddingBottom: 15,
                 }}>
-                <View style={[styles.bttnGenericTc]}>
-                  <Text
-                    style={[
-                      {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
-                        fontSize: 23,
-                        color: '#fff',
-                      },
-                    ]}>
-                    Save
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.UpdateErrorModalLog(false, false, 'any')
+                  }
+                  style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{top: 0}}>
+                    <IconAnt name="arrowleft" size={30} />
+                  </View>
+                </TouchableOpacity>
+                <Text
+                  style={[
+                    systemWeights.semibold,
+                    {
+                      fontSize: 22,
+                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      marginTop: 15,
+                    },
+                  ]}>
+                  {/^name$/i.test(this.props.detailToModify)
+                    ? 'Change your name?'
+                    : /^surname$/i.test(this.props.detailToModify)
+                    ? 'Change your surname?'
+                    : /^gender$/i.test(this.props.detailToModify)
+                    ? 'Modify the gender?'
+                    : /^phone$/i.test(this.props.detailToModify)
+                    ? 'Change your phone number?'
+                    : /^email$/i.test(this.props.detailToModify)
+                    ? 'Change your email?'
+                    : 'Oups try restarting the app.'}
+                </Text>
+              </View>
+              <View style={{padding: 20, flex: 1}}>
+                {/^name$/i.test(this.props.detailToModify) ? (
+                  <TextInput
+                    editable={!this.state.isLoading_something}
+                    placeholder="What's your name?"
+                    style={{
+                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 19.5,
+                      borderBottomWidth: 1.7,
+                      paddingLeft: 0,
+                      paddingBottom: 20,
+                    }}
+                  />
+                ) : /^surname$/i.test(this.props.detailToModify) ? (
+                  <TextInput
+                    placeholder="What's your surname?"
+                    style={{
+                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 19.5,
+                      borderBottomWidth: 1.7,
+                      paddingLeft: 0,
+                      paddingBottom: 20,
+                    }}
+                  />
+                ) : /^gender$/i.test(this.props.detailToModify) ? (
+                  <TextInput
+                    placeholder="What's your gender?"
+                    style={{
+                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 19.5,
+                      borderBottomWidth: 1.7,
+                      paddingLeft: 0,
+                      paddingBottom: 20,
+                    }}
+                  />
+                ) : /^phone$/i.test(this.props.detailToModify) ? (
+                  <PhoneNumberInput autoFocus={true} />
+                ) : /^email$/i.test(this.props.detailToModify) ? (
+                  <TextInput
+                    placeholder="What's your email?"
+                    style={{
+                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 19.5,
+                      borderBottomWidth: 1.7,
+                      paddingLeft: 0,
+                      paddingBottom: 20,
+                    }}
+                  />
+                ) : (
+                  <TextInput placeholder="" />
+                )}
+              </View>
+              <View
+                style={{
+                  width: '100%',
+                  alignItems: 'center',
+                  paddingLeft: 20,
+                  paddingRight: 20,
+                  height: 100,
+                }}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.UpdateErrorModalLog(false, false, 'any')
+                  }
+                  style={{
+                    borderColor: 'transparent',
+                    width: '100%',
+                    justifyContent: 'center',
+                  }}>
+                  <View style={[styles.bttnGenericTc]}>
+                    {this.state.isLoading_something ? (
+                      <ActivityIndicator size="large" color="#fff" />
+                    ) : (
+                      <Text
+                        style={[
+                          {
+                            fontFamily: 'Allrounder-Grotesk-Medium',
+                            fontSize: 23,
+                            color: '#fff',
+                          },
+                        ]}>
+                        Save
+                      </Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </SafeAreaView>
+          </SafeAreaView>
+        </DismissKeyboard>
       );
     } else {
       return <></>;
