@@ -31,12 +31,14 @@ import {
   UpdateType_rideShown_YourRides_screen,
   UpdateRatingDetailsDuringDropoff_process,
   ResetStateProps,
+  ValidateGenericPhoneNumber,
   UpdatePreferredPayment_method,
 } from '../Redux/HomeActionsCreators';
 import call from 'react-native-phone-call';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import EmailValidator from './EmailValidator';
 
 class ErrorModal extends React.PureComponent {
   constructor(props) {
@@ -54,6 +56,9 @@ class ErrorModal extends React.PureComponent {
       }, //The compliment for the driver selectedd by the user - array of compliment strings - default: [], strings: neatAndTidy, excellentService, greatMusic, greatConversation, expertNavigator
       custom_note: false, //The custom note entered by the user,
       isLoading_something: false, //Responsible for handling any kind of native loader (circle) within the context of this class
+      tmpString: null, //Responsible to be used template string for the new values.
+      errorString_template: 'An error occured', //TO hold any kind of string error
+      isErrorThrown: false, //To know whether or not an error was thrown.
     };
   }
 
@@ -257,6 +262,111 @@ class ErrorModal extends React.PureComponent {
       400,
     );
     this.props.UpdateErrorModalLog(false, false, 'any');
+  }
+
+  /**
+   * @func updatePersonalInfos
+   * Responsible for updating the rider's personal infos: name, surname, gender, phone number, email and picture.
+   * @param infoToUpdate: the type of data to update
+   * @param dataToUpdate: the true data to update
+   */
+  updatePersonalInfos(dataToUpdate, infoToUpdate) {
+    dataToUpdate = /phone/i.test(infoToUpdate)
+      ? this.props.App.phoneNumberEntered
+      : dataToUpdate; //Rectify the data to update in the it's the phone number
+    //...
+    if (
+      dataToUpdate !== null &&
+      dataToUpdate !== undefined &&
+      dataToUpdate.length > 0
+    ) {
+      if (/^(name|surname|gender|email|phone)$/i.test(infoToUpdate)) {
+        let bundleData = {
+          user_fingerprint: this.props.App.user_fingerprint,
+          dataToUpdate: dataToUpdate,
+          infoToUpdate: infoToUpdate,
+        };
+        //Update the global last data updated - very useful when updating the visual data after a successful modification.
+        this.props.App.last_dataPersoUpdated = dataToUpdate;
+        //For the name,surname,gender and email
+        if (/^email$/i.test(infoToUpdate)) {
+          //For the email specifically
+          if (EmailValidator(dataToUpdate)) {
+            //Check if the email's format's good.
+            this.setState({isErrorThrown: false, isLoading_something: true});
+            SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
+          } //Wrong email format
+          else {
+            this.setState({
+              errorString_template: 'Your email looks wrong',
+              isErrorThrown: true,
+            });
+          }
+        } else if (/^phone$/i.test(infoToUpdate)) {
+          //Phone number
+          //Check the phone number
+          this.props.ValidateGenericPhoneNumber();
+          if (this.props.App.isPhoneNumberValid) {
+            //Good number - save in the global
+            this.props.App.last_dataPersoUpdated = this.props.App.finalPhoneNumber;
+            //....
+            /*bundleData = {
+              user_fingerprint: this.props.App.user_fingerprint,
+              dataToUpdate: this.props.App.last_dataPersoUpdated,
+              infoToUpdate: 'phone',
+              direction: 'initChange',
+            };*/
+            console.log(this.props.App.last_dataPersoUpdated);
+            //Has a final number
+            //SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
+            this.props.parentNode.props.navigation.navigate(
+              'OTPVerificationGeneric',
+            );
+          } //SHow trivial error
+          else {
+            /*this.setState({
+              errorString_template: 'Your phone number looks strange.',
+              isErrorThrown: true,
+            });*/
+          }
+        }
+        //For the rest proceed
+        else {
+          if (
+            /^(name|surname)$/i.test(infoToUpdate) &&
+            dataToUpdate.trim().length > 2
+          ) {
+            //Name or surname
+            this.setState({isErrorThrown: false, isLoading_something: true});
+            SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
+          } //Name or surname too short
+          else {
+            this.setState({
+              errorString_template: 'At least 2 characters are required.',
+              isErrorThrown: true,
+            });
+          }
+        }
+      }
+    } //Close the modal
+    else {
+      this.props.UpdateErrorModalLog(false, false, 'any');
+    }
+  }
+
+  /**
+   * @func updateLocalStateNewPersonal_infos
+   * Responsible for updating locally the new rider's details as he/she is typing it.
+   * @param dataType: the type of information to update (name,surname,gender,email) - excluding the phone number.
+   * @param data: the data to update
+   */
+  updateLocalStateNewPersonal_infos(dataType = false, data) {
+    if (dataType !== false) {
+      if (/^(name|surname|gender|email)$/i.test(dataType)) {
+        //name
+        this.setState({tmpString: data, isErrorThrown: false});
+      }
+    }
   }
 
   /**
@@ -2613,15 +2723,15 @@ class ErrorModal extends React.PureComponent {
                     },
                   ]}>
                   {/^name$/i.test(this.props.detailToModify)
-                    ? 'Change your name?'
+                    ? 'Change your name'
                     : /^surname$/i.test(this.props.detailToModify)
-                    ? 'Change your surname?'
+                    ? 'Change your surname'
                     : /^gender$/i.test(this.props.detailToModify)
-                    ? 'Modify the gender?'
+                    ? 'Modify the gender'
                     : /^phone$/i.test(this.props.detailToModify)
-                    ? 'Change your phone number?'
+                    ? 'Change your phone number'
                     : /^email$/i.test(this.props.detailToModify)
-                    ? 'Change your email?'
+                    ? 'Change your email'
                     : 'Oups try restarting the app.'}
                 </Text>
               </View>
@@ -2630,6 +2740,18 @@ class ErrorModal extends React.PureComponent {
                   <TextInput
                     editable={!this.state.isLoading_something}
                     placeholder="What's your name?"
+                    value={
+                      this.state.tmpString !== null &&
+                      this.state.tmpString !== undefined
+                        ? this.state.tmpString
+                        : this.props.App.username
+                    }
+                    onChangeText={(text) =>
+                      this.updateLocalStateNewPersonal_infos(
+                        this.props.detailToModify,
+                        text,
+                      )
+                    }
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Regular',
                       fontSize: 19.5,
@@ -2640,7 +2762,20 @@ class ErrorModal extends React.PureComponent {
                   />
                 ) : /^surname$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    editable={!this.state.isLoading_something}
                     placeholder="What's your surname?"
+                    value={
+                      this.state.tmpString !== null &&
+                      this.state.tmpString !== undefined
+                        ? this.state.tmpString
+                        : this.props.App.surname_user
+                    }
+                    onChangeText={(text) =>
+                      this.updateLocalStateNewPersonal_infos(
+                        this.props.detailToModify,
+                        text,
+                      )
+                    }
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Regular',
                       fontSize: 19.5,
@@ -2651,7 +2786,20 @@ class ErrorModal extends React.PureComponent {
                   />
                 ) : /^gender$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    editable={!this.state.isLoading_something}
                     placeholder="What's your gender?"
+                    value={
+                      this.state.tmpString !== null &&
+                      this.state.tmpString !== undefined
+                        ? this.state.tmpString
+                        : this.props.App.gender_user
+                    }
+                    onChangeText={(text) =>
+                      this.updateLocalStateNewPersonal_infos(
+                        this.props.detailToModify,
+                        text,
+                      )
+                    }
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Regular',
                       fontSize: 19.5,
@@ -2664,7 +2812,20 @@ class ErrorModal extends React.PureComponent {
                   <PhoneNumberInput autoFocus={true} />
                 ) : /^email$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    editable={!this.state.isLoading_something}
                     placeholder="What's your email?"
+                    value={
+                      this.state.tmpString !== null &&
+                      this.state.tmpString !== undefined
+                        ? this.state.tmpString
+                        : this.props.App.user_email
+                    }
+                    onChangeText={(text) =>
+                      this.updateLocalStateNewPersonal_infos(
+                        this.props.detailToModify,
+                        text,
+                      )
+                    }
                     style={{
                       fontFamily: 'Allrounder-Grotesk-Regular',
                       fontSize: 19.5,
@@ -2676,6 +2837,17 @@ class ErrorModal extends React.PureComponent {
                 ) : (
                   <TextInput placeholder="" />
                 )}
+                {this.state.isErrorThrown ? (
+                  <Text
+                    style={{
+                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontSize: 15,
+                      marginTop: 15,
+                      color: '#b22222',
+                    }}>
+                    {this.state.errorString_template}
+                  </Text>
+                ) : null}
               </View>
               <View
                 style={{
@@ -2685,19 +2857,22 @@ class ErrorModal extends React.PureComponent {
                   paddingRight: 20,
                   height: 100,
                 }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    this.props.UpdateErrorModalLog(false, false, 'any')
-                  }
-                  style={{
-                    borderColor: 'transparent',
-                    width: '100%',
-                    justifyContent: 'center',
-                  }}>
-                  <View style={[styles.bttnGenericTc]}>
-                    {this.state.isLoading_something ? (
-                      <ActivityIndicator size="large" color="#fff" />
-                    ) : (
+                {this.state.isLoading_something === false ? (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.state.isLoading_something
+                        ? {}
+                        : this.updatePersonalInfos(
+                            this.state.tmpString,
+                            this.props.detailToModify,
+                          )
+                    }
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                    }}>
+                    <View style={[styles.bttnGenericTc]}>
                       <Text
                         style={[
                           {
@@ -2708,9 +2883,9 @@ class ErrorModal extends React.PureComponent {
                         ]}>
                         Save
                       </Text>
-                    )}
-                  </View>
-                </TouchableOpacity>
+                    </View>
+                  </TouchableOpacity>
+                ) : null}
               </View>
             </View>
           </SafeAreaView>
@@ -2802,6 +2977,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateType_rideShown_YourRides_screen,
       UpdateRatingDetailsDuringDropoff_process,
       ResetStateProps,
+      ValidateGenericPhoneNumber,
       UpdatePreferredPayment_method,
     },
     dispatch,

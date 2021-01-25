@@ -95,7 +95,8 @@ const STATE = {
   cardeliveryNormal: cardeliveryNormal,
   vandeliveryNormal: vandeliveryNormal,
   //...
-  user_fingerprint: null, //User fingerprint - default: null
+  user_fingerprint:
+    '7c57cb6c9471fd33fd265d5441f253eced2a6307c0207dea57c987035b496e6e8dfa7105b86915da', //User fingerprint - default: null
 
   pushnotif_token: false, //Notification push notification - default: false
   userCurrentLocationMetaData: {}, //Metadata of the user's current location - directly geocoded and shallowly processed
@@ -477,8 +478,11 @@ const STATE = {
 
   //User generic variables
   gender_user: 'male', //The gender of the user - default: male (male, female, unknown)
-  username: 'User', //The name of the user - default: false
-  user_email: false, //The email of the user - default: false
+  username: 'User', //The name of the user - default: false - name
+  surname_user: 'Surname', //The name of the user - default: false - surname
+  phone_user: '+264856997167', //The user's phone number - default: false
+  user_email: 'user@gmail.com', //The email of the user - default: false
+  last_dataPersoUpdated: null, //The last data updated - default: null
 
   //RIDES tab
   //1.Your rides screen

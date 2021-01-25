@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Linking,
 } from 'react-native';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -109,7 +110,10 @@ class SettingsEntryScreen extends React.PureComponent {
                 Identity
               </Text>
             </View>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('PersonalinfosEntryScreen')
+              }
               style={{
                 flexDirection: 'row',
                 paddingTop: 5,
@@ -129,7 +133,7 @@ class SettingsEntryScreen extends React.PureComponent {
                 color="#0e8491"
                 size={25}
               />
-            </View>
+            </TouchableOpacity>
           </View>
           {/**Favorite places */}
           <View
@@ -224,7 +228,10 @@ class SettingsEntryScreen extends React.PureComponent {
                 Privacy
               </Text>
             </View>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL('https://www.taxiconnectna.com/privacy.html')
+              }
               style={{
                 flexDirection: 'row',
                 paddingTop: 5,
@@ -244,8 +251,11 @@ class SettingsEntryScreen extends React.PureComponent {
                 color="#d0d0d0"
                 size={25}
               />
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL('https://www.taxiconnectna.com/privacy.html')
+              }
               style={{
                 flexDirection: 'row',
                 paddingTop: 10,
@@ -265,7 +275,7 @@ class SettingsEntryScreen extends React.PureComponent {
                 color="#d0d0d0"
                 size={25}
               />
-            </View>
+            </TouchableOpacity>
           </View>
           {/**Log out */}
           <View

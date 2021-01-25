@@ -1,17 +1,24 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  Image,
   TouchableOpacity,
 } from 'react-native';
+import {
+  ResetGenericPhoneNumberInput,
+  UpdateErrorModalLog,
+} from '../Redux/HomeActionsCreators';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Notifiyer from '../Helpers/Notifiyer';
 import ErrorModal from '../Helpers/ErrorModal';
+import SyncStorage from 'sync-storage';
 
 class PersonalinfosEntryScreen extends React.PureComponent {
   constructor(props) {
@@ -21,8 +28,113 @@ class PersonalinfosEntryScreen extends React.PureComponent {
       showNotifiyer: false, //Whether to show to status notifiyer or not.
       notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
       statusColor: '#048320', //The status color - #048320:green, #b22222:red
-      detailToModify: 'name', //The focused detail to modify: name, surname, gender, phone number, email
+      detailToModify: 'name', //The focused detail to modify: name, surname, gender, phone number, email - default: name
     };
+  }
+
+  componentDidMount() {
+    let globalObject = this;
+    /**
+     * SOCKET.IO RESPONSES
+     */
+    //1. Handle change profile infos.
+    SOCKET_CORE.on(
+      'updateRiders_profileInfos_io-response',
+      function (response) {
+        if (
+          response !== undefined &&
+          response !== null &&
+          response.response !== undefined &&
+          response.response !== null
+        ) {
+          if (/success/i.test(response.response)) {
+            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            //Update the local storages
+            if (/^name$/i.test(globalObject.state.detailToModify)) {
+              //name
+              globalObject.props.App.username =
+                globalObject.props.App.last_dataPersoUpdated;
+              SyncStorage.set(
+                '@username',
+                globalObject.props.App.last_dataPersoUpdated,
+              );
+            } else if (/^surname$/i.test(globalObject.state.detailToModify)) {
+              //surname
+              globalObject.props.App.surname_user =
+                globalObject.props.App.last_dataPersoUpdated;
+              SyncStorage.set(
+                '@surname_user',
+                globalObject.props.App.last_dataPersoUpdated,
+              );
+            } else if (/^email$/i.test(globalObject.state.detailToModify)) {
+              //email
+              globalObject.props.App.user_email =
+                globalObject.props.App.last_dataPersoUpdated;
+              SyncStorage.set(
+                '@user_email',
+                globalObject.props.App.last_dataPersoUpdated,
+              );
+            } else if (/^gender$/i.test(globalObject.state.detailToModify)) {
+              //gender
+              globalObject.props.App.gender_user =
+                globalObject.props.App.last_dataPersoUpdated;
+              SyncStorage.set(
+                '@gender_user',
+                globalObject.props.App.last_dataPersoUpdated,
+              );
+            }
+            //---------
+            globalObject.setState({
+              showNotifiyer: true,
+              notifiyerMessage: `Successully changed your ${globalObject.state.detailToModify.toLocaleLowerCase()}`,
+              statusColor: '#048320',
+            });
+            let tmpTimeoutCloser = setTimeout(function () {
+              globalObject.setState({showNotifiyer: false});
+              clearTimeout(tmpTimeoutCloser);
+            }, 2000);
+          } //Error
+          else {
+            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            globalObject.setState({
+              showNotifiyer: true,
+              notifiyerMessage: `We couldn't change your ${globalObject.state.detailToModify.toLocaleLowerCase()}`,
+              statusColor: '#b22222',
+            });
+            let tmpTimeoutCloser = setTimeout(function () {
+              globalObject.setState({showNotifiyer: false});
+              clearTimeout(tmpTimeoutCloser);
+            }, 2000);
+          }
+        } //SOmething so strange happened - error
+        else {
+          globalObject.props.UpdateErrorModalLog(false, false, 'any');
+          globalObject.setState({
+            showNotifiyer: true,
+            notifiyerMessage: `We couldn't change your ${globalObject.state.detailToModify.toLocaleLowerCase()}`,
+            statusColor: '#b22222',
+          });
+          let tmpTimeoutCloser = setTimeout(function () {
+            globalObject.setState({showNotifiyer: false});
+            clearTimeout(tmpTimeoutCloser);
+          }, 2000);
+        }
+      },
+    );
+  }
+
+  /**
+   * @func showModalChange_updater
+   * Responsible for showing up the modal that will allow the rider to modify the values.
+   * @param infoToUpdate: the type of information to update (name,surname,etc...)
+   */
+  showModalChange_updater(infoToUpdate) {
+    this.state.detailToModify = infoToUpdate;
+    this.props.UpdateErrorModalLog(
+      true,
+      'show_changePersonalDetails_modal',
+      'any',
+    );
   }
 
   render() {
@@ -35,14 +147,20 @@ class PersonalinfosEntryScreen extends React.PureComponent {
             message={this.state.notifiyerMessage}
           />
         ) : null}
-        <ErrorModal
-          active={true}
-          error_status={'show_changePersonalDetails_modal'}
-          detailToModify={'name'}
-        />
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+          <ErrorModal
+            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+            error_status={
+              this.props.App.generalErrorModal_vars.generalErrorModalType
+            }
+            detailToModify={this.state.detailToModify}
+            parentNode={this}
+          />
+        ) : null}
         <ScrollView style={styles.presentationWindow}>
           {/**Name */}
-          <View
+          <TouchableOpacity
+            onPress={() => this.showModalChange_updater('name')}
             style={{
               borderBottomWidth: 1,
               borderBottomColor: '#d0d0d0',
@@ -68,20 +186,23 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
+                  fontSize: 17.5,
                   flex: 1,
                 }}>
-                Dominique
+                {`${this.props.App.username[0].toUpperCase()}${this.props.App.username
+                  .substr(1)
+                  .toLowerCase()}`}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
-                color="#000"
+                color="#0e8491"
                 size={20}
               />
             </View>
-          </View>
+          </TouchableOpacity>
           {/**Surname */}
-          <View
+          <TouchableOpacity
+            onPress={() => this.showModalChange_updater('surname')}
             style={{
               borderBottomWidth: 1,
               borderBottomColor: '#d0d0d0',
@@ -107,20 +228,23 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
+                  fontSize: 17.5,
                   flex: 1,
                 }}>
-                Kanyik
+                {`${this.props.App.surname_user[0].toUpperCase()}${this.props.App.surname_user
+                  .substr(1)
+                  .toLowerCase()}`}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
-                color="#000"
+                color="#0e8491"
                 size={20}
               />
             </View>
-          </View>
+          </TouchableOpacity>
           {/**Gender */}
-          <View
+          <TouchableOpacity
+            onPress={() => this.showModalChange_updater('gender')}
             style={{
               borderBottomWidth: 1,
               borderBottomColor: '#d0d0d0',
@@ -146,20 +270,23 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
+                  fontSize: 17.5,
                   flex: 1,
                 }}>
-                Male
+                {`${this.props.App.gender_user[0].toUpperCase()}${this.props.App.gender_user
+                  .substr(1)
+                  .toLowerCase()}`}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
-                color="#000"
+                color="#0e8491"
                 size={20}
               />
             </View>
-          </View>
+          </TouchableOpacity>
           {/**Phone */}
-          <View
+          <TouchableOpacity
+            onPress={() => this.showModalChange_updater('phone')}
             style={{
               borderBottomWidth: 1,
               borderBottomColor: '#d0d0d0',
@@ -182,23 +309,36 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 paddingBottom: 10,
                 alignItems: 'center',
               }}>
-              <Text
-                style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
-                  flex: 1,
-                }}>
-                +264817563369
-              </Text>
+              <View
+                style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
+                <View style={{width: 30, height: 30, marginRight: 10}}>
+                  <Image
+                    source={require('../../Media_assets/Images/Namibia_rect.png')}
+                    style={{
+                      resizeMode: 'contain',
+                      width: '100%',
+                      height: '100%',
+                    }}
+                  />
+                </View>
+                <Text
+                  style={{
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontSize: 17.5,
+                  }}>
+                  {this.props.App.phone_user}
+                </Text>
+              </View>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
-                color="#000"
+                color="#0e8491"
                 size={20}
               />
             </View>
-          </View>
+          </TouchableOpacity>
           {/**Email */}
-          <View
+          <TouchableOpacity
+            onPress={() => this.showModalChange_updater('email')}
             style={{
               padding: 20,
             }}>
@@ -222,18 +362,18 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 17,
+                  fontSize: 17.5,
                   flex: 1,
                 }}>
-                domykanyiktesh01@gmail.com
+                {this.props.App.user_email}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
-                color="#000"
+                color="#0e8491"
                 size={20}
               />
             </View>
-          </View>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
@@ -267,4 +407,16 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(PersonalinfosEntryScreen);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      ResetGenericPhoneNumberInput,
+      UpdateErrorModalLog,
+    },
+    dispatch,
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PersonalinfosEntryScreen);

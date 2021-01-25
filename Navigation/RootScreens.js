@@ -22,6 +22,7 @@ import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector
 import DetailsRidesGenericScreen from '../Components/Rides/DetailsRidesGenericScreen';
 import SettingsEntryScreen from '../Components/Settings/SettingsEntryScreen';
 import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryScreen';
+import OTPVerificationGeneric from '../Components/Settings/OTPVerificationGeneric';
 import {MainDrawerContent} from './MainDrawerContent';
 
 const Stack = createStackNavigator();
@@ -298,7 +299,9 @@ function Wallet_drawer() {
 
 function SettingsDrawer_navigator() {
   return (
-    <Stack.Navigator initialRouteName="PersonalinfosEntryScreen">
+    <Stack.Navigator
+      initialRouteName="SettingsEntryScreen"
+      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="SettingsEntryScreen"
         component={SettingsEntryScreen}
@@ -342,6 +345,14 @@ function SettingsDrawer_navigator() {
               </Text>
             </View>
           ),
+        }}
+      />
+
+      <Stack.Screen
+        name="OTPVerificationGeneric"
+        component={OTPVerificationGeneric}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
