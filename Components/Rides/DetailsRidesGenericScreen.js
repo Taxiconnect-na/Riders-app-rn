@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux';
 import {
   View,
   Text,
-  TouchableOpacity,
   ScrollView,
   StyleSheet,
   Image,
@@ -22,7 +21,6 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
-import IconEntypo from 'react-native-vector-icons/Entypo';
 
 class DetailsRidesGenericScreen extends React.PureComponent {
   constructor(props) {
@@ -67,9 +65,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
           globalObject.props.UpdateErrorModalLog(false, false, state.type);
         }
       }
-
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
     });
 
     //connection
@@ -82,15 +77,11 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       }
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', (error) => {});
     this.props.App.socket.on('disconnect', () => {
-      //console.log('something');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
@@ -100,18 +91,13 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      console.log('connect_timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
+    this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect_failed');
       globalObject.props.App.socket.connect();
     });
 

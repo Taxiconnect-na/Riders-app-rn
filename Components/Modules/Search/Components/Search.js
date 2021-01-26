@@ -50,39 +50,20 @@ class Search extends React.PureComponent {
     this.props.App.socket.on('connect', () => {
       //Auto cancel anything
       //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
-      //console.log('something');
     });
-    this.props.App.socket.on('error', (error) => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('disconnect', () => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('connect_error', () => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('connect_timeout', () => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
-    this.props.App.socket.on('reconnect_error', () => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', (error) => {});
+    this.props.App.socket.on('disconnect', () => {});
+    this.props.App.socket.on('connect_error', () => {});
+    this.props.App.socket.on('connect_timeout', () => {});
+    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect_error', () => {});
+    this.props.App.socket.on('reconnect_failed', () => {});
     this.props.App.socket.on('getLocations-response', function (response) {
       InteractionManager.runAfterInteractions(() => {
-        let timeReceived = new Date();
         if (globalObj.props.App.search_time_requested == null) {
           globalObj.props.App.search_time_requested = new Date();
         }
-        timeReceived =
-          timeReceived.getTime() -
-          globalObj.props.App.search_time_requested.getTime();
-        //console.log('Response in ----> ', timeReceived);
+        //...
         if (response !== false) {
           if (globalObj.props.App.search_querySearch.length !== 0) {
             globalObj.props.UpdateSearchMetadataLoaderState({
@@ -289,7 +270,6 @@ class Search extends React.PureComponent {
                 this.props.App.user_favorites_destinations[1].location_infos = locationObj;
               }
               //SAVE the favorite places to the local storage
-              console.log(locationObj);
               SyncStorage.set(
                 '@favorite_places',
                 this.props.App.user_favorites_destinations,
@@ -743,7 +723,7 @@ class Search extends React.PureComponent {
           //Simplifed mode
           globalObj.props.App.search_passenger1DestinationInput = ''; //Clear the field 1 input
           //! RESET TRIP DATA
-          globalObj.props.ResetStateProps(true);
+          //globalObj.props.ResetStateProps(true);
           //...
           globalObj.props.UpdateErrorModalLog(false, false, 'any');
         }

@@ -403,6 +403,8 @@ class ErrorModal extends React.PureComponent {
       SyncStorage.remove('@surname_user');
       SyncStorage.remove('@user_email');
       SyncStorage.remove('@phone_user');
+      SyncStorage.remove('@user_profile_pic');
+
       //Reinitiate values
       globalObject.props.App.gender_user = 'male';
       globalObject.props.App.username = false;

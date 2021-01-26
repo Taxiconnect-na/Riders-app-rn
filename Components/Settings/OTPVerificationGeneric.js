@@ -97,13 +97,11 @@ class OTPVerificationGeneric extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
-    RNOtpVerify.getHash()
-      .then((result) => {
-        try {
-          globalObject.state.smsHashLinker = result[0];
-        } catch (error) {}
-      })
-      .catch(console.log);
+    RNOtpVerify.getHash().then((result) => {
+      try {
+        globalObject.state.smsHashLinker = result[0];
+      } catch (error) {}
+    });
     this.initOTPListener();
 
     //Add navigator listener
@@ -137,15 +135,11 @@ class OTPVerificationGeneric extends React.PureComponent {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', () => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', () => {});
     this.props.App.socket.on('disconnect', () => {
-      //console.log('something');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
@@ -155,18 +149,13 @@ class OTPVerificationGeneric extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      console.log('connect_timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
+    this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect_failed');
       globalObject.props.App.socket.connect();
     });
 
@@ -196,7 +185,7 @@ class OTPVerificationGeneric extends React.PureComponent {
               globalObject.props.App.phone_user =
                 globalObject.props.App.finalPhoneNumber;
               SyncStorage.set(
-                '@phone',
+                '@phone_user',
                 globalObject.props.App.finalPhoneNumber,
               );
               //Do a clean global update

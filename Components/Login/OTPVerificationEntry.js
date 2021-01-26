@@ -82,6 +82,7 @@ class OTPVerificationEntry extends React.PureComponent {
       checkingOTP: false, //TO know whether the app is checking the OTP or not, basedd on that show or hide the net button
       didCheckOTP: false, //TO know if the otp was already check - once
       networkStateChecker: false,
+      accountCreation_state: 'full', //To know whether or not to redirecto to the addditional page for minimal account or not: minimal or full
     };
     this.otpHandler = this.otpHandler.bind(this);
   }
@@ -122,15 +123,11 @@ class OTPVerificationEntry extends React.PureComponent {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', () => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', () => {});
     this.props.App.socket.on('disconnect', () => {
-      //console.log('something');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
@@ -140,18 +137,13 @@ class OTPVerificationEntry extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      console.log('connect_timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
+    this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect_failed');
       globalObject.props.App.socket.connect();
     });
 
@@ -162,7 +154,6 @@ class OTPVerificationEntry extends React.PureComponent {
     this.props.App.socket.on(
       'sendOtpAndCheckerUserStatusTc-response',
       function (response) {
-        console.log(response);
         //Stop the loader
         globalObject.setState({loaderState: false});
         //...
@@ -181,9 +172,36 @@ class OTPVerificationEntry extends React.PureComponent {
             } else if (/^registered$/i.test(response.response)) {
               //Registered user
               globalObject.state.userStatus = 'registered_user';
-              //Save the user_fp!!!!
-              globalObject.props.App.user_fingerprint = response.user_fp;
-              SyncStorage.set('@user_fp', response.user_fp);
+              if (/full/i.test(response.account_state)) {
+                //Minimal details already added - update big vars
+                //! Save the user_fp and the rest of the globals
+                globalObject.props.App.user_fingerprint = response.user_fp;
+                globalObject.props.App.gender_user = response.gender;
+                globalObject.props.App.username = response.name;
+                globalObject.props.App.surname_user = response.surname;
+                globalObject.props.App.user_email = response.email;
+                globalObject.props.App.phone_user = response.phone_number;
+                globalObject.props.App.user_profile_pic =
+                  response.profile_picture;
+                globalObject.props.App.pushnotif_token =
+                  response.pushnotif_token;
+                //! Save to storage as well.
+                SyncStorage.set('@user_fp', response.user_fp);
+                SyncStorage.set('@gender_user', response.gender);
+                SyncStorage.set('@username', response.name);
+                SyncStorage.set('@surname_user', response.surname);
+                SyncStorage.set('@user_email', response.email);
+                SyncStorage.set('@phone_user', response.phone_number);
+                SyncStorage.set('@user_profile_pic', response.profile_picture);
+                //....
+                globalObject.state.accountCreation_state = 'full';
+              } //Minimal account - go to complete details
+              else {
+                //! Save the user_fp and the rest of the globals
+                globalObject.props.App.user_fingerprint = response.user_fp;
+                //....
+                globalObject.state.accountCreation_state = 'minimal';
+              }
             } //Error
             else {
               globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
@@ -235,11 +253,19 @@ class OTPVerificationEntry extends React.PureComponent {
             globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home
           else {
-            globalObject.props.navigation.reset({
-              index: 0,
-              routes: [{name: 'Home'}],
-            });
-            //globalObject.props.navigation.navigate('Home');
+            //Check the state of the account creation
+            if (/full/i.test(globalObject.state.accountCreation_state)) {
+              globalObject.props.navigation.reset({
+                index: 0,
+                routes: [{name: 'Home'}],
+              });
+            } //Minimal account - move to the additional details screen
+            else {
+              globalObject.props.navigation.reset({
+                index: 0,
+                routes: [{name: 'NewAccountAdditionalDetails'}],
+              });
+            }
           }
         } else if (response.response === false) {
           //wrong otp
@@ -302,7 +328,7 @@ class OTPVerificationEntry extends React.PureComponent {
           .then(() => {
             RNOtpVerify.addListener(this.otpHandler);
           })
-          .catch((p) => console.log(p));
+          .catch((p) => {});
       } else {
         //Request for otp
         globalObject.requestForOTP();
@@ -330,9 +356,7 @@ class OTPVerificationEntry extends React.PureComponent {
         Keyboard.dismiss();
         //Auto check
         this.moveForwardCheck();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   }
 

@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {
   View,
   Text,
@@ -102,31 +101,18 @@ class TopUpWalletScreen extends React.PureComponent {
     this.props.App.socket.on('connect', () => {
       //Auto cancel anything
       //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
-      //console.log('something');
     });
-    this.props.App.socket.on('error', (error) => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', (error) => {});
     this.props.App.socket.on('disconnect', () => {
       //objectApp.setState({errorInternet: true});
-      //console.log('something');
     });
     this.props.App.socket.on('connect_error', () => {
       //objectApp.setState({errorInternet: true});
-      //console.log('something');
     });
-    this.props.App.socket.on('connect_timeout', () => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
-    this.props.App.socket.on('reconnect_error', () => {
-      //console.log('something');
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('connect_timeout', () => {});
+    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect_error', () => {});
+    this.props.App.socket.on('reconnect_failed', () => {});
 
     /**
      * LISTENERS

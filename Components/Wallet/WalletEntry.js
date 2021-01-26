@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {
   SafeAreaView,
   View,
@@ -82,12 +81,36 @@ class WalletEntry extends React.PureComponent {
                     elevation: 14,
                   }}>
                   <Image
-                    source={require('../../Media_assets/Images/woman.webp')}
+                    source={
+                      this.props.App.user_profile_pic !== undefined &&
+                      this.props.App.user_profile_pic !== null
+                        ? {
+                            uri: this.props.App.user_profile_pic,
+                            cache: 'reload',
+                          }
+                        : require('../../Media_assets/Images/user.png')
+                    }
                     style={{
-                      resizeMode: 'cover',
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: 200,
+                      resizeMode:
+                        this.props.App.user_profile_pic !== undefined &&
+                        this.props.App.user_profile_pic !== null
+                          ? 'cover'
+                          : 'contain',
+                      width:
+                        this.props.App.user_profile_pic !== undefined &&
+                        this.props.App.user_profile_pic !== null
+                          ? '100%'
+                          : '60%',
+                      height:
+                        this.props.App.user_profile_pic !== undefined &&
+                        this.props.App.user_profile_pic !== null
+                          ? '100%'
+                          : '80%',
+                      borderRadius:
+                        this.props.App.user_profile_pic !== undefined &&
+                        this.props.App.user_profile_pic !== null
+                          ? 200
+                          : 0,
                     }}
                   />
                 </View>

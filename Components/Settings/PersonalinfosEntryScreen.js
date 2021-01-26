@@ -230,9 +230,14 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontSize: 17.5,
                   flex: 1,
                 }}>
-                {`${this.props.App.surname_user[0].toUpperCase()}${this.props.App.surname_user
-                  .substr(1)
-                  .toLowerCase()}`}
+                {this.props.App.surname_user !== false &&
+                this.props.App.surname_user !== null &&
+                this.props.App.surname_user !== undefined &&
+                this.props.App.surname_user[0] !== undefined
+                  ? `${this.props.App.surname_user[0].toUpperCase()}${this.props.App.surname_user
+                      .substr(1)
+                      .toLowerCase()}`
+                  : 'User'}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
@@ -272,9 +277,14 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontSize: 17.5,
                   flex: 1,
                 }}>
-                {`${this.props.App.gender_user[0].toUpperCase()}${this.props.App.gender_user
-                  .substr(1)
-                  .toLowerCase()}`}
+                {this.props.App.gender_user !== false &&
+                this.props.App.gender_user !== null &&
+                this.props.App.gender_user !== undefined &&
+                this.props.App.gender_user[0] !== undefined
+                  ? `${this.props.App.gender_user[0].toUpperCase()}${this.props.App.gender_user
+                      .substr(1)
+                      .toLowerCase()}`
+                  : 'Male'}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
@@ -325,7 +335,12 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                     fontFamily: 'Allrounder-Grotesk-Regular',
                     fontSize: 17.5,
                   }}>
-                  {this.props.App.phone_user}
+                  {this.props.App.phone_user !== false &&
+                  this.props.App.phone_user !== null &&
+                  this.props.App.phone_user !== undefined &&
+                  this.props.App.phone_user[0] !== undefined
+                    ? this.props.App.phone_user
+                    : 'Enter a phone number'}
                 </Text>
               </View>
               <IconMaterialIcons
@@ -364,7 +379,12 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontSize: 17.5,
                   flex: 1,
                 }}>
-                {this.props.App.user_email}
+                {this.props.App.user_email !== false &&
+                this.props.App.user_email !== null &&
+                this.props.App.user_email !== undefined &&
+                this.props.App.user_email[0] !== undefined
+                  ? this.props.App.user_email
+                  : 'Enter your email'}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"

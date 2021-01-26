@@ -364,6 +364,7 @@ function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
       initialRouteName="Home_drawer"
+      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen

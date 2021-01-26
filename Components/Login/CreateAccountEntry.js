@@ -56,15 +56,11 @@ class CreateAccountEntry extends React.PureComponent {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', (error) => {});
     this.props.App.socket.on('disconnect', () => {
-      //console.log('something');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
@@ -74,18 +70,13 @@ class CreateAccountEntry extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      console.log('connect_timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
+    this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect_failed');
       globalObject.props.App.socket.connect();
     });
 

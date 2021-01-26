@@ -348,7 +348,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
           action.payload.isSelectDatePickerActive;
       }
       //..
-      //console.log(newState);
       return {...state, ...newState};
 
     case 'UPDATE_CUSTOM_FARE_STATE':

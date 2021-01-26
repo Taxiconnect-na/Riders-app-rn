@@ -338,6 +338,13 @@ class Home extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
+    //Add home going back handler-----------------------------
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      return;
+    });
+    //--------------------------------------------------------
     //Initiate component by asking for the necessary permissions.
     await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -383,7 +390,6 @@ class Home extends React.PureComponent {
           globalObject.props.App.generalErrorModalType,
         ) !== true
       ) {
-        console.log('connection restored');
         //Do not interrupt the select gender process
         globalObject.props.UpdateErrorModalLog(false, false, 'any');
       }
@@ -445,7 +451,6 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
-      console.log(response);
       if (
         response !== null &&
         response !== undefined &&
@@ -1203,7 +1208,6 @@ class Home extends React.PureComponent {
         },
         (error) => {
           //...
-          console.log(error);
         },
         {
           enableHighAccuracy: true,
@@ -1470,7 +1474,6 @@ class Home extends React.PureComponent {
         longitude: this.props.App.longitude,
         user_fingerprint: this.props.App.user_fingerprint,
       };
-      console.log(bundle);
       this.props.App.socket.emit('update-passenger-location', bundle);
     }
   }
@@ -2511,7 +2514,6 @@ class Home extends React.PureComponent {
    * Very important router for rendering the corrects modules
    */
   renderAppropriateModules() {
-    let globalObject = this;
     return (
       <>
         <View style={styles.mainMainWindow}>

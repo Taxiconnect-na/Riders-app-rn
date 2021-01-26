@@ -6,12 +6,8 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Image,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
-import {TextInput} from 'react-native-gesture-handler';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 class PayDriverConfirmation extends React.PureComponent {
@@ -140,7 +136,6 @@ class PayDriverConfirmation extends React.PureComponent {
                 style={[
                   {
                     fontFamily: 'Allrounder-Grotesk-Book',
-                    color: '#0e8491',
                     fontSize: 14,
                     lineHeight: 19,
                     color: '#a5a5a5',

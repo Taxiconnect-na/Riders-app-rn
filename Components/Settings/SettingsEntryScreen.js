@@ -57,7 +57,6 @@ class SettingsEntryScreen extends React.Component {
           response.response !== undefined &&
           response.response !== null
         ) {
-          console.log(response);
           if (/success/i.test(response.response)) {
             globalObject.props.UpdateErrorModalLog(false, false, 'any');
             //Update the local storages
@@ -257,9 +256,7 @@ class SettingsEntryScreen extends React.Component {
                           `data:${image.mime};base64,${image.data}`,
                         );
                       },
-                      (error) => {
-                        console.log(error);
-                      },
+                      (error) => {},
                     )
                   : {}
               }

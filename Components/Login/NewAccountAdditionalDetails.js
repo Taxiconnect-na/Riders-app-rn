@@ -13,7 +13,6 @@ import {
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
-import DropDownPicker from 'react-native-dropdown-picker';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
@@ -45,6 +44,13 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    //Add home going back handler-----------------------------
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      return;
+    });
+    //--------------------------------------------------------
     //Reset phone number
     this.props.ResetGenericPhoneNumberInput();
     //Network state checker
@@ -70,15 +76,11 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       }
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {
-      //console.log('something');
-    });
+    this.props.App.socket.on('error', (error) => {});
     this.props.App.socket.on('disconnect', () => {
-      //console.log('something');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
       //Ask for the OTP again
       if (
         !/gender_select/i.test(globalObject.props.App.generalErrorModalType)
@@ -93,18 +95,13 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      console.log('connect_timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
+    this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect_failed');
       globalObject.props.App.socket.connect();
     });
 
@@ -120,13 +117,23 @@ class NewAccountAdditionalDetails extends React.PureComponent {
           if (!/error/i.test(response.response)) {
             //Success
             //Update the general state infos and move forward
-            globalObject.props.App.username = response.name;
+            //! Save the user_fp and the rest of the globals
+            globalObject.props.App.user_fingerprint = response.user_fp;
             globalObject.props.App.gender_user = response.gender;
+            globalObject.props.App.username = response.name;
+            globalObject.props.App.surname_user = response.surname;
             globalObject.props.App.user_email = response.email;
-            //Update storage
-            SyncStorage.set('@username', response.name);
+            globalObject.props.App.phone_user = response.phone_number;
+            globalObject.props.App.user_profile_pic = response.profile_picture;
+            globalObject.props.App.pushnotif_token = response.pushnotif_token;
+            //! Save to storage as well.
+            SyncStorage.set('@user_fp', response.user_fp);
             SyncStorage.set('@gender_user', response.gender);
+            SyncStorage.set('@username', response.name);
+            SyncStorage.set('@surname_user', response.surname);
             SyncStorage.set('@user_email', response.email);
+            SyncStorage.set('@phone_user', response.phone_number);
+            SyncStorage.set('@user_profile_pic', response.profile_picture);
             //Move to home
             globalObject.props.navigation.navigate('Home');
           } //Error updating the addition details - show error, but can proceed
