@@ -23,6 +23,7 @@ import DetailsRidesGenericScreen from '../Components/Rides/DetailsRidesGenericSc
 import SettingsEntryScreen from '../Components/Settings/SettingsEntryScreen';
 import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryScreen';
 import OTPVerificationGeneric from '../Components/Settings/OTPVerificationGeneric';
+import SupportEntry from '../Components/Support/SupportEntry';
 import {MainDrawerContent} from './MainDrawerContent';
 
 const Stack = createStackNavigator();
@@ -297,6 +298,38 @@ function Wallet_drawer() {
   );
 }
 
+//c. Support
+function Support_drawer() {
+  return (
+    <Stack.Navigator
+      initialRouteName="SupportEntry"
+      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
+      <Stack.Screen
+        name="SupportEntry"
+        component={SupportEntry}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontSize: 20,
+                  right: 20,
+                  color: '#fff',
+                }}>
+                Support
+              </Text>
+            </View>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function SettingsDrawer_navigator() {
   return (
     <Stack.Navigator
@@ -377,6 +410,7 @@ function MainDrawer_navigator() {
         name="SettingsEntryScreen"
         component={SettingsDrawer_navigator}
       />
+      <Drawer.Screen name="Support_drawer" component={Support_drawer} />
     </Drawer.Navigator>
   );
 }

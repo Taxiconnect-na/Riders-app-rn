@@ -46,6 +46,7 @@ export function MainDrawerContent(props) {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => props.navigation.navigate('Support_drawer')}
           style={[styles.menuItem, {paddingTop: 10, borderBottomWidth: 0}]}>
           <Text style={styles.menuTitles}>Support</Text>
           <IconMaterialIcons

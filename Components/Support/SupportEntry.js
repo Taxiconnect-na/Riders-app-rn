@@ -39,11 +39,27 @@ class SupportEntry extends React.PureComponent {
     return (
       <ScrollView style={styles.mainContainer}>
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <View style={{width: 100, height: 100}}>
-            <Image
-              source={require('../../Media_assets/Images/supportIcon.png')}
-              style={{width: 90, height: 90, resizeMode: 'cover'}}
-            />
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '100%',
+              alignItems: 'center',
+              marginBottom: '5%',
+            }}>
+            <View style={{width: 32, height: 32}}>
+              <Image
+                source={require('../../Media_assets/Images/supportIcon.png')}
+                style={{width: '100%', height: '100%', resizeMode: 'cover'}}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: 'Allrounder-Grotesk-Regular',
+                marginLeft: 5,
+              }}>
+              We're available 24/7h for you.
+            </Text>
           </View>
           <View
             style={{
@@ -51,35 +67,68 @@ class SupportEntry extends React.PureComponent {
               justifyContent: 'center',
               marginTop: 20,
             }}>
-            <Text style={{textAlign: 'center', fontSize: 16}}>
+            <Text
+              style={{
+                textAlign: 'left',
+                fontSize: 17,
+                lineHeight: 23,
+                fontFamily: 'Allrounder-Grotesk-Book',
+              }}>
               If you <Text style={{fontWeight: 'bold'}}>left</Text> your
               belongings in the taxi or you need{' '}
               <Text style={{fontWeight: 'bold'}}>assistance</Text> on using the{' '}
               <Text style={{fontWeight: 'bold'}}>TaxiConnect platform</Text>.
             </Text>
-            <Text style={{textAlign: 'center', fontSize: 16, marginBottom: 20}}>
+            <Text
+              style={{
+                textAlign: 'left',
+                marginBottom: 20,
+                fontSize: 17,
+                lineHeight: 23,
+                fontFamily: 'Allrounder-Grotesk-Book',
+              }}>
               If there is an <Text style={{fontWeight: 'bold'}}>emergency</Text>{' '}
               and you need to contact the{' '}
               <Text style={{fontWeight: 'bold'}}>police</Text>.
             </Text>
-
-            <TouchableOpacity
-              style={[styles.buttonBasic, {marginBottom: 10}]}
-              onPress={() => call({number: '+264814400089', prompt: true})}>
-              <IconCommunity name="phone" color={'#fff'} />
-              <Text style={{fontSize: 17, fontWeight: 'bold', color: '#fff'}}>
-                Call TaxiConnect
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonBasic}
-              onPress={() => call({number: '061302302', prompt: true})}>
-              <IconCommunity name="shield" color={'#fff'} />
-              <Text style={{fontSize: 17, fontWeight: 'bold', color: '#fff'}}>
-                Call City Police
-              </Text>
-            </TouchableOpacity>
           </View>
+          {/**Buttons */}
+          <TouchableOpacity
+            style={[styles.bttnGenericTc, {marginBottom: 20, marginTop: '10%'}]}
+            onPress={() => call({number: '+264814400089', prompt: true})}>
+            <IconCommunity
+              name="phone"
+              color={'#fff'}
+              size={25}
+              style={{marginRight: 5}}
+            />
+            <Text
+              style={{
+                fontSize: 22,
+                color: '#fff',
+                fontFamily: 'Allrounder-Grotesk-Medium',
+              }}>
+              Call TaxiConnect
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.bttnGenericTc}
+            onPress={() => call({number: '061302302', prompt: true})}>
+            <IconCommunity
+              name="shield"
+              color={'#fff'}
+              size={25}
+              style={{marginRight: 5}}
+            />
+            <Text
+              style={{
+                fontSize: 22,
+                color: '#fff',
+                fontFamily: 'Allrounder-Grotesk-Medium',
+              }}>
+              Call City Police
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
@@ -88,66 +137,29 @@ class SupportEntry extends React.PureComponent {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    padding: 30,
+    padding: 20,
     backgroundColor: '#fff',
-    paddingBottom: 200,
     flex: 1,
   },
-  introContainer: {
-    borderWidth: 1,
-    borderColor: '#0e8491',
-    padding: 15,
-    backgroundColor: '#0e8491',
+  bttnGenericTc: {
+    borderColor: 'red',
+    padding: 12,
+    height: 60,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: '#000',
     borderRadius: 5,
-  },
-  nodeLogRides: {
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#f0f0f0',
-    height: 65,
-    padding: 10,
-    marginBottom: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  contentContainer: {
-    backgroundColor: 'white',
-    padding: 22,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 4,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
-    minHeight: 100,
-    flexDirection: 'row',
-  },
-  basicInput: {
-    borderWidth: 1,
-    borderColor: '#d0d0d0',
-    padding: 10,
-    borderRadius: 4,
-    backgroundColor: '#fafafa',
-    marginBottom: 10,
-    marginTop: 7,
-    height: 50,
-    width: 250,
-    fontWeight: 'bold',
-    fontSize: 16,
-    letterSpacing: 4,
-  },
-  buttonBasic: {
-    borderWidth: 1,
-    borderColor: '#0e8491',
-    backgroundColor: '#0e8491',
-    padding: 14,
-    borderRadius: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-    width: 250,
-    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 5.84,
+
+    elevation: 3,
   },
 });
 
