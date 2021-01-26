@@ -11,6 +11,7 @@ import {
   Image,
   ActivityIndicator,
   Linking,
+  BackHandler,
 } from 'react-native';
 import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -25,6 +26,9 @@ class SettingsEntryScreen extends React.Component {
   constructor(props) {
     super(props);
 
+    //Handlers
+    this.backHander = null;
+
     this.state = {
       showNotifiyer: false, //Whether to show to status notifiyer or not.
       notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
@@ -32,6 +36,12 @@ class SettingsEntryScreen extends React.Component {
       isChangingProfile_pic: false, //To know whether or not the profile pic is being changed to show up the loader.
       favoritePlace_label: 'home', //The place label to guid the simplified search.
     };
+  }
+
+  componentWillUnmount() {
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   componentDidMount() {
@@ -44,6 +54,14 @@ class SettingsEntryScreen extends React.Component {
       return;
     });
     //--------------------------------------------------------
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('Home_drawer');
+        return true;
+      },
+    );
+
     /**
      * SOCKET.IO RESPONSES
      */

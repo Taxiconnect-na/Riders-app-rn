@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   SafeAreaView,
   StatusBar,
+  BackHandler,
 } from 'react-native';
 import {CreditCardInput} from '../Modules/react-native-credit-card-input';
 import {systemWeights} from 'react-native-typography';
@@ -27,8 +28,9 @@ const windowWidth = Dimensions.get('window').width;
 class TopUpWalletScreen extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.userFp =
-      '7c57cb6c9471fd33fd265d5441f253eced2a6307c0207dea57c987035b496e6e8dfa7105b86915da';
+
+    //Handlers
+    this.backHander = null;
 
     this.eventNetworkSwitch = null; //Will hold the netork's event listener.
 
@@ -55,6 +57,13 @@ class TopUpWalletScreen extends React.PureComponent {
 
   componentDidMount() {
     var globalObject = this;
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.goBack();
+        return true;
+      },
+    );
     //Check the network state
     //..Add listener
     NetInfo.fetch().then((state) => {
@@ -147,6 +156,9 @@ class TopUpWalletScreen extends React.PureComponent {
   componentWillUnmount() {
     //Kill network's event listener
     this.eventNetworkSwitch();
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   /**

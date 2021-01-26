@@ -9,6 +9,7 @@ import {
   Image,
   StatusBar,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import {
   UpdateErrorModalLog,
@@ -26,6 +27,9 @@ class DetailsRidesGenericScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    //Handlers
+    this.backHander = null;
+
     this.state = {
       loaderState: false,
       fetchingRides_Data: false, //To know whether the loading process is on
@@ -38,6 +42,15 @@ class DetailsRidesGenericScreen extends React.PureComponent {
   }
 
   componentDidMount() {
+    let globalObject = this;
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.goBack();
+        return true;
+      },
+    );
+
     //Go back the "your rides" if no targeted variables found
     if (
       this.props.App.rides_history_details_data.targetedRequestSelected
@@ -45,7 +58,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     ) {
       this.props.navigation.navigate('YourRidesEntry');
     }
-    let globalObject = this;
 
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
@@ -164,6 +176,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
+    }
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
     }
   }
 

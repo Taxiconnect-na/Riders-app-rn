@@ -8,11 +8,9 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Image,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 

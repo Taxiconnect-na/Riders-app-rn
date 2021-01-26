@@ -8,6 +8,7 @@ import {
   FlatList,
   RefreshControl,
   StatusBar,
+  BackHandler,
 } from 'react-native';
 import {
   UpdateErrorModalLog,
@@ -27,6 +28,9 @@ import IconFeather from 'react-native-vector-icons/Feather';
 class YourRidesEntry extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
 
     this.state = {
       loaderState: false,
@@ -50,6 +54,21 @@ class YourRidesEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    //Add home going back handler-----------------------------
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      globalObject.props.navigation.navigate('Home_drawer');
+      return;
+    });
+    //--------------------------------------------------------
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('Home_drawer');
+        return true;
+      },
+    );
     //Get initial rides - set default: past (always)
     this.updateYourRidesSHownOnes('Past');
 
@@ -174,10 +193,13 @@ class YourRidesEntry extends React.PureComponent {
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
     }
-
     //Remove navigation event listener
     if (this._navigatorEvent !== false && this._navigatorEvent !== undefined) {
       this._navigatorEvent();
+    }
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
     }
   }
 

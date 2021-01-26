@@ -48,6 +48,7 @@ const App = ({valueM, parentNode, editable}) => {
         onChange={(event) =>
           parentNode.setState({
             otpValue: event.nativeEvent.text,
+            showErrorUnmatchedOTP: false, //? Disbale any error messages
           })
         }
         autoFocus
@@ -240,11 +241,13 @@ class OTPVerificationEntry extends React.PureComponent {
      * CHECK OTP
      */
     this.props.App.socket.on('checkThisOTP_SMS-response', function (response) {
+      console.log(response);
       globalObject.setState({loaderState: false}); //Disable the loader
+      //! Reset otp value - to avoid loop hell
+      globalObject.setState({otpValue: ''});
+      //----
       if (response.response !== undefined) {
         if (response.response === true) {
-          //Reset otp value
-          globalObject.setState({otpValue: ''});
           //true
           //Correct
           //Check the net navigation
@@ -445,6 +448,7 @@ class OTPVerificationEntry extends React.PureComponent {
       this.state.otpValue.trim().length >= 5 &&
       this.state.didCheckOTP === false
     ) {
+      console.log('AUTOCHECK', 'color:red');
       //Autocheck
       this.moveForwardCheck();
     }

@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +17,27 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 class EnterTopupAmountScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
+  }
+
+  componentWillUnmount() {
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
+  }
+
+  componentDidMount() {
+    let globalObject = this;
+
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.goBack();
+        return true;
+      },
+    );
   }
 
   render() {

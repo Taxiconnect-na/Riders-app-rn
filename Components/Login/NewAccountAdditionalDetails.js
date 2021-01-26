@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Keyboard,
   TextInput,
+  BackHandler,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -29,6 +30,9 @@ import SyncStorage from 'sync-storage';
 class NewAccountAdditionalDetails extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
 
     this.state = {
       gender: 'male',
@@ -51,6 +55,14 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       return;
     });
     //--------------------------------------------------------
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('EntryScreen');
+        return true;
+      },
+    );
+
     //Reset phone number
     this.props.ResetGenericPhoneNumberInput();
     //Network state checker
@@ -171,6 +183,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
     }
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   /**
@@ -256,7 +272,8 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             parentNode={this}
           />
           <View style={styles.presentationWindow}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('EntryScreen')}>
               <IconAnt name="arrowleft" size={29} />
             </TouchableOpacity>
             <Text

@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Keyboard,
   PermissionsAndroid,
+  BackHandler,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -70,6 +71,10 @@ const App = ({valueM, parentNode, editable}) => {
 class OTPVerificationGeneric extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
+
     this.state = {
       loaderState: true,
       otpValue: '',
@@ -97,6 +102,15 @@ class OTPVerificationGeneric extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
+
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('PersonalinfosEntryScreen');
+        return true;
+      },
+    );
+
     RNOtpVerify.getHash().then((result) => {
       try {
         globalObject.state.smsHashLinker = result[0];
@@ -224,6 +238,10 @@ class OTPVerificationGeneric extends React.PureComponent {
     }
     //Remove the auto otp seeker
     RNOtpVerify.removeListener();
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   /**

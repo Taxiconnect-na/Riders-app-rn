@@ -15,6 +15,7 @@ import {
   StatusBar,
   InteractionManager,
   TouchableHighlightBase,
+  BackHandler,
 } from 'react-native';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
@@ -61,6 +62,9 @@ const PADDING_LIMIT = 150;
 class Home extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
 
     this.state = {
       networkStateChecker: false,
@@ -345,6 +349,26 @@ class Home extends React.PureComponent {
       return;
     });
     //--------------------------------------------------------
+    //? Go back based on the state of the screen.
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        if (
+          /mainView/i.test(globalObject.props.App.bottomVitalsFlow.currentStep)
+        ) {
+          //Main view
+          //Close the app or something.
+        } //Go back to previous flow
+        else {
+          globalObject.props.parentNode.rerouteBookingProcessFlow(
+            'previous',
+            globalObject.props.App.bottomVitalsFlow.flowParent,
+          );
+        }
+        return true;
+      },
+    );
+
     //Initiate component by asking for the necessary permissions.
     await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -981,6 +1005,10 @@ class Home extends React.PureComponent {
     if (this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null) {
       clearInterval(this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS);
       this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+    }
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
     }
     //Clear the location watcher
     GeolocationP.clearWatch(this.props.App._MAIN_LOCATION_WATCHER);

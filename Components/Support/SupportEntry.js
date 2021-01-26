@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   BackHandler,
-  Linking,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
@@ -15,16 +14,26 @@ import call from 'react-native-phone-call';
 class SupportEntry extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
   }
 
-  handleBackButton = () => {
-    this.props.navigation.navigate('Home_drawer');
-    return true;
-  };
+  componentWillUnmount() {
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
+  }
 
   componentDidMount() {
     let globalObject = this;
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('Home_drawer');
+        return true;
+      },
+    );
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
@@ -58,7 +67,7 @@ class SupportEntry extends React.PureComponent {
                 fontFamily: 'Allrounder-Grotesk-Regular',
                 marginLeft: 5,
               }}>
-              We're available 24/7h for you.
+              We're here for you.
             </Text>
           </View>
           <View

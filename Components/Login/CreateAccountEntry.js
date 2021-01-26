@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  BackHandler,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {
   ResetGenericPhoneNumberInput,
@@ -24,6 +24,9 @@ class CreateAccountEntry extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    //Handlers
+    this.backHander = null;
+
     this.state = {
       networkStateChecker: false,
       loaderState: false,
@@ -34,10 +37,25 @@ class CreateAccountEntry extends React.PureComponent {
   componentWillUnmount() {
     //Reset phone number
     this.props.ResetGenericPhoneNumberInput();
+    if (this.state.networkStateChecker !== false) {
+      this.state.networkStateChecker();
+    }
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   componentDidMount() {
     let globalObject = this;
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('PhoneDetailsScreen');
+        return true;
+      },
+    );
+
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {
@@ -174,7 +192,7 @@ class CreateAccountEntry extends React.PureComponent {
    */
   gobackFromAdditionalDetails() {
     this.props.App.user_fingerprint = null; //Nullify user fingerprint
-    this.props.navigation.navigate('EntryScreen');
+    this.props.navigation.navigate('PhoneDetailsScreen');
   }
 
   render() {
@@ -219,7 +237,7 @@ class CreateAccountEntry extends React.PureComponent {
             style={[
               {
                 flex: 1,
-                fontFamily: 'Allrounder-Grotesk-Regular',
+                fontFamily: 'Allrounder-Grotesk-Medium',
                 color: '#000',
                 fontSize: 21,
                 marginTop: '10%',

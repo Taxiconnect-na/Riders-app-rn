@@ -9,6 +9,7 @@ import {
   Image,
   SectionList,
   StatusBar,
+  BackHandler,
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
@@ -19,6 +20,15 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 class WalletEntry extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    //Handlers
+    this.backHander = null;
+  }
+
+  componentWillUnmount() {
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   componentDidMount() {
@@ -32,6 +42,13 @@ class WalletEntry extends React.PureComponent {
       return;
     });
     //--------------------------------------------------------
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.navigate('Home_drawer');
+        return true;
+      },
+    );
   }
 
   render() {

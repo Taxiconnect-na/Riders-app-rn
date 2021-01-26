@@ -145,14 +145,14 @@ class EntryScreen extends React.PureComponent {
               <Text
                 style={[
                   systemWeights.regular,
-                  {fontFamily: 'Allrounder-Grotesk-Book', fontSize: 19},
+                  {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 19},
                 ]}>
                 What's your phone number?
               </Text>
             </View>
             <IconMaterialIcons
               name="arrow-forward-ios"
-              size={20}
+              size={18}
               color="#0e8491"
             />
           </View>

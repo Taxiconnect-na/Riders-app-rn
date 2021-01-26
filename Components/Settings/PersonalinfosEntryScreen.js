@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 import {
   ResetGenericPhoneNumberInput,
@@ -23,6 +24,9 @@ class PersonalinfosEntryScreen extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    //Handlers
+    this.backHander = null;
+
     this.state = {
       showNotifiyer: false, //Whether to show to status notifiyer or not.
       notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
@@ -31,8 +35,22 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     };
   }
 
+  componentWillUnmount() {
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
+  }
+
   componentDidMount() {
     let globalObject = this;
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.goBack();
+        return true;
+      },
+    );
+
     /**
      * SOCKET.IO RESPONSES
      */
