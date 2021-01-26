@@ -723,6 +723,7 @@ class Search extends React.PureComponent {
           globalObj.props.showSimplified
         ) {
           //Simplifed mode
+          globalObj.props.App.search_passenger1DestinationInput = ''; //Clear the field 1 input
           globalObj.props.UpdateErrorModalLog(false, false, 'any');
         }
       });
@@ -893,6 +894,11 @@ class Search extends React.PureComponent {
    * and if they are going to the same place (1 input) or not (X inputs)
    */
   renderDestinationStaged_inputs() {
+    //! Limit staged input to 1 for the simplified mode
+    if (this.props.showSimplified !== undefined && this.props.showSimplified) {
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.numberOfPassengersSelected = 1;
+    }
+    //! ------
     if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
         .isAllgoingToTheSamePlace
