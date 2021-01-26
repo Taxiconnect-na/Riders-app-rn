@@ -97,6 +97,98 @@ class SettingsEntryScreen extends React.Component {
   }
 
   /**
+   * @func renderClean_favoritePlaces
+   * Responsible to render cleanly the favorite places to void any dirty update glitches.
+   */
+  renderClean_favoritePlaces() {
+    let j = this.props.App.user_favorites_destinations.map((place, index) => {
+      return (
+        <TouchableOpacity
+          key={index}
+          onPress={() => {
+            //Update the favorite place label
+            this.state.favoritePlace_label = place.name;
+            this.props.App.search_showSearchNodeMain = true;
+            this.props.UpdateErrorModalLog(
+              true,
+              'show_simplified_searchLocations',
+              'any',
+            );
+          }}
+          style={[styles.locationRender]}>
+          <View>
+            {place.name !== 'Gym' ? (
+              <IconFeather
+                name={place.icon}
+                size={20}
+                style={{paddingRight: 15}}
+                color="#0e8491"
+              />
+            ) : (
+              <IconCommunity
+                name={place.icon}
+                size={21}
+                style={{paddingRight: 15}}
+                color="#0e8491"
+              />
+            )}
+          </View>
+          <View>
+            <Text
+              style={[
+                {
+                  fontSize: 17,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                },
+              ]}>
+              {place.name}
+            </Text>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              {place.location_infos !== false ? (
+                <>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 15.5,
+                        fontFamily: 'Allrounder-Grotesk-Book',
+                      },
+                    ]}>
+                    {place.location_infos.location_name !== false
+                      ? place.location_infos.location_name.length > 35
+                        ? place.location_infos.location_name.substring(0, 35) +
+                          '...'
+                        : place.location_infos.location_name
+                      : place.location_infos.street === undefined
+                      ? ''
+                      : place.location_infos.street === false
+                      ? ''
+                      : place.location_infos.street.length > 20
+                      ? place.location_infos.street.substring(0, 20) + '. '
+                      : place.location_infos.street + '  '}
+                  </Text>
+                </>
+              ) : (
+                <Text
+                  style={[
+                    styles.detailsSearchRes,
+                    {fontFamily: 'Allrounder-Grotesk-Book'},
+                  ]}>
+                  Add a location.
+                </Text>
+              )}
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    });
+    if (this.props.App.generalErrorModal_vars.showErrorGeneralModal) {
+      return null;
+    } else {
+      return j;
+    }
+  }
+
+  /**
    * @func updateRiders_profilePic
    * Responsible to handle all the proccesses linked to changing the rider's profile picture.
    * And handle to notifyer button.
@@ -306,89 +398,7 @@ class SettingsEntryScreen extends React.Component {
                 Favorite places
               </Text>
             </View>
-            {this.props.App.user_favorites_destinations.map((place, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => {
-                    //Update the favorite place label
-                    this.state.favoritePlace_label = place.name;
-                    this.props.App.search_showSearchNodeMain = true;
-                    this.props.UpdateErrorModalLog(
-                      true,
-                      'show_simplified_searchLocations',
-                      'any',
-                    );
-                  }}
-                  style={[styles.locationRender]}>
-                  <View>
-                    {place.name !== 'Gym' ? (
-                      <IconFeather
-                        name={place.icon}
-                        size={20}
-                        style={{paddingRight: 15}}
-                        color="#0e8491"
-                      />
-                    ) : (
-                      <IconCommunity
-                        name={place.icon}
-                        size={21}
-                        style={{paddingRight: 15}}
-                        color="#0e8491"
-                      />
-                    )}
-                  </View>
-                  <View>
-                    <Text
-                      style={[
-                        {
-                          fontSize: 17,
-                          fontFamily: 'Allrounder-Grotesk-Medium',
-                        },
-                      ]}>
-                      {place.name}
-                    </Text>
-                    <View style={{flexDirection: 'row', marginTop: 5}}>
-                      {place.location_infos !== false ? (
-                        <>
-                          <Text
-                            style={[
-                              {
-                                fontSize: 15.5,
-                                fontFamily: 'Allrounder-Grotesk-Book',
-                              },
-                            ]}>
-                            {place.location_infos.location_name !== false
-                              ? place.location_infos.location_name.length > 35
-                                ? place.location_infos.location_name.substring(
-                                    0,
-                                    35,
-                                  ) + '...'
-                                : place.location_infos.location_name
-                              : place.location_infos.street === undefined
-                              ? ''
-                              : place.location_infos.street === false
-                              ? ''
-                              : place.location_infos.street.length > 20
-                              ? place.location_infos.street.substring(0, 20) +
-                                '. '
-                              : place.location_infos.street + '  '}
-                          </Text>
-                        </>
-                      ) : (
-                        <Text
-                          style={[
-                            styles.detailsSearchRes,
-                            {fontFamily: 'Allrounder-Grotesk-Book'},
-                          ]}>
-                          Add a location.
-                        </Text>
-                      )}
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+            {this.renderClean_favoritePlaces()}
           </View>
           {/**Privacy infos */}
           <View

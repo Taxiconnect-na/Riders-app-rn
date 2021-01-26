@@ -723,7 +723,6 @@ class Search extends React.PureComponent {
           globalObj.props.showSimplified
         ) {
           //Simplifed mode
-          globalObj.props.App.pendingVisualUpdateAfter_favoriteSet = true; //Happend a force change after this.
           globalObj.props.UpdateErrorModalLog(false, false, 'any');
         }
       });
