@@ -27,7 +27,9 @@ import {
   UpdateDestinationDetails,
   UpdateDestinationInputValues,
   UpdateCustomPickupDetails,
+  UpdateErrorModalLog,
 } from '../../../Redux/HomeActionsCreators';
+import SyncStorage from 'sync-storage';
 
 class Search extends React.PureComponent {
   constructor(props) {
@@ -271,10 +273,36 @@ class Search extends React.PureComponent {
         } //Going separate places deunify destination infos
         else {
           if (this.props.App.search_currentFocusedPassenger === 1) {
-            this.props.UpdateDestinationDetails({
-              passengerIndex: 1,
-              locationObject: locationObj,
-            });
+            if (
+              this.props.showSimplified !== undefined &&
+              this.props.showSimplified
+            ) {
+              //Simplified mode enabled
+              if (/home/i.test(this.props.favoritePlace_label)) {
+                //Home
+                this.props.App.user_favorites_destinations[0].location_infos = locationObj;
+              } else if (/gym/i.test(this.props.favoritePlace_label)) {
+                //Gym
+                this.props.App.user_favorites_destinations[2].location_infos = locationObj;
+              } else if (/work/i.test(this.props.favoritePlace_label)) {
+                //Work
+                this.props.App.user_favorites_destinations[1].location_infos = locationObj;
+              }
+              //SAVE the favorite places to the local storage
+              console.log(locationObj);
+              SyncStorage.set(
+                '@favorite_places',
+                this.props.App.user_favorites_destinations,
+              );
+              //CLOSE THE MODAL
+              this.dismissBackSearchNodeMain();
+            } //Normal mode
+            else {
+              this.props.UpdateDestinationDetails({
+                passengerIndex: 1,
+                locationObject: locationObj,
+              });
+            }
           } else if (this.props.App.search_currentFocusedPassenger === 2) {
             this.props.UpdateDestinationDetails({
               passengerIndex: 2,
@@ -583,9 +611,15 @@ class Search extends React.PureComponent {
           persistentScrollbar={true}
           keyboardShouldPersistTaps={'always'}>
           {this.props.App.search_metadataResponse.length === 0
-            ? this.renderFavoritePlaces()
+            ? this.props.showSimplified !== undefined &&
+              this.props.showSimplified
+              ? null
+              : this.renderFavoritePlaces()
             : this.props.App.search_querySearch.trim().length === 0
-            ? this.renderFavoritePlaces()
+            ? this.props.showSimplified !== undefined &&
+              this.props.showSimplified
+              ? null
+              : this.renderFavoritePlaces()
             : this.props.App.search_metadataResponse.map((item, index) => {
                 return (
                   <TouchableOpacity
@@ -654,7 +688,13 @@ class Search extends React.PureComponent {
     let globalObj = this;
     InteractionManager.runAfterInteractions(() => {
       //Close the search node backward (not moving forward showing the trip itinerary)
-      globalObj.props.UpdateProcessFlowState({flowDirection: 'previous'});
+      if (
+        globalObj.props.showSimplified === undefined ||
+        globalObj.props.showSimplified === false
+      ) {
+        //Normal mode
+        globalObj.props.UpdateProcessFlowState({flowDirection: 'previous'});
+      }
       Animated.parallel([
         Animated.timing(globalObj.props.App.search_headerSearchNodePosition, {
           toValue: -500,
@@ -677,6 +717,15 @@ class Search extends React.PureComponent {
           search_showSearchNodeMain: false,
           search_metadataResponse: [],
         });
+        //...Close modal on simplified mode
+        if (
+          globalObj.props.showSimplified !== undefined &&
+          globalObj.props.showSimplified
+        ) {
+          //Simplifed mode
+          globalObj.props.App.pendingVisualUpdateAfter_favoriteSet = true; //Happend a force change after this.
+          globalObj.props.UpdateErrorModalLog(false, false, 'any');
+        }
       });
     });
   }
@@ -744,54 +793,62 @@ class Search extends React.PureComponent {
             </TouchableOpacity>
             <View style={{flexDirection: 'row'}}>
               <View style={[styles.imageSearchNode]}>
-                <View style={styles.doBlackImageSearch} />
-                <View style={styles.lineMiddleImageSearch} />
+                {this.props.showSimplified !== undefined &&
+                this.props.showSimplified ? null : (
+                  <>
+                    <View style={styles.doBlackImageSearch} />
+                    <View style={styles.lineMiddleImageSearch} />
+                  </>
+                )}
                 <View style={styles.squareBlueImageSearch} />
               </View>
               <View style={[styles.inputSearchNode]}>
-                <TextInput
-                  style={[
-                    {
-                      fontSize: 16.5,
-                      borderWidth: 0.5,
-                      padding: 10,
-                      paddingTop: 5,
-                      paddingBottom: 7,
-                      borderRadius: 3,
-                      backgroundColor: '#fcfcfc',
-                      borderColor: '#e7e7e7',
-                      fontFamily: 'Allrounder-Grotesk-Regular',
-                    },
-                  ]}
-                  placeholder="Where are you?"
-                  selectTextOnFocus
-                  onChangeText={(text) => this._searchForThisQuery(text, 0)}
-                  value={
-                    this.props.App.search_pickupLocationInfos
-                      .isBeingPickedupFromCurrentLocation &&
-                    this.props.App.search_pickupLocationInfos
-                      .search_passenger0DestinationInput === false
-                      ? this.props.App.userCurrentLocationMetaData.street !==
-                        undefined
+                {this.props.showSimplified !== undefined &&
+                this.props.showSimplified ? null : (
+                  <TextInput
+                    style={[
+                      {
+                        fontSize: 16.5,
+                        borderWidth: 0.5,
+                        padding: 10,
+                        paddingTop: 5,
+                        paddingBottom: 7,
+                        borderRadius: 3,
+                        backgroundColor: '#fcfcfc',
+                        borderColor: '#e7e7e7',
+                        fontFamily: 'Allrounder-Grotesk-Regular',
+                      },
+                    ]}
+                    placeholder="Where are you?"
+                    selectTextOnFocus
+                    onChangeText={(text) => this._searchForThisQuery(text, 0)}
+                    value={
+                      this.props.App.search_pickupLocationInfos
+                        .isBeingPickedupFromCurrentLocation &&
+                      this.props.App.search_pickupLocationInfos
+                        .search_passenger0DestinationInput === false
                         ? this.props.App.userCurrentLocationMetaData.street !==
                           undefined
-                          ? this.props.App.userCurrentLocationMetaData.street
-                          : this.props.App.userCurrentLocationMetaData.name
-                        : 'Searching...'
-                      : this.props.App.search_pickupLocationInfos
-                          .search_passenger0DestinationInput === false
-                      ? ''
-                      : this.props.App.search_pickupLocationInfos
-                          .search_passenger0DestinationInput
-                  }
-                  clearButtonMode="always"
-                  onFocus={() =>
-                    this.props.UpdateSearchMetadataLoaderState({
-                      search_currentFocusedPassenger: 0,
-                    })
-                  }
-                  autoCorrect={false}
-                />
+                          ? this.props.App.userCurrentLocationMetaData
+                              .street !== undefined
+                            ? this.props.App.userCurrentLocationMetaData.street
+                            : this.props.App.userCurrentLocationMetaData.name
+                          : 'Searching...'
+                        : this.props.App.search_pickupLocationInfos
+                            .search_passenger0DestinationInput === false
+                        ? ''
+                        : this.props.App.search_pickupLocationInfos
+                            .search_passenger0DestinationInput
+                    }
+                    clearButtonMode="always"
+                    onFocus={() =>
+                      this.props.UpdateSearchMetadataLoaderState({
+                        search_currentFocusedPassenger: 0,
+                      })
+                    }
+                    autoCorrect={false}
+                  />
+                )}
 
                 {this.renderDestinationStaged_inputs()}
               </View>
@@ -872,7 +929,13 @@ class Search extends React.PureComponent {
           <TextInput
             autoFocus={true}
             style={[styles.mainSearchBar, {marginBottom: 15}]}
-            placeholder="Where are you going?"
+            placeholder={
+              this.props.showSimplified !== undefined &&
+              this.props.showSimplified &&
+              this.props.favoritePlace_label !== undefined
+                ? `Where's your ${this.props.favoritePlace_label}?`
+                : 'Where are you going?'
+            }
             onChangeText={(text) => this._searchForThisQuery(text, 1)}
             value={
               this.props.App.search_passenger1DestinationInput === false
@@ -1091,6 +1154,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateDestinationDetails,
       UpdateDestinationInputValues,
       UpdateCustomPickupDetails,
+      UpdateErrorModalLog,
     },
     dispatch,
   );

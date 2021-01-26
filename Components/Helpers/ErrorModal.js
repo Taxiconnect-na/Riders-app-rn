@@ -40,6 +40,7 @@ import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import EmailValidator from './EmailValidator';
 import SyncStorage from 'sync-storage';
+import Search from '../Modules/Search/Components/Search';
 
 class ErrorModal extends React.PureComponent {
   constructor(props) {
@@ -2992,6 +2993,19 @@ class ErrorModal extends React.PureComponent {
             </TouchableOpacity>
           </View>
         </View>
+      );
+    } else if (/show_simplified_searchLocations/i.test(error_status)) {
+      return (
+        <SafeAreaView
+          style={{
+            backgroundColor: '#fff',
+            flex: 1,
+          }}>
+          <Search
+            showSimplified={true}
+            favoritePlace_label={this.props.favoritePlace_label}
+          />
+        </SafeAreaView>
       );
     } else {
       return <></>;

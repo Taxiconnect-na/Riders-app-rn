@@ -29,6 +29,7 @@ class Notifiyer extends React.PureComponent {
             position: 'absolute',
             bottom: 0,
             left: 0,
+            zIndex: 9000000,
             width: '100%',
             padding: 20,
             alignItems: 'center',

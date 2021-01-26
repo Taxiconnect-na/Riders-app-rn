@@ -439,6 +439,7 @@ const STATE = {
       location_infos: false, //Contains infos like street name, coordinates, etc... related to the place
     },
   ],
+  pendingVisualUpdateAfter_favoriteSet: false, //To know it an interfacee update should be forced in order to reflect all the recent changes mad to the favorite destinations.
 
   //Add more details about trip/delivery MAIN VARS
   maxCharAdditionalNote: 70, //The maximum number of characters in the additional pickup note for rides or deliveries - default: 70 - static
@@ -482,6 +483,7 @@ const STATE = {
   surname_user: 'Surname', //The name of the user - default: false - surname
   phone_user: '+264856997167', //The user's phone number - default: false
   user_email: 'user@gmail.com', //The email of the user - default: false
+  user_profile_pic: null, //The user's profile picture
   last_dataPersoUpdated: null, //The last data updated - default: null
 
   //RIDES tab

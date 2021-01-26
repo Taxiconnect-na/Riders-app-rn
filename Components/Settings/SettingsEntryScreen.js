@@ -20,8 +20,9 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import ImagePicker from 'react-native-image-crop-picker';
 import ErrorModal from '../Helpers/ErrorModal';
 import Notifiyer from '../Helpers/Notifiyer';
+import SyncStorage from 'sync-storage';
 
-class SettingsEntryScreen extends React.PureComponent {
+class SettingsEntryScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,6 +31,7 @@ class SettingsEntryScreen extends React.PureComponent {
       notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
       statusColor: '#048320', //The status color - #048320:green, #b22222:red
       isChangingProfile_pic: false, //To know whether or not the profile pic is being changed to show up the loader.
+      favoritePlace_label: 'home', //The place label to guid the simplified search.
     };
   }
 
@@ -38,7 +40,60 @@ class SettingsEntryScreen extends React.PureComponent {
     /**
      * SOCKET.IO RESPONSES
      */
-    //1.
+    //1. HANDLE CHANGE PROFILE PICTURE response
+    SOCKET_CORE.on(
+      'updateRiders_profileInfos_io-response',
+      function (response) {
+        if (
+          response !== undefined &&
+          response !== null &&
+          response.response !== undefined &&
+          response.response !== null
+        ) {
+          if (/success/i.test(response.response)) {
+            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            //Update the local storages
+            SyncStorage.set('@user_profile_pic', response.picture_name);
+            globalObject.props.App.user_profile_pic = response.picture_name;
+            globalObject.forceUpdate();
+            //---------
+            globalObject.setState({
+              showNotifiyer: true,
+              notifiyerMessage: `Successully changed your picture`,
+              statusColor: '#048320',
+            });
+            let tmpTimeoutCloser = setTimeout(function () {
+              globalObject.setState({showNotifiyer: false});
+              clearTimeout(tmpTimeoutCloser);
+            }, 2000);
+          } //Error
+          else {
+            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            globalObject.setState({
+              showNotifiyer: true,
+              notifiyerMessage: `We couldn't change your picture`,
+              statusColor: '#b22222',
+            });
+            let tmpTimeoutCloser = setTimeout(function () {
+              globalObject.setState({showNotifiyer: false});
+              clearTimeout(tmpTimeoutCloser);
+            }, 2000);
+          }
+        } //SOmething so strange happened - error
+        else {
+          globalObject.props.UpdateErrorModalLog(false, false, 'any');
+          globalObject.setState({
+            showNotifiyer: true,
+            notifiyerMessage: `We couldn't change your picture`,
+            statusColor: '#b22222',
+          });
+          let tmpTimeoutCloser = setTimeout(function () {
+            globalObject.setState({showNotifiyer: false});
+            clearTimeout(tmpTimeoutCloser);
+          }, 2000);
+        }
+      },
+    );
   }
 
   /**
@@ -48,14 +103,11 @@ class SettingsEntryScreen extends React.PureComponent {
    * @param base64String: the image converted to baase64
    */
   updateRiders_profilePic(base64String) {
-    console.log(base64String);
     let bundleData = {
       user_fingerprint: this.props.App.user_fingerprint,
       dataToUpdate: base64String,
       infoToUpdate: 'picture',
     };
-    //Update the global last data updated - very useful when updating the visual data after a successful modification.
-    //this.props.App.last_dataPersoUpdated = dataToUpdate;
     //this.setState({isErrorThrown: false, isLoading_something: true});
     SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
   }
@@ -77,6 +129,7 @@ class SettingsEntryScreen extends React.PureComponent {
               this.props.App.generalErrorModal_vars.generalErrorModalType
             }
             parentNode={this}
+            favoritePlace_label={this.state.favoritePlace_label}
           />
         ) : null}
         <ScrollView style={styles.presentationWindow}>
@@ -115,6 +168,7 @@ class SettingsEntryScreen extends React.PureComponent {
                 height: 80,
                 width: 80,
                 borderRadius: 150,
+                backgroundColor: '#fff',
                 shadowColor: '#000',
                 shadowOffset: {
                   width: 0,
@@ -143,7 +197,15 @@ class SettingsEntryScreen extends React.PureComponent {
                 </View>
               ) : null}
               <Image
-                source={require('../../Media_assets/Images/woman.webp')}
+                source={
+                  this.props.App.user_profile_pic !== undefined &&
+                  this.props.App.user_profile_pic !== null
+                    ? {
+                        uri: this.props.App.user_profile_pic,
+                        cache: 'reload',
+                      }
+                    : require('../../Media_assets/Images/user.png')
+                }
                 style={{
                   resizeMode: 'cover',
                   width: '100%',
@@ -179,7 +241,7 @@ class SettingsEntryScreen extends React.PureComponent {
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 17,
+                  fontSize: 18,
                 }}>
                 Dominique Kanyik
               </Text>
@@ -248,7 +310,16 @@ class SettingsEntryScreen extends React.PureComponent {
               return (
                 <TouchableOpacity
                   key={index}
-                  onPress={() => {}}
+                  onPress={() => {
+                    //Update the favorite place label
+                    this.state.favoritePlace_label = place.name;
+                    this.props.App.search_showSearchNodeMain = true;
+                    this.props.UpdateErrorModalLog(
+                      true,
+                      'show_simplified_searchLocations',
+                      'any',
+                    );
+                  }}
                   style={[styles.locationRender]}>
                   <View>
                     {place.name !== 'Gym' ? (
@@ -268,26 +339,40 @@ class SettingsEntryScreen extends React.PureComponent {
                     )}
                   </View>
                   <View>
-                    <Text style={[{fontSize: 17}]}>{place.name}</Text>
+                    <Text
+                      style={[
+                        {
+                          fontSize: 17,
+                          fontFamily: 'Allrounder-Grotesk-Medium',
+                        },
+                      ]}>
+                      {place.name}
+                    </Text>
                     <View style={{flexDirection: 'row', marginTop: 5}}>
                       {place.location_infos !== false ? (
                         <>
                           <Text
                             style={[
-                              styles.detailsSearchRes,
-                              {fontFamily: 'Allrounder-Grotesk-Book'},
-                            ]}>
-                            Street
-                          </Text>
-                          <Text
-                            style={[
                               {
-                                color: '#707070',
-                                paddingLeft: 10,
+                                fontSize: 15.5,
                                 fontFamily: 'Allrounder-Grotesk-Book',
                               },
                             ]}>
-                            City
+                            {place.location_infos.location_name !== false
+                              ? place.location_infos.location_name.length > 35
+                                ? place.location_infos.location_name.substring(
+                                    0,
+                                    35,
+                                  ) + '...'
+                                : place.location_infos.location_name
+                              : place.location_infos.street === undefined
+                              ? ''
+                              : place.location_infos.street === false
+                              ? ''
+                              : place.location_infos.street.length > 20
+                              ? place.location_infos.street.substring(0, 20) +
+                                '. '
+                              : place.location_infos.street + '  '}
                           </Text>
                         </>
                       ) : (
