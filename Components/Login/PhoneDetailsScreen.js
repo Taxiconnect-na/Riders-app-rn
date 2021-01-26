@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
@@ -49,40 +48,40 @@ class PhoneDetailsScreen extends React.PureComponent {
     });
 
     //connection
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
         'service_unavailable',
         'any',
       );
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       console.log('reconnect_error');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
   }
 

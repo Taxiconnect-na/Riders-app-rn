@@ -2,7 +2,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../../../Helpers/managerNode';
 import {
   View,
   ScrollView,
@@ -28,6 +27,7 @@ import {
   UpdateDestinationInputValues,
   UpdateCustomPickupDetails,
   UpdateErrorModalLog,
+  ResetStateProps,
 } from '../../../Redux/HomeActionsCreators';
 import SyncStorage from 'sync-storage';
 
@@ -47,33 +47,33 @@ class Search extends React.PureComponent {
       globalObj.invoke_searchNode();
     });
 
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       //Auto cancel anything
       //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
       //console.log('something');
     });
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('getLocations-response', function (response) {
+    this.props.App.socket.on('getLocations-response', function (response) {
       InteractionManager.runAfterInteractions(() => {
         let timeReceived = new Date();
         if (globalObj.props.App.search_time_requested == null) {
@@ -170,7 +170,7 @@ class Search extends React.PureComponent {
         this.props.UpdateSearchMetadataLoaderState({
           search_showLocationSearch_loader: true,
         });
-        SOCKET_CORE.emit('getLocations', requestPackage);
+        this.props.App.socket.emit('getLocations', requestPackage);
       } //NO queries to process
       else {
         this.props.UpdateSearchMetadataLoaderState({
@@ -522,69 +522,87 @@ class Search extends React.PureComponent {
       );
     } //Common destination favorite places
     else {
+      let globalObject = this;
       return (
         <View>
           {this.props.App.user_favorites_destinations.map((place, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                onPress={() => this._onDestinationSelect(place.location_infos)}
-                style={styles.locationRender}>
-                <View>
-                  {place.name !== 'Gym' ? (
-                    <Icon
-                      name={place.icon}
-                      size={20}
-                      style={{paddingRight: 20}}
-                      color="#096ED4"
-                    />
-                  ) : (
-                    <IconMaterial
-                      name={place.icon}
-                      size={21}
-                      style={{paddingRight: 20}}
-                      color="#096ED4"
-                    />
-                  )}
-                </View>
-                <View>
-                  <Text style={[systemWeights.semibold, {fontSize: 16.5}]}>
-                    {place.name}
-                  </Text>
-                  <View style={{flexDirection: 'row', marginTop: 5}}>
-                    {place.location_infos !== false ? (
-                      <>
+            if (place.location_infos !== false) {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => {
+                    place.location_infos !== false
+                      ? this._onDestinationSelect(place.location_infos)
+                      : globalObject.props.parentNode.props.navigation.navigate(
+                          'SettingsEntryScreen',
+                        );
+                  }}
+                  style={styles.locationRender}>
+                  <View>
+                    {place.name !== 'Gym' ? (
+                      <Icon
+                        name={place.icon}
+                        size={20}
+                        style={{paddingRight: 20}}
+                        color="#096ED4"
+                      />
+                    ) : (
+                      <IconMaterial
+                        name={place.icon}
+                        size={21}
+                        style={{paddingRight: 20}}
+                        color="#096ED4"
+                      />
+                    )}
+                  </View>
+                  <View>
+                    <Text style={[systemWeights.semibold, {fontSize: 16.5}]}>
+                      {place.name}
+                    </Text>
+                    <View style={{flexDirection: 'row', marginTop: 5}}>
+                      {place.location_infos !== false ? (
+                        <>
+                          <Text
+                            style={[
+                              {
+                                fontSize: 14,
+                                fontFamily: 'Allrounder-Grotesk-Book',
+                              },
+                            ]}>
+                            {place.location_infos.location_name !== false
+                              ? place.location_infos.location_name.length > 35
+                                ? place.location_infos.location_name.substring(
+                                    0,
+                                    35,
+                                  ) + '...'
+                                : place.location_infos.location_name
+                              : place.location_infos.street === undefined
+                              ? ''
+                              : place.location_infos.street === false
+                              ? ''
+                              : place.location_infos.street.length > 20
+                              ? place.location_infos.street.substring(0, 20) +
+                                '. '
+                              : place.location_infos.street + '  '}
+                          </Text>
+                        </>
+                      ) : (
                         <Text
                           style={[
                             styles.detailsSearchRes,
                             {fontFamily: 'Allrounder-Grotesk-Book'},
                           ]}>
-                          Street
+                          Add a location.
                         </Text>
-                        <Text
-                          style={[
-                            {
-                              color: '#707070',
-                              paddingLeft: 10,
-                              fontFamily: 'Allrounder-Grotesk-Book',
-                            },
-                          ]}>
-                          City
-                        </Text>
-                      </>
-                    ) : (
-                      <Text
-                        style={[
-                          styles.detailsSearchRes,
-                          {fontFamily: 'Allrounder-Grotesk-Book'},
-                        ]}>
-                        Add a location.
-                      </Text>
-                    )}
+                      )}
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
+                </TouchableOpacity>
+              );
+            } //Skip the favorite
+            else {
+              return null;
+            }
           })}
         </View>
       );
@@ -724,6 +742,9 @@ class Search extends React.PureComponent {
         ) {
           //Simplifed mode
           globalObj.props.App.search_passenger1DestinationInput = ''; //Clear the field 1 input
+          //! RESET TRIP DATA
+          globalObj.props.ResetStateProps(true);
+          //...
           globalObj.props.UpdateErrorModalLog(false, false, 'any');
         }
       });
@@ -1160,6 +1181,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateDestinationInputValues,
       UpdateCustomPickupDetails,
       UpdateErrorModalLog,
+      ResetStateProps,
     },
     dispatch,
   );

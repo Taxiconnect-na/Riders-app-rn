@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -37,11 +36,19 @@ class SettingsEntryScreen extends React.Component {
 
   componentDidMount() {
     let globalObject = this;
+    //Add home going back handler-----------------------------
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      globalObject.props.navigation.navigate('Home_drawer');
+      return;
+    });
+    //--------------------------------------------------------
     /**
      * SOCKET.IO RESPONSES
      */
     //1. HANDLE CHANGE PROFILE PICTURE response
-    SOCKET_CORE.on(
+    this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
         if (
@@ -201,7 +208,7 @@ class SettingsEntryScreen extends React.Component {
       infoToUpdate: 'picture',
     };
     //this.setState({isErrorThrown: false, isLoading_something: true});
-    SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
+    this.props.App.socket.emit('updateRiders_profileInfos_io', bundleData);
   }
 
   render() {
@@ -261,6 +268,8 @@ class SettingsEntryScreen extends React.Component {
                 borderColor: '#f0f0f0',
                 height: 80,
                 width: 80,
+                alignItems: 'center',
+                justifyContent: 'center',
                 borderRadius: 150,
                 backgroundColor: '#fff',
                 shadowColor: '#000',
@@ -301,10 +310,26 @@ class SettingsEntryScreen extends React.Component {
                     : require('../../Media_assets/Images/user.png')
                 }
                 style={{
-                  resizeMode: 'cover',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 150,
+                  resizeMode:
+                    this.props.App.user_profile_pic !== undefined &&
+                    this.props.App.user_profile_pic !== null
+                      ? 'cover'
+                      : 'contain',
+                  width:
+                    this.props.App.user_profile_pic !== undefined &&
+                    this.props.App.user_profile_pic !== null
+                      ? '100%'
+                      : '70%',
+                  height:
+                    this.props.App.user_profile_pic !== undefined &&
+                    this.props.App.user_profile_pic !== null
+                      ? '100%'
+                      : '70%',
+                  borderRadius:
+                    this.props.App.user_profile_pic !== undefined &&
+                    this.props.App.user_profile_pic !== null
+                      ? 150
+                      : 0,
                 }}
               />
               <View

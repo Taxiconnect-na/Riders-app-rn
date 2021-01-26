@@ -34,6 +34,7 @@ class EntryScreen extends React.PureComponent {
     let surname = SyncStorage.get('@surname_user');
     let user_email = SyncStorage.get('@user_email');
     let phone = SyncStorage.get('@phone_user');
+    let user_profile_pic = SyncStorage.get('@user_profile_pic');
 
     //Update globals
     this.props.App.gender_user = gender_user;
@@ -41,6 +42,7 @@ class EntryScreen extends React.PureComponent {
     this.props.App.surname_user = surname;
     this.props.App.user_email = user_email;
     this.props.App.phone_user = phone;
+    this.props.App.user_profile_pic = user_profile_pic;
     this.props.App.user_fingerprint = user_fp;
     this.props.App.pushnotif_token = pushnotif_token;
     try {
@@ -65,7 +67,7 @@ class EntryScreen extends React.PureComponent {
       this.props.App.user_fingerprint !== false &&
       this.props.App.user_fingerprint.length > 40
     ) {
-      //this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('Home');
     }
   }
 

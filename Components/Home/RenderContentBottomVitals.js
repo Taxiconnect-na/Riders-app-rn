@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -89,7 +88,10 @@ class RenderContentBottomVitals extends React.PureComponent {
         .passenger1Destination.coordinates[0],
     };
     //..
-    SOCKET_CORE.emit('getRoute_to_destinationSnapshot', previewTripRouteData);
+    this.props.App.socket.emit(
+      'getRoute_to_destinationSnapshot',
+      previewTripRouteData,
+    );
   }
 
   /**
@@ -468,14 +470,14 @@ class RenderContentBottomVitals extends React.PureComponent {
       //Include the interval persister
       if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
         //Initial request of the location nature
-        SOCKET_CORE.emit('getPickupLocationNature', {
+        globalObject.props.App.socket.emit('getPickupLocationNature', {
           latitude: globalObject.props.App.latitude,
           longitude: globalObject.props.App.longitude,
           user_fingerprint: globalObject.props.App.user_fingerprint,
         });
         //...
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
-          SOCKET_CORE.emit('getPickupLocationNature', {
+          globalObject.props.App.socket.emit('getPickupLocationNature', {
             latitude: globalObject.props.App.latitude,
             longitude: globalObject.props.App.longitude,
             user_fingerprint: globalObject.props.App.user_fingerprint,

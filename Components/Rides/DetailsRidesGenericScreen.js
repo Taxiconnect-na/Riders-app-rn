@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -74,7 +73,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     });
 
     //connection
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       if (
         globalObject.props.App.generalErrorModal_vars.showErrorGeneralModal !==
         false
@@ -83,14 +82,14 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       }
     });
     //Socket error handling
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
@@ -98,28 +97,28 @@ class DetailsRidesGenericScreen extends React.PureComponent {
         'connection_no_network',
         'any',
       );
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       console.log('reconnect_error');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
-    SOCKET_CORE.on(
+    this.props.App.socket.on(
       'getRides_historyRiders_batchOrNot-response',
       function (response) {
         globalObject.setState({
@@ -240,7 +239,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       detailed_requestData: false,
     }); //Activate the loader
     //Get from the server
-    SOCKET_CORE.emit('getRides_historyRiders_batchOrNot', {
+    this.props.App.socket.emit('getRides_historyRiders_batchOrNot', {
       user_fingerprint: this.props.App.user_fingerprint,
       target: 'single',
       request_fp: this.props.App.rides_history_details_data

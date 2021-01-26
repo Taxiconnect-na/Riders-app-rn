@@ -363,7 +363,7 @@ function SettingsDrawer_navigator() {
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="SettingsEntryScreen"
+      initialRouteName="Home_drawer"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen
@@ -383,7 +383,7 @@ function MainDrawer_navigator() {
 function RootScreens() {
   return (
     <Stack.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={'EntryScreen'}
       screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="EntryScreen"

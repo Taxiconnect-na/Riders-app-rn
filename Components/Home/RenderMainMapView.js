@@ -578,47 +578,45 @@ class RenderMainMapView extends React.PureComponent {
       this.props.App._CLOSEST_DRIVERS_DATA.length > 0 &&
       this.props.App.intervalProgressLoop === false
     ) {
-      InteractionManager.runAfterInteractions(() => {
-        let tmp = this.props.App._CLOSEST_DRIVERS_DATA.map((driver, index) => {
-          //Compute the bearing
-          let carBearing = bearing(
-            point([
-              driver.driver_coordinates.longitude,
-              driver.driver_coordinates.latitude,
-            ]),
-            point([
-              driver.prev_driver_coordinates.longitude,
-              driver.prev_driver_coordinates.latitude,
-            ]),
-          );
-          //...
-          return (
-            <ShapeSource
-              key={index}
-              id={'currentLocationSource' + index}
-              shape={{
-                type: 'Point',
-                coordinates: [
-                  driver.driver_coordinates.longitude,
-                  driver.driver_coordinates.latitude,
-                ],
-              }}>
-              <Animated.SymbolLayer
-                id={'symbolCarLayer' + (index + 1)}
-                minZoomLevel={1}
-                layerIndex={5000}
-                style={{
-                  iconAllowOverlap: false,
-                  iconImage: globalObject.props.App.carIcon_black,
-                  iconSize: globalObject.props.App.carIconRelativeSize,
-                  iconRotate: carBearing,
-                }}
-              />
-            </ShapeSource>
-          );
-        });
-        return tmp;
+      let tmp = this.props.App._CLOSEST_DRIVERS_DATA.map((driver, index) => {
+        //Compute the bearing
+        let carBearing = bearing(
+          point([
+            driver.driver_coordinates.longitude,
+            driver.driver_coordinates.latitude,
+          ]),
+          point([
+            driver.prev_driver_coordinates.longitude,
+            driver.prev_driver_coordinates.latitude,
+          ]),
+        );
+        //...
+        return (
+          <ShapeSource
+            key={index}
+            id={'currentLocationSource' + index}
+            shape={{
+              type: 'Point',
+              coordinates: [
+                driver.driver_coordinates.longitude,
+                driver.driver_coordinates.latitude,
+              ],
+            }}>
+            <Animated.SymbolLayer
+              id={'symbolCarLayer' + (index + 1)}
+              minZoomLevel={1}
+              layerIndex={5000}
+              style={{
+                iconAllowOverlap: false,
+                iconImage: globalObject.props.App.carIcon_black,
+                iconSize: globalObject.props.App.carIconRelativeSize,
+                iconRotate: carBearing,
+              }}
+            />
+          </ShapeSource>
+        );
       });
+      return tmp;
     } else {
       return null;
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -38,7 +37,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
      * SOCKET.IO RESPONSES
      */
     //1. Handle change profile infos.
-    SOCKET_CORE.on(
+    this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
         if (

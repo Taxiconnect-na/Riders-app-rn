@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -70,7 +69,7 @@ class ErrorModal extends React.PureComponent {
      * SOCKET.IO RESPONSES
      */
     //1. Handle request dropoff request response
-    SOCKET_CORE.on(
+    this.props.App.socket.on(
       'confirmRiderDropoff_requests_io-response',
       function (response) {
         //Stop the loader and restore
@@ -103,23 +102,26 @@ class ErrorModal extends React.PureComponent {
     );
 
     //2 Handle cancel request response
-    SOCKET_CORE.on('cancelRiders_request_io-response', function (response) {
-      //Stop the loader and restore
-      globalObject.setState({isLoading_something: false});
-      if (
-        response !== false &&
-        response.response !== undefined &&
-        response.response !== null
-      ) {
-        //Reset all the trips
-        globalObject.props.ResetStateProps(globalObject.props.parentNode);
-        //Received a response
-        globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-      } //error - close modal
-      else {
-        globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-      }
-    });
+    this.props.App.socket.on(
+      'cancelRiders_request_io-response',
+      function (response) {
+        //Stop the loader and restore
+        globalObject.setState({isLoading_something: false});
+        if (
+          response !== false &&
+          response.response !== undefined &&
+          response.response !== null
+        ) {
+          //Reset all the trips
+          globalObject.props.ResetStateProps(globalObject.props.parentNode);
+          //Received a response
+          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+        } //error - close modal
+        else {
+          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+        }
+      },
+    );
   }
 
   /**
@@ -137,7 +139,10 @@ class ErrorModal extends React.PureComponent {
       request_fp: request_fp,
     };
     //..
-    SOCKET_CORE.emit('confirmRiderDropoff_requests_io', dropoff_bundle);
+    this.props.App.socket.emit(
+      'confirmRiderDropoff_requests_io',
+      dropoff_bundle,
+    );
   }
 
   /**
@@ -177,7 +182,7 @@ class ErrorModal extends React.PureComponent {
         user_fingerprint: this.props.App.user_fingerprint,
       };
       ///...
-      SOCKET_CORE.emit('cancelRiders_request_io', bundleData);
+      this.props.App.socket.emit('cancelRiders_request_io', bundleData);
     } //Invalid request fp - close the modal
     else {
       this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
@@ -296,7 +301,10 @@ class ErrorModal extends React.PureComponent {
           if (EmailValidator(dataToUpdate)) {
             //Check if the email's format's good.
             this.setState({isErrorThrown: false, isLoading_something: true});
-            SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
+            this.props.App.socket.emit(
+              'updateRiders_profileInfos_io',
+              bundleData,
+            );
           } //Wrong email format
           else {
             this.setState({
@@ -328,7 +336,10 @@ class ErrorModal extends React.PureComponent {
           ) {
             //Name or surname
             this.setState({isErrorThrown: false, isLoading_something: true});
-            SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
+            this.props.App.socket.emit(
+              'updateRiders_profileInfos_io',
+              bundleData,
+            );
           } //Name or surname too short
           else {
             this.setState({
@@ -392,6 +403,14 @@ class ErrorModal extends React.PureComponent {
       SyncStorage.remove('@surname_user');
       SyncStorage.remove('@user_email');
       SyncStorage.remove('@phone_user');
+      //Reinitiate values
+      globalObject.props.App.gender_user = 'male';
+      globalObject.props.App.username = false;
+      globalObject.props.App.surname_user = false;
+      globalObject.props.App.user_email = false;
+      globalObject.props.App.user_profile_pic = null;
+      globalObject.props.App.last_dataPersoUpdated = null;
+      globalObject.props.App.userCurrentLocationMetaData = {};
       //Log out
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
       globalObject.props.parentNode.props.navigation.navigate('EntryScreen');

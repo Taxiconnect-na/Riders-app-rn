@@ -7,8 +7,10 @@ const socket = io(nodeURL, {
   transports: ['websocket', 'polling'],
   reconnection: true,
   reconnectionAttempts: Infinity,
-  reconnectionDelay: 1000,
-  reconnectionDelayMax: 2000,
+  reconnectionDelay: 100,
+  reconnectionDelayMax: 200,
+  autoConnect: true,
+  upgrade: true,
 });
 
 export default socket;

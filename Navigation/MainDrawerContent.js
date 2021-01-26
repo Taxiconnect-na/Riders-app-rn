@@ -5,94 +5,54 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
+import HeaderDrawerContent from './HeaderDrawerContent';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export function MainDrawerContent(props) {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <View style={styles.headerDrawer}>
-        <View
-          style={{
-            width: 50,
-            height: 50,
-            borderRadius: 160,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#fff',
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 5,
-            },
-            shadowOpacity: 0.34,
-            shadowRadius: 6.27,
-
-            elevation: 10,
-          }}>
-          <Image
-            source={require('../Media_assets/Images/woman.webp')}
-            style={{
-              resizeMode: 'cover',
-              width: '100%',
-              height: '100%',
-              borderRadius: 200,
-            }}
-          />
-        </View>
-        <View style={{flex: 1}}>
-          <Text
-            style={{
-              fontFamily: 'Allrounder-Grotesk-Medium',
-              fontSize: 18,
-              width: '100%',
-              textAlign: 'left',
-              paddingLeft: 10,
-              paddingRight: 10,
-              color: '#fff',
-            }}>
-            Dominique
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingLeft: 10,
-              paddingRight: 10,
-              marginTop: 5,
-              width: '100%',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                fontFamily: 'Allrounder-Grotesk-Regular',
-                fontSize: 15,
-                textAlign: 'center',
-                color: '#ffff',
-              }}>
-              Windhoek
-            </Text>
-          </View>
-        </View>
-      </View>
+      <HeaderDrawerContent />
       <ScrollView style={styles.menuContent}>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('YourRidesEntry_drawer')}
           style={[styles.menuItem, {paddingTop: 30}]}>
           <Text style={styles.menuTitles}>Your rides</Text>
+          <IconMaterialIcons
+            name="keyboard-arrow-right"
+            color="#a5a5a5"
+            size={20}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('Wallet_drawer')}
           style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Wallet</Text>
+          <IconMaterialIcons
+            name="keyboard-arrow-right"
+            color="#a5a5a5"
+            size={20}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('SettingsEntryScreen')}
           style={[styles.menuItem, {paddingTop: 10}]}>
           <Text style={styles.menuTitles}>Settings</Text>
+          <IconMaterialIcons
+            name="keyboard-arrow-right"
+            color="#a5a5a5"
+            size={20}
+          />
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.menuItem, {paddingTop: 10}]}>
+        <TouchableOpacity
+          style={[styles.menuItem, {paddingTop: 10, borderBottomWidth: 0}]}>
           <Text style={styles.menuTitles}>Support</Text>
+          <IconMaterialIcons
+            name="keyboard-arrow-right"
+            color="#a5a5a5"
+            size={20}
+          />
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.footerDrawer}>
@@ -112,7 +72,7 @@ export function MainDrawerContent(props) {
             color: '#a5a5a5',
             textAlign: 'right',
           }}>
-          v2.1.226
+          v2.1.238
         </Text>
       </View>
     </SafeAreaView>
@@ -120,26 +80,24 @@ export function MainDrawerContent(props) {
 }
 
 const styles = StyleSheet.create({
-  headerDrawer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 100,
-    backgroundColor: '#000',
-    flexDirection: 'row',
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
   menuContent: {
     flex: 1,
   },
   menuItem: {
     padding: 20,
     marginBottom: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#d0d0d0',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  menuTitles: {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 20},
+  menuTitles: {
+    fontFamily: 'Allrounder-Grotesk-Regular',
+    fontSize: 20,
+    flex: 1,
+  },
   footerDrawer: {
-    borderTopWidth: 0.5,
+    borderTopWidth: 1,
     borderTopColor: '#d0d0d0',
     flexDirection: 'row',
     padding: 20,

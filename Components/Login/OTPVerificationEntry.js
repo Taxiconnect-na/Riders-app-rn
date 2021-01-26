@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
@@ -119,18 +118,18 @@ class OTPVerificationEntry extends React.PureComponent {
     });
 
     //connection
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    SOCKET_CORE.on('error', () => {
+    this.props.App.socket.on('error', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
@@ -138,29 +137,29 @@ class OTPVerificationEntry extends React.PureComponent {
         'service_unavailable',
         'any',
       );
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       console.log('reconnect_error');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
     //1. OTP response and user status
-    SOCKET_CORE.on(
+    this.props.App.socket.on(
       'sendOtpAndCheckerUserStatusTc-response',
       function (response) {
         console.log(response);
@@ -222,7 +221,7 @@ class OTPVerificationEntry extends React.PureComponent {
     /**
      * CHECK OTP
      */
-    SOCKET_CORE.on('checkThisOTP_SMS-response', function (response) {
+    this.props.App.socket.on('checkThisOTP_SMS-response', function (response) {
       globalObject.setState({loaderState: false}); //Disable the loader
       if (response.response !== undefined) {
         if (response.response === true) {
@@ -383,7 +382,7 @@ class OTPVerificationEntry extends React.PureComponent {
         }, 30000);
 
         //Has a final number
-        SOCKET_CORE.emit('sendOtpAndCheckerUserStatusTc', {
+        this.props.App.socket.emit('sendOtpAndCheckerUserStatusTc', {
           phone_number: phoneNumber,
         });
       }
@@ -406,7 +405,7 @@ class OTPVerificationEntry extends React.PureComponent {
         loaderState: true,
         checkingOTP: true,
       });
-      SOCKET_CORE.emit('checkThisOTP_SMS', {
+      this.props.App.socket.emit('checkThisOTP_SMS', {
         phone_number: this.props.App.finalPhoneNumber,
         otp: this.state.otpValue,
       });

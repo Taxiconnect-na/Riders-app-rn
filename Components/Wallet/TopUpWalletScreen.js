@@ -14,7 +14,6 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {CreditCardInput} from '../Modules/react-native-credit-card-input';
 import {systemWeights} from 'react-native-typography';
 import IconFeather from 'react-native-vector-icons/Feather';
@@ -100,60 +99,63 @@ class TopUpWalletScreen extends React.PureComponent {
     });
 
     //...
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       //Auto cancel anything
       //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
       //console.log('something');
     });
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //objectApp.setState({errorInternet: true});
       //console.log('something');
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       //objectApp.setState({errorInternet: true});
       //console.log('something');
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       //console.log('something');
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       //console.log('something');
     });
 
     /**
      * LISTENERS
      */
-    SOCKET_CORE.on('paymentCreditTopup-response', function (dataReceived) {
-      if (dataReceived !== undefined) {
-        if (dataReceived.response === 'success') {
-          //Successful transation
-          globalObject.setState({
-            resultOperations: {status: 'success'},
-          });
-        } //An error occured
+    this.props.App.socket.on(
+      'paymentCreditTopup-response',
+      function (dataReceived) {
+        if (dataReceived !== undefined) {
+          if (dataReceived.response === 'success') {
+            //Successful transation
+            globalObject.setState({
+              resultOperations: {status: 'success'},
+            });
+          } //An error occured
+          else {
+            globalObject.setState({
+              resultOperations: {status: 'failed'},
+              resultOperationErrorText: 'Unable to make the payment.',
+            });
+          }
+        } //Error
         else {
           globalObject.setState({
             resultOperations: {status: 'failed'},
             resultOperationErrorText: 'Unable to make the payment.',
           });
         }
-      } //Error
-      else {
-        globalObject.setState({
-          resultOperations: {status: 'failed'},
-          resultOperationErrorText: 'Unable to make the payment.',
-        });
-      }
-    });
+      },
+    );
   }
 
   componentWillUnmount() {

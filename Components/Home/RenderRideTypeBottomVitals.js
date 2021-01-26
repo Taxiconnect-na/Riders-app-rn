@@ -2,7 +2,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -1110,7 +1109,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 ) {
                   //Not yet request and no errors
                   //Check wheher an answer was already received - if not keep requesting
-                  SOCKET_CORE.emit(
+                  globalObject.props.App.socket.emit(
                     'requestRideOrDeliveryForThis',
                     RIDE_OR_DELIVERY_BOOKING_DATA,
                   );

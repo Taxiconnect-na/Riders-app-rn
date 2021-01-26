@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -71,18 +70,18 @@ class YourRidesEntry extends React.PureComponent {
     });
 
     //connection
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
@@ -90,28 +89,28 @@ class YourRidesEntry extends React.PureComponent {
         'connection_no_network',
         'any',
       );
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       console.log('reconnect_error');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
-    SOCKET_CORE.on(
+    this.props.App.socket.on(
       'getRides_historyRiders_batchOrNot-response',
       function (response) {
         globalObject.setState({
@@ -212,7 +211,7 @@ class YourRidesEntry extends React.PureComponent {
       gotErrorDuringRequest: false,
     }); //Activate the loader
     //Get from the server
-    SOCKET_CORE.emit('getRides_historyRiders_batchOrNot', {
+    this.props.App.socket.emit('getRides_historyRiders_batchOrNot', {
       user_fingerprint: this.props.App.user_fingerprint,
       ride_type: type === false ? this.props.App.shownRides_types : type,
     });
@@ -302,13 +301,15 @@ class YourRidesEntry extends React.PureComponent {
       <View style={styles.mainWindow}>
         <StatusBar backgroundColor="#000" />
         <GenericLoader active={this.state.loaderState} thickness={4} />
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+          <ErrorModal
+            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+            error_status={
+              this.props.App.generalErrorModal_vars.generalErrorModalType
+            }
+            parentNode={this}
+          />
+        ) : null}
 
         {this.state.fetchingRides_Data === false ? (
           this.state.areResultsEmpty === false ? (

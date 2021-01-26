@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
@@ -62,7 +61,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       }
     });
     //connection
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       if (
         !/gender_select/i.test(globalObject.props.App.generalErrorModalType)
       ) {
@@ -71,14 +70,14 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       }
     });
     //Socket error handling
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       if (
@@ -91,43 +90,58 @@ class NewAccountAdditionalDetails extends React.PureComponent {
           'any',
         );
       }
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       console.log('reconnect_error');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
     //1. Complete profile details.
-    SOCKET_CORE.on('updateAdditionalProfileData-response', function (response) {
-      globalObject.setState({loaderState: false}); //stop loader
-      if (response !== false && response.response !== undefined) {
-        if (!/error/i.test(response.response)) {
-          //Success
-          //Update the general state infos and move forward
-          globalObject.props.App.username = response.name;
-          globalObject.props.App.gender_user = response.gender;
-          globalObject.props.App.user_email = response.email;
-          //Update storage
-          SyncStorage.set('@username', response.name);
-          SyncStorage.set('@gender_user', response.gender);
-          SyncStorage.set('@user_email', response.email);
-          //Move to home
-          globalObject.props.navigation.navigate('Home');
+    this.props.App.socket.on(
+      'updateAdditionalProfileData-response',
+      function (response) {
+        globalObject.setState({loaderState: false}); //stop loader
+        if (response !== false && response.response !== undefined) {
+          if (!/error/i.test(response.response)) {
+            //Success
+            //Update the general state infos and move forward
+            globalObject.props.App.username = response.name;
+            globalObject.props.App.gender_user = response.gender;
+            globalObject.props.App.user_email = response.email;
+            //Update storage
+            SyncStorage.set('@username', response.name);
+            SyncStorage.set('@gender_user', response.gender);
+            SyncStorage.set('@user_email', response.email);
+            //Move to home
+            globalObject.props.navigation.navigate('Home');
+          } //Error updating the addition details - show error, but can proceed
+          else {
+            //Remove storage
+            SyncStorage.remove('@username');
+            SyncStorage.remove('@gender_user');
+            SyncStorage.remove('@user_email');
+
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'error_adding_additional_profile_details_new_account',
+              'any',
+            );
+          }
         } //Error updating the addition details - show error, but can proceed
         else {
           //Remove storage
@@ -141,20 +155,8 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             'any',
           );
         }
-      } //Error updating the addition details - show error, but can proceed
-      else {
-        //Remove storage
-        SyncStorage.remove('@username');
-        SyncStorage.remove('@gender_user');
-        SyncStorage.remove('@user_email');
-
-        globalObject.props.UpdateErrorModalLog(
-          true,
-          'error_adding_additional_profile_details_new_account',
-          'any',
-        );
-      }
-    });
+      },
+    );
   }
 
   componentWillUnmount() {
@@ -214,7 +216,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
         ) {
           //Good
           //Request for profile update
-          SOCKET_CORE.emit('updateAdditionalProfileData', {
+          this.props.App.socket.emit('updateAdditionalProfileData', {
             name: this.state.name,
             email: this.state.email,
             gender: this.props.App.gender_user,

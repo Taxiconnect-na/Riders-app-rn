@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import SOCKET_CORE from '../Helpers/managerNode';
 import {
   SafeAreaView,
   View,
@@ -53,18 +52,18 @@ class CreateAccountEntry extends React.PureComponent {
       }
     });
     //connection
-    SOCKET_CORE.on('connect', () => {
+    this.props.App.socket.on('connect', () => {
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    SOCKET_CORE.on('error', (error) => {
+    this.props.App.socket.on('error', (error) => {
       //console.log('something');
     });
-    SOCKET_CORE.on('disconnect', () => {
+    this.props.App.socket.on('disconnect', () => {
       //console.log('something');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_error', () => {
+    this.props.App.socket.on('connect_error', () => {
       console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
@@ -72,44 +71,60 @@ class CreateAccountEntry extends React.PureComponent {
         'connection_no_network',
         'any',
       );
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('connect_timeout', () => {
+    this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect', () => {
+    this.props.App.socket.on('reconnect', () => {
       ////console.log('something');
     });
-    SOCKET_CORE.on('reconnect_error', () => {
+    this.props.App.socket.on('reconnect_error', () => {
       console.log('reconnect_error');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
-    SOCKET_CORE.on('reconnect_failed', () => {
+    this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
-      SOCKET_CORE.connect();
+      globalObject.props.App.socket.connect();
     });
 
     /**
      * SOCKET.IO RESPONSES
      */
     //1. Creating account response
-    SOCKET_CORE.on('createInitialRider_account-response', function (response) {
-      globalObject.setState({loaderState: false}); //Stop loader
-      //...
-      if (response !== false && response.response !== undefined) {
-        if (
-          !/error/i.test(response.response) &&
-          response.user_fp !== undefined &&
-          response.user_fp !== null
-        ) {
-          //Successfully created
-          //Save the fingerprint
-          globalObject.props.App.user_fingerprint = response.user_fp; //Save user fingerprint
-          SyncStorage.set('@user_fp', response.user_fp);
-          //Move forward
-          globalObject.props.navigation.navigate('NewAccountAdditionalDetails');
-        } //error creating account
+    this.props.App.socket.on(
+      'createInitialRider_account-response',
+      function (response) {
+        globalObject.setState({loaderState: false}); //Stop loader
+        //...
+        if (response !== false && response.response !== undefined) {
+          if (
+            !/error/i.test(response.response) &&
+            response.user_fp !== undefined &&
+            response.user_fp !== null
+          ) {
+            //Successfully created
+            //Save the fingerprint
+            globalObject.props.App.user_fingerprint = response.user_fp; //Save user fingerprint
+            SyncStorage.set('@user_fp', response.user_fp);
+            //Move forward
+            globalObject.props.navigation.navigate(
+              'NewAccountAdditionalDetails',
+            );
+          } //error creating account
+          else {
+            globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+            SyncStorage.remove('@user_fp');
+
+            globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'error_creating_account',
+              'any',
+            );
+          }
+        } //Error creating the account
         else {
           globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
           SyncStorage.remove('@user_fp');
@@ -121,19 +136,8 @@ class CreateAccountEntry extends React.PureComponent {
             'any',
           );
         }
-      } //Error creating the account
-      else {
-        globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
-        SyncStorage.remove('@user_fp');
-
-        globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
-        globalObject.props.UpdateErrorModalLog(
-          true,
-          'error_creating_account',
-          'any',
-        );
-      }
-    });
+      },
+    );
   }
 
   /**
@@ -163,7 +167,7 @@ class CreateAccountEntry extends React.PureComponent {
     ) {
       //Create
       this.setState({loaderState: true, creatingAccount: true});
-      SOCKET_CORE.emit('createInitialRider_account', {
+      this.props.App.socket.emit('createInitialRider_account', {
         phone_number: this.props.App.finalPhoneNumber,
         pushnotif_token: this.props.App.pushnotif_token,
       });

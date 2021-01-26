@@ -153,7 +153,12 @@ const HomeReducer = (state = INIT_STATE, action) => {
         action.payload.fire_initGreetingAnd_after();
       }
       //Bind the requests interval persister
-      action.payload.bindRequest_findFetcher();
+      if (
+        action.payload.bindRequest_findFetcher !== undefined &&
+        action.payload.bindRequest_findFetcher !== null
+      ) {
+        action.payload.bindRequest_findFetcher();
+      }
 
       //Previous state updated
       return {...state, ...newState};
