@@ -39,6 +39,7 @@ import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumber
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import EmailValidator from './EmailValidator';
+import SyncStorage from 'sync-storage';
 
 class ErrorModal extends React.PureComponent {
   constructor(props) {
@@ -310,24 +311,12 @@ class ErrorModal extends React.PureComponent {
             //Good number - save in the global
             this.props.App.last_dataPersoUpdated = this.props.App.finalPhoneNumber;
             //....
-            /*bundleData = {
-              user_fingerprint: this.props.App.user_fingerprint,
-              dataToUpdate: this.props.App.last_dataPersoUpdated,
-              infoToUpdate: 'phone',
-              direction: 'initChange',
-            };*/
-            console.log(this.props.App.last_dataPersoUpdated);
-            //Has a final number
-            //SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
             this.props.parentNode.props.navigation.navigate(
               'OTPVerificationGeneric',
             );
           } //SHow trivial error
           else {
-            /*this.setState({
-              errorString_template: 'Your phone number looks strange.',
-              isErrorThrown: true,
-            });*/
+            //Do nothing
           }
         }
         //For the rest proceed
@@ -367,6 +356,45 @@ class ErrorModal extends React.PureComponent {
         this.setState({tmpString: data, isErrorThrown: false});
       }
     }
+  }
+
+  /**
+   * @func signOff_theApp
+   * Responsible for signing the user off the app, clear all the storages and reset everything before.
+   */
+  signOff_theApp() {
+    let globalObject = this;
+    this.setState({isLoading_something: true});
+    //...
+    setTimeout(function () {
+      //1. Reset every global processes.
+      globalObject.props.ResetStateProps(globalObject.props.parentNode);
+      globalObject.props.ResetGenericPhoneNumberInput();
+      //2. Clear all the intervals
+      if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
+        clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+        globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+      }
+      if (
+        globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null
+      ) {
+        clearInterval(
+          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
+        );
+        globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+      }
+      globalObject.props.App._CLOSEST_DRIVERS_DATA = null;
+      //3. Clear all the storages
+      SyncStorage.remove('@userLocationPoint');
+      SyncStorage.remove('@gender_user');
+      SyncStorage.remove('@username');
+      SyncStorage.remove('@surname_user');
+      SyncStorage.remove('@user_email');
+      SyncStorage.remove('@phone_user');
+      //Log out
+      globalObject.props.UpdateErrorModalLog(false, false, 'any');
+      globalObject.props.parentNode.props.navigation.navigate('EntryScreen');
+    }, 1000);
   }
 
   /**
@@ -2890,6 +2918,80 @@ class ErrorModal extends React.PureComponent {
             </View>
           </SafeAreaView>
         </DismissKeyboard>
+      );
+    } else if (/show_signOff_modal/i.test(error_status)) {
+      return (
+        <View
+          style={{
+            backgroundColor: '#fff',
+            padding: 20,
+            height: 340,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}>
+            <Text
+              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              Do you want to sign off?
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: 'Allrounder-Grotesk-Book',
+                fontSize: 17,
+                marginTop: 10,
+              }}>
+              Stay signed in to book your next ride or delivery faster.
+            </Text>
+          </View>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isLoading_something === false
+                  ? this.signOff_theApp()
+                  : {}
+              }
+              style={[
+                styles.bttnGenericTc,
+                {borderRadius: 2, marginBottom: 30, backgroundColor: '#f0f0f0'},
+              ]}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 20,
+                  color: '#000',
+                  marginLeft: 5,
+                }}>
+                {this.state.isLoading_something === false ? (
+                  'Yes, sign out'
+                ) : (
+                  <ActivityIndicator size="large" color="#000" />
+                )}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isLoading_something === false
+                  ? this.props.UpdateErrorModalLog(false, false, 'any')
+                  : {}
+              }
+              style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+              <Text
+                style={{
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 20,
+                  color: '#fff',
+                  marginLeft: 5,
+                }}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       );
     } else {
       return <></>;

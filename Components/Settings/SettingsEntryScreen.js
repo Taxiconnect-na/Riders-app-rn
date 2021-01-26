@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import SOCKET_CORE from '../Helpers/managerNode';
 import {
   View,
   Text,
@@ -9,20 +10,75 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
   Linking,
 } from 'react-native';
+import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
+import ImagePicker from 'react-native-image-crop-picker';
+import ErrorModal from '../Helpers/ErrorModal';
+import Notifiyer from '../Helpers/Notifiyer';
 
 class SettingsEntryScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showNotifiyer: false, //Whether to show to status notifiyer or not.
+      notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
+      statusColor: '#048320', //The status color - #048320:green, #b22222:red
+      isChangingProfile_pic: false, //To know whether or not the profile pic is being changed to show up the loader.
+    };
+  }
+
+  componentDidMount() {
+    let globalObject = this;
+    /**
+     * SOCKET.IO RESPONSES
+     */
+    //1.
+  }
+
+  /**
+   * @func updateRiders_profilePic
+   * Responsible to handle all the proccesses linked to changing the rider's profile picture.
+   * And handle to notifyer button.
+   * @param base64String: the image converted to baase64
+   */
+  updateRiders_profilePic(base64String) {
+    console.log(base64String);
+    let bundleData = {
+      user_fingerprint: this.props.App.user_fingerprint,
+      dataToUpdate: base64String,
+      infoToUpdate: 'picture',
+    };
+    //Update the global last data updated - very useful when updating the visual data after a successful modification.
+    //this.props.App.last_dataPersoUpdated = dataToUpdate;
+    //this.setState({isErrorThrown: false, isLoading_something: true});
+    SOCKET_CORE.emit('updateRiders_profileInfos_io', bundleData);
   }
 
   render() {
     return (
       <SafeAreaView style={styles.mainWindow}>
+        {this.state.showNotifiyer ? (
+          <Notifiyer
+            active={this.state.showNotifiyer}
+            color={this.state.statusColor}
+            message={this.state.notifiyerMessage}
+          />
+        ) : null}
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+          <ErrorModal
+            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+            error_status={
+              this.props.App.generalErrorModal_vars.generalErrorModalType
+            }
+            parentNode={this}
+          />
+        ) : null}
         <ScrollView style={styles.presentationWindow}>
           {/**Picture section/edit */}
           <View
@@ -33,12 +89,31 @@ class SettingsEntryScreen extends React.PureComponent {
               justifyContent: 'center',
               padding: 20,
             }}>
-            <View
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isChangingProfile_pic === false
+                  ? ImagePicker.openPicker({
+                      width: 300,
+                      height: 400,
+                      cropping: true,
+                      mediaType: 'photo',
+                      includeBase64: true,
+                      cropperToolbarWidgetColor: '#096ED4',
+                    }).then(
+                      (image) => {
+                        this.updateRiders_profilePic(
+                          `data:${image.mime};base64,${image.data}`,
+                        );
+                      },
+                      () => {},
+                    )
+                  : {}
+              }
               style={{
                 borderWidth: 1,
                 borderColor: '#f0f0f0',
-                height: 75,
-                width: 75,
+                height: 80,
+                width: 80,
                 borderRadius: 150,
                 shadowColor: '#000',
                 shadowOffset: {
@@ -50,6 +125,23 @@ class SettingsEntryScreen extends React.PureComponent {
 
                 elevation: 10,
               }}>
+              {this.state.isChangingProfile_pic ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 150,
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    zIndex: 9000,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <ActivityIndicator size="large" color="#fff" />
+                </View>
+              ) : null}
               <Image
                 source={require('../../Media_assets/Images/woman.webp')}
                 style={{
@@ -82,7 +174,7 @@ class SettingsEntryScreen extends React.PureComponent {
                 }}>
                 <IconCommunity name="pencil" size={20} color="#fff" />
               </View>
-            </View>
+            </TouchableOpacity>
             <View style={{marginTop: 20}}>
               <Text
                 style={{
@@ -278,7 +370,10 @@ class SettingsEntryScreen extends React.PureComponent {
             </TouchableOpacity>
           </View>
           {/**Log out */}
-          <View
+          <TouchableOpacity
+            onPress={() =>
+              this.props.UpdateErrorModalLog(true, 'show_signOff_modal', 'any')
+            }
             style={{
               flexDirection: 'row',
               marginTop: 25,
@@ -302,7 +397,7 @@ class SettingsEntryScreen extends React.PureComponent {
               color="#b22222"
               size={25}
             />
-          </View>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
@@ -335,5 +430,15 @@ const mapStateToProps = (state) => {
   const {App} = state;
   return {App};
 };
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      UpdateErrorModalLog,
+    },
+    dispatch,
+  );
 
-export default connect(mapStateToProps)(SettingsEntryScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SettingsEntryScreen);

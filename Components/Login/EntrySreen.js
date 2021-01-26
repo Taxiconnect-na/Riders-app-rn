@@ -31,12 +31,16 @@ class EntryScreen extends React.PureComponent {
     let userLocationPoint = SyncStorage.get('@userLocationPoint');
     let gender_user = SyncStorage.get('@gender_user');
     let username = SyncStorage.get('@username');
+    let surname = SyncStorage.get('@surname_user');
     let user_email = SyncStorage.get('@user_email');
+    let phone = SyncStorage.get('@phone_user');
 
     //Update globals
     this.props.App.gender_user = gender_user;
     this.props.App.username = username;
+    this.props.App.surname_user = surname;
     this.props.App.user_email = user_email;
+    this.props.App.phone_user = phone;
     this.props.App.user_fingerprint = user_fp;
     this.props.App.pushnotif_token = pushnotif_token;
     try {

@@ -140,6 +140,7 @@ android {
         versionCode 23
         versionName "2.1.224"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {
