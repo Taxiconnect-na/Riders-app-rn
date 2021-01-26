@@ -63,6 +63,8 @@ class Home extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this._isMounted = false; //! RESPONSIBLE TO LOCK PROCESSES IN THE HOME SCREEN WHEN UNMOUNTED.
+
     //Handlers
     this.backHander = null;
 
@@ -309,14 +311,16 @@ class Home extends React.PureComponent {
             //...
             if (globalObject.props.App.intervalProgressLoop === false) {
               InteractionManager.runAfterInteractions(() => {
-                globalObject.GPRS_resolver();
-                globalObject.updateRemoteLocationsData();
+                globalObject._isMounted && globalObject.GPRS_resolver();
+                globalObject._isMounted &&
+                  globalObject.updateRemoteLocationsData();
               });
               //Request for the total wallet balance
-              globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
-                user_fingerprint: globalObject.props.App.user_fingerprint,
-                mode: 'total',
-              });
+              globalObject._isMounted &&
+                globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
+                  user_fingerprint: globalObject.props.App.user_fingerprint,
+                  mode: 'total',
+                });
             } //Kill the persister
             else {
               clearInterval(
@@ -342,6 +346,7 @@ class Home extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
+    this._isMounted = true;
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
@@ -987,6 +992,7 @@ class Home extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    this._isMounted = false; //! MARK AS UNMOUNTED.
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
@@ -2792,30 +2798,32 @@ class Home extends React.PureComponent {
   render() {
     return (
       <DismissKeyboard>
-        <View style={styles.window}>
-          <StatusBar backgroundColor="#000" />
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-            <ErrorModal
-              active={
-                this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              }
-              error_status={
-                this.props.App.generalErrorModal_vars.generalErrorModalType
-              }
-              parentNode={this}
-            />
-          ) : null}
-          {this.props.App.isSelectDatePickerActive ? (
-            <DateTimePickerModal
-              isVisible={this.props.App.isSelectDatePickerActive}
-              mode="time"
-              is24Hour={true}
-              onConfirm={this.handleConfirmDateSchedule}
-              onCancel={this.handleCancelScheduleTrip}
-            />
-          ) : null}
-          <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
-        </View>
+        {this._isMounted ? (
+          <View style={styles.window}>
+            <StatusBar backgroundColor="#000" />
+            {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+              <ErrorModal
+                active={
+                  this.props.App.generalErrorModal_vars.showErrorGeneralModal
+                }
+                error_status={
+                  this.props.App.generalErrorModal_vars.generalErrorModalType
+                }
+                parentNode={this}
+              />
+            ) : null}
+            {this.props.App.isSelectDatePickerActive ? (
+              <DateTimePickerModal
+                isVisible={this.props.App.isSelectDatePickerActive}
+                mode="time"
+                is24Hour={true}
+                onConfirm={this.handleConfirmDateSchedule}
+                onCancel={this.handleCancelScheduleTrip}
+              />
+            ) : null}
+            <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
+          </View>
+        ) : null}
       </DismissKeyboard>
     );
   }

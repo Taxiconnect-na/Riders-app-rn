@@ -15,11 +15,15 @@ class SupportEntry extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this._isMounted = false; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
+
     //Handlers
     this.backHander = null;
   }
 
   componentWillUnmount() {
+    this._isMounted = false; //! MARK AS UNMMOUNTED
+    //...
     if (this.backHander !== null) {
       this.backHander.remove();
     }
@@ -27,6 +31,8 @@ class SupportEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    this._isMounted = true;
+
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
@@ -46,100 +52,111 @@ class SupportEntry extends React.PureComponent {
 
   render() {
     return (
-      <ScrollView style={styles.mainContainer}>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-              marginBottom: '5%',
-            }}>
-            <View style={{width: 32, height: 32}}>
-              <Image
-                source={require('../../Media_assets/Images/supportIcon.png')}
-                style={{width: '100%', height: '100%', resizeMode: 'cover'}}
-              />
+      <>
+        {this._isMounted ? (
+          <ScrollView style={styles.mainContainer}>
+            <View
+              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  alignItems: 'center',
+                  marginBottom: '5%',
+                }}>
+                <View style={{width: 32, height: 32}}>
+                  <Image
+                    source={require('../../Media_assets/Images/supportIcon.png')}
+                    style={{width: '100%', height: '100%', resizeMode: 'cover'}}
+                  />
+                </View>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    marginLeft: 5,
+                  }}>
+                  We're here for you.
+                </Text>
+              </View>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: 20,
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'left',
+                    fontSize: 17,
+                    lineHeight: 23,
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                  }}>
+                  If you <Text style={{fontWeight: 'bold'}}>left</Text> your
+                  belongings in the taxi or you need{' '}
+                  <Text style={{fontWeight: 'bold'}}>assistance</Text> on using
+                  the{' '}
+                  <Text style={{fontWeight: 'bold'}}>TaxiConnect platform</Text>
+                  .
+                </Text>
+                <Text
+                  style={{
+                    textAlign: 'left',
+                    marginBottom: 20,
+                    fontSize: 17,
+                    lineHeight: 23,
+                    fontFamily: 'Allrounder-Grotesk-Book',
+                  }}>
+                  If there is an{' '}
+                  <Text style={{fontWeight: 'bold'}}>emergency</Text> and you
+                  need to contact the{' '}
+                  <Text style={{fontWeight: 'bold'}}>police</Text>.
+                </Text>
+              </View>
+              {/**Buttons */}
+              <TouchableOpacity
+                style={[
+                  styles.bttnGenericTc,
+                  {marginBottom: 20, marginTop: '10%'},
+                ]}
+                onPress={() => call({number: '+264814400089', prompt: true})}>
+                <IconCommunity
+                  name="phone"
+                  color={'#fff'}
+                  size={25}
+                  style={{marginRight: 5}}
+                />
+                <Text
+                  style={{
+                    fontSize: 22,
+                    color: '#fff',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                  }}>
+                  Call TaxiConnect
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.bttnGenericTc}
+                onPress={() => call({number: '061302302', prompt: true})}>
+                <IconCommunity
+                  name="shield"
+                  color={'#fff'}
+                  size={25}
+                  style={{marginRight: 5}}
+                />
+                <Text
+                  style={{
+                    fontSize: 22,
+                    color: '#fff',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
+                  }}>
+                  Call City Police
+                </Text>
+              </TouchableOpacity>
             </View>
-            <Text
-              style={{
-                fontSize: 20,
-                fontFamily: 'Allrounder-Grotesk-Regular',
-                marginLeft: 5,
-              }}>
-              We're here for you.
-            </Text>
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: 20,
-            }}>
-            <Text
-              style={{
-                textAlign: 'left',
-                fontSize: 17,
-                lineHeight: 23,
-                fontFamily: 'Allrounder-Grotesk-Book',
-              }}>
-              If you <Text style={{fontWeight: 'bold'}}>left</Text> your
-              belongings in the taxi or you need{' '}
-              <Text style={{fontWeight: 'bold'}}>assistance</Text> on using the{' '}
-              <Text style={{fontWeight: 'bold'}}>TaxiConnect platform</Text>.
-            </Text>
-            <Text
-              style={{
-                textAlign: 'left',
-                marginBottom: 20,
-                fontSize: 17,
-                lineHeight: 23,
-                fontFamily: 'Allrounder-Grotesk-Book',
-              }}>
-              If there is an <Text style={{fontWeight: 'bold'}}>emergency</Text>{' '}
-              and you need to contact the{' '}
-              <Text style={{fontWeight: 'bold'}}>police</Text>.
-            </Text>
-          </View>
-          {/**Buttons */}
-          <TouchableOpacity
-            style={[styles.bttnGenericTc, {marginBottom: 20, marginTop: '10%'}]}
-            onPress={() => call({number: '+264814400089', prompt: true})}>
-            <IconCommunity
-              name="phone"
-              color={'#fff'}
-              size={25}
-              style={{marginRight: 5}}
-            />
-            <Text
-              style={{
-                fontSize: 22,
-                color: '#fff',
-                fontFamily: 'Allrounder-Grotesk-Medium',
-              }}>
-              Call TaxiConnect
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.bttnGenericTc}
-            onPress={() => call({number: '061302302', prompt: true})}>
-            <IconCommunity
-              name="shield"
-              color={'#fff'}
-              size={25}
-              style={{marginRight: 5}}
-            />
-            <Text
-              style={{
-                fontSize: 22,
-                color: '#fff',
-                fontFamily: 'Allrounder-Grotesk-Medium',
-              }}>
-              Call City Police
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          </ScrollView>
+        ) : null}
+      </>
     );
   }
 }

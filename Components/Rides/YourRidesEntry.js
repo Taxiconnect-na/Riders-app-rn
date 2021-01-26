@@ -29,6 +29,8 @@ class YourRidesEntry extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this._isMounted = false; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
+
     //Handlers
     this.backHander = null;
 
@@ -54,6 +56,7 @@ class YourRidesEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    this._isMounted = true;
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
@@ -189,6 +192,7 @@ class YourRidesEntry extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    this._isMounted = false; //! MARK AS UNMOUNTED
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();
@@ -310,49 +314,55 @@ class YourRidesEntry extends React.PureComponent {
 
   render() {
     return (
-      <View style={styles.mainWindow}>
-        <StatusBar backgroundColor="#000" />
-        <GenericLoader active={this.state.loaderState} thickness={4} />
-        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-          <ErrorModal
-            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-            error_status={
-              this.props.App.generalErrorModal_vars.generalErrorModalType
-            }
-            parentNode={this}
-          />
-        ) : null}
+      <>
+        {this._isMounted ? (
+          <View style={styles.mainWindow}>
+            <StatusBar backgroundColor="#000" />
+            <GenericLoader active={this.state.loaderState} thickness={4} />
+            {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+              <ErrorModal
+                active={
+                  this.props.App.generalErrorModal_vars.showErrorGeneralModal
+                }
+                error_status={
+                  this.props.App.generalErrorModal_vars.generalErrorModalType
+                }
+                parentNode={this}
+              />
+            ) : null}
 
-        {this.state.fetchingRides_Data === false ? (
-          this.state.areResultsEmpty === false ? (
-            <FlatList
-              data={
-                this.props.App.rides_history_details_data.rides_history_data
-              }
-              refreshControl={
-                <RefreshControl
-                  onRefresh={() => this.pullRefreshRequest()}
-                  refreshing={this.state.pullRefreshing}
+            {this.state.fetchingRides_Data === false ? (
+              this.state.areResultsEmpty === false ? (
+                <FlatList
+                  data={
+                    this.props.App.rides_history_details_data.rides_history_data
+                  }
+                  refreshControl={
+                    <RefreshControl
+                      onRefresh={() => this.pullRefreshRequest()}
+                      refreshing={this.state.pullRefreshing}
+                    />
+                  }
+                  initialNumToRender={15}
+                  keyboardShouldPersistTaps={'always'}
+                  maxToRenderPerBatch={35}
+                  windowSize={61}
+                  updateCellsBatchingPeriod={10}
+                  keyExtractor={(item, index) => String(index)}
+                  renderItem={(item) => (
+                    <RideLIstGenericElement
+                      requestLightData={item.item}
+                      parentNode={this}
+                    />
+                  )}
                 />
-              }
-              initialNumToRender={15}
-              keyboardShouldPersistTaps={'always'}
-              maxToRenderPerBatch={35}
-              windowSize={61}
-              updateCellsBatchingPeriod={10}
-              keyExtractor={(item, index) => String(index)}
-              renderItem={(item) => (
-                <RideLIstGenericElement
-                  requestLightData={item.item}
-                  parentNode={this}
-                />
-              )}
-            />
-          ) : (
-            this.fillForEmptyRequests()
-          )
+              ) : (
+                this.fillForEmptyRequests()
+              )
+            ) : null}
+          </View>
         ) : null}
-      </View>
+      </>
     );
   }
 }
