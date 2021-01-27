@@ -15,7 +15,7 @@ class SupportEntry extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this._isMounted = false; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
+    this._isMounted = true; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
 
     //Handlers
     this.backHander = null;

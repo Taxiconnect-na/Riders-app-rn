@@ -487,6 +487,7 @@ const STATE = {
   user_email: 'user@gmail.com', //The email of the user - default: false
   user_profile_pic: null, //The user's profile picture
   last_dataPersoUpdated: null, //The last data updated - default: null
+  accountCreation_state: null, //The state of the creation of the account - full or minimal - default: null
 
   //RIDES tab
   //1.Your rides screen

@@ -455,6 +455,8 @@ class PhoneNumberInput extends React.PureComponent {
               placeholder={this.props.App.phoneNumberPlaceholder}
               /*selection={this.state.selection}
               onSelectionChange={this.handleSelectionChange}*/
+              clearTextOnFocus
+              selectTextOnFocus
               onFocus={() =>
                 this.props.UpdateErrorMessagesStateInputRecDelivery({
                   kidName: 'number',

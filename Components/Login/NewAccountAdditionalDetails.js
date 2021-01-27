@@ -48,13 +48,6 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
-    //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      return;
-    });
-    //--------------------------------------------------------
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
@@ -146,14 +139,21 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             SyncStorage.set('@user_email', response.email);
             SyncStorage.set('@phone_user', response.phone_number);
             SyncStorage.set('@user_profile_pic', response.profile_picture);
+            SyncStorage.set('@accountCreation_state', 'full');
+            //....
+            globalObject.state.accountCreation_state = 'full';
             //Move to home
             globalObject.props.navigation.navigate('Home');
           } //Error updating the addition details - show error, but can proceed
           else {
             //Remove storage
+            SyncStorage.remove('@user_fp');
             SyncStorage.remove('@username');
             SyncStorage.remove('@gender_user');
             SyncStorage.remove('@user_email');
+            SyncStorage.set('@accountCreation_state', 'minimal');
+            //....
+            globalObject.state.accountCreation_state = 'minimal';
 
             globalObject.props.UpdateErrorModalLog(
               true,
@@ -164,9 +164,13 @@ class NewAccountAdditionalDetails extends React.PureComponent {
         } //Error updating the addition details - show error, but can proceed
         else {
           //Remove storage
+          SyncStorage.remove('@user_fp');
           SyncStorage.remove('@username');
           SyncStorage.remove('@gender_user');
           SyncStorage.remove('@user_email');
+          SyncStorage.set('@accountCreation_state', 'minimal');
+          //....
+          globalObject.state.accountCreation_state = 'minimal';
 
           globalObject.props.UpdateErrorModalLog(
             true,
@@ -224,6 +228,12 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       showErrorName: false,
       showEmailError: false,
     });
+    console.log({
+      name: this.state.name,
+      email: this.state.email,
+      gender: this.props.App.gender_user,
+      user_fingerprint: this.props.App.user_fingerprint,
+    });
     //Check the name
     if (this.state.name.trim().length >= 2) {
       //Good
@@ -239,6 +249,12 @@ class NewAccountAdditionalDetails extends React.PureComponent {
         ) {
           //Good
           //Request for profile update
+          console.log({
+            name: this.state.name,
+            email: this.state.email,
+            gender: this.props.App.gender_user,
+            user_fingerprint: user_fingerprint,
+          });
           this.props.App.socket.emit('updateAdditionalProfileData', {
             name: this.state.name,
             email: this.state.email,
@@ -347,12 +363,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               ) : /^female$/i.test(this.props.App.gender_user) ? (
                 <IconFontisto name="female" size={18} color="#0e8491" />
               ) : (
-                <IconEntypo
-                  name="block"
-                  size={18}
-                  style={{top: 2}}
-                  color="#0e8491"
-                />
+                <IconEntypo name="block" size={18} color="#0e8491" />
               )}
 
               <Text

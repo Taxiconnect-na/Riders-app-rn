@@ -404,6 +404,7 @@ class ErrorModal extends React.PureComponent {
       SyncStorage.remove('@user_email');
       SyncStorage.remove('@phone_user');
       SyncStorage.remove('@user_profile_pic');
+      SyncStorage.remove('@accountCreation_state');
 
       //Reinitiate values
       globalObject.props.App.gender_user = 'male';
@@ -689,11 +690,10 @@ class ErrorModal extends React.PureComponent {
                 styles.bttnGenericTc,
                 {borderRadius: 2, marginBottom: 20},
               ]}>
-              <IconFontisto name="male" size={20} color="#fff" />
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 20,
+                  fontSize: 22,
                   color: '#fff',
                   marginLeft: 5,
                 }}>
@@ -706,11 +706,10 @@ class ErrorModal extends React.PureComponent {
                 styles.bttnGenericTc,
                 {borderRadius: 2, marginBottom: 20},
               ]}>
-              <IconFontisto name="female" size={20} color="#fff" />
               <Text
                 style={{
                   fontFamily: 'Allrounder-Grotesk-Medium',
-                  fontSize: 20,
+                  fontSize: 22,
                   color: '#fff',
                   marginLeft: 5,
                 }}>
@@ -720,7 +719,11 @@ class ErrorModal extends React.PureComponent {
             <TouchableOpacity
               style={[
                 styles.bttnGenericTc,
-                {borderRadius: 2, backgroundColor: '#f0f0f0'},
+                {
+                  borderRadius: 2,
+                  backgroundColor: '#f0f0f0',
+                  alignItems: 'center',
+                },
               ]}
               onPress={() => this.props.UpdateUserGenderState('unknown')}>
               <IconEntypo name="block" size={20} color="#000" top={10} />

@@ -12,6 +12,7 @@ import {
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SyncStorage from 'sync-storage';
+import {acc} from 'react-native-reanimated';
 
 class EntryScreen extends React.PureComponent {
   constructor(props) {
@@ -42,16 +43,32 @@ class EntryScreen extends React.PureComponent {
     let user_email = SyncStorage.get('@user_email');
     let phone = SyncStorage.get('@phone_user');
     let user_profile_pic = SyncStorage.get('@user_profile_pic');
+    let accountCreation_state = SyncStorage.get('@accountCreation_state');
 
     //Update globals
-    this.props.App.gender_user = gender_user;
-    this.props.App.username = username;
-    this.props.App.surname_user = surname;
-    this.props.App.user_email = user_email;
-    this.props.App.phone_user = phone;
-    this.props.App.user_profile_pic = user_profile_pic;
+    this.props.App.gender_user =
+      gender_user !== undefined && gender_user !== null
+        ? gender_user
+        : 'unknown';
+    this.props.App.username =
+      username !== undefined && username !== null ? username : 'User';
+    this.props.App.surname_user =
+      surname !== undefined && surname !== null ? surname : '';
+    this.props.App.user_email =
+      user_email !== undefined && user_email !== null ? user_email : '';
+    this.props.App.phone_user =
+      phone !== undefined && phone !== null ? phone : '';
+    this.props.App.user_profile_pic =
+      user_profile_pic !== undefined && user_profile_pic !== null
+        ? user_profile_pic
+        : null;
     this.props.App.user_fingerprint = user_fp;
     this.props.App.pushnotif_token = pushnotif_token;
+    this.props.App.accountCreation_state =
+      accountCreation_state !== undefined && accountCreation_state !== null
+        ? accountCreation_state
+        : 'minimal'; //full or minimal
+
     try {
       userCurrentLocationMetaData = JSON.parse(userCurrentLocationMetaData);
       this.props.App.userCurrentLocationMetaData = userCurrentLocationMetaData;
@@ -72,7 +89,8 @@ class EntryScreen extends React.PureComponent {
       this.props.App.user_fingerprint !== undefined &&
       this.props.App.user_fingerprint !== null &&
       this.props.App.user_fingerprint !== false &&
-      this.props.App.user_fingerprint.length > 40
+      this.props.App.user_fingerprint.length > 40 &&
+      /full/i.test(this.props.App.accountCreation_state)
     ) {
       this.props.navigation.navigate('Home');
     }

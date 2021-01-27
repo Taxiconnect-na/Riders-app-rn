@@ -194,12 +194,14 @@ class OTPVerificationEntry extends React.PureComponent {
                 SyncStorage.set('@user_email', response.email);
                 SyncStorage.set('@phone_user', response.phone_number);
                 SyncStorage.set('@user_profile_pic', response.profile_picture);
+                SyncStorage.set('@accountCreation_state', 'full');
                 //....
                 globalObject.state.accountCreation_state = 'full';
               } //Minimal account - go to complete details
               else {
                 //! Save the user_fp and the rest of the globals
                 globalObject.props.App.user_fingerprint = response.user_fp;
+                SyncStorage.set('@accountCreation_state', 'minimal');
                 //....
                 globalObject.state.accountCreation_state = 'minimal';
               }
@@ -264,10 +266,9 @@ class OTPVerificationEntry extends React.PureComponent {
               });
             } //Minimal account - move to the additional details screen
             else {
-              globalObject.props.navigation.reset({
-                index: 0,
-                routes: [{name: 'NewAccountAdditionalDetails'}],
-              });
+              globalObject.props.navigation.navigate(
+                'NewAccountAdditionalDetails',
+              );
             }
           }
         } else if (response.response === false) {

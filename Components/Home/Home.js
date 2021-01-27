@@ -63,7 +63,7 @@ class Home extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this._isMounted = false; //! RESPONSIBLE TO LOCK PROCESSES IN THE HOME SCREEN WHEN UNMOUNTED.
+    this._isMounted = true; //! RESPONSIBLE TO LOCK PROCESSES IN THE HOME SCREEN WHEN UNMOUNTED.
 
     //Handlers
     this.backHander = null;
@@ -346,7 +346,6 @@ class Home extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
-    this._isMounted = true;
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen

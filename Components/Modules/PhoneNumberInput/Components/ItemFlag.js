@@ -36,7 +36,7 @@ class ItemFlag extends React.PureComponent {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          paddingBottom: this.props.country.name === 'Zimbabwe' ? '30%' : 10,
+          paddingBottom: /Zimbabwe/i.test(this.props.country.name) ? '30%' : 10,
           marginBottom: 10,
         }}>
         <View
