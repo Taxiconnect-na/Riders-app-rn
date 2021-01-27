@@ -304,13 +304,16 @@ class DetailsRidesGenericScreen extends React.PureComponent {
         {this.state.loaderState ? (
           <GenericLoader active={this.state.loaderState} thickness={4} />
         ) : null}
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
+
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+          <ErrorModal
+            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+            error_status={
+              this.props.App.generalErrorModal_vars.generalErrorModalType
+            }
+            parentNode={this}
+          />
+        ) : null}
 
         {this.state.fetchingRides_Data === false ? (
           this.state.areResultsEmpty === false &&
@@ -493,31 +496,46 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                         alignItems: 'flex-start',
                                         marginTop: index > 0 ? 5 : 0,
                                       }}>
-                                      <Text
+                                      <View
                                         style={{
-                                          fontFamily:
-                                            'Allrounder-Grotesk-Regular',
-                                          fontSize: 17,
-                                          marginLeft: 5,
                                           flex: 1,
+                                          flexDirection: 'row',
+                                          alignItems: 'center',
                                         }}>
                                         {this.state.detailed_requestData.destination_name.split(
                                           ',',
                                         ).length > 1 ? (
+                                          <View
+                                            style={{
+                                              height: '100%',
+                                              justifyContent: 'flex-start',
+                                            }}>
+                                            <Text
+                                              style={{
+                                                fontFamily:
+                                                  'Allrounder-Grotesk-Regular',
+                                                fontSize: 17,
+                                                color: '#096ED4',
+                                              }}>
+                                              {index + 1 + '. '}
+                                            </Text>
+                                          </View>
+                                        ) : null}
+                                        <View
+                                          style={{
+                                            height: '100%',
+                                            alignItems: 'flex-start',
+                                          }}>
                                           <Text
                                             style={{
                                               fontFamily:
                                                 'Allrounder-Grotesk-Regular',
-                                              fontSize: 17,
-                                              marginLeft: 5,
-                                              flex: 1,
-                                              color: '#096ED4',
+                                              fontSize: 16.5,
                                             }}>
-                                            {index + 1 + '. '}
+                                            {destination.trim()}.
                                           </Text>
-                                        ) : null}
-                                        {destination.trim()}
-                                      </Text>
+                                        </View>
+                                      </View>
                                     </View>
                                   );
                                 })}

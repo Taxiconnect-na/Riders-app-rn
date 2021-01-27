@@ -57,6 +57,7 @@ class PhoneDetailsScreen extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
+      console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
@@ -95,12 +96,17 @@ class PhoneDetailsScreen extends React.PureComponent {
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
           <StatusBar backgroundColor="black" />
-          <ErrorModal
-            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-            error_status={
-              this.props.App.generalErrorModal_vars.generalErrorModalType
-            }
-          />
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+            <ErrorModal
+              active={
+                this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              }
+              error_status={
+                this.props.App.generalErrorModal_vars.generalErrorModalType
+              }
+              parentNode={this}
+            />
+          ) : null}
           {this.automoveForward()}
           <View style={styles.presentationWindow}>
             <TouchableOpacity

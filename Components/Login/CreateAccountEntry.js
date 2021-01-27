@@ -51,7 +51,9 @@ class CreateAccountEntry extends React.PureComponent {
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.navigate('PhoneDetailsScreen');
+        if (globalObject.state.creatingAccount === false) {
+          globalObject.props.navigation.navigate('PhoneDetailsScreen');
+        }
         return true;
       },
     );
@@ -199,14 +201,22 @@ class CreateAccountEntry extends React.PureComponent {
     return (
       <SafeAreaView style={styles.mainWindow}>
         <GenericLoader active={this.state.loaderState} thickness={4} />
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-        />
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+          <ErrorModal
+            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+            error_status={
+              this.props.App.generalErrorModal_vars.generalErrorModalType
+            }
+          />
+        ) : null}
         <View style={styles.presentationWindow}>
-          <TouchableOpacity onPress={() => this.gobackFromAdditionalDetails()}>
+          <TouchableOpacity
+            style={{opacity: this.state.creatingAccount === false ? 1 : 0}}
+            onPress={() =>
+              this.state.creatingAccount === false
+                ? this.gobackFromAdditionalDetails()
+                : {}
+            }>
             <IconAnt name="arrowleft" size={29} />
           </TouchableOpacity>
           <Text

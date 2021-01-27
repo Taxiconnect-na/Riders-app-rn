@@ -481,10 +481,10 @@ const STATE = {
 
   //User generic variables
   gender_user: 'male', //The gender of the user - default: male (male, female, unknown)
-  username: 'User', //The name of the user - default: false - name
-  surname_user: 'Surname', //The name of the user - default: false - surname
-  phone_user: '+264856997167', //The user's phone number - default: false
-  user_email: 'user@gmail.com', //The email of the user - default: false
+  username: false, //The name of the user - default: false - name
+  surname_user: false, //The name of the user - default: false - surname
+  phone_user: false, //The user's phone number - default: false
+  user_email: false, //The email of the user - default: false
   user_profile_pic: null, //The user's profile picture
   last_dataPersoUpdated: null, //The last data updated - default: null
   accountCreation_state: null, //The state of the creation of the account - full or minimal - default: null
@@ -496,8 +496,7 @@ const STATE = {
   rides_history_details_data: {
     rides_history_data: [],
     targetedRequestSelected: {
-      request_fp:
-        'd17ccec0a84b5fda99de3b0d2d8d3366e811fe241acc22d2b896a1338db74da6196daa665901e346',
+      request_fp: false,
     }, //After the user select one already happened ride for more details - default: false
   },
   //Drop off rating metadata

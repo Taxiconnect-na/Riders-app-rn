@@ -397,6 +397,7 @@ class ErrorModal extends React.PureComponent {
       }
       globalObject.props.App._CLOSEST_DRIVERS_DATA = null;
       //3. Clear all the storages
+      SyncStorage.remove('@user_fp');
       SyncStorage.remove('@userLocationPoint');
       SyncStorage.remove('@gender_user');
       SyncStorage.remove('@username');
@@ -775,7 +776,7 @@ class ErrorModal extends React.PureComponent {
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() =>
-                this.skipAddMoreProfileDetails(this.props.parentNode)
+                this.props.UpdateErrorModalLog(false, false, 'any')
               }
               style={styles.bttnGenericTc}>
               <Text

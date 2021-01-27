@@ -52,6 +52,7 @@ import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import SyncStorage from 'sync-storage';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 //DEBUG
 //import {ROUTE} from './Route';
 const INIT_ZOOM_LEVEL = 0.384695086717085;
@@ -364,10 +365,24 @@ class Home extends React.PureComponent {
           //Close the app or something.
         } //Go back to previous flow
         else {
-          globalObject.props.parentNode.rerouteBookingProcessFlow(
-            'previous',
-            globalObject.props.App.bottomVitalsFlow.flowParent,
-          );
+          if (
+            /selectRideOrDelivery/i.test(
+              globalObject.props.App.bottomVitalsFlow.currentStep,
+            )
+          ) {
+            globalObject.deInitialTouchForRideOrDelivery();
+          } else if (
+            /gettingRideProcessScreen/i.test(
+              globalObject.props.App.bottomVitalsFlow.currentStep,
+            )
+          ) {
+            //Do nothing
+          } else {
+            globalObject.rerouteBookingProcessFlow(
+              'previous',
+              globalObject.props.App.bottomVitalsFlow.flowParent,
+            );
+          }
         }
         return true;
       },
@@ -2654,6 +2669,7 @@ class Home extends React.PureComponent {
             'gettingRideProcessScreen' ? (
             <View style={{flex: 1, alignItems: 'flex-start'}}>
               <TouchableOpacity
+                activeOpacity={0.4}
                 onPress={() =>
                   this.props.App.bottomVitalsFlow.currentStep ===
                   'selectRideOrDelivery'

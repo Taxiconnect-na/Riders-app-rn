@@ -100,16 +100,19 @@ function Wallet_drawer() {
         component={WalletEntry}
         options={{
           headerShown: true,
-          headerStyle: {backgroundColor: '#000'},
-          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: '#fff',
+            elevation: 0,
+          },
+          headerTintColor: '#000',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
-                  fontSize: 20,
+                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontSize: 21,
                   right: 20,
-                  color: '#fff',
+                  color: '#000',
                 }}>
                 Connect Wallet
               </Text>

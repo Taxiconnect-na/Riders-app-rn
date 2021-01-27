@@ -14,14 +14,13 @@ import {
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
 import WalletTransacRecords from './WalletTransacRecords';
-import {systemWeights} from 'react-native-typography';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 
 class WalletEntry extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this._isMounted = false; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
+    this._isMounted = true; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
 
     //Handlers
     this.backHander = null;
@@ -80,11 +79,11 @@ class WalletEntry extends React.PureComponent {
                     <Text
                       style={{
                         flex: 1,
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily: 'Allrounder-Grotesk-Book',
                         fontSize: 18,
                         color: '#0e8491',
                       }}>
-                      Hey, Dominique
+                      Hey, {this.props.App.username}
                     </Text>
                     <View
                       style={{
@@ -147,10 +146,10 @@ class WalletEntry extends React.PureComponent {
                     }}>
                     <Text
                       style={[
-                        systemWeights.bold,
+                        //systemWeights.bold,
                         {
-                          fontFamily: 'Allrounder-Grotesk-Medium',
-                          fontSize: 36,
+                          fontFamily: 'MoveBold',
+                          fontSize: 37,
                           color: '#0e8491',
                         },
                       ]}>
@@ -264,11 +263,10 @@ class WalletEntry extends React.PureComponent {
                       <Text
                         style={[
                           {
-                            fontFamily: 'Allrounder-Grotesk-Medium',
+                            fontFamily: 'MoveBold',
                             fontSize: 17.5,
                             color: '#a5a5a5',
                             paddingBottom: 15,
-                            fontWeight: 'bold',
                           },
                         ]}>
                         Show all
@@ -325,9 +323,9 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
   textSelectMenu3: {
-    fontFamily: 'Allrounder-Grotesk-Medium',
-    fontSize: 17.5,
-    marginTop: 10,
+    fontFamily: 'MoveBold',
+    fontSize: 17,
+    marginTop: 15,
   },
   arrowCircledForwardBasic: {
     backgroundColor: '#0e8491',

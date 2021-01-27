@@ -75,6 +75,7 @@ class SettingsEntryScreen extends React.Component {
     this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
+        globalObject.setState({isLoading_something: false});
         if (
           response !== undefined &&
           response !== null &&
@@ -230,7 +231,7 @@ class SettingsEntryScreen extends React.Component {
       dataToUpdate: base64String,
       infoToUpdate: 'picture',
     };
-    //this.setState({isErrorThrown: false, isLoading_something: true});
+    this.setState({isLoading_something: true});
     this.props.App.socket.emit('updateRiders_profileInfos_io', bundleData);
   }
 
@@ -387,7 +388,12 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily: 'Allrounder-Grotesk-Medium',
                       fontSize: 18,
                     }}>
-                    Dominique Kanyik
+                    {`${this.props.App.username} ${
+                      this.props.App.surname !== undefined &&
+                      this.props.App.surname !== null
+                        ? this.props.surname
+                        : ''
+                    }`}
                   </Text>
                 </View>
               </View>

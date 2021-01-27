@@ -202,7 +202,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily: 'Allrounder-Grotesk-Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>
@@ -244,7 +244,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily: 'Allrounder-Grotesk-Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>
@@ -255,7 +255,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   ? `${this.props.App.surname_user[0].toUpperCase()}${this.props.App.surname_user
                       .substr(1)
                       .toLowerCase()}`
-                  : 'User'}
+                  : 'Enter your surname'}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
@@ -291,7 +291,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily: 'Allrounder-Grotesk-Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>
@@ -350,7 +350,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily: 'Allrounder-Grotesk-Medium',
                     fontSize: 17.5,
                   }}>
                   {this.props.App.phone_user !== false &&
@@ -393,7 +393,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily: 'Allrounder-Grotesk-Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>

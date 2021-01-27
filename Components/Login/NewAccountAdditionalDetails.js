@@ -51,7 +51,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.navigate('EntryScreen');
+        if (globalObject.state.completingAccountProfile === false) {
+          globalObject.props.navigation.navigate('EntryScreen');
+        }
         return true;
       },
     );
@@ -119,6 +121,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       function (response) {
         globalObject.setState({loaderState: false}); //stop loader
         if (response !== false && response.response !== undefined) {
+          console.log(response);
           if (!/error/i.test(response.response)) {
             //Success
             //Update the general state infos and move forward
@@ -280,16 +283,24 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
           <GenericLoader active={this.state.loaderState} />
-          <ErrorModal
-            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-            error_status={
-              this.props.App.generalErrorModal_vars.generalErrorModalType
-            }
-            parentNode={this}
-          />
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+            <ErrorModal
+              active={
+                this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              }
+              error_status={
+                this.props.App.generalErrorModal_vars.generalErrorModalType
+              }
+              parentNode={this}
+            />
+          ) : null}
           <View style={styles.presentationWindow}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('EntryScreen')}>
+              onPress={() =>
+                this.state.completingAccountProfile === false
+                  ? this.props.navigation.navigate('EntryScreen')
+                  : {}
+              }>
               <IconAnt name="arrowleft" size={29} />
             </TouchableOpacity>
             <Text

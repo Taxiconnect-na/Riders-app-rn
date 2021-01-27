@@ -402,8 +402,7 @@ class OTPVerificationGeneric extends React.PureComponent {
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
           <GenericLoader active={this.state.loaderState} thickness={5} />
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ===
-          false ? (
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
             <ErrorModal
               active={
                 this.props.App.generalErrorModal_vars.showErrorGeneralModal

@@ -260,10 +260,11 @@ class OTPVerificationEntry extends React.PureComponent {
           else {
             //Check the state of the account creation
             if (/full/i.test(globalObject.state.accountCreation_state)) {
-              globalObject.props.navigation.reset({
+              /*globalObject.props.navigation.reset({
                 index: 0,
                 routes: [{name: 'Home'}],
-              });
+              });*/
+              globalObject.props.navigation.navigate('Home');
             } //Minimal account - move to the additional details screen
             else {
               globalObject.props.navigation.navigate(
@@ -461,8 +462,7 @@ class OTPVerificationEntry extends React.PureComponent {
         <SafeAreaView style={styles.mainWindow}>
           <GenericLoader active={this.state.loaderState} />
           {this.autoCheckOTPAsTyped()}
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ===
-          false ? (
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
             <ErrorModal
               active={
                 this.props.App.generalErrorModal_vars.showErrorGeneralModal

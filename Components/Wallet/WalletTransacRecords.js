@@ -21,9 +21,7 @@ class WalletTransacRecords extends React.PureComponent {
           />
         </View>
         <View style={{flex: 1}}>
-          <Text style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 17}}>
-            Top-up
-          </Text>
+          <Text style={{fontFamily: 'MoveBold', fontSize: 17}}>Top-up</Text>
           <Text
             style={{
               fontFamily: 'Allrounder-Grotesk-Regular',
@@ -42,7 +40,7 @@ class WalletTransacRecords extends React.PureComponent {
           }}>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Medium',
+              fontFamily: 'MoveRegular',
               fontSize: 17,
               color: '#0e8491',
             }}>
