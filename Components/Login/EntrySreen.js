@@ -133,10 +133,9 @@ class EntryScreen extends React.PureComponent {
             <View style={{height: 70}}>
               <Text
                 style={[
-                  systemWeights.bold,
                   {
                     fontSize: 25,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily: 'MoveBold',
                     color: '#fff',
                   },
                 ]}>

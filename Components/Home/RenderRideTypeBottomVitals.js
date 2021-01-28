@@ -184,7 +184,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 useNativeDriver: true,
               },
             ),
-          ]).start();
+          ]).start(() => {
+            globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+          });
         });
       } //Select ride type currently active
       else {
@@ -255,7 +257,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 useNativeDriver: true,
               },
             ),
-          ]).start();
+          ]).start(() => {
+            globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+          });
         });
       }
     });
@@ -1902,7 +1906,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
-                                                fontSize: 19,
+                                                fontSize: /^available$/i.test(
+                                                  vehicle.availability,
+                                                )
+                                                  ? 19
+                                                  : 17,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Medium',
                                                 color: /^available$/i.test(
@@ -2123,7 +2131,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
-                                                fontSize: 19,
+                                                fontSize: /^available$/i.test(
+                                                  vehicle.availability,
+                                                )
+                                                  ? 19
+                                                  : 17,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Medium',
                                                 color: /^available$/i.test(
@@ -2334,7 +2346,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
-                                                fontSize: 19,
+                                                fontSize: /^available$/i.test(
+                                                  vehicle.availability,
+                                                )
+                                                  ? 19
+                                                  : 17,
                                                 fontFamily:
                                                   'Allrounder-Grotesk-Medium',
                                                 color: /^available$/i.test(

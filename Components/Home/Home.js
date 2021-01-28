@@ -312,16 +312,15 @@ class Home extends React.PureComponent {
             //...
             if (globalObject.props.App.intervalProgressLoop === false) {
               InteractionManager.runAfterInteractions(() => {
-                globalObject._isMounted && globalObject.GPRS_resolver();
-                globalObject._isMounted &&
-                  globalObject.updateRemoteLocationsData();
+                globalObject.GPRS_resolver();
+                globalObject.updateRemoteLocationsData();
               });
               //Request for the total wallet balance
-              globalObject._isMounted &&
-                globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
-                  user_fingerprint: globalObject.props.App.user_fingerprint,
-                  mode: 'total',
-                });
+
+              globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
+                user_fingerprint: globalObject.props.App.user_fingerprint,
+                mode: 'total',
+              });
             } //Kill the persister
             else {
               clearInterval(
@@ -483,6 +482,15 @@ class Home extends React.PureComponent {
           response !== undefined &&
           response.total !== undefined
         ) {
+          if (
+            /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
+              globalObject.props.App.generalErrorModalType,
+            ) !== true
+          ) {
+            //Do not interrupt the select gender process
+            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+          }
+          //...
           globalObject.props.UpdateTotalWalletAmount(response);
         }
       },
@@ -2813,32 +2821,30 @@ class Home extends React.PureComponent {
   render() {
     return (
       <DismissKeyboard>
-        {this._isMounted ? (
-          <View style={styles.window}>
-            <StatusBar backgroundColor="#000" />
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-              <ErrorModal
-                active={
-                  this.props.App.generalErrorModal_vars.showErrorGeneralModal
-                }
-                error_status={
-                  this.props.App.generalErrorModal_vars.generalErrorModalType
-                }
-                parentNode={this}
-              />
-            ) : null}
-            {this.props.App.isSelectDatePickerActive ? (
-              <DateTimePickerModal
-                isVisible={this.props.App.isSelectDatePickerActive}
-                mode="time"
-                is24Hour={true}
-                onConfirm={this.handleConfirmDateSchedule}
-                onCancel={this.handleCancelScheduleTrip}
-              />
-            ) : null}
-            <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
-          </View>
-        ) : null}
+        <View style={styles.window}>
+          <StatusBar backgroundColor="#000" />
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
+            <ErrorModal
+              active={
+                this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              }
+              error_status={
+                this.props.App.generalErrorModal_vars.generalErrorModalType
+              }
+              parentNode={this}
+            />
+          ) : null}
+          {this.props.App.isSelectDatePickerActive ? (
+            <DateTimePickerModal
+              isVisible={this.props.App.isSelectDatePickerActive}
+              mode="time"
+              is24Hour={true}
+              onConfirm={this.handleConfirmDateSchedule}
+              onCancel={this.handleCancelScheduleTrip}
+            />
+          ) : null}
+          <View style={{flex: 1}}>{this.renderAppropriateModules()}</View>
+        </View>
       </DismissKeyboard>
     );
   }

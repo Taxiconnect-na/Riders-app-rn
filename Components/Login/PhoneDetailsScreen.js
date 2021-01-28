@@ -119,7 +119,7 @@ class PhoneDetailsScreen extends React.PureComponent {
                 systemWeights.semibold,
                 {
                   fontSize: 21,
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily: 'Allrounder-Grotesk-Medium',
                   marginTop: 15,
                   marginBottom: 35,
                 },
