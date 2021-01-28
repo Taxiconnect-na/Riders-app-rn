@@ -17,6 +17,7 @@ import {
   TouchableHighlightBase,
   BackHandler,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
@@ -97,38 +98,157 @@ class Home extends React.PureComponent {
   async GPRS_resolver(promptActivation = false) {
     let globalObject = this;
     //Check if the app already has the GPRS permissions
-    try {
-      const checkGPRS = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      if (checkGPRS) {
-        //Permission already granted
-        //Unlock the platform if was locked
+    if (Platform.OS === 'android') {
+      try {
+        const checkGPRS = await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (checkGPRS) {
+          //Permission already granted
+          //Unlock the platform if was locked
 
-        if (true) {
-          const requestLocationPermission = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Enable location',
-              message:
-                'TaxiConnect requires access to your location to provide an optimal experience.',
-              buttonPositive: 'Allow',
-              buttonNegative: 'Cancel',
-            },
-          );
-          //...
-          if (
-            requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
-          ) {
+          if (true) {
+            const requestLocationPermission = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: 'Enable location',
+                message:
+                  'TaxiConnect requires access to your location to provide an optimal experience.',
+                buttonPositive: 'Allow',
+                buttonNegative: 'Cancel',
+              },
+            );
+            //...
             if (
-              this.props.App.gprsGlobals.hasGPRSPermissions === false ||
-              this.props.App.gprsGlobals.didAskForGprs === false ||
-              this.props.App.latitude === 0 ||
-              this.props.App.longitude === 0
+              requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
             ) {
-              if (/off the map/i.test(this.props.App.hello2Text)) {
-                globalObject.replaceHello2_text("How's your day?");
+              if (
+                this.props.App.gprsGlobals.hasGPRSPermissions === false ||
+                this.props.App.gprsGlobals.didAskForGprs === false ||
+                this.props.App.latitude === 0 ||
+                this.props.App.longitude === 0
+              ) {
+                if (/off the map/i.test(this.props.App.hello2Text)) {
+                  globalObject.replaceHello2_text("How's your day?");
+                }
+                //Permission granted
+                this.getCurrentPositionCusto();
+                GeolocationP.getCurrentPosition(
+                  (position) => {
+                    globalObject.props.App.latitude = position.coords.latitude;
+                    globalObject.props.App.longitude =
+                      position.coords.longitude;
+                    //Update GPRS permission global var
+                    let newStateVars = {};
+                    newStateVars.hasGPRSPermissions = true;
+                    newStateVars.didAskForGprs = true;
+                    globalObject.props.UpdateGrantedGRPS(newStateVars);
+                    //Launch recalibration
+                    InteractionManager.runAfterInteractions(() => {
+                      globalObject.recalibrateMap();
+                    });
+                  },
+                  () => {
+                    // See error code charts below.
+                    //Launch recalibration
+                    InteractionManager.runAfterInteractions(() => {
+                      globalObject.recalibrateMap();
+                    });
+                  },
+                  {
+                    enableHighAccuracy: true,
+                    timeout: 200000,
+                    maximumAge: 1000,
+                    distanceFilter: 3,
+                  },
+                );
+                this.props.App.isMapPermitted = true;
+              } else {
+                globalObject.updateDriver_realTimeMap();
+                GeolocationP.getCurrentPosition(
+                  (position) => {
+                    globalObject.props.App.latitude = position.coords.latitude;
+                    globalObject.props.App.longitude =
+                      position.coords.longitude;
+                    //Get user location
+                    globalObject.props.App.socket.emit('geocode-this-point', {
+                      latitude: globalObject.props.App.latitude,
+                      longitude: globalObject.props.App.longitude,
+                      user_fingerprint: globalObject.props.App.user_fingerprint,
+                    });
+                    //Update GPRS permission global var
+                    let newStateVars = {};
+                    newStateVars.hasGPRSPermissions = true;
+                    newStateVars.didAskForGprs = true;
+                    globalObject.props.UpdateGrantedGRPS(newStateVars);
+                  },
+                  () => {
+                    // See error code charts below.
+                    //Launch recalibration
+                    InteractionManager.runAfterInteractions(() => {
+                      globalObject.recalibrateMap();
+                    });
+                  },
+                  {
+                    enableHighAccuracy: true,
+                    timeout: 200000,
+                    maximumAge: 10000,
+                    distanceFilter: 3,
+                  },
+                );
+                //Check the zoom level
+                if (this.props._map !== undefined && this.props._map != null) {
+                  if (
+                    this.props._map !== undefined &&
+                    this.props._map != null &&
+                    this.props.App.isRideInProgress === false
+                  ) {
+                    const mapZoom = await this.props.parentNode._map.getZoom();
+                    if (mapZoom > 18) {
+                      InteractionManager.runAfterInteractions(() => {
+                        globalObject.recalibrateMap();
+                      });
+                    }
+                  }
+                }
               }
+            } //Permission denied
+            else {
+              //Permission denied, update gprs global vars and lock the platform
+              let newStateVars = {};
+              newStateVars.hasGPRSPermissions = false;
+              newStateVars.didAskForGprs = true;
+              this.props.UpdateGrantedGRPS(newStateVars);
+              //Close loading animation
+              this.resetAnimationLoader();
+            }
+          }
+        } //Permission denied
+        else {
+          if (promptActivation === false) {
+            //Permission denied, update gprs global vars and lock the platform
+            let newStateVars = {};
+            newStateVars.hasGPRSPermissions = false;
+            newStateVars.didAskForGprs = true;
+            this.props.UpdateGrantedGRPS(newStateVars);
+            //Close loading animation
+            this.resetAnimationLoader();
+          } //Prompt the activation
+          else {
+            const requestLocationPermission = await PermissionsAndroid.request(
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              {
+                title: 'Enable location',
+                message:
+                  'TaxiConnect requires access to your location to provide an optimal experience.',
+                buttonPositive: 'Allow',
+                buttonNegative: 'Cancel',
+              },
+            );
+            //...
+            if (
+              requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
+            ) {
               //Permission granted
               this.getCurrentPositionCusto();
               GeolocationP.getCurrentPosition(
@@ -154,148 +274,33 @@ class Home extends React.PureComponent {
                 },
                 {
                   enableHighAccuracy: true,
-                  timeout: 200000,
+                  timeout: 2000,
                   maximumAge: 1000,
                   distanceFilter: 3,
                 },
               );
               this.props.App.isMapPermitted = true;
-            } else {
-              globalObject.updateDriver_realTimeMap();
-              GeolocationP.getCurrentPosition(
-                (position) => {
-                  globalObject.props.App.latitude = position.coords.latitude;
-                  globalObject.props.App.longitude = position.coords.longitude;
-                  //Get user location
-                  globalObject.props.App.socket.emit('geocode-this-point', {
-                    latitude: globalObject.props.App.latitude,
-                    longitude: globalObject.props.App.longitude,
-                    user_fingerprint: globalObject.props.App.user_fingerprint,
-                  });
-                  //Update GPRS permission global var
-                  let newStateVars = {};
-                  newStateVars.hasGPRSPermissions = true;
-                  newStateVars.didAskForGprs = true;
-                  globalObject.props.UpdateGrantedGRPS(newStateVars);
-                },
-                () => {
-                  // See error code charts below.
-                  //Launch recalibration
-                  InteractionManager.runAfterInteractions(() => {
-                    globalObject.recalibrateMap();
-                  });
-                },
-                {
-                  enableHighAccuracy: true,
-                  timeout: 200000,
-                  maximumAge: 10000,
-                  distanceFilter: 3,
-                },
-              );
-              //Check the zoom level
-              if (this.props._map !== undefined && this.props._map != null) {
-                if (
-                  this.props._map !== undefined &&
-                  this.props._map != null &&
-                  this.props.App.isRideInProgress === false
-                ) {
-                  const mapZoom = await this.props.parentNode._map.getZoom();
-                  if (mapZoom > 18) {
-                    InteractionManager.runAfterInteractions(() => {
-                      globalObject.recalibrateMap();
-                    });
-                  }
-                }
-              }
+            } //Permission denied
+            else {
+              //Permission denied, update gprs global vars and lock the platform
+              let newStateVars = {};
+              newStateVars.hasGPRSPermissions = false;
+              newStateVars.didAskForGprs = true;
+              this.props.UpdateGrantedGRPS(newStateVars);
+              //Close loading animation
+              this.resetAnimationLoader();
             }
-          } //Permission denied
-          else {
-            //Permission denied, update gprs global vars and lock the platform
-            let newStateVars = {};
-            newStateVars.hasGPRSPermissions = false;
-            newStateVars.didAskForGprs = true;
-            this.props.UpdateGrantedGRPS(newStateVars);
-            //Close loading animation
-            this.resetAnimationLoader();
           }
         }
-      } //Permission denied
-      else {
-        if (promptActivation === false) {
-          //Permission denied, update gprs global vars and lock the platform
-          let newStateVars = {};
-          newStateVars.hasGPRSPermissions = false;
-          newStateVars.didAskForGprs = true;
-          this.props.UpdateGrantedGRPS(newStateVars);
-          //Close loading animation
-          this.resetAnimationLoader();
-        } //Prompt the activation
-        else {
-          const requestLocationPermission = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Enable location',
-              message:
-                'TaxiConnect requires access to your location to provide an optimal experience.',
-              buttonPositive: 'Allow',
-              buttonNegative: 'Cancel',
-            },
-          );
-          //...
-          if (
-            requestLocationPermission === PermissionsAndroid.RESULTS.GRANTED
-          ) {
-            //Permission granted
-            this.getCurrentPositionCusto();
-            GeolocationP.getCurrentPosition(
-              (position) => {
-                globalObject.props.App.latitude = position.coords.latitude;
-                globalObject.props.App.longitude = position.coords.longitude;
-                //Update GPRS permission global var
-                let newStateVars = {};
-                newStateVars.hasGPRSPermissions = true;
-                newStateVars.didAskForGprs = true;
-                globalObject.props.UpdateGrantedGRPS(newStateVars);
-                //Launch recalibration
-                InteractionManager.runAfterInteractions(() => {
-                  globalObject.recalibrateMap();
-                });
-              },
-              () => {
-                // See error code charts below.
-                //Launch recalibration
-                InteractionManager.runAfterInteractions(() => {
-                  globalObject.recalibrateMap();
-                });
-              },
-              {
-                enableHighAccuracy: true,
-                timeout: 2000,
-                maximumAge: 1000,
-                distanceFilter: 3,
-              },
-            );
-            this.props.App.isMapPermitted = true;
-          } //Permission denied
-          else {
-            //Permission denied, update gprs global vars and lock the platform
-            let newStateVars = {};
-            newStateVars.hasGPRSPermissions = false;
-            newStateVars.didAskForGprs = true;
-            this.props.UpdateGrantedGRPS(newStateVars);
-            //Close loading animation
-            this.resetAnimationLoader();
-          }
-        }
+      } catch (error) {
+        //Permission denied, update gprs global vars and lock the platform
+        let newStateVars = {};
+        newStateVars.hasGPRSPermissions = false;
+        newStateVars.didAskForGprs = true;
+        this.props.UpdateGrantedGRPS(newStateVars);
+        //Close loading animation
+        this.resetAnimationLoader();
       }
-    } catch (error) {
-      //Permission denied, update gprs global vars and lock the platform
-      let newStateVars = {};
-      newStateVars.hasGPRSPermissions = false;
-      newStateVars.didAskForGprs = true;
-      this.props.UpdateGrantedGRPS(newStateVars);
-      //Close loading animation
-      this.resetAnimationLoader();
     }
   }
 
@@ -390,16 +395,17 @@ class Home extends React.PureComponent {
     );
 
     //Initiate component by asking for the necessary permissions.
-    await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Enable location',
-        message:
-          'TaxiConnect requires access to your location to provide an optimal experience.',
-        buttonPositive: 'Allow',
-        buttonNegative: 'Cancel',
-      },
-    );
+    Platform.OS === 'android' &&
+      (await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Enable location',
+          message:
+            'TaxiConnect requires access to your location to provide an optimal experience.',
+          buttonPositive: 'Allow',
+          buttonNegative: 'Cancel',
+        },
+      ));
     globalObject.GPRS_resolver();
     //...
 
@@ -2413,7 +2419,9 @@ class Home extends React.PureComponent {
         <TouchableOpacity
           onPress={() => this.promptGPRSActivation()}
           style={[
-            styles.shadowBottomVitals,
+            Platform.OS === 'android'
+              ? styles.shadowBottomVitals
+              : styles.shadowBottomVitalsIOS,
             {
               flexDirection: 'row',
               minHeight: 80,
@@ -2640,7 +2648,7 @@ class Home extends React.PureComponent {
 
         {/**Hide menu for some specific screens */}
         {/(mainView)/i.test(this.props.App.bottomVitalsFlow.currentStep) ? (
-          <View
+          <SafeAreaView
             style={{
               position: 'absolute',
               width: 100,
@@ -2668,10 +2676,10 @@ class Home extends React.PureComponent {
               }}>
               <IconMaterialIcons name="menu" size={35} />
             </TouchableOpacity>
-          </View>
+          </SafeAreaView>
         ) : null}
 
-        <View
+        <SafeAreaView
           style={{
             position: 'absolute',
             zIndex: 90000000,
@@ -2717,7 +2725,7 @@ class Home extends React.PureComponent {
               </TouchableOpacity>
             </View>
           ) : null}
-        </View>
+        </SafeAreaView>
 
         {this.renderNoGPRSResolver()}
         {this.props.App.isSearchModuleOn ? (
@@ -2878,7 +2886,11 @@ class Home extends React.PureComponent {
     return (
       <DismissKeyboard>
         <View style={styles.window}>
-          <StatusBar backgroundColor="#000" />
+          {Platform.OS === 'android' ? (
+            <StatusBar backgroundColor="#000" />
+          ) : (
+            <StatusBar barStyle={'dark-content'} />
+          )}
           {this.props.App.generalErrorModal_vars.showErrorGeneralModal
             ? this.renderError_modalView()
             : null}
@@ -2943,6 +2955,16 @@ const styles = StyleSheet.create({
     borderTopWidth: 3,
     width: 20,
     marginBottom: 10,
+  },
+  shadowBottomVitalsIOS: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 120.7,
+    elevation: 0,
   },
   shadowBottomVitals: {
     shadowColor: '#000',

@@ -13,6 +13,8 @@ import {
   Easing,
   TouchableOpacity,
   Platform,
+  SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import examples from 'libphonenumber-js/examples.mobile.json';
 import {getExampleNumber, AsYouType} from 'libphonenumber-js';
@@ -134,9 +136,6 @@ class PhoneNumberInput extends React.PureComponent {
    * Responsible for rendering the header of the country searcher (nromal or filter mode)
    */
   renderHeaderCountryCodeSearcher() {
-    //DEBUG
-    //this.state.isFilterCountryShown = true;
-    //DEBUG
     if (this.props.App.isFilterCountryShown) {
       //Show filter
       return (
@@ -270,6 +269,7 @@ class PhoneNumberInput extends React.PureComponent {
             left: 0,
             width: windowWidth,
             height: windowHeight,
+            flex: 1,
             opacity: this.props.App.searchCountryScreenOpacity,
             transform: [
               {translateY: this.props.App.searchCountryScreenPosition},
@@ -279,7 +279,7 @@ class PhoneNumberInput extends React.PureComponent {
           <View
             style={{
               backgroundColor: '#000',
-              paddingTop: '7%',
+              paddingTop: Platform.OS === 'android ?' ? '7%' : '21%',
               minHeight: 75,
               paddingLeft: 20,
               paddingRight: 20,

@@ -100,7 +100,11 @@ class RenderBottomVital extends React.PureComponent {
 
           <AnimatedNative.View
             style={[
-              styles.shadowBottomVitals,
+              Platform.OS === 'android'
+                ? styles.shadowBottomVitals
+                : this.props.App.gprsGlobals.hasGPRSPermissions
+                ? styles.shadowBottomVitalsIOS
+                : styles.shadowBottomVitalsNULL,
               {
                 height: this.props.App.bottomVitalsFlow.bottomVitalChildHeight, //- DISABLED FOR DEBUG - height: 400, For all the ride booking process flow and all but one deliveries process flows.
                 //height: this.props.App.windowHeight, //Only for input receiver's informations for delivery and Package sizes
@@ -1055,6 +1059,26 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 90.7,
     elevation: 50,
+  },
+  shadowBottomVitalsIOS: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 120.7,
+    elevation: 0,
+  },
+  shadowBottomVitalsNULL: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
   },
   bttnGenericTc: {
     borderColor: '#000',

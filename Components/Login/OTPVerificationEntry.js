@@ -58,14 +58,27 @@ const App = ({valueM, parentNode, editable}) => {
         rootStyle={styles.codeFieldRoot}
         keyboardType="number-pad"
         textContentType="oneTimeCode"
-        renderCell={({index, symbol, isFocused}) => (
-          <Text
-            key={index}
-            style={[styles.cell, isFocused && styles.focusCell]}
-            onLayout={getCellOnLayoutHandler(index)}>
-            {symbol || (isFocused ? <Cursor /> : null)}
-          </Text>
-        )}
+        renderCell={({index, symbol, isFocused}) =>
+          Platform.OS === 'android' ? (
+            <Text
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}
+              onLayout={getCellOnLayoutHandler(index)}>
+              {symbol || (isFocused ? <Cursor /> : null)}
+            </Text>
+          ) : (
+            <View
+              key={index}
+              style={[styles.cell, isFocused && styles.focusCell]}>
+              <Text
+                key={index}
+                style={[styles.cell, isFocused && styles.focusCell]}
+                onLayout={getCellOnLayoutHandler(index)}>
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </Text>
+            </View>
+          )
+        }
       />
     </View>
   );
@@ -89,6 +102,7 @@ class OTPVerificationEntry extends React.PureComponent {
       networkStateChecker: false,
       accountCreation_state: 'full', //To know whether or not to redirecto to the addditional page for minimal account or not: minimal or full
       smsHashLinker: '####', //Has to link to the sms for the auto-completion
+      userAccountDetails: null, //Will hold the user details if already registered and assign them to the globals when the OTP is checked.
     };
     this.otpHandler = this.otpHandler.bind(this);
   }
@@ -97,12 +111,15 @@ class OTPVerificationEntry extends React.PureComponent {
     let globalObject = this;
 
     //? Generate the SMS hash linker to auto pick the verification code from the SMS.
-    RNOtpVerify.getHash().then((result) => {
-      try {
-        globalObject.state.smsHashLinker = result[0];
-      } catch (error) {}
-    });
-    this.initOTPListener();
+    Platform.OS === 'android' &&
+      RNOtpVerify.getHash().then((result) => {
+        try {
+          globalObject.state.smsHashLinker = result[0];
+        } catch (error) {}
+      });
+    Platform.OS === 'android'
+      ? this.initOTPListener()
+      : globalObject.requestForOTP();
 
     //Add navigator listener
     globalObject._navigatorEvent = globalObject.props.navigation.addListener(
@@ -184,38 +201,8 @@ class OTPVerificationEntry extends React.PureComponent {
             } else if (/^registered$/i.test(response.response)) {
               //Registered user
               globalObject.state.userStatus = 'registered_user';
-              if (/full/i.test(response.account_state)) {
-                //Minimal details already added - update big vars
-                //! Save the user_fp and the rest of the globals
-                globalObject.props.App.user_fingerprint = response.user_fp;
-                globalObject.props.App.gender_user = response.gender;
-                globalObject.props.App.username = response.name;
-                globalObject.props.App.surname_user = response.surname;
-                globalObject.props.App.user_email = response.email;
-                globalObject.props.App.phone_user = response.phone_number;
-                globalObject.props.App.user_profile_pic =
-                  response.profile_picture;
-                globalObject.props.App.pushnotif_token =
-                  response.pushnotif_token;
-                //! Save to storage as well.
-                SyncStorage.set('@user_fp', response.user_fp);
-                SyncStorage.set('@gender_user', response.gender);
-                SyncStorage.set('@username', response.name);
-                SyncStorage.set('@surname_user', response.surname);
-                SyncStorage.set('@user_email', response.email);
-                SyncStorage.set('@phone_user', response.phone_number);
-                SyncStorage.set('@user_profile_pic', response.profile_picture);
-                SyncStorage.set('@accountCreation_state', 'full');
-                //....
-                globalObject.state.accountCreation_state = 'full';
-              } //Minimal account - go to complete details
-              else {
-                //! Save the user_fp and the rest of the globals
-                globalObject.props.App.user_fingerprint = response.user_fp;
-                SyncStorage.set('@accountCreation_state', 'minimal');
-                //....
-                globalObject.state.accountCreation_state = 'minimal';
-              }
+              //? Save the account details
+              globalObject.state.userAccountDetails = response;
             } //Error
             else {
               globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
@@ -269,12 +256,44 @@ class OTPVerificationEntry extends React.PureComponent {
             globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home
           else {
+            //? Restore the saved account details
+            if (
+              /full/i.test(globalObject.state.userAccountDetails.account_state)
+            ) {
+              //Minimal details already added - update big vars
+              response = globalObject.state.userAccountDetails;
+              //! Save the user_fp and the rest of the globals
+              globalObject.props.App.user_fingerprint = response.user_fp;
+              globalObject.props.App.gender_user = response.gender;
+              globalObject.props.App.username = response.name;
+              globalObject.props.App.surname_user = response.surname;
+              globalObject.props.App.user_email = response.email;
+              globalObject.props.App.phone_user = response.phone_number;
+              globalObject.props.App.user_profile_pic =
+                response.profile_picture;
+              globalObject.props.App.pushnotif_token = response.pushnotif_token;
+              //! Save to storage as well.
+              SyncStorage.set('@user_fp', response.user_fp);
+              SyncStorage.set('@gender_user', response.gender);
+              SyncStorage.set('@username', response.name);
+              SyncStorage.set('@surname_user', response.surname);
+              SyncStorage.set('@user_email', response.email);
+              SyncStorage.set('@phone_user', response.phone_number);
+              SyncStorage.set('@user_profile_pic', response.profile_picture);
+              SyncStorage.set('@accountCreation_state', 'full');
+              //....
+              globalObject.state.accountCreation_state = 'full';
+            } //Minimal account - go to complete details
+            else {
+              //! Save the user_fp and the rest of the globals
+              globalObject.props.App.user_fingerprint = response.user_fp;
+              SyncStorage.set('@accountCreation_state', 'minimal');
+              //....
+              globalObject.state.accountCreation_state = 'minimal';
+            }
+
             //Check the state of the account creation
             if (/full/i.test(globalObject.state.accountCreation_state)) {
-              /*globalObject.props.navigation.reset({
-                index: 0,
-                routes: [{name: 'Home'}],
-              });*/
               globalObject.props.navigation.navigate('Home');
             } //Minimal account - move to the additional details screen
             else {
@@ -322,7 +341,7 @@ class OTPVerificationEntry extends React.PureComponent {
       this.state.networkStateChecker();
     }
     //Remove the auto otp seeker
-    RNOtpVerify.removeListener();
+    Platform.OS === 'android' && RNOtpVerify.removeListener();
   }
 
   /**
