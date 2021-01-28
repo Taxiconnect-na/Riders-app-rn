@@ -7,6 +7,7 @@ import {
   BackHandler,
   ScrollView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import call from 'react-native-phone-call';
@@ -73,7 +74,10 @@ class SupportEntry extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 20,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
                     marginLeft: 5,
                   }}>
                   We're here for you.
@@ -90,7 +94,10 @@ class SupportEntry extends React.PureComponent {
                     textAlign: 'left',
                     fontSize: 17,
                     lineHeight: 23,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                   }}>
                   If you <Text style={{fontWeight: 'bold'}}>left</Text> your
                   belongings in the taxi or you need{' '}
@@ -105,7 +112,10 @@ class SupportEntry extends React.PureComponent {
                     marginBottom: 20,
                     fontSize: 17,
                     lineHeight: 23,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                   }}>
                   If there is an{' '}
                   <Text style={{fontWeight: 'bold'}}>emergency</Text> and you
@@ -130,7 +140,10 @@ class SupportEntry extends React.PureComponent {
                   style={{
                     fontSize: 22,
                     color: '#fff',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   }}>
                   Call TaxiConnect
                 </Text>
@@ -148,7 +161,10 @@ class SupportEntry extends React.PureComponent {
                   style={{
                     fontSize: 22,
                     color: '#fff',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   }}>
                   Call City Police
                 </Text>

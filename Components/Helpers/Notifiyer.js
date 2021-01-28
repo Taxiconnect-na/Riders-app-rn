@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Platform,
 } from 'react-native';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -39,7 +40,10 @@ class Notifiyer extends React.PureComponent {
           }}>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Book'
+                  : 'Allrounder Grotesk Book',
               fontSize: 16.5,
               color: '#fff',
             }}>

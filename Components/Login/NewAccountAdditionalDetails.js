@@ -10,6 +10,7 @@ import {
   Keyboard,
   TextInput,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -348,7 +349,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               style={[
                 {
                   fontSize: 22,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   marginTop: 15,
                   marginBottom: 35,
                   textAlign: 'center',
@@ -365,7 +369,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 autoFocus
                 onChangeText={(text) => this.setState({name: text})}
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 19,
                   borderBottomWidth: /name/i.test(this.state.currentFocusName)
                     ? 1
@@ -381,7 +388,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                       color: '#b22222',
                       fontSize: 16,
                       marginTop: 10,
@@ -394,7 +404,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 marginTop: '10%',
                 marginBottom: 15,
                 fontSize: 14,
@@ -420,7 +433,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 19,
                   marginLeft: 5,
                   flex: 1,
@@ -446,7 +462,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 onFocus={() => this.updateCurrentFocused_field('email')}
                 onBlur={() => this.updateCurrentFocused_field('none')}
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 19,
                   borderBottomWidth: /email/i.test(this.state.currentFocusName)
                     ? 1
@@ -464,7 +483,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                       color: '#b22222',
                       fontSize: 16,
                       marginTop: 10,

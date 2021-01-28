@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -51,7 +52,10 @@ class SendFundsEntry extends React.PureComponent {
                 systemWeights.semibold,
                 {
                   fontSize: 21,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                   marginBottom: 30,
                   marginTop: 10,
                   padding: 20,
@@ -87,7 +91,10 @@ class SendFundsEntry extends React.PureComponent {
                       style={[
                         {
                           fontSize: 19,
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                           color: '#0e8491',
                           flex: 1,
                         },
@@ -97,7 +104,10 @@ class SendFundsEntry extends React.PureComponent {
                     <Text
                       style={{
                         flex: 1,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         lineHeight: 17,
                         fontSize: 13.5,
                       }}>
@@ -137,7 +147,10 @@ class SendFundsEntry extends React.PureComponent {
                       style={[
                         {
                           fontSize: 19,
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                           color: '#0e8491',
                           flex: 1,
                         },
@@ -147,7 +160,10 @@ class SendFundsEntry extends React.PureComponent {
                     <Text
                       style={{
                         flex: 1,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         lineHeight: 17,
                         fontSize: 13.5,
                       }}>

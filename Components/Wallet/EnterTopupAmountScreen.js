@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -51,7 +52,10 @@ class EnterTopupAmountScreen extends React.PureComponent {
                 systemWeights.semibold,
                 {
                   fontSize: 21,
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   marginBottom: 35,
                   marginTop: 10,
                 },
@@ -70,7 +74,10 @@ class EnterTopupAmountScreen extends React.PureComponent {
               <Text
                 style={{
                   fontSize: 19,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   paddingLeft: 10,
                   paddingRight: 5,
                 }}>
@@ -79,7 +86,10 @@ class EnterTopupAmountScreen extends React.PureComponent {
               <TextInput
                 style={{
                   fontSize: 19,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   flex: 1,
                 }}
                 placeholder="Amount"
@@ -105,7 +115,10 @@ class EnterTopupAmountScreen extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     color: '#000',
                     fontSize: 15,
                     lineHeight: 20,
@@ -113,7 +126,13 @@ class EnterTopupAmountScreen extends React.PureComponent {
                   },
                 ]}>
                 The maximum amount is{' '}
-                <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
+                  }}>
                   N$1000.
                 </Text>
               </Text>
@@ -135,11 +154,20 @@ class EnterTopupAmountScreen extends React.PureComponent {
                       fontSize: 13.5,
                       marginLeft: 6,
                       lineHeight: 18,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                     },
                   ]}>
                   Your{' '}
-                  <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    }}>
                     Purchased voucher
                   </Text>{' '}
                   will be automatically toped-up.

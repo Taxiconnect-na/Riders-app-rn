@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
@@ -49,7 +50,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 {
                   fontSize: 17,
                   lineHeight: 20,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                   marginBottom: 20,
                 },
               ]}>
@@ -64,7 +68,10 @@ class PayDriverConfirmation extends React.PureComponent {
                     systemWeights.semibold,
                     {
                       fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       marginBottom: 5,
                     },
                   ]}>
@@ -73,7 +80,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
                     marginBottom: 5,
                   }}>
                   MR. REINHOLD
@@ -81,7 +91,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     marginBottom: 10,
                     color: '#0e8491',
                   }}>
@@ -100,7 +113,10 @@ class PayDriverConfirmation extends React.PureComponent {
                     systemWeights.semibold,
                     {
                       fontSize: 18,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       marginBottom: 5,
                     },
                   ]}>
@@ -109,7 +125,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
                     marginBottom: 5,
                   }}>
                   MR. DAVID
@@ -118,7 +137,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     marginBottom: 5,
                     color: '#0e8491',
                   }}>
@@ -128,7 +150,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     marginBottom: 20,
                     color: '#0e8491',
                   }}>
@@ -140,7 +165,10 @@ class PayDriverConfirmation extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 15,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     marginBottom: 10,
                   }}>
                   Windhoek, Namibia.
@@ -157,7 +185,10 @@ class PayDriverConfirmation extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     fontSize: 14,
                     lineHeight: 19,
                     color: '#a5a5a5',
@@ -185,7 +216,10 @@ class PayDriverConfirmation extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23.5,
                         color: '#fff',
                       },

@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {CreditCardInput} from '../Modules/react-native-credit-card-input';
 import {systemWeights} from 'react-native-typography';
@@ -282,7 +283,10 @@ class TopUpWalletScreen extends React.PureComponent {
                 fontSize: 22,
                 color: '#fff',
                 paddingRight: 5,
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
               },
             ]}>
             Top-up wallet
@@ -399,7 +403,13 @@ class TopUpWalletScreen extends React.PureComponent {
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text
               style={[
-                {fontSize: 19, fontFamily: 'Allrounder-Grotesk-Regular'},
+                {
+                  fontSize: 19,
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
+                },
               ]}>
               Making the payment
             </Text>
@@ -446,7 +456,10 @@ class TopUpWalletScreen extends React.PureComponent {
                   {
                     fontSize: 18,
                     color: 'red',
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
                   },
                 ]}>
                 {this.state.resultOperationErrorText}
@@ -490,11 +503,22 @@ class TopUpWalletScreen extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#0D8691',
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
                   },
                 ]}>
                 Payment successful for{' '}
-                <Text style={[{fontFamily: 'Allrounder-Grotesk-Medium'}]}>
+                <Text
+                  style={[
+                    {
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    },
+                  ]}>
                   N${this.state.paymentAmount}
                 </Text>
                 .
@@ -589,7 +613,10 @@ class TopUpWalletScreen extends React.PureComponent {
                   style={[
                     {
                       fontSize: 22.5,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                       marginTop: 15,
                     },
                   ]}>
@@ -625,7 +652,10 @@ class TopUpWalletScreen extends React.PureComponent {
                       fontSize: 19,
                       paddingLeft: 20,
                       paddingRight: 20,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                     },
                   ]}
                   additionalInputsProps={{
@@ -673,7 +703,13 @@ class TopUpWalletScreen extends React.PureComponent {
                 />
                 <Text
                   style={[
-                    {fontSize: 14.5, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {
+                      fontSize: 14.5,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
                   ]}>
                   All the information entered is secured.
                 </Text>

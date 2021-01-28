@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Platform} from 'react-native';
 
 class HeaderDrawerContent extends React.PureComponent {
   constructor(props) {
@@ -65,7 +65,10 @@ class HeaderDrawerContent extends React.PureComponent {
         <View style={{flex: 1}}>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Medium',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Medium'
+                  : 'Allrounder Grotesk Medium',
               fontSize: 18,
               width: '100%',
               textAlign: 'left',
@@ -90,7 +93,10 @@ class HeaderDrawerContent extends React.PureComponent {
             }}>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Regular',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Regular'
+                    : 'Allrounder Grotesk Regular',
                 fontSize: 15,
                 textAlign: 'center',
                 color: '#ffff',
@@ -133,7 +139,13 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 10,
   },
-  menuTitles: {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 20},
+  menuTitles: {
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'Allrounder-Grotesk-Regular'
+        : 'Allrounder Grotesk Regular',
+    fontSize: 20,
+  },
   footerDrawer: {
     borderTopWidth: 0.5,
     borderTopColor: '#d0d0d0',

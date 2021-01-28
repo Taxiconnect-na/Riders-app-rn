@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import HeaderDrawerContent from './HeaderDrawerContent';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -59,7 +60,10 @@ export function MainDrawerContent(props) {
       <View style={styles.footerDrawer}>
         <Text
           style={{
-            fontFamily: 'Allrounder-Grotesk-Regular',
+            fontFamily:
+              Platform.OS === 'android'
+                ? 'Allrounder-Grotesk-Regular'
+                : 'Allrounder Grotesk Regular',
             fontSize: 15,
             flex: 1,
           }}>
@@ -67,13 +71,16 @@ export function MainDrawerContent(props) {
         </Text>
         <Text
           style={{
-            fontFamily: 'Allrounder-Grotesk-Book',
+            fontFamily:
+              Platform.OS === 'android'
+                ? 'Allrounder-Grotesk-Book'
+                : 'Allrounder Grotesk Book',
             fontSize: 14,
             flex: 1,
             color: '#a5a5a5',
             textAlign: 'right',
           }}>
-          v2.1.247
+          v2.1.248
         </Text>
       </View>
     </SafeAreaView>
@@ -93,7 +100,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuTitles: {
-    fontFamily: 'Allrounder-Grotesk-Regular',
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'Allrounder-Grotesk-Regular'
+        : 'Allrounder Grotesk Regular',
     fontSize: 20,
     flex: 1,
   },

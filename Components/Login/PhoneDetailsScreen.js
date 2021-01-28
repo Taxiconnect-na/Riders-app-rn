@@ -8,6 +8,7 @@ import {
   StatusBar,
   TouchableOpacity,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -161,7 +162,10 @@ class PhoneDetailsScreen extends React.PureComponent {
                 systemWeights.semibold,
                 {
                   fontSize: 21,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   marginTop: 15,
                   marginBottom: 35,
                 },
@@ -185,7 +189,10 @@ class PhoneDetailsScreen extends React.PureComponent {
                       fontSize: 13,
                       marginLeft: 6,
                       lineHeight: 18,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                     },
                   ]}>
                   By proceeding, you will receive an SMS and additional fees may

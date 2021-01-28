@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Keyboard,
   PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -534,7 +535,10 @@ class OTPVerificationEntry extends React.PureComponent {
                 systemWeights.semibold,
                 {
                   fontSize: 21,
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   marginTop: 15,
                   marginBottom: 35,
                 },
@@ -554,7 +558,10 @@ class OTPVerificationEntry extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                       color: '#0e8491',
                       fontSize: 17,
                     },
@@ -567,7 +574,10 @@ class OTPVerificationEntry extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                       color: '#b22222',
                       fontSize: 17,
                     },

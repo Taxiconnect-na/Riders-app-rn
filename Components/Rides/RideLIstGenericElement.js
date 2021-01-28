@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconOcticons from 'react-native-vector-icons/Octicons';
 
@@ -44,7 +44,10 @@ class RideLIstGenericElement extends React.PureComponent {
             <View style={{}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 17,
                   marginBottom: 5,
                 }}>
@@ -58,14 +61,23 @@ class RideLIstGenericElement extends React.PureComponent {
               </Text>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                   fontSize: 14,
                   marginBottom: 5,
                 }}>
                 {this.props.requestLightData.date_requested}
               </Text>
               <Text
-                style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 14}}>
+                style={{
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
+                  fontSize: 14,
+                }}>
                 {this.props.requestLightData.car_brand}
               </Text>
             </View>

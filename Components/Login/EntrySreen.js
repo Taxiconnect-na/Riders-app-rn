@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -98,51 +99,56 @@ class EntryScreen extends React.PureComponent {
 
   render() {
     return (
-      <SafeAreaView style={styles.mainWindow}>
-        <StatusBar backgroundColor="#0e8491" />
+      <View style={styles.mainWindow}>
+        <StatusBar backgroundColor="#0e8491" barStyle={'light-content'} />
         <TouchableOpacity
           style={{flex: 1}}
           onPressIn={() =>
             this.props.navigation.navigate('PhoneDetailsScreen')
           }>
-          <View style={styles.presentationWindow}>
-            <View
-              style={{
-                backgroundColor: '#fff',
-                width: 60,
-                height: 60,
-                borderRadius: 100,
-                marginTop: '5%',
-              }}>
-              <Image
-                source={require('../../Media_assets/Images/logo.png')}
+          <SafeAreaView style={{flex: 1, backgroundColor: '#0e8491'}}>
+            <View style={styles.presentationWindow}>
+              <View
                 style={{
-                  resizeMode: 'contain',
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 300,
-                }}
-              />
+                  backgroundColor: '#fff',
+                  width: 60,
+                  height: 60,
+                  borderRadius: 100,
+                  marginTop: '5%',
+                }}>
+                <Image
+                  source={require('../../Media_assets/Images/logo.png')}
+                  style={{
+                    resizeMode: 'contain',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 300,
+                  }}
+                />
+              </View>
+              <View style={{flex: 1, width: '100%'}}>
+                <Image
+                  source={require('../../Media_assets/Images/entryImage0.png')}
+                  style={{resizeMode: 'contain', width: '105%', height: '105%'}}
+                />
+              </View>
+              <View style={{height: 70}}>
+                <Text
+                  style={[
+                    {
+                      fontSize: 25,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'MoveBold'
+                          : 'Uber Move Bold',
+                      color: '#fff',
+                    },
+                  ]}>
+                  Get yourself a safe ride.
+                </Text>
+              </View>
             </View>
-            <View style={{flex: 1, width: '100%'}}>
-              <Image
-                source={require('../../Media_assets/Images/entryImage0.png')}
-                style={{resizeMode: 'contain', width: '105%', height: '105%'}}
-              />
-            </View>
-            <View style={{height: 70}}>
-              <Text
-                style={[
-                  {
-                    fontSize: 25,
-                    fontFamily: 'MoveBold',
-                    color: '#fff',
-                  },
-                ]}>
-                Get yourself a safe ride.
-              </Text>
-            </View>
-          </View>
+          </SafeAreaView>
           <View
             style={{
               height: 170,
@@ -162,7 +168,13 @@ class EntryScreen extends React.PureComponent {
               <Text
                 style={[
                   systemWeights.regular,
-                  {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 19},
+                  {
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
+                    fontSize: 19,
+                  },
                 ]}>
                 What's your phone number?
               </Text>
@@ -174,7 +186,7 @@ class EntryScreen extends React.PureComponent {
             />
           </View>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     );
   }
 }

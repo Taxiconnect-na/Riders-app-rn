@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import EntryScreen from '../Components/Login/EntrySreen';
@@ -51,7 +51,10 @@ function YourRidesEntry_drawer() {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -74,7 +77,10 @@ function YourRidesEntry_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -109,7 +115,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 21,
                   right: 20,
                   color: '#000',
@@ -131,7 +140,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -153,7 +165,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -176,7 +191,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -198,7 +216,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -220,7 +241,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -242,7 +266,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -264,7 +291,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -286,7 +316,10 @@ function Wallet_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -318,7 +351,10 @@ function Support_drawer() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -349,7 +385,10 @@ function SettingsDrawer_navigator() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',
@@ -372,7 +411,10 @@ function SettingsDrawer_navigator() {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   right: 20,
                   color: '#fff',

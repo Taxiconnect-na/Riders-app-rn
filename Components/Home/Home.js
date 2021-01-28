@@ -16,6 +16,7 @@ import {
   InteractionManager,
   TouchableHighlightBase,
   BackHandler,
+  Platform,
 } from 'react-native';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
@@ -2433,14 +2434,20 @@ class Home extends React.PureComponent {
                   fontSize: 16,
                   color: '#fff',
                   lineHeight: 20,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                 },
               ]}>
               Your location services need to be enabled for a better experience.
             </Text>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
                 fontSize: 16,
                 marginTop: 10,
                 color: '#fff',

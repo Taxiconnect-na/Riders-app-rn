@@ -13,6 +13,7 @@ import {
   Share,
   Animated,
   TextInput,
+  Platform,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -444,14 +445,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               No Internet connection
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -468,7 +478,10 @@ class ErrorModal extends React.PureComponent {
               />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 17,
                 }}>
                 Waiting for Internet connection
@@ -493,14 +506,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Oups, something's wrong
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -517,7 +539,10 @@ class ErrorModal extends React.PureComponent {
               />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 17,
                 }}>
                 Establishing connection.
@@ -542,14 +567,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Something's wrong
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -563,7 +597,10 @@ class ErrorModal extends React.PureComponent {
               style={styles.bttnGenericTc}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 19,
                   color: '#fff',
                 }}>
@@ -588,14 +625,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Couldn't check the OTP
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -609,7 +655,10 @@ class ErrorModal extends React.PureComponent {
               style={styles.bttnGenericTc}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 19,
                   color: '#fff',
                 }}>
@@ -634,14 +683,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Something's wrong
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -655,7 +713,10 @@ class ErrorModal extends React.PureComponent {
               style={styles.bttnGenericTc}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 19,
                   color: '#fff',
                 }}>
@@ -680,7 +741,13 @@ class ErrorModal extends React.PureComponent {
               justifyContent: 'center',
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Select your gender
             </Text>
           </View>
@@ -693,7 +760,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 22,
                   color: '#fff',
                   marginLeft: 5,
@@ -709,7 +779,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 22,
                   color: '#fff',
                   marginLeft: 5,
@@ -730,7 +803,10 @@ class ErrorModal extends React.PureComponent {
               <IconEntypo name="block" size={20} color="#000" top={10} />
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -758,14 +834,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Something's wrong
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -781,7 +866,10 @@ class ErrorModal extends React.PureComponent {
               style={styles.bttnGenericTc}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 19,
                   color: '#fff',
                 }}>
@@ -808,7 +896,13 @@ class ErrorModal extends React.PureComponent {
               paddingBottom: 5,
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               What do you want to see?
             </Text>
           </View>
@@ -842,7 +936,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -886,7 +983,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -922,7 +1022,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                   fontSize: 20,
                   color: '#d0d0d0',
                   marginLeft: 5,
@@ -979,7 +1082,10 @@ class ErrorModal extends React.PureComponent {
                     systemWeights.semibold,
                     {
                       fontSize: 20,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       marginLeft: 5,
                     },
                   ]}>
@@ -1037,7 +1143,10 @@ class ErrorModal extends React.PureComponent {
                     }}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 19,
                       }}>
                       {
@@ -1053,7 +1162,10 @@ class ErrorModal extends React.PureComponent {
                       }}>
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                           fontSize: 18,
                           color: '#096ED4',
                         }}>
@@ -1073,7 +1185,10 @@ class ErrorModal extends React.PureComponent {
                         />
                         <Text
                           style={{
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                             fontSize: 17,
                           }}>
                           {
@@ -1093,7 +1208,10 @@ class ErrorModal extends React.PureComponent {
                   }}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       color: '#096ED4',
                       fontSize: 16.5,
                     }}>
@@ -1197,7 +1315,10 @@ class ErrorModal extends React.PureComponent {
                     }}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 19,
                         color: '#b22222',
                       }}>
@@ -1218,7 +1339,10 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     color: '#a5a5a5',
                     paddingBottom: 16,
                   }}>
@@ -1249,7 +1373,10 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 17.5,
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1259,7 +1386,10 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 16,
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1280,7 +1410,10 @@ class ErrorModal extends React.PureComponent {
                       <Text
                         style={{
                           fontSize: 14,
-                          fontFamily: 'Allrounder-Grotesk-Book',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Book'
+                              : 'Allrounder Grotesk Book',
                           color: 'green',
                         }}>
                         {
@@ -1297,7 +1430,10 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 16,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     color: '#a5a5a5',
                     padding: 20,
                     paddingBottom: 0,
@@ -1358,7 +1494,10 @@ class ErrorModal extends React.PureComponent {
                           <View style={{width: 45}}>
                             <Text
                               style={{
-                                fontFamily: 'Allrounder-Grotesk-Book',
+                                fontFamily:
+                                  Platform.OS === 'android'
+                                    ? 'Allrounder-Grotesk-Book'
+                                    : 'Allrounder Grotesk Book',
                                 fontSize: 15,
                                 top: 2,
                               }}>
@@ -1377,7 +1516,10 @@ class ErrorModal extends React.PureComponent {
                               }}>
                               <Text
                                 style={{
-                                  fontFamily: 'Allrounder-Grotesk-Medium',
+                                  fontFamily:
+                                    Platform.OS === 'android'
+                                      ? 'Allrounder-Grotesk-Medium'
+                                      : 'Allrounder Grotesk Medium',
                                   fontSize: 17,
                                   marginLeft: 5,
                                   flex: 1,
@@ -1390,7 +1532,7 @@ class ErrorModal extends React.PureComponent {
                               </Text>
                               {/*<Text
                                 style={{
-                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Book':'Allrounder Grotesk Book',
                                   fontSize: 14,
                                   marginLeft: 5,
                                   marginTop: 3,
@@ -1418,7 +1560,10 @@ class ErrorModal extends React.PureComponent {
                           <View style={{width: 45}}>
                             <Text
                               style={{
-                                fontFamily: 'Allrounder-Grotesk-Book',
+                                fontFamily:
+                                  Platform.OS === 'android'
+                                    ? 'Allrounder-Grotesk-Book'
+                                    : 'Allrounder Grotesk Book',
                                 fontSize: 15,
                                 top: 1,
                               }}>
@@ -1444,7 +1589,9 @@ class ErrorModal extends React.PureComponent {
                                     <Text
                                       style={{
                                         fontFamily:
-                                          'Allrounder-Grotesk-Regular',
+                                          Platform.OS === 'android'
+                                            ? 'Allrounder-Grotesk-Regular'
+                                            : 'Allrounder Grotesk Regular',
                                         fontSize: 17,
                                         marginLeft: 5,
                                         flex: 1,
@@ -1455,7 +1602,9 @@ class ErrorModal extends React.PureComponent {
                                         <Text
                                           style={{
                                             fontFamily:
-                                              'Allrounder-Grotesk-Medium',
+                                              Platform.OS === 'android'
+                                                ? 'Allrounder-Grotesk-Medium'
+                                                : 'Allrounder Grotesk Medium',
                                             fontSize: 15,
                                             marginLeft: 5,
                                             flex: 1,
@@ -1505,7 +1654,10 @@ class ErrorModal extends React.PureComponent {
                     .ETA_toDestination !== null ? (
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         fontSize: 16.5,
                         marginLeft: 5,
                         flex: 1,
@@ -1513,7 +1665,10 @@ class ErrorModal extends React.PureComponent {
                       About{' '}
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                           fontSize: 16,
                           marginLeft: 5,
                           color: '#096ED4',
@@ -1527,7 +1682,10 @@ class ErrorModal extends React.PureComponent {
                   ) : (
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         fontSize: 15,
                         marginLeft: 5,
                         flex: 1,
@@ -1567,7 +1725,10 @@ class ErrorModal extends React.PureComponent {
 
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 18,
                       marginLeft: 4,
                     }}>
@@ -1591,7 +1752,10 @@ class ErrorModal extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 19,
                     color: 'green',
                     flex: 1,
@@ -1611,7 +1775,10 @@ class ErrorModal extends React.PureComponent {
                   <IconAnt name="user" size={17} />
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       fontSize: 18,
                       marginLeft: 4,
                     }}>
@@ -1633,7 +1800,10 @@ class ErrorModal extends React.PureComponent {
                 <Text
                   style={{
                     fontSize: 18,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     color: '#a5a5a5',
                     paddingBottom: 35,
                   }}>
@@ -1671,7 +1841,10 @@ class ErrorModal extends React.PureComponent {
                     <IconCommunity name="earth" color="#000" size={25} />
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 19,
                         color: '#000',
                         marginLeft: 5,
@@ -1695,7 +1868,10 @@ class ErrorModal extends React.PureComponent {
                     />
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 19,
                         color: '#b22222',
                         marginLeft: 5,
@@ -1725,7 +1901,13 @@ class ErrorModal extends React.PureComponent {
               paddingBottom: 5,
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Regular'
+                    : 'Allrounder Grotesk Regular',
+                fontSize: 22,
+              }}>
               Safety
             </Text>
           </View>
@@ -1782,7 +1964,10 @@ class ErrorModal extends React.PureComponent {
               <View style={{flex: 1, marginLeft: 5}}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 20,
                     flex: 1,
                     color: '#000',
@@ -1791,7 +1976,10 @@ class ErrorModal extends React.PureComponent {
                 </Text>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     fontSize: 14,
                     lineHeight: 15,
                     flex: 1,
@@ -1836,7 +2024,10 @@ class ErrorModal extends React.PureComponent {
               <View style={{flex: 1, marginLeft: 5}}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 20,
                     flex: 1,
                     color: '#b22222',
@@ -1845,7 +2036,10 @@ class ErrorModal extends React.PureComponent {
                 </Text>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     fontSize: 14,
                     lineHeight: 15,
                     flex: 1,
@@ -1898,7 +2092,10 @@ class ErrorModal extends React.PureComponent {
                   style={[
                     {
                       fontSize: 20,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       marginLeft: 5,
                     },
                   ]}>
@@ -1947,7 +2144,10 @@ class ErrorModal extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 20,
                     marginTop: 10,
                   }}>
@@ -1958,7 +2158,10 @@ class ErrorModal extends React.PureComponent {
                 </Text>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     fontSize: 15.5,
                     marginTop: 4,
                   }}>
@@ -2007,7 +2210,10 @@ class ErrorModal extends React.PureComponent {
                 }}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 17,
                     width: '100%',
                     textAlign: 'center',
@@ -2065,7 +2271,10 @@ class ErrorModal extends React.PureComponent {
                     </View>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2119,7 +2328,10 @@ class ErrorModal extends React.PureComponent {
                     </View>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2173,7 +2385,10 @@ class ErrorModal extends React.PureComponent {
                     </View>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2227,7 +2442,10 @@ class ErrorModal extends React.PureComponent {
                     </View>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2282,7 +2500,10 @@ class ErrorModal extends React.PureComponent {
                     </View>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2322,7 +2543,10 @@ class ErrorModal extends React.PureComponent {
                     onChangeText={(text) => this.setState({custom_note: text})}
                     maxLength={40}
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 17.5,
                     }}
                   />
@@ -2351,7 +2575,10 @@ class ErrorModal extends React.PureComponent {
                   style={styles.bttnGenericTc}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       fontSize: 23.5,
                       color: '#fff',
                     }}>
@@ -2382,7 +2609,13 @@ class ErrorModal extends React.PureComponent {
               justifyContent: 'center',
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Cancel your ride?
             </Text>
           </View>
@@ -2399,7 +2632,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -2420,7 +2656,10 @@ class ErrorModal extends React.PureComponent {
               style={[styles.bttnGenericTc, {borderRadius: 2}]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 20,
                   color: '#fff',
                   marginLeft: 5,
@@ -2447,14 +2686,23 @@ class ErrorModal extends React.PureComponent {
               style={{marginRight: 5}}
             />
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Unable to request
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -2471,7 +2719,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 19,
                   color: '#fff',
                   marginLeft: 5,
@@ -2511,7 +2762,10 @@ class ErrorModal extends React.PureComponent {
                   systemWeights.semibold,
                   {
                     fontSize: 22,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     marginTop: 15,
                   },
                 ]}>
@@ -2538,7 +2792,10 @@ class ErrorModal extends React.PureComponent {
                       style={[
                         {
                           fontSize: 19.5,
-                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Regular'
+                              : 'Allrounder Grotesk Regular',
                           marginLeft: 5,
                           flex: 1,
                         },
@@ -2548,7 +2805,10 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 20,
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         color: '#096ED4',
                       }}>
                       N${this.props.App.wallet_state_vars.totalWallet_amount}
@@ -2563,7 +2823,10 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 16,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         color: '#a5a5a5',
                         padding: 20,
                         paddingBottom: 10,
@@ -2585,7 +2848,10 @@ class ErrorModal extends React.PureComponent {
                         <Text
                           style={{
                             fontSize: 18,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           Credit card
                         </Text>
@@ -2596,7 +2862,10 @@ class ErrorModal extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 16,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         color: '#a5a5a5',
                         padding: 20,
                         paddingBottom: 10,
@@ -2643,7 +2912,10 @@ class ErrorModal extends React.PureComponent {
                           style={{
                             fontSize: 18,
                             flex: 1,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           Wallet
                         </Text>
@@ -2683,7 +2955,10 @@ class ErrorModal extends React.PureComponent {
                           style={{
                             fontSize: 18,
                             flex: 1,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           Cash
                         </Text>
@@ -2726,7 +3001,10 @@ class ErrorModal extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23,
                         color: '#fff',
                       },
@@ -2772,7 +3050,10 @@ class ErrorModal extends React.PureComponent {
                     systemWeights.semibold,
                     {
                       fontSize: 22,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       marginTop: 15,
                     },
                   ]}>
@@ -2807,7 +3088,10 @@ class ErrorModal extends React.PureComponent {
                       )
                     }
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -2831,7 +3115,10 @@ class ErrorModal extends React.PureComponent {
                       )
                     }
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -2855,7 +3142,10 @@ class ErrorModal extends React.PureComponent {
                       )
                     }
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -2881,7 +3171,10 @@ class ErrorModal extends React.PureComponent {
                       )
                     }
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -2894,7 +3187,10 @@ class ErrorModal extends React.PureComponent {
                 {this.state.isErrorThrown ? (
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 15,
                       marginTop: 15,
                       color: '#b22222',
@@ -2930,7 +3226,10 @@ class ErrorModal extends React.PureComponent {
                       <Text
                         style={[
                           {
-                            fontFamily: 'Allrounder-Grotesk-Medium',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Medium'
+                                : 'Allrounder Grotesk Medium',
                             fontSize: 23,
                             color: '#fff',
                           },
@@ -2960,14 +3259,23 @@ class ErrorModal extends React.PureComponent {
               justifyContent: 'flex-start',
             }}>
             <Text
-              style={{fontFamily: 'Allrounder-Grotesk-Medium', fontSize: 22}}>
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
+                fontSize: 22,
+              }}>
               Do you want to sign off?
             </Text>
           </View>
           <View>
             <Text
               style={{
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 fontSize: 17,
                 marginTop: 10,
               }}>
@@ -2987,7 +3295,10 @@ class ErrorModal extends React.PureComponent {
               ]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -3008,7 +3319,10 @@ class ErrorModal extends React.PureComponent {
               style={[styles.bttnGenericTc, {borderRadius: 2}]}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 20,
                   color: '#fff',
                   marginLeft: 5,

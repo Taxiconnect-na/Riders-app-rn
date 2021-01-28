@@ -13,6 +13,7 @@ import {
   Easing,
   StatusBar,
   InteractionManager,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -477,7 +478,13 @@ class Search extends React.PureComponent {
             <View>
               <Text
                 style={[
-                  {fontSize: 16, fontFamily: 'Allrounder-Grotesk-Medium'},
+                  {
+                    fontSize: 16,
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
+                  },
                 ]}>
                 Set to my current location
               </Text>
@@ -485,7 +492,12 @@ class Search extends React.PureComponent {
                 <Text
                   style={[
                     styles.detailsSearchRes,
-                    {fontFamily: 'Allrounder-Grotesk-Book'},
+                    {
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
                   ]}>
                   {this.props.App.userCurrentLocationMetaData.street !==
                   undefined
@@ -546,7 +558,10 @@ class Search extends React.PureComponent {
                             style={[
                               {
                                 fontSize: 14,
-                                fontFamily: 'Allrounder-Grotesk-Book',
+                                fontFamily:
+                                  Platform.OS === 'android'
+                                    ? 'Allrounder-Grotesk-Book'
+                                    : 'Allrounder Grotesk Book',
                               },
                             ]}>
                             {place.location_infos.location_name !== false
@@ -570,7 +585,12 @@ class Search extends React.PureComponent {
                         <Text
                           style={[
                             styles.detailsSearchRes,
-                            {fontFamily: 'Allrounder-Grotesk-Book'},
+                            {
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'Allrounder-Grotesk-Book'
+                                  : 'Allrounder Grotesk Book',
+                            },
                           ]}>
                           Add a location.
                         </Text>
@@ -636,7 +656,10 @@ class Search extends React.PureComponent {
                         style={[
                           {
                             fontSize: 15.5,
-                            fontFamily: 'Allrounder-Grotesk-Medium',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Medium'
+                                : 'Allrounder Grotesk Medium',
                           },
                         ]}>
                         {item.location_name.length > 35
@@ -647,7 +670,12 @@ class Search extends React.PureComponent {
                         <Text
                           style={[
                             styles.detailsSearchRes,
-                            {fontFamily: 'Allrounder-Grotesk-Regular'},
+                            {
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'Allrounder-Grotesk-Regular'
+                                  : 'Allrounder Grotesk Regular',
+                            },
                           ]}>
                           {item.street === undefined
                             ? ''
@@ -662,7 +690,10 @@ class Search extends React.PureComponent {
                             {
                               color: '#707070',
                               paddingRight: item.city === undefined ? 0 : 10,
-                              fontFamily: 'Allrounder-Grotesk-Regular',
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'Allrounder-Grotesk-Regular'
+                                  : 'Allrounder Grotesk Regular',
                             },
                           ]}>
                           {item.city === undefined ? '' : item.city}
@@ -817,7 +848,10 @@ class Search extends React.PureComponent {
                         borderRadius: 3,
                         backgroundColor: '#fcfcfc',
                         borderColor: '#e7e7e7',
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                       },
                     ]}
                     placeholder="Where are you?"
@@ -1254,7 +1288,10 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     fontSize: 17.5,
     backgroundColor: '#e7e7e7',
-    fontFamily: 'Allrounder-Grotesk-Regular',
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'Allrounder-Grotesk-Regular'
+        : 'Allrounder Grotesk Regular',
   },
   resultsSearchNode: {
     padding: 20,

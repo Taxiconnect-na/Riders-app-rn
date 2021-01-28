@@ -9,6 +9,7 @@ import {
   StyleSheet,
   Image,
   BackHandler,
+  Platform,
 } from 'react-native';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {
@@ -267,7 +268,10 @@ class CreateAccountEntry extends React.PureComponent {
             style={[
               {
                 fontSize: 30,
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
                 marginTop: 15,
                 marginBottom: 35,
                 width: '100%',
@@ -291,7 +295,10 @@ class CreateAccountEntry extends React.PureComponent {
             style={[
               {
                 flex: 1,
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
                 color: '#000',
                 fontSize: 21,
                 marginTop: '10%',
@@ -308,7 +315,10 @@ class CreateAccountEntry extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     color: '#000',
                     fontSize: 14,
                     textAlign: 'left',
@@ -318,13 +328,22 @@ class CreateAccountEntry extends React.PureComponent {
                   },
                 ]}>
                 By clicking{' '}
-                <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
+                  }}>
                   Create your account
                 </Text>
                 , you automatically accept our{' '}
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     color: '#0e8491',
                   }}>
                   terms and conditions.
@@ -347,7 +366,10 @@ class CreateAccountEntry extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                           fontSize: 23,
                           color: '#fff',
                         },

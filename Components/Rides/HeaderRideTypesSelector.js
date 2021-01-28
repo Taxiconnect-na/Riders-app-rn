@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   ResetGenericPhoneNumberInput,
@@ -30,7 +30,10 @@ class HeaderRideTypesSelector extends React.PureComponent {
           style={styles.mainWindow}>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Book'
+                  : 'Allrounder Grotesk Book',
               color: '#f0f0f0',
               fontSize: 18,
             }}>

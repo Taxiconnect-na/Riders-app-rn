@@ -10,6 +10,7 @@ import {
   SectionList,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
@@ -79,7 +80,10 @@ class WalletEntry extends React.PureComponent {
                     <Text
                       style={{
                         flex: 1,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         fontSize: 18,
                         color: '#0e8491',
                       }}>
@@ -148,7 +152,10 @@ class WalletEntry extends React.PureComponent {
                       style={[
                         //systemWeights.bold,
                         {
-                          fontFamily: 'MoveBold',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'MoveBold'
+                              : 'Uber Move Bold',
                           fontSize: 37,
                           color: '#0e8491',
                         },
@@ -157,7 +164,10 @@ class WalletEntry extends React.PureComponent {
                     </Text>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         color: '#a5a5a5',
                         fontSize: 16,
                       }}>
@@ -252,7 +262,10 @@ class WalletEntry extends React.PureComponent {
                       }}>
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Regular'
+                              : 'Allrounder Grotesk Regular',
                           fontSize: 18,
                           color: '#a5a5a5',
                           paddingBottom: 15,
@@ -263,7 +276,10 @@ class WalletEntry extends React.PureComponent {
                       <Text
                         style={[
                           {
-                            fontFamily: 'MoveBold',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'MoveBold'
+                                : 'Uber Move Bold',
                             fontSize: 17.5,
                             color: '#a5a5a5',
                             paddingBottom: 15,
@@ -323,7 +339,7 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
   textSelectMenu3: {
-    fontFamily: 'MoveBold',
+    fontFamily: Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
     fontSize: 17,
     marginTop: 15,
   },

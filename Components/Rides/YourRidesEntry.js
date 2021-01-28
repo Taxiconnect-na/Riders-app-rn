@@ -9,6 +9,7 @@ import {
   RefreshControl,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {
   UpdateErrorModalLog,
@@ -251,7 +252,10 @@ class YourRidesEntry extends React.PureComponent {
           <IconEntypo name="box" size={40} color="#a5a5a5" />
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Book'
+                  : 'Allrounder Grotesk Book',
               fontSize: 18,
               marginTop: 15,
               color: '#a5a5a5',
@@ -272,7 +276,10 @@ class YourRidesEntry extends React.PureComponent {
           <IconFeather name="clock" size={40} color="#a5a5a5" />
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Book'
+                  : 'Allrounder Grotesk Book',
               fontSize: 18,
               marginTop: 15,
               color: '#a5a5a5',
@@ -293,7 +300,10 @@ class YourRidesEntry extends React.PureComponent {
           <IconFeather name="briefcase" size={40} color="#a5a5a5" />
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Book',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Book'
+                  : 'Allrounder Grotesk Book',
               fontSize: 16,
               marginTop: 15,
             }}>

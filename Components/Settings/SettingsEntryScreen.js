@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   Linking,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -170,7 +171,10 @@ class SettingsEntryScreen extends React.Component {
               style={[
                 {
                   fontSize: 17,
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                 },
               ]}>
               {place.name}
@@ -182,7 +186,10 @@ class SettingsEntryScreen extends React.Component {
                     style={[
                       {
                         fontSize: 14,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                       },
                     ]}>
                     {place.location_infos.location_name !== false
@@ -203,7 +210,12 @@ class SettingsEntryScreen extends React.Component {
                 <Text
                   style={[
                     styles.detailsSearchRes,
-                    {fontFamily: 'Allrounder-Grotesk-Book'},
+                    {
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
                   ]}>
                   Add a location.
                 </Text>
@@ -427,7 +439,10 @@ class SettingsEntryScreen extends React.Component {
                 <View style={{marginTop: 20}}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       fontSize: 18,
                     }}>
                     {`${this.props.App.username} ${
@@ -451,7 +466,10 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontSize: 16.5,
                       color: '#a5a5a5',
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                     }}>
                     Identity
                   </Text>
@@ -468,7 +486,10 @@ class SettingsEntryScreen extends React.Component {
                   }}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 18,
                       flex: 1,
                     }}>
@@ -493,7 +514,10 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontSize: 16.5,
                       color: '#a5a5a5',
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                     }}>
                     Favorite places
                   </Text>
@@ -510,7 +534,10 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontSize: 16.5,
                       color: '#a5a5a5',
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                     }}>
                     Privacy
                   </Text>
@@ -529,7 +556,10 @@ class SettingsEntryScreen extends React.Component {
                   }}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 17,
                       flex: 1,
                     }}>
@@ -555,7 +585,10 @@ class SettingsEntryScreen extends React.Component {
                   }}>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       fontSize: 17,
                       flex: 1,
                     }}>
@@ -589,7 +622,10 @@ class SettingsEntryScreen extends React.Component {
                 }}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 17,
                     flex: 1,
                   }}>

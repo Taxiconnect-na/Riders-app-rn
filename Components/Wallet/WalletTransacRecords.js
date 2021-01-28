@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, Platform} from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,10 +21,20 @@ class WalletTransacRecords extends React.PureComponent {
           />
         </View>
         <View style={{flex: 1}}>
-          <Text style={{fontFamily: 'MoveBold', fontSize: 17}}>Top-up</Text>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Regular',
+              fontFamily:
+                Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
+              fontSize: 17,
+            }}>
+            Top-up
+          </Text>
+          <Text
+            style={{
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Regular'
+                  : 'Allrounder Grotesk Regular',
               color: '#a5a5a5',
               fontSize: 16,
             }}>
@@ -40,7 +50,8 @@ class WalletTransacRecords extends React.PureComponent {
           }}>
           <Text
             style={{
-              fontFamily: 'MoveRegular',
+              fontFamily:
+                Platform.OS === 'android' ? 'MoveRegular' : 'Uber Move Regular',
               fontSize: 17,
               color: '#0e8491',
             }}>

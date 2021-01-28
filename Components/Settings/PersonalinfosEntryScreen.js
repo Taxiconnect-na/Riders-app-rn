@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {
   ResetGenericPhoneNumberInput,
@@ -233,7 +234,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 style={{
                   fontSize: 16.5,
                   color: '#a5a5a5',
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                 }}>
                 Name
               </Text>
@@ -247,7 +251,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>
@@ -275,7 +282,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 style={{
                   fontSize: 16.5,
                   color: '#a5a5a5',
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                 }}>
                 Surname
               </Text>
@@ -289,7 +299,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>
@@ -322,7 +335,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 style={{
                   fontSize: 16.5,
                   color: '#a5a5a5',
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                 }}>
                 Gender
               </Text>
@@ -336,7 +352,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>
@@ -369,7 +388,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 style={{
                   fontSize: 16.5,
                   color: '#a5a5a5',
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                 }}>
                 Phone number
               </Text>
@@ -395,7 +417,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 17.5,
                   }}>
                   {this.props.App.phone_user !== false &&
@@ -424,7 +449,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 style={{
                   fontSize: 16.5,
                   color: '#a5a5a5',
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                 }}>
                 Email
               </Text>
@@ -438,7 +466,10 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 17.5,
                   flex: 1,
                 }}>

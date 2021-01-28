@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, TouchableOpacity, Image, Text} from 'react-native';
+import {View, TouchableOpacity, Image, Text, Platform} from 'react-native';
 import flagsIco from './Assets/FlagImagesRessources';
 import {systemWeights} from 'react-native-typography';
 
@@ -55,7 +55,13 @@ class ItemFlag extends React.PureComponent {
           <Text
             style={[
               systemWeights.regular,
-              {fontFamily: 'Allrounder-Grotesk-Regular', fontSize: 16},
+              {
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Regular'
+                    : 'Allrounder Grotesk Regular',
+                fontSize: 16,
+              },
             ]}>
             {this.props.country.name} ({this.props.country.dial_code})
           </Text>

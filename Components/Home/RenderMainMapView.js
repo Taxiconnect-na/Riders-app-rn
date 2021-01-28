@@ -10,7 +10,7 @@ import {
   PointAnnotation,
   MarkerView,
 } from '@react-native-mapbox-gl/maps';
-import {InteractionManager} from 'react-native';
+import {InteractionManager, Platform} from 'react-native';
 import {point} from '@turf/helpers';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import PulseCircleLayer from '../Modules/PulseCircleLayer';
@@ -59,7 +59,15 @@ const AnnotationPickup = ({title}) => (
           paddingRight: 10,
         }}>
         <Text
-          style={[{fontSize: 13.5, fontFamily: 'Allrounder-Grotesk-Regular'}]}>
+          style={[
+            {
+              fontSize: 13.5,
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Regular'
+                  : 'Allrounder Grotesk Regular',
+            },
+          ]}>
           {title.length > 11 ? title.substring(0, 11) + '.' : title}
         </Text>
       </View>
@@ -105,7 +113,10 @@ const AnnotationDestination = ({title, etaInfos}) => (
             {
               fontSize: 13.5,
               color: '#fff',
-              fontFamily: 'Allrounder-Grotesk-Regular',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Regular'
+                  : 'Allrounder Grotesk Regular',
             },
           ]}>
           {etaInfos.eta.split(' ')[0]}
@@ -115,7 +126,10 @@ const AnnotationDestination = ({title, etaInfos}) => (
             {
               fontSize: 11,
               color: '#fff',
-              fontFamily: 'Allrounder-Grotesk-Regular',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Regular'
+                  : 'Allrounder Grotesk Regular',
               bottom: 1,
             },
           ]}>
@@ -128,7 +142,16 @@ const AnnotationDestination = ({title, etaInfos}) => (
           paddingLeft: 5,
           paddingRight: 10,
         }}>
-        <Text style={[{fontSize: 13, fontFamily: 'Allrounder-Grotesk-Book'}]}>
+        <Text
+          style={[
+            {
+              fontSize: 13,
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Book'
+                  : 'Allrounder Grotesk Book',
+            },
+          ]}>
           {title.length > 11 ? title.substring(0, 11) + '.' : title}
         </Text>
       </View>

@@ -12,6 +12,7 @@ import {
   Switch,
   Easing,
   InteractionManager,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -142,16 +143,31 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontSize: 18.5,
                       paddingBottom: 7,
                       color: '#0D8691',
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                     },
                   ]}>
                   Taxi rank
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
                   ]}>
-                  <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    }}>
                     + N$5
                   </Text>{' '}
                   pickup fee
@@ -180,7 +196,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23.5,
                         color: '#fff',
                       },
@@ -229,16 +248,31 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontSize: 18.5,
                       paddingBottom: 7,
                       color: '#0D8691',
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                     },
                   ]}>
                   Private location
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
                   ]}>
-                  <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    }}>
                     + N$5
                   </Text>{' '}
                   pickup fee
@@ -267,7 +301,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23.5,
                         color: '#fff',
                       },
@@ -316,14 +353,23 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontSize: 18.5,
                       paddingBottom: 7,
                       color: '#0D8691',
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                     },
                   ]}>
                   Airport
                 </Text>
                 <Text
                   style={[
-                    {fontSize: 15, fontFamily: 'Allrounder-Grotesk-Book'},
+                    {
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
                   ]}>
                   No pickup fee
                 </Text>
@@ -351,7 +397,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23.5,
                         color: '#fff',
                       },
@@ -384,7 +433,10 @@ class RenderContentBottomVitals extends React.PureComponent {
               {
                 fontSize: 17.5,
                 bottom: 25,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
               },
             ]}>
             {this.revealIdentifiedLocationOnReady()}
@@ -643,7 +695,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#fff',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 1
@@ -662,7 +717,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 2
@@ -681,7 +739,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 3
@@ -703,7 +764,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     {
                       fontSize: 19,
                       color: '#000',
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                     },
                   ]}>
                   4
@@ -731,7 +795,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 1
@@ -751,7 +818,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#fff',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 2
@@ -770,7 +840,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 3
@@ -792,7 +865,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     {
                       fontSize: 19,
                       color: '#000',
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                     },
                   ]}>
                   4
@@ -820,7 +896,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 1
@@ -839,7 +918,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 2
@@ -859,7 +941,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#fff',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 3
@@ -881,7 +966,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     {
                       fontSize: 19,
                       color: '#000',
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                     },
                   ]}>
                   4
@@ -909,7 +997,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 1
@@ -928,7 +1019,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 2
@@ -947,7 +1041,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 3
@@ -967,7 +1064,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 19,
                     color: '#fff',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 4
@@ -1093,7 +1193,10 @@ class RenderContentBottomVitals extends React.PureComponent {
               {
                 fontSize: 21,
                 color: '#000',
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
                 opacity: this.props.App.titleSchedulerSelectRideOpacity,
                 transform: [
                   {
@@ -1131,7 +1234,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     width: '100%',
                     textAlign: 'center',
                     color: '#454545',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 {
@@ -1147,7 +1253,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     left: 5,
                     bottom: 0,
                     color: '#a2a2a2',
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                   }}>
                   {
                     this.props.App.headerRideTypesVars.headerSelectRideTypes[
@@ -1163,7 +1272,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   right: 5,
                   bottom: 0,
                   color: '#a2a2a2',
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                 }}>
                 {this.props.App.headerRideTypesVars.currentHeaderIndex < 2
                   ? this.props.App.headerRideTypesVars.headerSelectRideTypes[
@@ -1198,7 +1310,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     width: '100%',
                     textAlign: 'center',
                     color: '#454545',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 {
@@ -1215,7 +1330,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     left: 5,
                     bottom: 0,
                     color: '#a2a2a2',
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                   }}>
                   {
                     this.props.App.headerRideTypesVars
@@ -1232,7 +1350,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   right: 5,
                   bottom: 0,
                   color: '#a2a2a2',
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                 }}>
                 {this.props.App.headerRideTypesVars.currentHeaderIndex < 2
                   ? this.props.App.headerRideTypesVars
@@ -1255,7 +1376,10 @@ class RenderContentBottomVitals extends React.PureComponent {
         <AnimatedNative.Text
           style={[
             {
-              fontFamily: 'Allrounder-Grotesk-Medium',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Medium'
+                  : 'Allrounder Grotesk Medium',
               fontSize: 19,
               color: '#000',
               opacity: this.props.App.titleSummaryOpacity,
@@ -1341,7 +1465,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                           ? 20
                           : 22,
                         color: '#000',
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         bottom: 5,
                       },
                     ]}>
@@ -1353,7 +1480,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   style={[
                     //systemWeights.semibold,
                     {
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       bottom: 3,
                       fontSize: 22,
                       color: '#000',
@@ -1404,7 +1534,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 22,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 You're the boss
@@ -1471,7 +1604,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                      {
+                        fontSize: 17.5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      },
                     ]}>
                     Delivery
                   </Text>
@@ -1483,7 +1622,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                         color: '#1a1a1a',
                         paddingLeft: 8,
                         paddingRight: 5,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         lineHeight: 15,
                         height: 50,
                       },
@@ -1546,7 +1688,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     style={[
                       {
                         fontSize: 17.5,
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                       },
                     ]}>
                     Ride
@@ -1560,7 +1705,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                         color: '#1a1a1a',
                         paddingLeft: 8,
                         paddingRight: 5,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         lineHeight: 15,
                         height: 50,
                       },
@@ -1610,7 +1758,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                       },
                     ],
                     fontSize: 21,
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     color: '#000',
                   },
                 ]}>
@@ -1657,7 +1808,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 22,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 How many are you?
@@ -1711,7 +1865,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                       {
                         fontSize: 15,
                         flex: 1,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         color: this.props.App.bottomVitalsFlow
                           .rideOrDeliveryMetadata.isAllgoingToTheSamePlace
                           ? '#0D8691'
@@ -1746,7 +1903,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <View style={[styles.bttnGenericTc]}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23.5,
                         color: '#fff',
                       }}>
@@ -1853,7 +2013,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 22,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 {/Ride/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -1881,7 +2044,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           color: '#a2a2a2',
                           fontSize: 15,
                           marginTop: 15,
-                          fontFamily: 'Allrounder-Grotesk-Book',
+                          fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Book':'Allrounder Grotesk Book',
                         },
                       ]}>
                       {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -1936,7 +2099,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           style={[
                             {
                               fontSize: 17,
-                              fontFamily: 'Allrounder-Grotesk-Regular',
+                              fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Regular':'Allrounder Grotesk Regular',
                             },
                           ]}>
                           {/RIDE/i.test(
@@ -1996,7 +2159,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                         padding: 15,
                         fontSize: 17,
                         backgroundColor: '#f6f6f6',
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                       },
                     ]}
                   />
@@ -2010,9 +2176,21 @@ class RenderContentBottomVitals extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      {fontSize: 14, fontFamily: 'Allrounder-Grotesk-Book'},
+                      {
+                        fontSize: 14,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
+                      },
                     ]}>
-                    <Text style={{fontFamily: 'Allrounder-Grotesk-Medium'}}>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      }}>
                       {this.props.App.maxCharAdditionalNote -
                         this.props.App.currentCharStringAdditionalNote}
                     </Text>{' '}
@@ -2051,7 +2229,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <View style={[styles.bttnGenericTc]}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23.5,
                         color: '#fff',
                       }}>
@@ -2100,7 +2281,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 22,
                     color: '#000',
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                   },
                 ]}>
                 Private or shared?
@@ -2157,7 +2341,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                      {
+                        fontSize: 17.5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      },
                     ]}>
                     ConnectMe
                   </Text>
@@ -2167,7 +2357,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontSize: 13.5,
                         marginTop: 3,
                         color: '#096ED4',
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                       },
                     ]}>
                     Private booking
@@ -2177,13 +2370,22 @@ class RenderContentBottomVitals extends React.PureComponent {
                       {
                         fontSize: 14,
                         marginTop: 15,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                       },
                     ]}>
                     From{' '}
                     <Text
                       style={[
-                        {fontSize: 14, fontFamily: 'Allrounder-Grotesk-Medium'},
+                        {
+                          fontSize: 14,
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
+                        },
                       ]}>
                       N$45
                     </Text>
@@ -2232,7 +2434,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                      {
+                        fontSize: 17.5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      },
                     ]}>
                     ConnectUs
                   </Text>
@@ -2242,7 +2450,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontSize: 13.5,
                         marginTop: 3,
                         color: '#096ED4',
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                       },
                     ]}>
                     Shared booking
@@ -2252,12 +2463,21 @@ class RenderContentBottomVitals extends React.PureComponent {
                       {
                         fontSize: 14,
                         marginTop: 15,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                       },
                     ]}>
                     <Text
                       style={[
-                        {fontSize: 14, fontFamily: 'Allrounder-Grotesk-Medium'},
+                        {
+                          fontSize: 14,
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
+                        },
                       ]}>
                       Normal
                     </Text>
@@ -2322,7 +2542,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     {
                       fontSize: 17.5,
                       bottom: 25,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                     },
                   ]}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -2411,7 +2634,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                 fontSize: 21,
                 marginTop: 15,
                 marginBottom: 25,
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
               },
             ]}>
             Who's receiving the package?
@@ -2441,7 +2667,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   borderBottomWidth: 1.5,
                   fontSize: 18,
                   paddingLeft: 0,
-                  fontFamily: 'Allrounder-Grotesk-Regular',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Regular'
+                      : 'Allrounder Grotesk Regular',
                 },
               ]}
             />
@@ -2452,7 +2681,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                     color: '#b22222',
                     fontSize: 14,
                     top: 11,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                   },
                 ]}>
                 {this.props.App.errorReceiverNameText}
@@ -2479,7 +2711,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                   {
                     fontSize: 13,
                     marginLeft: 6,
-                    fontFamily: 'Allrounder-Grotesk-Book',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Book'
+                        : 'Allrounder Grotesk Book',
                     lineHeight: 14,
                   },
                 ]}>
@@ -2539,7 +2774,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                 fontSize: 21,
                 marginTop: 15,
                 marginBottom: 25,
-                fontFamily: 'Allrounder-Grotesk-Medium',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Medium'
+                    : 'Allrounder Grotesk Medium',
               },
             ]}>
             What's your package size?
@@ -2598,7 +2836,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                    {
+                      fontSize: 17.5,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    },
                   ]}>
                   Envelope
                 </Text>
@@ -2608,7 +2852,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontSize: 13.5,
                       color: '#a5a5a5',
                       marginTop: 5,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                     },
                   ]}>
                   Small package (24cm x 25cm)
@@ -2686,7 +2933,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                    {
+                      fontSize: 17.5,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    },
                   ]}>
                   Small box
                 </Text>
@@ -2696,7 +2949,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontSize: 13.5,
                       color: '#a5a5a5',
                       marginTop: 5,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                     },
                   ]}>
                   Medium package (47cm x 68cm x 50cm)
@@ -2774,7 +3030,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <Text
                   style={[
-                    {fontSize: 17.5, fontFamily: 'Allrounder-Grotesk-Medium'},
+                    {
+                      fontSize: 17.5,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                    },
                   ]}>
                   Large box
                 </Text>
@@ -2784,7 +3046,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontSize: 13.5,
                       color: '#a5a5a5',
                       marginTop: 5,
-                      fontFamily: 'Allrounder-Grotesk-Book',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
                     },
                   ]}>
                   Large package (62cm x 46cm x 76cm)
@@ -2824,7 +3089,10 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={{
                   fontSize: 13,
                   marginLeft: 6,
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                   lineHeight: 14,
                 }}>
                 Select the right package size for a better delivery handling
@@ -2918,13 +3186,23 @@ class RenderContentBottomVitals extends React.PureComponent {
               }}>
               <Text
                 style={{
-                  fontFamily: 'Allrounder-Grotesk-Medium',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                   fontSize: 17.5,
                 }}>
                 Unable to make the request
               </Text>
             </View>
-            <Text style={{fontFamily: 'Allrounder-Grotesk-Book', fontSize: 17}}>
+            <Text
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
+                fontSize: 17,
+              }}>
               Sorry, we were unable to make your ride request due to some
               unexpected error, please try again later.
             </Text>

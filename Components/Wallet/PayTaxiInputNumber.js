@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -54,7 +55,10 @@ class PayTaxiInputNumber extends React.PureComponent {
               systemWeights.semibold,
               {
                 fontSize: 19,
-                fontFamily: 'Allrounder-Grotesk-Book',
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'Allrounder-Grotesk-Book'
+                    : 'Allrounder Grotesk Book',
                 marginBottom: 35,
               },
             ]}>
@@ -96,7 +100,10 @@ class PayTaxiInputNumber extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontFamily: 'Allrounder-Grotesk-Book',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Book'
+                      : 'Allrounder Grotesk Book',
                   color: '#0e8491',
                   fontSize: 14,
                   lineHeight: 20,

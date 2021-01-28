@@ -10,6 +10,7 @@ import {
   ScrollView,
   StatusBar,
   BackHandler,
+  Platform,
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -67,7 +68,10 @@ class WalletTopUpEntry extends React.PureComponent {
                       style={[
                         {
                           fontSize: 19.5,
-                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Regular'
+                              : 'Allrounder Grotesk Regular',
                           marginLeft: 5,
                           flex: 1,
                         },
@@ -77,7 +81,10 @@ class WalletTopUpEntry extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 20,
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         color: '#096ED4',
                       }}>
                       N${this.props.App.wallet_state_vars.totalWallet_amount}
@@ -92,7 +99,10 @@ class WalletTopUpEntry extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 16,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         color: '#a5a5a5',
                         padding: 20,
                         paddingBottom: 10,
@@ -118,7 +128,10 @@ class WalletTopUpEntry extends React.PureComponent {
                         <Text
                           style={{
                             fontSize: 18,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           Credit card
                         </Text>
@@ -129,7 +142,10 @@ class WalletTopUpEntry extends React.PureComponent {
                     <Text
                       style={{
                         fontSize: 16,
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                         color: '#a5a5a5',
                         padding: 20,
                         paddingBottom: 10,
@@ -176,7 +192,10 @@ class WalletTopUpEntry extends React.PureComponent {
                           style={{
                             fontSize: 18,
                             flex: 1,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           Wallet
                         </Text>
@@ -216,7 +235,10 @@ class WalletTopUpEntry extends React.PureComponent {
                           style={{
                             fontSize: 18,
                             flex: 1,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           Cash
                         </Text>
@@ -257,7 +279,10 @@ class WalletTopUpEntry extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 23,
                         color: '#fff',
                       },

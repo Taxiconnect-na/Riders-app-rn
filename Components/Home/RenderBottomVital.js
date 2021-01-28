@@ -12,6 +12,7 @@ import {
   Easing,
   Image,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -168,7 +169,10 @@ class RenderBottomVital extends React.PureComponent {
                         {
                           fontSize: 18,
                           color: '#454545',
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                         },
                       ]}>
                       {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -217,7 +221,10 @@ class RenderBottomVital extends React.PureComponent {
                         style={[
                           {
                             fontSize: 17.5,
-                            fontFamily: 'Allrounder-Grotesk-Book',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Book'
+                                : 'Allrounder Grotesk Book',
                           },
                         ]}>
                         Me
@@ -277,7 +284,10 @@ class RenderBottomVital extends React.PureComponent {
                         style={[
                           {
                             fontSize: 17.5,
-                            fontFamily: 'Allrounder-Grotesk-Book',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Book'
+                                : 'Allrounder Grotesk Book',
                           },
                         ]}>
                         Someone else
@@ -338,7 +348,10 @@ class RenderBottomVital extends React.PureComponent {
                           style={[
                             {
                               fontSize: 17,
-                              fontFamily: 'Allrounder-Grotesk-Regular',
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'Allrounder-Grotesk-Regular'
+                                  : 'Allrounder Grotesk Regular',
                             },
                           ]}
                           placeholder="What's the rider's phone number?"
@@ -358,7 +371,10 @@ class RenderBottomVital extends React.PureComponent {
                         paddingRight: 20,
                         paddingTop: 10,
                         color: '#a2a2a2',
-                        fontFamily: 'Allrounder-Grotesk-Book',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
                       },
                     ]}>
                     This phone number will receive calls or SMS relative to this
@@ -385,7 +401,10 @@ class RenderBottomVital extends React.PureComponent {
                     <View style={[styles.bttnGenericTc]}>
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Book'
+                              : 'Allrounder Grotesk Book',
                           fontSize: 21,
                           fontWeight: 'bold',
                           color: '#fff',
@@ -472,7 +491,10 @@ class RenderBottomVital extends React.PureComponent {
                 }}>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     color: '#000',
                     fontSize: 17.5,
                     flex: 1,
@@ -553,7 +575,10 @@ class RenderBottomVital extends React.PureComponent {
                   <View style={{marginLeft: 7, flex: 1}}>
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 19,
                       }}>
                       {
@@ -569,7 +594,10 @@ class RenderBottomVital extends React.PureComponent {
                       }}>
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                           fontSize: 19,
                           color: '#096ED4',
                         }}>
@@ -590,7 +618,10 @@ class RenderBottomVital extends React.PureComponent {
                         />
                         <Text
                           style={{
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                             fontSize: 18,
                           }}>
                           {
@@ -669,7 +700,10 @@ class RenderBottomVital extends React.PureComponent {
                   <Text
                     style={{
                       fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       color: '#a5a5a5',
                       padding: 20,
                       paddingTop: 0,
@@ -732,7 +766,10 @@ class RenderBottomVital extends React.PureComponent {
                             <View style={{width: 45}}>
                               <Text
                                 style={{
-                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontFamily:
+                                    Platform.OS === 'android'
+                                      ? 'Allrounder-Grotesk-Book'
+                                      : 'Allrounder Grotesk Book',
                                   fontSize: 15,
                                   top: 2,
                                 }}>
@@ -751,7 +788,10 @@ class RenderBottomVital extends React.PureComponent {
                                 }}>
                                 <Text
                                   style={{
-                                    fontFamily: 'Allrounder-Grotesk-Medium',
+                                    fontFamily:
+                                      Platform.OS === 'android'
+                                        ? 'Allrounder-Grotesk-Medium'
+                                        : 'Allrounder Grotesk Medium',
                                     fontSize: 16,
                                     marginLeft: 5,
                                     flex: 1,
@@ -774,7 +814,10 @@ class RenderBottomVital extends React.PureComponent {
                             <View style={{width: 45}}>
                               <Text
                                 style={{
-                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontFamily:
+                                    Platform.OS === 'android'
+                                      ? 'Allrounder-Grotesk-Book'
+                                      : 'Allrounder Grotesk Book',
                                   fontSize: 15,
                                   top: 1,
                                 }}>
@@ -800,7 +843,9 @@ class RenderBottomVital extends React.PureComponent {
                                       <Text
                                         style={{
                                           fontFamily:
-                                            'Allrounder-Grotesk-Regular',
+                                            Platform.OS === 'android'
+                                              ? 'Allrounder-Grotesk-Regular'
+                                              : 'Allrounder Grotesk Regular',
                                           fontSize: 16,
                                           marginLeft: 5,
                                           flex: 1,
@@ -811,7 +856,9 @@ class RenderBottomVital extends React.PureComponent {
                                           <Text
                                             style={{
                                               fontFamily:
-                                                'Allrounder-Grotesk-Medium',
+                                                Platform.OS === 'android'
+                                                  ? 'Allrounder-Grotesk-Medium'
+                                                  : 'Allrounder Grotesk Medium',
                                               fontSize: 15,
                                               marginLeft: 5,
                                               flex: 1,
@@ -875,7 +922,10 @@ class RenderBottomVital extends React.PureComponent {
                 <IconCommunity name="shield-check" color="#fff" size={25} />
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Medium',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Medium'
+                        : 'Allrounder Grotesk Medium',
                     fontSize: 22.5,
                     marginLeft: 5,
                     color: '#fff',
@@ -937,7 +987,10 @@ class RenderBottomVital extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    fontFamily: 'Allrounder-Grotesk-Regular',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk Regular',
                     fontSize: 19,
                   }}>
                   Finding you a Taxi

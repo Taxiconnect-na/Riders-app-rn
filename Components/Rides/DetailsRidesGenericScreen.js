@@ -10,6 +10,7 @@ import {
   StatusBar,
   RefreshControl,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {
   UpdateErrorModalLog,
@@ -198,7 +199,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
         <>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Regular',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Regular'
+                  : 'Allrounder Grotesk Regular',
               color: '#fff',
               fontSize: 16,
               marginLeft: 5,
@@ -213,7 +217,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
         <>
           <Text
             style={{
-              fontFamily: 'Allrounder-Grotesk-Regular',
+              fontFamily:
+                Platform.OS === 'android'
+                  ? 'Allrounder-Grotesk-Regular'
+                  : 'Allrounder Grotesk Regular',
               color: '#fff',
               fontSize: 16,
               marginLeft: 5,
@@ -269,7 +276,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
         />
         <Text
           style={{
-            fontFamily: 'Allrounder-Grotesk-Book',
+            fontFamily:
+              Platform.OS === 'android'
+                ? 'Allrounder-Grotesk-Book'
+                : 'Allrounder Grotesk Book',
             fontSize: 16,
             marginTop: 15,
             width: '80%',
@@ -418,7 +428,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   <Text
                     style={{
                       fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       color: '#a5a5a5',
                       padding: 20,
                       paddingBottom: 0,
@@ -475,7 +488,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                             <View style={{width: 35}}>
                               <Text
                                 style={{
-                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontFamily:
+                                    Platform.OS === 'android'
+                                      ? 'Allrounder-Grotesk-Book'
+                                      : 'Allrounder Grotesk Book',
                                   fontSize: 14,
                                   top: 2,
                                 }}>
@@ -494,7 +510,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                 }}>
                                 <Text
                                   style={{
-                                    fontFamily: 'Allrounder-Grotesk-Medium',
+                                    fontFamily:
+                                      Platform.OS === 'android'
+                                        ? 'Allrounder-Grotesk-Medium'
+                                        : 'Allrounder Grotesk Medium',
                                     fontSize: 17,
                                     marginLeft: 5,
                                     flex: 1,
@@ -515,7 +534,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                             <View style={{width: 35}}>
                               <Text
                                 style={{
-                                  fontFamily: 'Allrounder-Grotesk-Book',
+                                  fontFamily:
+                                    Platform.OS === 'android'
+                                      ? 'Allrounder-Grotesk-Book'
+                                      : 'Allrounder Grotesk Book',
                                   fontSize: 14,
                                   top: 1,
                                 }}>
@@ -555,7 +577,9 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                             <Text
                                               style={{
                                                 fontFamily:
-                                                  'Allrounder-Grotesk-Regular',
+                                                  Platform.OS === 'android'
+                                                    ? 'Allrounder-Grotesk-Regular'
+                                                    : 'Allrounder Grotesk Regular',
                                                 fontSize: 17,
                                                 color: '#096ED4',
                                               }}>
@@ -571,7 +595,9 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                           <Text
                                             style={{
                                               fontFamily:
-                                                'Allrounder-Grotesk-Regular',
+                                                Platform.OS === 'android'
+                                                  ? 'Allrounder-Grotesk-Regular'
+                                                  : 'Allrounder Grotesk Regular',
                                               fontSize: 16.5,
                                             }}>
                                             {destination.trim()}.
@@ -620,7 +646,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       null ? (
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Book'
+                              : 'Allrounder Grotesk Book',
                           fontSize: 16.5,
                           marginLeft: 5,
                           flex: 1,
@@ -628,7 +657,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                         Approximately{' '}
                         <Text
                           style={{
-                            fontFamily: 'Allrounder-Grotesk-Medium',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Medium'
+                                : 'Allrounder Grotesk Medium',
                             fontSize: 16,
                             marginLeft: 5,
                             color: '#096ED4',
@@ -643,7 +675,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                     ) : (
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Book',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Book'
+                              : 'Allrounder Grotesk Book',
                           fontSize: 16.5,
                           marginLeft: 5,
                           flex: 1,
@@ -683,7 +718,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
 
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Regular',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk Regular',
                         fontSize: 18,
                         marginLeft: 4,
                       }}>
@@ -702,7 +740,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   </View>
                   <Text
                     style={{
-                      fontFamily: 'Allrounder-Grotesk-Medium',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
                       fontSize: 20,
                       color: 'green',
                       flex: 1,
@@ -720,7 +761,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                     <IconAnt name="user" size={17} />
                     <Text
                       style={{
-                        fontFamily: 'Allrounder-Grotesk-Medium',
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
                         fontSize: 18,
                         marginLeft: 4,
                       }}>
@@ -737,7 +781,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   <Text
                     style={{
                       fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       color: '#a5a5a5',
                       paddingBottom: 25,
                       marginBottom: 10,
@@ -780,14 +827,20 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                         <Text
                           style={{
                             fontSize: 16.5,
-                            fontFamily: 'Allrounder-Grotesk-Regular',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Regular'
+                                : 'Allrounder Grotesk Regular',
                           }}>
                           {this.state.detailed_requestData.driver_details.name}
                         </Text>
                         <Text
                           style={{
                             fontSize: 17,
-                            fontFamily: 'Allrounder-Grotesk-Medium',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Medium'
+                                : 'Allrounder Grotesk Medium',
                             color: '#096ED4',
                           }}>
                           {
@@ -801,7 +854,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <IconMaterialIcons name="star" size={20} />
                       <Text
                         style={{
-                          fontFamily: 'Allrounder-Grotesk-Regular',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Regular'
+                              : 'Allrounder Grotesk Regular',
                           fontSize: 17.5,
                         }}>
                         {/notYet/i.test(
@@ -821,7 +877,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   <Text
                     style={{
                       fontSize: 17,
-                      fontFamily: 'Allrounder-Grotesk-Regular',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Regular'
+                          : 'Allrounder Grotesk Regular',
                       color: '#a5a5a5',
                       paddingBottom: 15,
                     }}>
@@ -851,7 +910,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <Text
                         style={{
                           fontSize: 17,
-                          fontFamily: 'Allrounder-Grotesk-Medium',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
                         }}>
                         {
                           this.state.detailed_requestData.car_details
@@ -861,7 +923,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       <Text
                         style={{
                           fontSize: 16.5,
-                          fontFamily: 'Allrounder-Grotesk-Book',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Book'
+                              : 'Allrounder Grotesk Book',
                         }}>
                         {this.state.detailed_requestData.car_details.car_brand}
                       </Text>
@@ -875,7 +940,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                         <Text
                           style={{
                             fontSize: 14,
-                            fontFamily: 'Allrounder-Grotesk-Book',
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'Allrounder-Grotesk-Book'
+                                : 'Allrounder Grotesk Book',
                             color: 'green',
                           }}>
                           {
