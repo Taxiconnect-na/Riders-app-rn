@@ -162,6 +162,7 @@
 		964AF1EA25C2DD9F007C5D25 /* MoveLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MoveLight.ttf; path = ../Media_assets/fonts/MoveLight.ttf; sourceTree = "<group>"; };
 		964AF1EB25C2DD9F007C5D25 /* MoveBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MoveBold.otf; path = ../Media_assets/fonts/MoveBold.otf; sourceTree = "<group>"; };
 		964AF1EC25C2DD9F007C5D25 /* MoveRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MoveRegular.ttf; path = ../Media_assets/fonts/MoveRegular.ttf; sourceTree = "<group>"; };
+		964AF35E25C325CA007C5D25 /* TaxiconnectRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TaxiconnectRelease.entitlements; path = Taxiconnect/TaxiconnectRelease.entitlements; sourceTree = "<group>"; };
 		96A43294731881C53CE9D9BB /* libPods-Taxiconnect-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taxiconnect-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F45E539C8D84A88B035D672 /* ClanOT-NarrowNews.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ClanOT-NarrowNews.ttf"; path = "../Media_assets/fonts/ClanOT-NarrowNews.ttf"; sourceTree = "<group>"; };
 		AC8624EDAF8E487B9C3B28C3 /* ClanOT-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ClanOT-Book.ttf"; path = "../Media_assets/fonts/ClanOT-Book.ttf"; sourceTree = "<group>"; };
@@ -235,6 +236,7 @@
 		13B07FAE1A68108700A75B9A /* Taxiconnect */ = {
 			isa = PBXGroup;
 			children = (
+				964AF35E25C325CA007C5D25 /* TaxiconnectRelease.entitlements */,
 				964AF18425C2D863007C5D25 /* Fonts */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -464,6 +466,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = Y8CV2D8N5A;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -1009,6 +1012,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y8CV2D8N5A;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Taxiconnect/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1017,7 +1021,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.taxiconnect;
 				PRODUCT_NAME = Taxiconnect;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1031,7 +1035,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Taxiconnect/TaxiconnectRelease.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y8CV2D8N5A;
 				INFOPLIST_FILE = Taxiconnect/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1039,7 +1045,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.taxiconnect;
 				PRODUCT_NAME = Taxiconnect;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

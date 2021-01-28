@@ -202,7 +202,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
               color: '#fff',
               fontSize: 16,
               marginLeft: 5,
@@ -220,7 +220,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
               color: '#fff',
               fontSize: 16,
               marginLeft: 5,
@@ -431,7 +431,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       color: '#a5a5a5',
                       padding: 20,
                       paddingBottom: 0,
@@ -579,7 +579,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk Regular',
+                                                    : 'Allrounder Grotesk',
                                                 fontSize: 17,
                                                 color: '#096ED4',
                                               }}>
@@ -597,7 +597,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                               fontFamily:
                                                 Platform.OS === 'android'
                                                   ? 'Allrounder-Grotesk-Regular'
-                                                  : 'Allrounder Grotesk Regular',
+                                                  : 'Allrounder Grotesk',
                                               fontSize: 16.5,
                                             }}>
                                             {destination.trim()}.
@@ -721,7 +721,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 18,
                         marginLeft: 4,
                       }}>
@@ -784,7 +784,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       color: '#a5a5a5',
                       paddingBottom: 25,
                       marginBottom: 10,
@@ -830,7 +830,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           {this.state.detailed_requestData.driver_details.name}
                         </Text>
@@ -857,7 +857,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk Regular',
+                              : 'Allrounder Grotesk',
                           fontSize: 17.5,
                         }}>
                         {/notYet/i.test(
@@ -880,7 +880,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       color: '#a5a5a5',
                       paddingBottom: 15,
                     }}>

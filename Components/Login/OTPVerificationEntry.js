@@ -557,7 +557,7 @@ class OTPVerificationEntry extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   marginTop: 15,
                   marginBottom: 35,
                 },

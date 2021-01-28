@@ -47,7 +47,7 @@ class RideLIstGenericElement extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 17,
                   marginBottom: 5,
                 }}>

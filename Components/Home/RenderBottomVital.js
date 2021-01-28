@@ -355,7 +355,7 @@ class RenderBottomVital extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk Regular',
+                                  : 'Allrounder Grotesk',
                             },
                           ]}
                           placeholder="What's the rider's phone number?"
@@ -625,7 +625,7 @@ class RenderBottomVital extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                             fontSize: 18,
                           }}>
                           {
@@ -849,7 +849,7 @@ class RenderBottomVital extends React.PureComponent {
                                           fontFamily:
                                             Platform.OS === 'android'
                                               ? 'Allrounder-Grotesk-Regular'
-                                              : 'Allrounder Grotesk Regular',
+                                              : 'Allrounder Grotesk',
                                           fontSize: 16,
                                           marginLeft: 5,
                                           flex: 1,
@@ -994,7 +994,7 @@ class RenderBottomVital extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                     fontSize: 19,
                   }}>
                   Finding you a Taxi
@@ -1066,8 +1066,8 @@ const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.8,
-    shadowRadius: 120.7,
+    shadowOpacity: 0.3,
+    shadowRadius: 15.7,
     elevation: 0,
   },
   shadowBottomVitalsNULL: {

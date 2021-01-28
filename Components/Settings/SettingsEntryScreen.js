@@ -469,7 +469,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                     }}>
                     Identity
                   </Text>
@@ -489,7 +489,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 18,
                       flex: 1,
                     }}>
@@ -517,7 +517,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                     }}>
                     Favorite places
                   </Text>
@@ -537,7 +537,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                     }}>
                     Privacy
                   </Text>
@@ -559,7 +559,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 17,
                       flex: 1,
                     }}>
@@ -588,7 +588,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 17,
                       flex: 1,
                     }}>

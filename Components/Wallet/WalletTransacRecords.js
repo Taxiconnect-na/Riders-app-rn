@@ -34,7 +34,7 @@ class WalletTransacRecords extends React.PureComponent {
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
               color: '#a5a5a5',
               fontSize: 16,
             }}>
@@ -51,7 +51,7 @@ class WalletTransacRecords extends React.PureComponent {
           <Text
             style={{
               fontFamily:
-                Platform.OS === 'android' ? 'MoveRegular' : 'Uber Move Regular',
+                Platform.OS === 'android' ? 'MoveRegular' : 'Uber Move',
               fontSize: 17,
               color: '#0e8491',
             }}>

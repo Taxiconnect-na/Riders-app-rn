@@ -55,7 +55,7 @@ class SendFundsInputAmount extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   marginBottom: 35,
                   marginTop: 10,
                 },

@@ -28,6 +28,7 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
 import Search from '../Modules/Search/Components/Search';
+import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 //Import of action creators
 import {
   ResetStateProps,
@@ -197,13 +198,13 @@ class Home extends React.PureComponent {
                   },
                 );
                 //Check the zoom level
-                if (this.props._map !== undefined && this.props._map != null) {
+                if (this._map !== undefined && this._map != null) {
                   if (
-                    this.props._map !== undefined &&
-                    this.props._map != null &&
+                    this._map !== undefined &&
+                    this._map != null &&
                     this.props.App.isRideInProgress === false
                   ) {
-                    const mapZoom = await this.props.parentNode._map.getZoom();
+                    const mapZoom = await this._map.getZoom();
                     if (mapZoom > 18) {
                       InteractionManager.runAfterInteractions(() => {
                         globalObject.recalibrateMap();
@@ -301,6 +302,243 @@ class Home extends React.PureComponent {
         //Close loading animation
         this.resetAnimationLoader();
       }
+    } else if (Platform.OS === 'ios') {
+      //! SWITCH LATITUDE->LONGITUDEE AND LONGITUDE->LATITUDE - Only for iOS
+      if (promptActivation === false) {
+        let newStateVars = {};
+        const mapZoom =
+          this._map !== undefined && this._map !== null
+            ? await this._map.getZoom()
+            : this.props._NORMAL_MAP_ZOOM_LEVEL;
+        //Normal check
+        //Check the GPRS permission
+        check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+          .then((result) => {
+            console.log(result);
+            switch (result) {
+              case RESULTS.UNAVAILABLE:
+                //Permission denied, update gprs global vars and lock the platform
+                newStateVars.hasGPRSPermissions = false;
+                newStateVars.didAskForGprs = true;
+                this.props.UpdateGrantedGRPS(newStateVars);
+                //Close loading animation
+                this.resetAnimationLoader();
+                break;
+              case RESULTS.DENIED:
+                //Permission denied, update gprs global vars and lock the platform
+                newStateVars.hasGPRSPermissions = false;
+                newStateVars.didAskForGprs = true;
+                this.props.UpdateGrantedGRPS(newStateVars);
+                //Close loading animation
+                this.resetAnimationLoader();
+                break;
+              case RESULTS.LIMITED:
+                if (
+                  this.props.App.gprsGlobals.hasGPRSPermissions === false ||
+                  this.props.App.gprsGlobals.didAskForGprs === false ||
+                  this.props.App.latitude === 0 ||
+                  this.props.App.longitude === 0
+                ) {
+                  if (/off the map/i.test(this.props.App.hello2Text)) {
+                    globalObject.replaceHello2_text("How's your day?");
+                  }
+                  //Permission granted
+                  this.getCurrentPositionCusto();
+                  GeolocationP.getCurrentPosition(
+                    (position) => {
+                      globalObject.props.App.latitude =
+                        position.coords.latitude;
+                      globalObject.props.App.longitude =
+                        position.coords.longitude;
+                      //Update GPRS permission global var
+                      let newStateVars = {};
+                      newStateVars.hasGPRSPermissions = true;
+                      newStateVars.didAskForGprs = true;
+                      globalObject.props.UpdateGrantedGRPS(newStateVars);
+                      //Launch recalibration
+                      InteractionManager.runAfterInteractions(() => {
+                        globalObject.recalibrateMap();
+                      });
+                    },
+                    () => {
+                      // See error code charts below.
+                      //Launch recalibration
+                      InteractionManager.runAfterInteractions(() => {
+                        globalObject.recalibrateMap();
+                      });
+                    },
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 200000,
+                      maximumAge: 1000,
+                      distanceFilter: 3,
+                    },
+                  );
+                  this.props.App.isMapPermitted = true;
+                } else {
+                  globalObject.updateDriver_realTimeMap();
+                  GeolocationP.getCurrentPosition(
+                    (position) => {
+                      globalObject.props.App.latitude =
+                        position.coords.latitude;
+                      globalObject.props.App.longitude =
+                        position.coords.longitude;
+                      //Get user location
+                      globalObject.props.App.socket.emit('geocode-this-point', {
+                        latitude: globalObject.props.App.latitude,
+                        longitude: globalObject.props.App.longitude,
+                        user_fingerprint:
+                          globalObject.props.App.user_fingerprint,
+                      });
+                      //Update GPRS permission global var
+                      let newStateVars = {};
+                      newStateVars.hasGPRSPermissions = true;
+                      newStateVars.didAskForGprs = true;
+                      globalObject.props.UpdateGrantedGRPS(newStateVars);
+                    },
+                    () => {
+                      // See error code charts below.
+                      //Launch recalibration
+                      InteractionManager.runAfterInteractions(() => {
+                        globalObject.recalibrateMap();
+                      });
+                    },
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 200000,
+                      maximumAge: 10000,
+                      distanceFilter: 3,
+                    },
+                  );
+                  //Check the zoom level
+                  if (this._map !== undefined && this._map != null) {
+                    if (
+                      this._map !== undefined &&
+                      this._map != null &&
+                      this.props.App.isRideInProgress === false
+                    ) {
+                      if (mapZoom > 18) {
+                        InteractionManager.runAfterInteractions(() => {
+                          globalObject.recalibrateMap();
+                        });
+                      }
+                    }
+                  }
+                }
+                break;
+              case RESULTS.GRANTED:
+                if (
+                  this.props.App.gprsGlobals.hasGPRSPermissions === false ||
+                  this.props.App.gprsGlobals.didAskForGprs === false ||
+                  this.props.App.latitude === 0 ||
+                  this.props.App.longitude === 0
+                ) {
+                  if (/off the map/i.test(this.props.App.hello2Text)) {
+                    globalObject.replaceHello2_text("How's your day?");
+                  }
+                  //Permission granted
+                  this.getCurrentPositionCusto();
+                  GeolocationP.getCurrentPosition(
+                    (position) => {
+                      globalObject.props.App.latitude =
+                        position.coords.longitude;
+                      globalObject.props.App.longitude =
+                        position.coords.latitude;
+                      //Update GPRS permission global var
+                      let newStateVars = {};
+                      newStateVars.hasGPRSPermissions = true;
+                      newStateVars.didAskForGprs = true;
+                      globalObject.props.UpdateGrantedGRPS(newStateVars);
+                      //Launch recalibration
+                      InteractionManager.runAfterInteractions(() => {
+                        globalObject.recalibrateMap();
+                      });
+                    },
+                    () => {
+                      // See error code charts below.
+                      //Launch recalibration
+                      InteractionManager.runAfterInteractions(() => {
+                        console.log('Inside');
+                        globalObject.recalibrateMap();
+                      });
+                    },
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 200000,
+                      maximumAge: 1000,
+                      distanceFilter: 3,
+                    },
+                  );
+                  this.props.App.isMapPermitted = true;
+                } else {
+                  globalObject.updateDriver_realTimeMap();
+                  GeolocationP.getCurrentPosition(
+                    (position) => {
+                      console.log(position);
+                      globalObject.props.App.latitude =
+                        position.coords.longitude;
+                      globalObject.props.App.longitude =
+                        position.coords.latitude;
+                      //Get user location
+                      globalObject.props.App.socket.emit('geocode-this-point', {
+                        latitude: globalObject.props.App.latitude,
+                        longitude: globalObject.props.App.longitude,
+                        user_fingerprint:
+                          globalObject.props.App.user_fingerprint,
+                      });
+                      //Update GPRS permission global var
+                      let newStateVars = {};
+                      newStateVars.hasGPRSPermissions = true;
+                      newStateVars.didAskForGprs = true;
+                      globalObject.props.UpdateGrantedGRPS(newStateVars);
+                    },
+                    () => {
+                      // See error code charts below.
+                      //Launch recalibration
+                      InteractionManager.runAfterInteractions(() => {
+                        globalObject.recalibrateMap();
+                      });
+                    },
+                    {
+                      enableHighAccuracy: true,
+                      timeout: 200000,
+                      maximumAge: 10000,
+                      distanceFilter: 3,
+                    },
+                  );
+                  //Check the zoom level
+                  if (this._map !== undefined && this._map != null) {
+                    if (
+                      this._map !== undefined &&
+                      this._map != null &&
+                      this.props.App.isRideInProgress === false
+                    ) {
+                      if (mapZoom > 18) {
+                        InteractionManager.runAfterInteractions(() => {
+                          globalObject.recalibrateMap();
+                        });
+                      }
+                    }
+                  }
+                }
+                break;
+              case RESULTS.BLOCKED:
+                //Permission denied, update gprs global vars and lock the platform
+                newStateVars.hasGPRSPermissions = false;
+                newStateVars.didAskForGprs = true;
+                this.props.UpdateGrantedGRPS(newStateVars);
+                //Close loading animation
+                this.resetAnimationLoader();
+                break;
+            }
+          })
+          .catch((error) => {
+            // …
+          });
+      } //Location permission explicitly requested
+      else {
+        console.log('requested permission by click');
+      }
     }
   }
 
@@ -394,9 +632,12 @@ class Home extends React.PureComponent {
       },
     );
 
-    //Initiate component by asking for the necessary permissions.
-    Platform.OS === 'android' &&
-      (await PermissionsAndroid.request(
+    //! SET AUTHORIZATION LEVEL FOR iOS LOCATION
+    if (Platform.OS === 'ios') {
+      GeolocationP.requestAuthorization('whenInUse');
+    } else if (Platform.OS === 'android') {
+      //Initiate component by asking for the necessary permissions.
+      await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: 'Enable location',
@@ -405,7 +646,10 @@ class Home extends React.PureComponent {
           buttonPositive: 'Allow',
           buttonNegative: 'Cancel',
         },
-      ));
+      );
+    }
+
+    //...
     globalObject.GPRS_resolver();
     //...
 
@@ -743,6 +987,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'geocode-this-point-response',
       function (response) {
+        console.log(response);
         if (response !== undefined && response !== false) {
           globalObject.props.UpdateCurrentLocationMetadat(response);
         }
@@ -923,6 +1168,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'get_closest_drivers_to_point-response',
       function (response) {
+        console.log(response);
         if (
           response !== false &&
           response.response === undefined &&
@@ -1299,6 +1545,7 @@ class Home extends React.PureComponent {
           globalObject.props.App.bottomVitalsFlow.currentStep,
         )
       ) {
+        console.log(globalObject.props.App.userCurrentLocationMetaData);
         //No rides in progress
         //If a latitude, longitude, city and town are available
         if (
@@ -1322,6 +1569,7 @@ class Home extends React.PureComponent {
                     globalObject.props.App.bottomVitalsFlow.currentStep,
                   )
                 ) {
+                  console.log('get drivers prox');
                   globalObject.props.App.socket.emit(
                     'get_closest_drivers_to_point',
                     {
@@ -2427,8 +2675,8 @@ class Home extends React.PureComponent {
               minHeight: 80,
               backgroundColor: '#0e8491',
               padding: 20,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
+              borderTopLeftRadius: 15,
+              borderTopRightRadius: 15,
             },
           ]}>
           <View
@@ -2439,7 +2687,7 @@ class Home extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: 16,
+                  fontSize: 17.5,
                   color: '#fff',
                   lineHeight: 20,
                   fontFamily:
@@ -2456,11 +2704,11 @@ class Home extends React.PureComponent {
                   Platform.OS === 'android'
                     ? 'Allrounder-Grotesk-Medium'
                     : 'Allrounder Grotesk Medium',
-                fontSize: 16,
+                fontSize: 17,
                 marginTop: 10,
                 color: '#fff',
               }}>
-              Simply press here to do so.
+              Turn on your location
             </Text>
           </View>
           <View

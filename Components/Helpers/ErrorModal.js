@@ -481,7 +481,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 17,
                 }}>
                 Waiting for Internet connection
@@ -542,7 +542,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 17,
                 }}>
                 Establishing connection.
@@ -939,7 +939,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -986,7 +986,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
                   color: '#000',
                   marginLeft: 5,
@@ -1025,7 +1025,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
                   color: '#d0d0d0',
                   marginLeft: 5,
@@ -1188,7 +1188,7 @@ class ErrorModal extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                             fontSize: 17,
                           }}>
                           {
@@ -1211,7 +1211,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       color: '#096ED4',
                       fontSize: 16.5,
                     }}>
@@ -1389,7 +1389,7 @@ class ErrorModal extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1591,7 +1591,7 @@ class ErrorModal extends React.PureComponent {
                                         fontFamily:
                                           Platform.OS === 'android'
                                             ? 'Allrounder-Grotesk-Regular'
-                                            : 'Allrounder Grotesk Regular',
+                                            : 'Allrounder Grotesk',
                                         fontSize: 17,
                                         marginLeft: 5,
                                         flex: 1,
@@ -1728,7 +1728,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 18,
                       marginLeft: 4,
                     }}>
@@ -1905,7 +1905,7 @@ class ErrorModal extends React.PureComponent {
                 fontFamily:
                   Platform.OS === 'android'
                     ? 'Allrounder-Grotesk-Regular'
-                    : 'Allrounder Grotesk Regular',
+                    : 'Allrounder Grotesk',
                 fontSize: 22,
               }}>
               Safety
@@ -2095,7 +2095,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       marginLeft: 5,
                     },
                   ]}>
@@ -2274,7 +2274,7 @@ class ErrorModal extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2331,7 +2331,7 @@ class ErrorModal extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2388,7 +2388,7 @@ class ErrorModal extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2445,7 +2445,7 @@ class ErrorModal extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2503,7 +2503,7 @@ class ErrorModal extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 14,
                         marginTop: 10,
                         flex: 1,
@@ -2546,7 +2546,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 17.5,
                     }}
                   />
@@ -2795,7 +2795,7 @@ class ErrorModal extends React.PureComponent {
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk Regular',
+                              : 'Allrounder Grotesk',
                           marginLeft: 5,
                           flex: 1,
                         },
@@ -2851,7 +2851,7 @@ class ErrorModal extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           Credit card
                         </Text>
@@ -2915,7 +2915,7 @@ class ErrorModal extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           Wallet
                         </Text>
@@ -2958,7 +2958,7 @@ class ErrorModal extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           Cash
                         </Text>
@@ -3091,7 +3091,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -3118,7 +3118,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -3145,7 +3145,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -3174,7 +3174,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 19.5,
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
@@ -3190,7 +3190,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                       fontSize: 15,
                       marginTop: 15,
                       color: '#b22222',

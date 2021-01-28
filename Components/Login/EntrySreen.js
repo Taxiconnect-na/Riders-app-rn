@@ -172,7 +172,7 @@ class EntryScreen extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                     fontSize: 19,
                   },
                 ]}>

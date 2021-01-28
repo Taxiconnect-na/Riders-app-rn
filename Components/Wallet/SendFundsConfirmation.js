@@ -83,7 +83,7 @@ class PayDriverConfirmation extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                     marginBottom: 5,
                   }}>
                   MR. REINHOLD
@@ -128,7 +128,7 @@ class PayDriverConfirmation extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                     marginBottom: 5,
                   }}>
                   MR. DAVID

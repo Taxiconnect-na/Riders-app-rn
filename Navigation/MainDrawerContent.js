@@ -66,7 +66,7 @@ export function MainDrawerContent(props) {
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
               fontSize: 15,
               flex: 1,
             }}>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     fontFamily:
       Platform.OS === 'android'
         ? 'Allrounder-Grotesk-Regular'
-        : 'Allrounder Grotesk Regular',
+        : 'Allrounder Grotesk',
     fontSize: 20,
     flex: 1,
   },

@@ -408,7 +408,7 @@ class TopUpWalletScreen extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 },
               ]}>
               Making the payment
@@ -459,7 +459,7 @@ class TopUpWalletScreen extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                   },
                 ]}>
                 {this.state.resultOperationErrorText}
@@ -506,7 +506,7 @@ class TopUpWalletScreen extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                   },
                 ]}>
                 Payment successful for{' '}
@@ -655,7 +655,7 @@ class TopUpWalletScreen extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                     },
                   ]}
                   additionalInputsProps={{

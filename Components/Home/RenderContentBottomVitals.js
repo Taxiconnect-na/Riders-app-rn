@@ -1419,7 +1419,11 @@ class RenderContentBottomVitals extends React.PureComponent {
             ],
           }}>
           <TouchableOpacity
-            onPressIn={() => this.initialTouchForRideOrDelivery()}
+            onPressIn={() =>
+              this.props.App.gprsGlobals.hasGPRSPermissions
+                ? this.initialTouchForRideOrDelivery()
+                : {}
+            }
             style={{height: '100%'}}>
             <View
               style={{
@@ -2099,7 +2103,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           style={[
                             {
                               fontSize: 17,
-                              fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Regular':'Allrounder Grotesk Regular',
+                              fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Regular':'Allrounder Grotesk',
                             },
                           ]}>
                           {/RIDE/i.test(
@@ -2162,7 +2166,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                       },
                     ]}
                   />
@@ -2670,7 +2674,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 },
               ]}
             />
@@ -2855,7 +2859,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk Regular',
+                          : 'Allrounder Grotesk',
                     },
                   ]}>
                   Small package (24cm x 25cm)

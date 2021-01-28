@@ -77,7 +77,7 @@ class SupportEntry extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                     marginLeft: 5,
                   }}>
                   We're here for you.

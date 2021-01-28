@@ -54,9 +54,9 @@ function YourRidesEntry_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Your requests
@@ -80,9 +80,9 @@ function YourRidesEntry_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Details
@@ -120,7 +120,7 @@ function Wallet_drawer() {
                       ? 'Allrounder-Grotesk-Medium'
                       : 'Allrounder Grotesk Medium',
                   fontSize: 21,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#000',
                 }}>
                 Connect Wallet
@@ -143,9 +143,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Transfer funds
@@ -168,9 +168,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Pay a driver
@@ -194,9 +194,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Top-up amount
@@ -219,9 +219,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Confirmation
@@ -244,9 +244,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Top-up your wallet
@@ -269,9 +269,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Transfer funds
@@ -294,9 +294,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Transfer funds
@@ -319,9 +319,9 @@ function Wallet_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Payment settings
@@ -354,9 +354,9 @@ function Support_drawer() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Support
@@ -388,9 +388,9 @@ function SettingsDrawer_navigator() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Settings
@@ -414,9 +414,9 @@ function SettingsDrawer_navigator() {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 20,
-                  right: 20,
+                  right: Platform.OS === 'android' ? 20 : 0,
                   color: '#fff',
                 }}>
                 Personal information

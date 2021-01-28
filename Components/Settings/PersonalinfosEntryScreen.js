@@ -237,7 +237,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 }}>
                 Name
               </Text>
@@ -258,9 +258,14 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontSize: 17.5,
                   flex: 1,
                 }}>
-                {`${this.props.App.username[0].toUpperCase()}${this.props.App.username
-                  .substr(1)
-                  .toLowerCase()}`}
+                {this.props.App.username !== false &&
+                this.props.App.username !== null &&
+                this.props.App.username !== undefined &&
+                this.props.App.username[0] !== undefined
+                  ? `${this.props.App.username[0].toUpperCase()}${this.props.App.username
+                      .substr(1)
+                      .toLowerCase()}`
+                  : 'Enter your name'}
               </Text>
               <IconMaterialIcons
                 name="keyboard-arrow-right"
@@ -285,7 +290,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 }}>
                 Surname
               </Text>
@@ -338,7 +343,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 }}>
                 Gender
               </Text>
@@ -391,7 +396,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 }}>
                 Phone number
               </Text>
@@ -452,7 +457,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                 }}>
                 Email
               </Text>

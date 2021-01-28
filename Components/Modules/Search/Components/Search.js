@@ -674,7 +674,7 @@ class Search extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk Regular',
+                                  : 'Allrounder Grotesk',
                             },
                           ]}>
                           {item.street === undefined
@@ -693,7 +693,7 @@ class Search extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk Regular',
+                                  : 'Allrounder Grotesk',
                             },
                           ]}>
                           {item.city === undefined ? '' : item.city}
@@ -851,7 +851,7 @@ class Search extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                       },
                     ]}
                     placeholder="Where are you?"
@@ -1291,7 +1291,7 @@ const styles = StyleSheet.create({
     fontFamily:
       Platform.OS === 'android'
         ? 'Allrounder-Grotesk-Regular'
-        : 'Allrounder Grotesk Regular',
+        : 'Allrounder Grotesk',
   },
   resultsSearchNode: {
     padding: 20,

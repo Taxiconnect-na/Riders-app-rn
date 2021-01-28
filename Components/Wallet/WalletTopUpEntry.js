@@ -71,7 +71,7 @@ class WalletTopUpEntry extends React.PureComponent {
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk Regular',
+                              : 'Allrounder Grotesk',
                           marginLeft: 5,
                           flex: 1,
                         },
@@ -131,7 +131,7 @@ class WalletTopUpEntry extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           Credit card
                         </Text>
@@ -195,7 +195,7 @@ class WalletTopUpEntry extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           Wallet
                         </Text>
@@ -238,7 +238,7 @@ class WalletTopUpEntry extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           }}>
                           Cash
                         </Text>

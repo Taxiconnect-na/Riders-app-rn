@@ -167,7 +167,7 @@ class WalletEntry extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         color: '#a5a5a5',
                         fontSize: 16,
                       }}>
@@ -265,7 +265,7 @@ class WalletEntry extends React.PureComponent {
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk Regular',
+                              : 'Allrounder Grotesk',
                           fontSize: 18,
                           color: '#a5a5a5',
                           paddingBottom: 15,

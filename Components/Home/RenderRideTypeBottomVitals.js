@@ -1220,7 +1220,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 fontFamily:
                   Platform.OS === 'android'
                     ? 'Allrounder-Grotesk-Regular'
-                    : 'Allrounder Grotesk Regular',
+                    : 'Allrounder Grotesk',
               },
             ]}>
             {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
@@ -1937,7 +1937,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk Regular',
+                                                    : 'Allrounder Grotesk',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -2172,7 +2172,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk Regular',
+                                                    : 'Allrounder Grotesk',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -2397,7 +2397,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk Regular',
+                                                    : 'Allrounder Grotesk',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -2549,7 +2549,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           },
                         ]}>
                         {
@@ -2863,7 +2863,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk Regular',
+                                                    : 'Allrounder Grotesk',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -3111,7 +3111,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk Regular',
+                                                    : 'Allrounder Grotesk',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -3236,7 +3236,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           },
                         ]}>
                         {this.props.parentNodeHome.ucFirst(
@@ -3268,7 +3268,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk Regular',
+                                  : 'Allrounder Grotesk',
                             },
                           ]}>
                           {
@@ -3465,7 +3465,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                   },
                 ]}
               />
@@ -3622,7 +3622,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk Regular',
+                                : 'Allrounder Grotesk',
                           },
                         ]}>
                         Normal Taxi

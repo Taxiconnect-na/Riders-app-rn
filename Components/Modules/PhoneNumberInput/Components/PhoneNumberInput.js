@@ -164,7 +164,7 @@ class PhoneNumberInput extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 17,
                   color: '#fff',
                 },
@@ -216,7 +216,7 @@ class PhoneNumberInput extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 19,
                   color: '#fff',
                 },
@@ -314,7 +314,7 @@ class PhoneNumberInput extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk Regular',
+                            : 'Allrounder Grotesk',
                         fontSize: 15,
                         color: '#797979',
                       },
@@ -454,7 +454,7 @@ class PhoneNumberInput extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk Regular',
+                        : 'Allrounder Grotesk',
                     fontSize: 18,
                     left: 2,
                   },
@@ -493,7 +493,7 @@ class PhoneNumberInput extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 18,
                   borderBottomWidth: 1.5,
                   flex: 1,

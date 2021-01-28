@@ -65,7 +65,7 @@ const AnnotationPickup = ({title}) => (
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
             },
           ]}>
           {title.length > 11 ? title.substring(0, 11) + '.' : title}
@@ -116,7 +116,7 @@ const AnnotationDestination = ({title, etaInfos}) => (
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
             },
           ]}>
           {etaInfos.eta.split(' ')[0]}
@@ -129,7 +129,7 @@ const AnnotationDestination = ({title, etaInfos}) => (
               fontFamily:
                 Platform.OS === 'android'
                   ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk Regular',
+                  : 'Allrounder Grotesk',
               bottom: 1,
             },
           ]}>

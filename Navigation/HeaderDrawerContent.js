@@ -96,7 +96,7 @@ class HeaderDrawerContent extends React.PureComponent {
                 fontFamily:
                   Platform.OS === 'android'
                     ? 'Allrounder-Grotesk-Regular'
-                    : 'Allrounder Grotesk Regular',
+                    : 'Allrounder Grotesk',
                 fontSize: 15,
                 textAlign: 'center',
                 color: '#ffff',
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     fontFamily:
       Platform.OS === 'android'
         ? 'Allrounder-Grotesk-Regular'
-        : 'Allrounder Grotesk Regular',
+        : 'Allrounder Grotesk',
     fontSize: 20,
   },
   footerDrawer: {

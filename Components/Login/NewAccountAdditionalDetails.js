@@ -372,7 +372,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 19,
                   borderBottomWidth: /name/i.test(this.state.currentFocusName)
                     ? 1
@@ -436,7 +436,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 19,
                   marginLeft: 5,
                   flex: 1,
@@ -465,7 +465,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk Regular',
+                      : 'Allrounder Grotesk',
                   fontSize: 19,
                   borderBottomWidth: /email/i.test(this.state.currentFocusName)
                     ? 1
