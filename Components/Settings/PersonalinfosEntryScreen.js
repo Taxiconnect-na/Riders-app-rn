@@ -27,6 +27,8 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     //Handlers
     this.backHander = null;
 
+    this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
+
     this.state = {
       showNotifiyer: false, //Whether to show to status notifiyer or not.
       notifiyerMessage: 'No messages to show', //MMessage to desiplay in the notifiyer
@@ -154,6 +156,56 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     );
   }
 
+  /**
+   * @func renderError_modalView
+   * Responsible for rendering the modal view only once.
+   */
+  renderError_modalView() {
+    if (
+      this._shouldShow_errorModal &&
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal
+    ) {
+      //Show once, and lock
+      this._shouldShow_errorModal = false; //!LOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          detailToModify={this.state.detailToModify}
+          parentNode={this}
+        />
+      );
+    } else if (
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
+    ) {
+      //Disable modal lock when modal off
+      this._shouldShow_errorModal = true; //!UNLOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          detailToModify={this.state.detailToModify}
+          parentNode={this}
+        />
+      );
+    } else {
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          detailToModify={this.state.detailToModify}
+          parentNode={this}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.mainWindow}>
@@ -164,16 +216,9 @@ class PersonalinfosEntryScreen extends React.PureComponent {
             message={this.state.notifiyerMessage}
           />
         ) : null}
-        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-          <ErrorModal
-            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-            error_status={
-              this.props.App.generalErrorModal_vars.generalErrorModalType
-            }
-            detailToModify={this.state.detailToModify}
-            parentNode={this}
-          />
-        ) : null}
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+          ? this.renderError_modalView()
+          : null}
         <ScrollView style={styles.presentationWindow}>
           {/**Name */}
           <TouchableOpacity

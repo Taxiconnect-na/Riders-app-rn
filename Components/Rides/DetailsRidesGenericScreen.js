@@ -29,6 +29,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
 
     this.state = {
       loaderState: false,
@@ -290,6 +291,53 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     this.fetchRequestedRequests_history();
   }
 
+  /**
+   * @func renderError_modalView
+   * Responsible for rendering the modal view only once.
+   */
+  renderError_modalView() {
+    if (
+      this._shouldShow_errorModal &&
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal
+    ) {
+      //Show once, and lock
+      this._shouldShow_errorModal = false; //!LOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+        />
+      );
+    } else if (
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
+    ) {
+      //Disable modal lock when modal off
+      this._shouldShow_errorModal = true; //!UNLOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+        />
+      );
+    } else {
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <ScrollView
@@ -305,15 +353,9 @@ class DetailsRidesGenericScreen extends React.PureComponent {
           <GenericLoader active={this.state.loaderState} thickness={4} />
         ) : null}
 
-        {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-          <ErrorModal
-            active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-            error_status={
-              this.props.App.generalErrorModal_vars.generalErrorModalType
-            }
-            parentNode={this}
-          />
-        ) : null}
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+          ? this.renderError_modalView()
+          : null}
 
         {this.state.fetchingRides_Data === false ? (
           this.state.areResultsEmpty === false &&

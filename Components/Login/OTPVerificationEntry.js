@@ -73,6 +73,9 @@ const App = ({valueM, parentNode, editable}) => {
 class OTPVerificationEntry extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
+
     this.state = {
       loaderState: true,
       otpValue: '',
@@ -84,13 +87,20 @@ class OTPVerificationEntry extends React.PureComponent {
       didCheckOTP: false, //TO know if the otp was already check - once
       networkStateChecker: false,
       accountCreation_state: 'full', //To know whether or not to redirecto to the addditional page for minimal account or not: minimal or full
+      smsHashLinker: '####', //Has to link to the sms for the auto-completion
     };
     this.otpHandler = this.otpHandler.bind(this);
   }
 
   async componentDidMount() {
     let globalObject = this;
-    //RNOtpVerify.getHash().then(console.log).catch(console.log);
+
+    //? Generate the SMS hash linker to auto pick the verification code from the SMS.
+    RNOtpVerify.getHash().then((result) => {
+      try {
+        globalObject.state.smsHashLinker = result[0];
+      } catch (error) {}
+    });
     this.initOTPListener();
 
     //Add navigator listener
@@ -413,6 +423,7 @@ class OTPVerificationEntry extends React.PureComponent {
         //Has a final number
         this.props.App.socket.emit('sendOtpAndCheckerUserStatusTc', {
           phone_number: phoneNumber,
+          smsHashLinker: this.state.smsHashLinker,
         });
       }
     } //Go back to the numbe input
@@ -456,23 +467,62 @@ class OTPVerificationEntry extends React.PureComponent {
     }
   }
 
+  /**
+   * @func renderError_modalView
+   * Responsible for rendering the modal view only once.
+   */
+  renderError_modalView() {
+    if (
+      this._shouldShow_errorModal &&
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal
+    ) {
+      //Show once, and lock
+      this._shouldShow_errorModal = false; //!LOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+        />
+      );
+    } else if (
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
+    ) {
+      //Disable modal lock when modal off
+      this._shouldShow_errorModal = true; //!UNLOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+        />
+      );
+    } else {
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
           <GenericLoader active={this.state.loaderState} />
           {this.autoCheckOTPAsTyped()}
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-            <ErrorModal
-              active={
-                this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              }
-              error_status={
-                this.props.App.generalErrorModal_vars.generalErrorModalType
-              }
-              parentNode={this}
-            />
-          ) : null}
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+            ? this.renderError_modalView()
+            : null}
           <View style={styles.presentationWindow}>
             <TouchableOpacity
               onPress={() => this.goBackFUnc()}

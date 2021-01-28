@@ -27,6 +27,7 @@ class SettingsEntryScreen extends React.Component {
     super(props);
 
     this._isMounted = true; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
+    this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
 
     //Handlers
     this.backHander = null;
@@ -235,6 +236,56 @@ class SettingsEntryScreen extends React.Component {
     this.props.App.socket.emit('updateRiders_profileInfos_io', bundleData);
   }
 
+  /**
+   * @func renderError_modalView
+   * Responsible for rendering the modal view only once.
+   */
+  renderError_modalView() {
+    if (
+      this._shouldShow_errorModal &&
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal
+    ) {
+      //Show once, and lock
+      this._shouldShow_errorModal = false; //!LOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+          favoritePlace_label={this.state.favoritePlace_label}
+        />
+      );
+    } else if (
+      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
+    ) {
+      //Disable modal lock when modal off
+      this._shouldShow_errorModal = true; //!UNLOCK MODAL
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+          favoritePlace_label={this.state.favoritePlace_label}
+        />
+      );
+    } else {
+      return (
+        <ErrorModal
+          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+          error_status={
+            this.props.App.generalErrorModal_vars.generalErrorModalType
+          }
+          parentNode={this}
+          favoritePlace_label={this.state.favoritePlace_label}
+        />
+      );
+    }
+  }
+
   render() {
     return (
       <>
@@ -247,18 +298,9 @@ class SettingsEntryScreen extends React.Component {
                 message={this.state.notifiyerMessage}
               />
             ) : null}
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-              <ErrorModal
-                active={
-                  this.props.App.generalErrorModal_vars.showErrorGeneralModal
-                }
-                error_status={
-                  this.props.App.generalErrorModal_vars.generalErrorModalType
-                }
-                parentNode={this}
-                favoritePlace_label={this.state.favoritePlace_label}
-              />
-            ) : null}
+            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              ? this.renderError_modalView()
+              : null}
             <ScrollView style={styles.presentationWindow}>
               {/**Picture section/edit */}
               <View
