@@ -13,6 +13,7 @@ import {
   Easing,
   InteractionManager,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -1867,7 +1868,8 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: 15,
+                        fontSize: Platform.OS === 'android' ? 15 : 16,
+                        marginLeft: Platform.OS === 'android' ? 0 : 5,
                         flex: 1,
                         fontFamily:
                           Platform.OS === 'android'
@@ -2038,102 +2040,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                   flex: 1,
                   width: '90%',
                 }}>
-                {/*this.props.App.bottomVitalsFlow
-                  .riderOrPackagePosseserSwitchingVars.openRiderSwitcher ===
-                false ? (
-                  <>
-                    <Text
-                      style={[
-                        {
-                          color: '#a2a2a2',
-                          fontSize: 15,
-                          marginTop: 15,
-                          fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Book':'Allrounder Grotesk Book',
-                        },
-                      ]}>
-                      {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
-                        ? "Who's the rider?"
-                        : 'Who has the package?'}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.updateAssigningRiderSwitcherWindow('open')
-                      }
-                      style={{
-                        //borderWidth: 0.5,
-                        borderColor: '#d0d0d0',
-                        flexDirection: 'row',
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                        paddingBottom: 15,
-                        paddingTop: 15,
-                        marginTop: 5,
-                        borderRadius: 3,
-                        backgroundColor: '#fff',
-                        alignItems: 'center',
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 1,
-                        },
-                        shadowOpacity: 0.22,
-                        shadowRadius: 2.22,
-
-                        elevation: 3,
-                      }}>
-                      <IconAnt
-                        name={
-                          /^me$/i.test(
-                            this.props.App.bottomVitalsFlow
-                              .riderOrPackagePosseserSwitchingVars.whoIsRiding,
-                          )
-                            ? 'pluscircleo'
-                            : 'pluscircle'
-                        }
-                        size={20}
-                        color={'#0D8691'}
-                      />
-                      <View
-                        style={{
-                          paddingLeft: 5,
-                          justifyContent: 'center',
-                          flex: 1,
-                        }}>
-                        <Text
-                          style={[
-                            {
-                              fontSize: 17,
-                              fontFamily: Platform.OS==='android' ? 'Allrounder-Grotesk-Regular':'Allrounder Grotesk',
-                            },
-                          ]}>
-                          {/RIDE/i.test(
-                            this.props.App.bottomVitalsFlow.flowParent,
-                          )
-                            ? /^me$/i.test(
-                                this.props.App.bottomVitalsFlow
-                                  .riderOrPackagePosseserSwitchingVars
-                                  .whoIsRiding,
-                              )
-                              ? 'I am the rider'
-                              : "Someone else's riding"
-                            : /^me$/i.test(
-                                this.props.App.bottomVitalsFlow
-                                  .riderOrPackagePosseserSwitchingVars
-                                  .whoIsRiding,
-                              )
-                            ? 'I have the package'
-                            : "Someone else's got the package"}
-                        </Text>
-                      </View>
-                      <IconMaterialIcons
-                        name="arrow-forward-ios"
-                        size={18}
-                        style={{top: 1}}
-                        color={'#0D8691'}
-                      />
-                    </TouchableOpacity>
-                  </>
-                ) : null*/}
                 <View
                   style={{
                     flexDirection: 'row',
@@ -2610,109 +2516,496 @@ class RenderContentBottomVitals extends React.PureComponent {
     ) {
       this.props.parentNode.resetAnimationLoader();
       return (
-        <AnimatedNative.View
-          style={{
-            backgroundColor: '#fff',
-            flex: 1,
-            padding: 20,
-            opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
-            transform: [
-              {
-                translateY: this.props.App.bottomVitalsFlow
-                  .genericContainerPosition,
-              },
-            ],
-          }}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.parentNode.rerouteBookingProcessFlow(
-                'previous',
-                'DELIVERY',
-              )
-            }>
-            <IconAnt name="arrowleft" size={28} />
-          </TouchableOpacity>
-          <Text
-            style={[
-              {
-                fontSize: 21,
-                marginTop: 15,
-                marginBottom: 25,
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
-              },
-            ]}>
-            Who's receiving the package?
-          </Text>
-          <View style={{marginBottom: '13%'}}>
-            <TextInput
-              autoFocus
-              placeholder={'Name'}
-              autoCorrect={false}
-              spellCheck={false}
-              onFocus={() =>
-                this.props.UpdateErrorMessagesStateInputRecDelivery({
-                  kidName: 'name',
-                  state: false,
-                })
-              }
-              onChangeText={(text) => this.props.UpdateReceiverNameOnType(text)}
-              value={
-                this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                  .receiverName === false
-                  ? ''
-                  : this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                      .receiverName
-              }
+        <SafeAreaView style={{flex: 1}}>
+          <AnimatedNative.View
+            style={{
+              backgroundColor: '#fff',
+              flex: 1,
+              padding: 20,
+              opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
+              transform: [
+                {
+                  translateY: this.props.App.bottomVitalsFlow
+                    .genericContainerPosition,
+                },
+              ],
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.parentNode.rerouteBookingProcessFlow(
+                  'previous',
+                  'DELIVERY',
+                )
+              }>
+              <IconAnt name="arrowleft" size={28} />
+            </TouchableOpacity>
+            <Text
               style={[
                 {
-                  borderBottomWidth: 1.5,
-                  fontSize: 18,
-                  paddingLeft: 0,
+                  fontSize: 21,
+                  marginTop: 15,
+                  marginBottom: 25,
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
                 },
-              ]}
-            />
-            {this.props.App.errorReceiverNameShow ? (
-              <Text
+              ]}>
+              Who's receiving the package?
+            </Text>
+            <View style={{marginBottom: '13%'}}>
+              <TextInput
+                autoFocus
+                placeholder={'Name'}
+                autoCorrect={false}
+                spellCheck={false}
+                onFocus={() =>
+                  this.props.UpdateErrorMessagesStateInputRecDelivery({
+                    kidName: 'name',
+                    state: false,
+                  })
+                }
+                onChangeText={(text) =>
+                  this.props.UpdateReceiverNameOnType(text)
+                }
+                value={
+                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                    .receiverName === false
+                    ? ''
+                    : this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                        .receiverName
+                }
                 style={[
                   {
-                    color: '#b22222',
-                    fontSize: 14,
-                    top: 11,
+                    borderBottomWidth: 1.5,
+                    fontSize: 18,
+                    paddingLeft: 0,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
+                        ? 'Allrounder-Grotesk-Regular'
+                        : 'Allrounder Grotesk',
                   },
-                ]}>
-                {this.props.App.errorReceiverNameText}
-              </Text>
-            ) : null}
-          </View>
-          <PhoneNumberInput />
-          <View
-            style={{
-              flexDirection: 'row',
-              position: 'absolute',
-              bottom: '10%',
-              left: 20,
-              right: 20,
-              width: '100%',
-            }}>
-            <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-              <Image
-                source={this.props.App.routingIco}
-                style={{width: 20, height: 20, bottom: 14}}
+                ]}
               />
-              <Text
-                style={[
-                  {
+              {this.props.App.errorReceiverNameShow ? (
+                <Text
+                  style={[
+                    {
+                      color: '#b22222',
+                      fontSize: 14,
+                      top: 11,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                    },
+                  ]}>
+                  {this.props.App.errorReceiverNameText}
+                </Text>
+              ) : null}
+            </View>
+            <PhoneNumberInput />
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: '10%',
+                left: 20,
+                right: 20,
+                width: '100%',
+              }}>
+              <View
+                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
+                <Image
+                  source={this.props.App.routingIco}
+                  style={{width: 20, height: 20, bottom: 14}}
+                />
+                <Text
+                  style={[
+                    {
+                      fontSize: 13,
+                      marginLeft: 6,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Book'
+                          : 'Allrounder Grotesk Book',
+                      lineHeight: 14,
+                    },
+                  ]}>
+                  The receiver can use the app to track in real-time the
+                  delivery of the package.
+                </Text>
+              </View>
+              {this.props.App.renderCountryCodeSeacher === false ? (
+                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.ValidateReceiverInfosForDelivery()
+                    }
+                    style={[
+                      styles.arrowCircledForwardBasic,
+                      styles.shadowButtonArrowCircledForward,
+                    ]}>
+                    <IconMaterialIcons
+                      name="arrow-forward-ios"
+                      size={30}
+                      color="#fff"
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+            </View>
+          </AnimatedNative.View>
+        </SafeAreaView>
+      );
+    } else if (
+      this.props.App.bottomVitalsFlow.currentStep === 'selectPackageSize'
+    ) {
+      this.props.parentNode.resetAnimationLoader();
+      return (
+        <SafeAreaView style={{flex: 1}}>
+          <AnimatedNative.View
+            style={{
+              backgroundColor: '#fff',
+              flex: 1,
+              padding: 20,
+              opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
+              transform: [
+                {
+                  translateY: this.props.App.bottomVitalsFlow
+                    .genericContainerPosition,
+                },
+              ],
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.parentNode.rerouteBookingProcessFlow(
+                  'previous',
+                  'DELIVERY',
+                )
+              }>
+              <IconAnt name="arrowleft" size={28} />
+            </TouchableOpacity>
+            <Text
+              style={[
+                {
+                  fontSize: 21,
+                  marginTop: 15,
+                  marginBottom: 25,
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'Allrounder-Grotesk-Medium'
+                      : 'Allrounder Grotesk Medium',
+                },
+              ]}>
+              What's your package size?
+            </Text>
+            <View style={{}}>
+              <TouchableOpacity
+                onPress={() => this.props.UpdateDeliveryPackageSize('envelope')}
+                style={{
+                  borderWidth: 1,
+                  borderColor: /envelope/i.test(
+                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                      .selectedPackageSize,
+                  )
+                    ? '#0D8691'
+                    : '#d0d0d0',
+                  flexDirection: 'row',
+                  borderRadius: 3,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  marginBottom: 15,
+                  backgroundColor: '#fff',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 1.41,
+
+                  elevation: 2,
+                }}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <IconFeather
+                    name="box"
+                    color={
+                      /envelope/i.test(
+                        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                          .selectedPackageSize,
+                      )
+                        ? '#0D8691'
+                        : '#000'
+                    }
+                    size={24}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 17.5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      },
+                    ]}>
+                    Envelope
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 13.5,
+                        color: '#a5a5a5',
+                        marginTop: 5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Regular'
+                            : 'Allrounder Grotesk',
+                      },
+                    ]}>
+                    Small package (24cm x 25cm)
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {/envelope/i.test(
+                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                      .selectedPackageSize,
+                  ) ? (
+                    <IconFeather
+                      name="check"
+                      size={25}
+                      style={{top: 1}}
+                      color={'#0D8691'}
+                    />
+                  ) : null}
+                </View>
+              </TouchableOpacity>
+              {/*Small box*/}
+              <TouchableOpacity
+                onPress={() => this.props.UpdateDeliveryPackageSize('small')}
+                style={{
+                  borderWidth: 1,
+                  borderColor: /small/i.test(
+                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                      .selectedPackageSize,
+                  )
+                    ? '#0D8691'
+                    : '#d0d0d0',
+                  flexDirection: 'row',
+                  borderRadius: 3,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  marginBottom: 15,
+                  backgroundColor: '#fff',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 1.41,
+
+                  elevation: 2,
+                }}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    paddingTop: 10,
+                  }}>
+                  <IconFeather
+                    name="package"
+                    color={
+                      /small/i.test(
+                        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                          .selectedPackageSize,
+                      )
+                        ? '#0D8691'
+                        : '#000'
+                    }
+                    size={24}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 17.5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      },
+                    ]}>
+                    Small box
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 13.5,
+                        color: '#a5a5a5',
+                        marginTop: 5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
+                      },
+                    ]}>
+                    Medium package (47cm x 68cm x 50cm)
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {/small/i.test(
+                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                      .selectedPackageSize,
+                  ) ? (
+                    <IconFeather
+                      name="check"
+                      size={25}
+                      style={{top: 1}}
+                      color={'#0D8691'}
+                    />
+                  ) : null}
+                </View>
+              </TouchableOpacity>
+              {/**Large box */}
+              <TouchableOpacity
+                onPress={() => this.props.UpdateDeliveryPackageSize('large')}
+                style={{
+                  borderWidth: 1,
+                  borderColor: /large/i.test(
+                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                      .selectedPackageSize,
+                  )
+                    ? '#0D8691'
+                    : '#d0d0d0',
+                  flexDirection: 'row',
+                  borderRadius: 3,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  backgroundColor: '#fff',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 1.41,
+
+                  elevation: 2,
+                }}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    paddingTop: 10,
+                    //justifyContent: 'center',
+                  }}>
+                  <IconCommunity
+                    name="package"
+                    color={
+                      /large/i.test(
+                        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                          .selectedPackageSize,
+                      )
+                        ? '#0D8691'
+                        : '#000'
+                    }
+                    size={24}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                  }}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 17.5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                      },
+                    ]}>
+                    Large box
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 13.5,
+                        color: '#a5a5a5',
+                        marginTop: 5,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Book'
+                            : 'Allrounder Grotesk Book',
+                      },
+                    ]}>
+                    Large package (62cm x 46cm x 76cm)
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {/large/i.test(
+                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                      .selectedPackageSize,
+                  ) ? (
+                    <IconFeather
+                      name="check"
+                      size={25}
+                      style={{top: 1}}
+                      color={'#0D8691'}
+                    />
+                  ) : null}
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: '10%',
+                left: 20,
+                right: 20,
+                width: '100%',
+              }}>
+              <View
+                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
+                <IconCommunity name="truck" size={16} style={{bottom: 15}} />
+                <Text
+                  style={{
                     fontSize: 13,
                     marginLeft: 6,
                     fontFamily:
@@ -2720,16 +3013,19 @@ class RenderContentBottomVitals extends React.PureComponent {
                         ? 'Allrounder-Grotesk-Book'
                         : 'Allrounder Grotesk Book',
                     lineHeight: 14,
-                  },
-                ]}>
-                The receiver can use the app to track in real-time the delivery
-                of the package.
-              </Text>
-            </View>
-            {this.props.App.renderCountryCodeSeacher === false ? (
+                  }}>
+                  Select the right package size for a better delivery handling
+                  experience.
+                </Text>
+              </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity
-                  onPress={() => this.props.ValidateReceiverInfosForDelivery()}
+                  onPress={() =>
+                    this.props.parentNode.rerouteBookingProcessFlow(
+                      'next',
+                      'DELIVERY',
+                    )
+                  }
                   style={[
                     styles.arrowCircledForwardBasic,
                     styles.shadowButtonArrowCircledForward,
@@ -2741,389 +3037,9 @@ class RenderContentBottomVitals extends React.PureComponent {
                   />
                 </TouchableOpacity>
               </View>
-            ) : null}
-          </View>
-        </AnimatedNative.View>
-      );
-    } else if (
-      this.props.App.bottomVitalsFlow.currentStep === 'selectPackageSize'
-    ) {
-      this.props.parentNode.resetAnimationLoader();
-      return (
-        <AnimatedNative.View
-          style={{
-            backgroundColor: '#fff',
-            flex: 1,
-            padding: 20,
-            opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
-            transform: [
-              {
-                translateY: this.props.App.bottomVitalsFlow
-                  .genericContainerPosition,
-              },
-            ],
-          }}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.parentNode.rerouteBookingProcessFlow(
-                'previous',
-                'DELIVERY',
-              )
-            }>
-            <IconAnt name="arrowleft" size={28} />
-          </TouchableOpacity>
-          <Text
-            style={[
-              {
-                fontSize: 21,
-                marginTop: 15,
-                marginBottom: 25,
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
-              },
-            ]}>
-            What's your package size?
-          </Text>
-          <View style={{}}>
-            <TouchableOpacity
-              onPress={() => this.props.UpdateDeliveryPackageSize('envelope')}
-              style={{
-                borderWidth: 1,
-                borderColor: /envelope/i.test(
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .selectedPackageSize,
-                )
-                  ? '#0D8691'
-                  : '#d0d0d0',
-                flexDirection: 'row',
-                borderRadius: 3,
-                paddingLeft: 10,
-                paddingRight: 10,
-                marginBottom: 15,
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 1.41,
-
-                elevation: 2,
-              }}>
-              <View
-                style={{
-                  alignItems: 'center',
-                  paddingTop: 10,
-                }}>
-                <IconFeather
-                  name="box"
-                  color={
-                    /envelope/i.test(
-                      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                        .selectedPackageSize,
-                    )
-                      ? '#0D8691'
-                      : '#000'
-                  }
-                  size={24}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  paddingLeft: 10,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}>
-                <Text
-                  style={[
-                    {
-                      fontSize: 17.5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                    },
-                  ]}>
-                  Envelope
-                </Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: 13.5,
-                      color: '#a5a5a5',
-                      marginTop: 5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                    },
-                  ]}>
-                  Small package (24cm x 25cm)
-                </Text>
-              </View>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {/envelope/i.test(
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .selectedPackageSize,
-                ) ? (
-                  <IconFeather
-                    name="check"
-                    size={25}
-                    style={{top: 1}}
-                    color={'#0D8691'}
-                  />
-                ) : null}
-              </View>
-            </TouchableOpacity>
-            {/*Small box*/}
-            <TouchableOpacity
-              onPress={() => this.props.UpdateDeliveryPackageSize('small')}
-              style={{
-                borderWidth: 1,
-                borderColor: /small/i.test(
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .selectedPackageSize,
-                )
-                  ? '#0D8691'
-                  : '#d0d0d0',
-                flexDirection: 'row',
-                borderRadius: 3,
-                paddingLeft: 10,
-                paddingRight: 10,
-                marginBottom: 15,
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 1.41,
-
-                elevation: 2,
-              }}>
-              <View
-                style={{
-                  alignItems: 'center',
-                  paddingTop: 10,
-                }}>
-                <IconFeather
-                  name="package"
-                  color={
-                    /small/i.test(
-                      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                        .selectedPackageSize,
-                    )
-                      ? '#0D8691'
-                      : '#000'
-                  }
-                  size={24}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  paddingLeft: 10,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}>
-                <Text
-                  style={[
-                    {
-                      fontSize: 17.5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                    },
-                  ]}>
-                  Small box
-                </Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: 13.5,
-                      color: '#a5a5a5',
-                      marginTop: 5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
-                    },
-                  ]}>
-                  Medium package (47cm x 68cm x 50cm)
-                </Text>
-              </View>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {/small/i.test(
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .selectedPackageSize,
-                ) ? (
-                  <IconFeather
-                    name="check"
-                    size={25}
-                    style={{top: 1}}
-                    color={'#0D8691'}
-                  />
-                ) : null}
-              </View>
-            </TouchableOpacity>
-            {/**Large box */}
-            <TouchableOpacity
-              onPress={() => this.props.UpdateDeliveryPackageSize('large')}
-              style={{
-                borderWidth: 1,
-                borderColor: /large/i.test(
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .selectedPackageSize,
-                )
-                  ? '#0D8691'
-                  : '#d0d0d0',
-                flexDirection: 'row',
-                borderRadius: 3,
-                paddingLeft: 10,
-                paddingRight: 10,
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 1.41,
-
-                elevation: 2,
-              }}>
-              <View
-                style={{
-                  alignItems: 'center',
-                  paddingTop: 10,
-                  //justifyContent: 'center',
-                }}>
-                <IconCommunity
-                  name="package"
-                  color={
-                    /large/i.test(
-                      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                        .selectedPackageSize,
-                    )
-                      ? '#0D8691'
-                      : '#000'
-                  }
-                  size={24}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  paddingLeft: 10,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                }}>
-                <Text
-                  style={[
-                    {
-                      fontSize: 17.5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                    },
-                  ]}>
-                  Large box
-                </Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: 13.5,
-                      color: '#a5a5a5',
-                      marginTop: 5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
-                    },
-                  ]}>
-                  Large package (62cm x 46cm x 76cm)
-                </Text>
-              </View>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                {/large/i.test(
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .selectedPackageSize,
-                ) ? (
-                  <IconFeather
-                    name="check"
-                    size={25}
-                    style={{top: 1}}
-                    color={'#0D8691'}
-                  />
-                ) : null}
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              position: 'absolute',
-              bottom: '10%',
-              left: 20,
-              right: 20,
-              width: '100%',
-            }}>
-            <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-              <IconCommunity name="truck" size={16} style={{bottom: 15}} />
-              <Text
-                style={{
-                  fontSize: 13,
-                  marginLeft: 6,
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
-                  lineHeight: 14,
-                }}>
-                Select the right package size for a better delivery handling
-                experience.
-              </Text>
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.parentNode.rerouteBookingProcessFlow(
-                    'next',
-                    'DELIVERY',
-                  )
-                }
-                style={[
-                  styles.arrowCircledForwardBasic,
-                  styles.shadowButtonArrowCircledForward,
-                ]}>
-                <IconMaterialIcons
-                  name="arrow-forward-ios"
-                  size={30}
-                  color="#fff"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </AnimatedNative.View>
+          </AnimatedNative.View>
+        </SafeAreaView>
       );
     } else if (
       this.props.App.bottomVitalsFlow.currentStep ===

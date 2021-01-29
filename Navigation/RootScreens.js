@@ -40,6 +40,7 @@ function YourRidesEntry_drawer() {
         component={YourRidesEntry}
         options={{
           headerShown: true,
+          headerBackTitle: 'Back',
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
           headerTitle: (
@@ -73,6 +74,7 @@ function YourRidesEntry_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -111,6 +113,7 @@ function Wallet_drawer() {
             elevation: 0,
           },
           headerTintColor: '#000',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -136,6 +139,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -161,6 +165,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -187,6 +192,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -212,6 +218,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -237,6 +244,7 @@ function Wallet_drawer() {
           headerShown: false,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -262,6 +270,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -287,6 +296,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -312,6 +322,7 @@ function Wallet_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -347,6 +358,7 @@ function Support_drawer() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -381,6 +393,7 @@ function SettingsDrawer_navigator() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -407,6 +420,7 @@ function SettingsDrawer_navigator() {
           headerShown: true,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
+          headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
@@ -431,6 +445,7 @@ function SettingsDrawer_navigator() {
         component={OTPVerificationGeneric}
         options={{
           headerShown: false,
+          headerBackTitle: 'Back',
         }}
       />
     </Stack.Navigator>

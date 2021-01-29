@@ -314,7 +314,6 @@ class Home extends React.PureComponent {
         //Check the GPRS permission
         check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
           .then((result) => {
-            console.log(result);
             switch (result) {
               case RESULTS.UNAVAILABLE:
                 //Permission denied, update gprs global vars and lock the platform
@@ -433,6 +432,9 @@ class Home extends React.PureComponent {
                   this.props.App.latitude === 0 ||
                   this.props.App.longitude === 0
                 ) {
+                  console.log(
+                    `at ZERO with -> lat: ${globalObject.props.App.latitude}, lng: ${globalObject.props.App.longitude}`,
+                  );
                   if (/off the map/i.test(this.props.App.hello2Text)) {
                     globalObject.replaceHello2_text("How's your day?");
                   }
@@ -458,7 +460,6 @@ class Home extends React.PureComponent {
                       // See error code charts below.
                       //Launch recalibration
                       InteractionManager.runAfterInteractions(() => {
-                        console.log('Inside');
                         globalObject.recalibrateMap();
                       });
                     },
@@ -474,7 +475,6 @@ class Home extends React.PureComponent {
                   globalObject.updateDriver_realTimeMap();
                   GeolocationP.getCurrentPosition(
                     (position) => {
-                      console.log(position);
                       globalObject.props.App.latitude =
                         position.coords.longitude;
                       globalObject.props.App.longitude =
@@ -515,6 +515,9 @@ class Home extends React.PureComponent {
                     ) {
                       if (mapZoom > 18) {
                         InteractionManager.runAfterInteractions(() => {
+                          console.log(
+                            `Recalibrate with -> lat: ${globalObject.props.App.latitude}, lng: ${globalObject.props.App.longitude}`,
+                          );
                           globalObject.recalibrateMap();
                         });
                       }
@@ -538,6 +541,7 @@ class Home extends React.PureComponent {
       } //Location permission explicitly requested
       else {
         console.log('requested permission by click');
+        GeolocationP.requestAuthorization('whenInUse');
       }
     }
   }
@@ -737,10 +741,13 @@ class Home extends React.PureComponent {
           if (
             /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
               globalObject.props.App.generalErrorModalType,
+            ) !== true &&
+            /selectCarTypeAndPaymentMethod/i.test(
+              globalObject.props.App.bottomVitalsFlow.currentStep,
             ) !== true
           ) {
             //Do not interrupt the select gender process
-            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+            //globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
           }
           //...
           globalObject.props.UpdateTotalWalletAmount(response);
@@ -987,7 +994,6 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'geocode-this-point-response',
       function (response) {
-        console.log(response);
         if (response !== undefined && response !== false) {
           globalObject.props.UpdateCurrentLocationMetadat(response);
         }
@@ -1168,7 +1174,6 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'get_closest_drivers_to_point-response',
       function (response) {
-        console.log(response);
         if (
           response !== false &&
           response.response === undefined &&
@@ -1356,14 +1361,14 @@ class Home extends React.PureComponent {
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
                 [90, 90, 200, 90],
-                3500,
+                Platform.OS === 'android' ? 3500 : 1500,
               );
             } catch (error) {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
                 [90, 90, 200, 90],
-                3500,
+                Platform.OS === 'android' ? 3500 : 1500,
               );
             }
           }
@@ -1423,7 +1428,7 @@ class Home extends React.PureComponent {
                 ],
                 [currentPoint[0], currentPoint[1]],
                 [paddingFit, paddingFit, paddingFit + 100, paddingFit],
-                3500,
+                Platform.OS === 'android' ? 3500 : 1000,
               );
             } catch (error) {
               globalObject.camera.fitBounds(
@@ -1433,7 +1438,7 @@ class Home extends React.PureComponent {
                 ],
                 [currentPoint[0], currentPoint[1]],
                 [90, 90, 200, 90],
-                3500,
+                Platform.OS === 'android' ? 3500 : 1000,
               );
             }
           }
@@ -1469,7 +1474,7 @@ class Home extends React.PureComponent {
             response.pickupPoint,
             [response.driverNextPoint[0], response.driverNextPoint[1]],
             70,
-            2000,
+            Platform.OS === 'android' ? 2000 : 1000,
           );
         }
         //Update state
@@ -1484,7 +1489,7 @@ class Home extends React.PureComponent {
             response.destinationPoint,
             [response.driverNextPoint[0], response.driverNextPoint[1]],
             70,
-            2000,
+            Platform.OS === 'android' ? 2000 : 1000,
           );
         }
         //...
@@ -1545,7 +1550,6 @@ class Home extends React.PureComponent {
           globalObject.props.App.bottomVitalsFlow.currentStep,
         )
       ) {
-        console.log(globalObject.props.App.userCurrentLocationMetaData);
         //No rides in progress
         //If a latitude, longitude, city and town are available
         if (
@@ -1569,7 +1573,6 @@ class Home extends React.PureComponent {
                     globalObject.props.App.bottomVitalsFlow.currentStep,
                   )
                 ) {
-                  console.log('get drivers prox');
                   globalObject.props.App.socket.emit(
                     'get_closest_drivers_to_point',
                     {
@@ -1745,7 +1748,7 @@ class Home extends React.PureComponent {
                   originPoint,
                   destinationPoint,
                   [100, 140, 40, 140],
-                  1500,
+                  Platform.OS === 'android' ? 1500 : 1000,
                 );
               });
             }
@@ -2940,38 +2943,42 @@ class Home extends React.PureComponent {
           {this.props.App.bottomVitalsFlow.canGoBack &&
           this.props.App.bottomVitalsFlow.currentStep !==
             'gettingRideProcessScreen' ? (
-            <View style={{flex: 1, alignItems: 'flex-start'}}>
-              <TouchableOpacity
-                activeOpacity={0.4}
-                onPress={() =>
-                  this.props.App.bottomVitalsFlow.currentStep ===
-                  'selectRideOrDelivery'
-                    ? this.deInitialTouchForRideOrDelivery()
-                    : this.rerouteBookingProcessFlow(
-                        'previous',
-                        this.props.App.bottomVitalsFlow.flowParent.toUpperCase(),
-                      )
-                }
-                style={{
-                  width: 45,
-                  height: 45,
-                  backgroundColor: '#fff',
-                  borderRadius: 200,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 5,
-                  },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 6.27,
+            /inputReceiverInformations/i.test(
+              this.props.App.bottomVitalsFlow.currentStep,
+            ) !== true ? (
+              <View style={{flex: 1, alignItems: 'flex-start'}}>
+                <TouchableOpacity
+                  activeOpacity={0.4}
+                  onPress={() =>
+                    this.props.App.bottomVitalsFlow.currentStep ===
+                    'selectRideOrDelivery'
+                      ? this.deInitialTouchForRideOrDelivery()
+                      : this.rerouteBookingProcessFlow(
+                          'previous',
+                          this.props.App.bottomVitalsFlow.flowParent.toUpperCase(),
+                        )
+                  }
+                  style={{
+                    width: 45,
+                    height: 45,
+                    backgroundColor: '#fff',
+                    borderRadius: 200,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 5,
+                    },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 6.27,
 
-                  elevation: 10,
-                }}>
-                <IconAnt name="arrowleft" size={29} />
-              </TouchableOpacity>
-            </View>
+                    elevation: 10,
+                  }}>
+                  <IconAnt name="arrowleft" size={29} />
+                </TouchableOpacity>
+              </View>
+            ) : null
           ) : null}
         </SafeAreaView>
 

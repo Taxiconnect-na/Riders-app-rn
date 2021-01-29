@@ -1050,25 +1050,38 @@ class ErrorModal extends React.PureComponent {
           }}>
           <View style={styles.presentationWindow}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
-                borderBottomWidth: 0.7,
-                borderBottomColor: '#d0d0d0',
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
+              style={
+                Platform.OS === 'android'
+                  ? {
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 20,
+                      paddingTop: 15,
+                      paddingBottom: 15,
+                      borderBottomWidth: 0.7,
+                      borderBottomColor: '#d0d0d0',
+                      backgroundColor: '#fff',
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.22,
+                      shadowRadius: 2.22,
 
-                elevation: 3,
-              }}>
+                      elevation: 3,
+                    }
+                  : {
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 20,
+                      paddingTop: 15,
+                      paddingBottom: 15,
+                      borderBottomWidth: 0.7,
+                      borderBottomColor: '#d0d0d0',
+                      backgroundColor: '#fff',
+                    }
+              }>
               <TouchableOpacity
                 onPress={() =>
                   this.props.UpdateErrorModalLog(false, false, 'any')
@@ -1283,13 +1296,14 @@ class ErrorModal extends React.PureComponent {
 
                 {/inRouteToPickup/i.test(this.props.App.request_status) ? (
                   <TouchableOpacity
-                    onPress={() =>
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
                       this.props.UpdateErrorModalLog(
                         true,
                         'show_cancel_ride_modal',
                         'any',
-                      )
-                    }
+                      );
+                    }}
                     style={{
                       flexDirection: 'row',
                       flex: 1,
@@ -1890,7 +1904,7 @@ class ErrorModal extends React.PureComponent {
         <View
           style={{
             backgroundColor: '#fff',
-            height: 340,
+            height: Platform.OS === 'android' ? 350 : 360,
           }}>
           <View
             style={{
@@ -2061,25 +2075,38 @@ class ErrorModal extends React.PureComponent {
           }}>
           <View style={styles.presentationWindow}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 20,
-                paddingTop: 15,
-                paddingBottom: 15,
-                borderBottomWidth: 0.7,
-                borderBottomColor: '#d0d0d0',
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
+              style={
+                Platform.OS === 'android'
+                  ? {
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 20,
+                      paddingTop: 15,
+                      paddingBottom: 15,
+                      borderBottomWidth: 0.7,
+                      borderBottomColor: '#d0d0d0',
+                      backgroundColor: '#fff',
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.22,
+                      shadowRadius: 2.22,
 
-                elevation: 3,
-              }}>
+                      elevation: 3,
+                    }
+                  : {
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      padding: 20,
+                      paddingTop: 15,
+                      paddingBottom: 15,
+                      borderBottomWidth: 0.7,
+                      borderBottomColor: '#d0d0d0',
+                      backgroundColor: '#fff',
+                    }
+              }>
               <TouchableOpacity
                 onPress={() =>
                   this.props.UpdateErrorModalLog(false, false, 'any')
@@ -2548,6 +2575,8 @@ class ErrorModal extends React.PureComponent {
                           ? 'Allrounder-Grotesk-Regular'
                           : 'Allrounder Grotesk',
                       fontSize: 17.5,
+                      paddingTop: Platform.OS === 'android' ? 0 : 10,
+                      paddingBottom: Platform.OS === 'android' ? 0 : 10,
                     }}
                   />
                 </View>

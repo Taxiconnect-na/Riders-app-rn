@@ -13,6 +13,7 @@ import {
   Image,
   ActivityIndicator,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -427,40 +428,16 @@ class RenderBottomVital extends React.PureComponent {
     else {
       //In route to pickup or destination
       if (/inRouteTo/i.test(this.props.App.request_status)) {
+        if (
+          this.props.App.generalTRIP_details_driverDetails.driverDetails ===
+          undefined
+        ) {
+          return null;
+        }
         //Driver in route to pickup the rider
         return (
           <>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.UpdateErrorModalLog(
-                  true,
-                  'show_guardian_toolkit',
-                  'any',
-                )
-              }
-              style={{
-                position: 'absolute',
-                top: 20,
-                right: 20,
-                backgroundColor: '#fff',
-                width: 55,
-                height: 55,
-                borderRadius: 150,
-                alignItems: 'center',
-                justifyContent: 'center',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 4,
-                },
-                shadowOpacity: 0.32,
-                shadowRadius: 5.46,
-
-                elevation: 9,
-              }}>
-              <IconMaterialIcons name="shield" color="#096ED4" size={30} />
-            </TouchableOpacity>
-            <View
+            <SafeAreaView
               style={{
                 position: 'absolute',
                 bottom: 0,
@@ -473,10 +450,44 @@ class RenderBottomVital extends React.PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
+              {/**------SAFETY GUARDIAN */}
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(
+                    true,
+                    'show_guardian_toolkit',
+                    'any',
+                  )
+                }
+                style={{
+                  position: 'absolute',
+                  borderWidth: 3,
+                  borderColor: '#096ED4',
+                  top: -80,
+                  right: 20,
+                  backgroundColor: '#fff',
+                  width: 55,
+                  height: 55,
+                  borderRadius: 150,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 4,
+                  },
+                  shadowOpacity: 0.32,
+                  shadowRadius: 5.46,
+
+                  elevation: 9,
+                }}>
+                <IconMaterialIcons name="shield" color="#096ED4" size={30} />
+              </TouchableOpacity>
+              {/**------ */}
               <View
                 style={{
                   backgroundColor: '#f0f0f0',
-                  width: '100%',
+                  width: Platform.OS === 'android' ? '100%' : '95%',
                   padding: 10,
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -527,6 +538,7 @@ class RenderBottomVital extends React.PureComponent {
                   flex: 1,
                   backgroundColor: '#fff',
                   flexDirection: 'row',
+                  width: Platform.OS === 'android' ? '100%' : '95%',
                   borderTopLeftRadius: 0,
                   borderTopRightRadius: 0,
                   padding: 20,
@@ -646,7 +658,7 @@ class RenderBottomVital extends React.PureComponent {
                   <IconMaterialIcons name="arrow-forward-ios" size={15} />
                 </View>
               </TouchableOpacity>
-            </View>
+            </SafeAreaView>
           </>
         );
       } else if (

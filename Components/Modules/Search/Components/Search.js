@@ -14,6 +14,7 @@ import {
   StatusBar,
   InteractionManager,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -808,7 +809,11 @@ class Search extends React.PureComponent {
     if (this.props.App.search_showSearchNodeMain) {
       return (
         <View style={styles.mainWindow}>
-          <StatusBar backgroundColor="#000" barStyle="light-content" />
+          {Platform.OS === 'android' ? (
+            <StatusBar backgroundColor="#000" barStyle="light-content" />
+          ) : (
+            <StatusBar barStyle="dark-content" />
+          )}
           <Animated.View
             style={[
               styles.headerSearchNode,
@@ -1177,7 +1182,11 @@ class Search extends React.PureComponent {
 
   render() {
     this.fire_search_animation();
-    return <View style={styles.window}>{this.renderRouter()}</View>;
+    return (
+      <View style={styles.window}>
+        <SafeAreaView style={{flex: 1}}>{this.renderRouter()}</SafeAreaView>
+      </View>
+    );
   }
 }
 
@@ -1203,7 +1212,7 @@ const mapDispatchToProps = (dispatch) =>
 const styles = StyleSheet.create({
   window: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: Platform.OS === 'android' ? 'transparent' : '#fff',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -1221,7 +1230,7 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   loader: {
-    borderTopWidth: 4,
+    borderTopWidth: 3,
     width: 10,
     marginBottom: 10,
   },

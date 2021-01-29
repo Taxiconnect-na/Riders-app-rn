@@ -52,21 +52,39 @@ class HeaderRideTypesSelector extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  mainWindow: {
-    borderWidth: 0.7,
-    borderRadius: 200,
-    borderColor: '#d0d0d0',
-    backgroundColor: '#1a1a1a',
-    right: 20,
-    padding: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    zIndex: 9000000,
-    minWidth: 100,
-    justifyContent: 'center',
-  },
+  mainWindow:
+    Platform.OS === 'android'
+      ? {
+          borderWidth: 0.7,
+          borderRadius: 200,
+          borderColor: '#d0d0d0',
+          backgroundColor: '#1a1a1a',
+          right: 20,
+          padding: 5,
+          paddingLeft: 10,
+          paddingRight: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          zIndex: 9000000,
+          minWidth: 100,
+          justifyContent: 'center',
+        }
+      : {
+          borderWidth: 1,
+          borderRadius: 200,
+          borderColor: '#d0d0d0',
+          backgroundColor: '#1a1a1a',
+          right: 10,
+          paddingLeft: 10,
+          paddingRight: 10,
+          flexDirection: 'row',
+          alignItems: 'center',
+          zIndex: 9000000,
+          minWidth: 90,
+          justifyContent: 'center',
+          height: 35,
+          bottom: 4,
+        },
 });
 
 const mapStateToProps = (state) => {
