@@ -279,7 +279,7 @@ class PhoneNumberInput extends React.PureComponent {
           <View
             style={{
               backgroundColor: '#000',
-              paddingTop: Platform.OS === 'android ?' ? '7%' : '21%',
+              paddingTop: Platform.OS === 'android' ? '7%' : '21%',
               minHeight: 75,
               paddingLeft: 20,
               paddingRight: 20,
