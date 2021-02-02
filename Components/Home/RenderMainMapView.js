@@ -17,6 +17,7 @@ import PulseCircleLayer from '../Modules/PulseCircleLayer';
 import bearing from '@turf/bearing';
 var turf = require('@turf/turf');
 import {UpdateTinyCarOnMapIconSize} from '../Redux/HomeActionsCreators';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 const AnnotationPickup = ({title}) => (
   <View
@@ -30,7 +31,7 @@ const AnnotationPickup = ({title}) => (
       style={{
         backgroundColor: '#fff',
         flexDirection: 'row',
-        height: 35,
+        height: 40,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -40,7 +41,7 @@ const AnnotationPickup = ({title}) => (
         shadowRadius: 4.7,
 
         elevation: 6,
-        borderRadius: 3,
+        borderRadius: 2,
       }}>
       <View
         style={{
@@ -48,27 +49,30 @@ const AnnotationPickup = ({title}) => (
           padding: 5,
           alignItems: 'center',
           justifyContent: 'center',
-          borderTopLeftRadius: 3,
-          borderBottomLeftRadius: 3,
+          borderTopLeftRadius: 2,
+          borderBottomLeftRadius: 2,
         }}
       />
       <View
         style={{
-          justifyContent: 'center',
+          flexDirection: 'row',
+          alignItems: 'center',
           paddingLeft: 5,
-          paddingRight: 10,
+          paddingRight: 5,
+          flex: 1,
         }}>
         <Text
           style={[
             {
-              fontSize: 13.5,
+              fontSize: RFValue(13),
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              flex: 1,
             },
           ]}>
-          {title.length > 11 ? title.substring(0, 11) + '.' : title}
+          {title.length > 17 ? title.substring(0, 17) + '.' : title}
         </Text>
       </View>
     </View>
@@ -87,7 +91,7 @@ const AnnotationDestination = ({title, etaInfos}) => (
       style={{
         backgroundColor: '#fff',
         flexDirection: 'row',
-        height: 35,
+        height: 40,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -97,7 +101,7 @@ const AnnotationDestination = ({title, etaInfos}) => (
         shadowRadius: 4.7,
 
         elevation: 6,
-        borderRadius: 3,
+        borderRadius: 2,
       }}>
       <View
         style={{
@@ -105,18 +109,18 @@ const AnnotationDestination = ({title, etaInfos}) => (
           padding: 5,
           alignItems: 'center',
           justifyContent: 'center',
-          borderTopLeftRadius: 3,
-          borderBottomLeftRadius: 3,
+          borderTopLeftRadius: 2,
+          borderBottomLeftRadius: 2,
         }}>
         <Text
           style={[
             {
-              fontSize: 13.5,
+              fontSize: RFValue(13.5),
               color: '#fff',
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
+                  ? 'UberMoveTextMedium'
+                  : 'Uber Move Text Medium',
             },
           ]}>
           {etaInfos.eta.split(' ')[0]}
@@ -124,12 +128,12 @@ const AnnotationDestination = ({title, etaInfos}) => (
         <Text
           style={[
             {
-              fontSize: 11,
+              fontSize: RFValue(11),
               color: '#fff',
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
               bottom: 1,
             },
           ]}>
@@ -139,20 +143,24 @@ const AnnotationDestination = ({title, etaInfos}) => (
       <View
         style={{
           justifyContent: 'center',
+          alignItems: 'center',
           paddingLeft: 5,
-          paddingRight: 10,
+          paddingRight: 5,
+          flex: 1,
         }}>
         <Text
           style={[
             {
-              fontSize: 13,
+              fontSize: RFValue(13),
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              flex: 1,
+              top: 2,
             },
           ]}>
-          {title.length > 11 ? title.substring(0, 11) + '.' : title}
+          {title.length > 17 ? title.substring(0, 17) + '.' : title}
         </Text>
       </View>
     </View>

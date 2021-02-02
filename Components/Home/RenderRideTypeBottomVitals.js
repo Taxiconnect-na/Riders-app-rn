@@ -31,6 +31,7 @@ import {
   UpdateRideTypesScales,
   UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 /**
  * @func RenderRideTypeBottomVitals()
@@ -280,434 +281,395 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
     carName = false,
   ) {
     let globalObject = this;
-    InteractionManager.runAfterInteractions(() => {
-      if (carIcon !== false && carName !== false) {
-        //Update icon and car name only when provided
-        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = carIcon; //update car icon
-        this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.nameCarSelected = carName; //Update car name label
-      }
-      //...RIDES OR DELIVERIES
-      if (carType === 'normalTaxiEconomy' || carType === 'electricBikes') {
-        //Economy: normal taxi
-        //Change focus colors to normal taxi and fade the other types - rescale as well
-        //Economy
-        this.props.App.carTypeSelected = carType;
-        this.props.App.colorCircleNormalTaxi = '#0D8691';
-        this.props.App.colorBannerRideTypeNormalTaxi = '#000';
-        //Electric
-        this.props.App.colorCircleElectricCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-        //Comfort
-        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-        //Luxury
-        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-        //...
-        //VERY IMPORTANT - UPDATE THE FARE
-        this.props.App.fareTripSelected = fare;
-        //...
-        this.forceUpdate();
-        AnimatedNative.parallel([
-          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-            toValue: 1,
-            duration: 250,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricComfortTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricLuxuryTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          globalObject.props.UpdateRideTypesScales({
-            rideType: carType,
-            fare: fare,
-          });
+    //InteractionManager.runAfterInteractions(() => {
+    if (carIcon !== false && carName !== false) {
+      //Update icon and car name only when provided
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = carIcon; //update car icon
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.nameCarSelected = carName; //Update car name label
+    }
+    //...RIDES OR DELIVERIES
+    if (carType === 'normalTaxiEconomy' || carType === 'electricBikes') {
+      //Economy: normal taxi
+      //Change focus colors to normal taxi and fade the other types - rescale as well
+      //Economy
+      this.props.App.carTypeSelected = carType;
+      this.props.App.colorCircleNormalTaxi = '#0D8691';
+      this.props.App.colorBannerRideTypeNormalTaxi = '#000';
+      //Electric
+      this.props.App.colorCircleElectricCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+      //Comfort
+      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+      //Luxury
+      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+      //...
+      //VERY IMPORTANT - UPDATE THE FARE
+      this.props.App.fareTripSelected = fare;
+      //...
+      this.forceUpdate();
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+          toValue: 1,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.UpdateRideTypesScales({
+          rideType: carType,
+          fare: fare,
         });
-      } else if (carType === 'electricEconomy' || carType === 'bikes') {
-        //Economy: electric car
-        //Change focus colors to electric taxi and fade the other types - rescale as well
-        this.props.App.carTypeSelected = carType;
-        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-        this.props.App.colorCircleElectricCar = '#0D8691';
-        this.props.App.colorBannerRideTypeElectricCar = '#000';
-        //Comfort
-        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-        //Luxury
-        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-        //...
-        //VERY IMPORTANT - UPDATE THE FARE
-        this.props.App.fareTripSelected = fare;
-        //...
-        this.forceUpdate();
-        AnimatedNative.parallel([
-          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-            toValue: 1,
-            duration: 250,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricComfortTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricLuxuryTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          globalObject.props.UpdateRideTypesScales({
-            rideType: carType,
-            fare: fare,
-          });
+      });
+    } else if (carType === 'electricEconomy' || carType === 'bikes') {
+      //Economy: electric car
+      //Change focus colors to electric taxi and fade the other types - rescale as well
+      this.props.App.carTypeSelected = carType;
+      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+      this.props.App.colorCircleElectricCar = '#0D8691';
+      this.props.App.colorBannerRideTypeElectricCar = '#000';
+      //Comfort
+      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+      //Luxury
+      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+      //...
+      //VERY IMPORTANT - UPDATE THE FARE
+      this.props.App.fareTripSelected = fare;
+      //...
+      this.forceUpdate();
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+          toValue: 1,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.UpdateRideTypesScales({
+          rideType: carType,
+          fare: fare,
         });
-      } else if (carType === 'comfortNormalRide' || carType === 'carDelivery') {
-        //comfort: normal car
-        //Change focus colors to electric taxi and fade the other types - rescale as well
-        this.props.App.carTypeSelected = carType;
-        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-        this.props.App.colorCircleElectricCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-        //Comfort
-        this.props.App.colorCircleComfortTaxi = '#0D8691';
-        this.props.App.colorBannerRideTypeComfortTaxi = '#000';
-        //Electric
-        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-        //Luxury
-        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-        //...
-        //VERY IMPORTANT - UPDATE THE FARE
-        this.props.App.fareTripSelected = fare;
-        //...
-        this.forceUpdate();
-        AnimatedNative.parallel([
-          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-            toValue: 1,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricComfortTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricLuxuryTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          globalObject.props.UpdateRideTypesScales({
-            rideType: carType,
-            fare: fare,
-          });
+      });
+    } else if (carType === 'comfortNormalRide' || carType === 'carDelivery') {
+      //comfort: normal car
+      //Change focus colors to electric taxi and fade the other types - rescale as well
+      this.props.App.carTypeSelected = carType;
+      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+      this.props.App.colorCircleElectricCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+      //Comfort
+      this.props.App.colorCircleComfortTaxi = '#0D8691';
+      this.props.App.colorBannerRideTypeComfortTaxi = '#000';
+      //Electric
+      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+      //Luxury
+      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+      //...
+      //VERY IMPORTANT - UPDATE THE FARE
+      this.props.App.fareTripSelected = fare;
+      //...
+      this.forceUpdate();
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.UpdateRideTypesScales({
+          rideType: carType,
+          fare: fare,
         });
-      } else if (
-        carType === 'comfortElectricRide' ||
-        carType === 'vanDelivery'
-      ) {
-        //comfort: normal car
-        //Change focus colors to electric taxi and fade the other types - rescale as well
-        this.props.App.carTypeSelected = carType;
-        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-        this.props.App.colorCircleElectricCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-        //Comfort
-        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricComfortCar = '#0D8691';
-        this.props.App.colorBannerRideTypeElectricComfortCar = '#000';
-        //Luxury
-        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-        //...
-        //VERY IMPORTANT - UPDATE THE FARE
-        this.props.App.fareTripSelected = fare;
-        //...
-        this.forceUpdate();
-        AnimatedNative.parallel([
-          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricComfortTaxi,
-            {
-              toValue: 1,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricLuxuryTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          globalObject.props.UpdateRideTypesScales({
-            rideType: carType,
-            fare: fare,
-          });
+      });
+    } else if (carType === 'comfortElectricRide' || carType === 'vanDelivery') {
+      //comfort: normal car
+      //Change focus colors to electric taxi and fade the other types - rescale as well
+      this.props.App.carTypeSelected = carType;
+      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+      this.props.App.colorCircleElectricCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+      //Comfort
+      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricComfortCar = '#0D8691';
+      this.props.App.colorBannerRideTypeElectricComfortCar = '#000';
+      //Luxury
+      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+      //...
+      //VERY IMPORTANT - UPDATE THE FARE
+      this.props.App.fareTripSelected = fare;
+      //...
+      this.forceUpdate();
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.UpdateRideTypesScales({
+          rideType: carType,
+          fare: fare,
         });
-      } else if (carType === 'luxuryNormalRide') {
-        //comfort: normal car
-        //Change focus colors to electric taxi and fade the other types - rescale as well
-        this.props.App.carTypeSelected = carType;
-        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-        this.props.App.colorCircleElectricCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-        //Comfort
-        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-        //Luxury
-        this.props.App.colorCircleLuxuryTaxi = '#0D8691';
-        this.props.App.colorBannerRideTypeLuxuryTaxi = '#000';
-        //Electric
-        this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
-        //...
-        //VERY IMPORTANT - UPDATE THE FARE
-        this.props.App.fareTripSelected = fare;
-        //...
-        this.forceUpdate();
-        AnimatedNative.parallel([
-          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricComfortTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-            toValue: 1,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricLuxuryTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          globalObject.props.UpdateRideTypesScales({
-            rideType: carType,
-            fare: fare,
-          });
+      });
+    } else if (carType === 'luxuryNormalRide') {
+      //comfort: normal car
+      //Change focus colors to electric taxi and fade the other types - rescale as well
+      this.props.App.carTypeSelected = carType;
+      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+      this.props.App.colorCircleElectricCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+      //Comfort
+      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+      //Luxury
+      this.props.App.colorCircleLuxuryTaxi = '#0D8691';
+      this.props.App.colorBannerRideTypeLuxuryTaxi = '#000';
+      //Electric
+      this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+      //...
+      //VERY IMPORTANT - UPDATE THE FARE
+      this.props.App.fareTripSelected = fare;
+      //...
+      this.forceUpdate();
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.UpdateRideTypesScales({
+          rideType: carType,
+          fare: fare,
         });
-      } else if (carType === 'luxuryElectricRide') {
-        //comfort: normal car
-        //Change focus colors to electric taxi and fade the other types - rescale as well
-        this.props.App.carTypeSelected = carType;
-        this.props.App.colorCircleNormalTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
-        this.props.App.colorCircleElectricCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
-        //Comfort
-        this.props.App.colorCircleComfortTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
-        this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
-        //Luxury
-        this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
-        this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
-        //Electric
-        this.props.App.colorCircleElectricLuxuryCar = '#0D8691';
-        this.props.App.colorBannerRideTypeElectricLuxuryCar = '#000';
-        //...
-        //VERY IMPORTANT - UPDATE THE FARE
-        this.props.App.fareTripSelected = fare;
-        //...
-        this.forceUpdate();
-        AnimatedNative.parallel([
-          AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricComfortTaxi,
-            {
-              toValue: 0.9,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-          AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
-            toValue: 0.9,
-            duration: 250,
-            useNativeDriver: true,
-          }),
-          AnimatedNative.timing(
-            this.props.App.scaleRideTypeElectricLuxuryTaxi,
-            {
-              toValue: 1,
-              duration: 250,
-              useNativeDriver: true,
-            },
-          ),
-        ]).start(() => {
-          globalObject.props.UpdateRideTypesScales({
-            rideType: carType,
-            fare: fare,
-          });
+      });
+    } else if (carType === 'luxuryElectricRide') {
+      //comfort: normal car
+      //Change focus colors to electric taxi and fade the other types - rescale as well
+      this.props.App.carTypeSelected = carType;
+      this.props.App.colorCircleNormalTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeNormalTaxi = '#a2a2a2';
+      this.props.App.colorCircleElectricCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricCar = '#a2a2a2';
+      //Comfort
+      this.props.App.colorCircleComfortTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeComfortTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricComfortCar = '#a2a2a2';
+      this.props.App.colorBannerRideTypeElectricComfortCar = '#a2a2a2';
+      //Luxury
+      this.props.App.colorCircleLuxuryTaxi = '#a2a2a2';
+      this.props.App.colorBannerRideTypeLuxuryTaxi = '#a2a2a2';
+      //Electric
+      this.props.App.colorCircleElectricLuxuryCar = '#0D8691';
+      this.props.App.colorBannerRideTypeElectricLuxuryCar = '#000';
+      //...
+      //VERY IMPORTANT - UPDATE THE FARE
+      this.props.App.fareTripSelected = fare;
+      //...
+      this.forceUpdate();
+      AnimatedNative.parallel([
+        AnimatedNative.timing(this.props.App.scaleRideTypeNormalTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricComfortTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeLuxuryTaxi, {
+          toValue: 0.9,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+        AnimatedNative.timing(this.props.App.scaleRideTypeElectricLuxuryTaxi, {
+          toValue: 1,
+          duration: 250,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        globalObject.props.UpdateRideTypesScales({
+          rideType: carType,
+          fare: fare,
         });
-      }
-    });
+      });
+    }
+    //});
   }
 
   /**
@@ -731,14 +693,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         AnimatedNative.parallel([
           AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
             toValue: 0,
-            duration: 60,
+            duration: 50,
             useNativeDriver: true,
           }),
           AnimatedNative.timing(
             globalObject.props.App.titleSelectRidePosition,
             {
               toValue: 10,
-              duration: 60,
+              duration: 50,
               useNativeDriver: true,
             },
           ),
@@ -754,7 +716,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               globalObject.props.App.titleSelectRideOpacity,
               {
                 toValue: 1,
-                duration: 60,
+                duration: 50,
                 useNativeDriver: true,
               },
             ),
@@ -762,7 +724,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               globalObject.props.App.titleSelectRidePosition,
               {
                 toValue: 0,
-                duration: 60,
+                duration: 50,
                 useNativeDriver: true,
               },
             ),
@@ -1204,7 +1166,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         </View>
         <View
           style={{
-            width: 95,
+            width: 120,
             padding: 7,
             borderRadius: 200,
             backgroundColor: '#000',
@@ -1216,11 +1178,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             style={[
               {
                 color: '#fff',
-                fontSize: 14,
+                fontSize: RFValue(15),
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Regular'
-                    : 'Allrounder Grotesk',
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
               },
             ]}>
             {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
@@ -1236,12 +1198,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 17.5,
+                fontSize: RFValue(17.5),
                 color: '#000',
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
               },
             ]}>
             N${' '}
@@ -1259,12 +1221,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 17.5,
+                      fontSize: RFValue(17.5),
                       paddingLeft: 5,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
                     },
                   ]}>
                   {
@@ -1278,12 +1240,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 17.5,
+                      fontSize: RFValue(17.5),
                       paddingLeft: 0,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
                     },
                   ]}>
                   {this.props.parentNodeHome.ucFirst(
@@ -1299,12 +1261,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 17.5,
+                      fontSize: RFValue(17.5),
                       paddingLeft: 0,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
                     },
                   ]}>
                   {this.props.parentNodeHome.ucFirst(
@@ -1320,25 +1282,25 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             {
               flexDirection: 'row',
               textAlign: 'center',
-              fontSize: 14,
+              fontSize: RFValue(14),
               width: 200,
               paddingTop: 20,
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
+                  ? 'UberMoveTextLight'
+                  : 'Uber Move Text Light',
             },
           ]}>
           <Text>Or </Text>
           <Text
             style={[
               {
-                fontSize: 15,
+                fontSize: RFValue(15),
                 color: '#0D8691',
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text Regular',
               },
             ]}>
             {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -1389,12 +1351,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       <Text
                         style={[
                           {
-                            fontSize: 17.5,
+                            fontSize: RFValue(17),
                             color: '#096ED4',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           },
                         ]}>
                         Alright!
@@ -1418,12 +1380,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       <Text
                         style={[
                           {
-                            fontSize: 15,
-                            color: 'red',
+                            fontSize: RFValue(15),
+                            color: '#b22222',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           },
                         ]}>
                         Your time must be at least 15 min ahead
@@ -1453,22 +1415,23 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       style={{
                         padding: 15,
                         borderWidth: 1,
-                        paddingTop: 10,
-                        paddingBottom: 11,
-                        marginTop: 10,
+                        paddingTop: 5,
+                        paddingBottom: 6,
+                        marginTop: 5,
+                        marginBottom: 10,
                         borderColor: '#096ED4',
-                        backgroundColor: '#f0f0f0',
-                        borderRadius: 7,
+                        backgroundColor: '#096ED4',
+                        borderRadius: 70,
                       }}>
                       <Text
                         style={[
                           {
-                            fontSize: 17.5,
-                            color: '#096ED4',
+                            fontSize: RFValue(17.5),
+                            color: '#fff',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
+                                ? 'MoveMedium'
+                                : 'Uber Move Medium',
                           },
                         ]}>
                         {this.props.App.selectedScheduleTime === 'now'
@@ -1516,11 +1479,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 17,
+                          fontSize: RFValue(17),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
                         },
                       ]}>
                       {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -1566,11 +1529,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 17,
+                          fontSize: RFValue(17),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
                         },
                       ]}>
                       For today
@@ -1612,11 +1575,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 17,
+                          fontSize: RFValue(17),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
                         },
                       ]}>
                       For tomorrow
@@ -1651,10 +1614,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
-                      fontSize: 21,
-                      fontWeight: 'bold',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(21),
                       color: '#fff',
                     }}>
                     Done
@@ -1704,18 +1666,15 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       flex: 1,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      top: '12%',
-                      //width: this.props.App.windowWidth,
+                      top: '8%',
                       height: 140,
                     }}>
                     {/**ECONOMY */}
                     <View
                       style={{
                         flexDirection: 'row',
-                        //flex: 3,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        //paddingTop: '10%',
                         width: this.props.App.windowWidth,
                         paddingRight: '3%',
                       }}>
@@ -1936,8 +1895,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: 15,
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk',
+                                                    ? 'UberMoveTextRegular'
+                                                    : 'Uber Move Text',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -1954,12 +1913,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? 19
-                                                  : 17,
+                                                  ? RFValue(19)
+                                                  : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Medium'
-                                                    : 'Allrounder Grotesk Medium',
+                                                    ? 'UberMoveTextMedium'
+                                                    : 'Uber Move Text Medium',
                                                 color: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
@@ -1995,14 +1954,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             style={{
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Book'
-                                  : 'Allrounder Grotesk Book',
-                              fontSize: 17,
+                                  ? 'UberMoveTextRegular'
+                                  : 'UberMoveText',
+                              fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                            Internet connection error
+                            Oups, something's wrong, please try again.
                           </Text>
                         )
                       ) : (
@@ -2010,9 +1969,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
-                            fontSize: 17,
+                                ? 'UberMoveTextRegular'
+                                : 'UberMoveText',
+                            fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2026,10 +1985,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <View
                       style={{
                         flexDirection: 'row',
-                        //flex: 3,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        //paddingTop: '10%',
                         width: this.props.App.windowWidth,
                         paddingRight: '3%',
                       }}>
@@ -2168,11 +2125,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 15,
+                                                fontSize: RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk',
+                                                    ? 'UberMoveTextRegular'
+                                                    : 'Uber Move Text',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -2189,12 +2146,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? 19
-                                                  : 17,
+                                                  ? RFValue(19)
+                                                  : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Medium'
-                                                    : 'Allrounder Grotesk Medium',
+                                                    ? 'UberMoveTextMedium'
+                                                    : 'Uber Move Text Medium',
                                                 color: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
@@ -2230,14 +2187,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             style={{
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Book'
-                                  : 'Allrounder Grotesk Book',
-                              fontSize: 17,
+                                  ? 'UberMoveTextRegular'
+                                  : 'UberMoveText',
+                              fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                            Internet connection error
+                            Oups, something's wrong, please try again.
                           </Text>
                         )
                       ) : (
@@ -2245,9 +2202,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
-                            fontSize: 17,
+                                ? 'UberMoveTextRegular'
+                                : 'UberMoveText',
+                            fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2393,11 +2350,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 15,
+                                                fontSize: RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk',
+                                                    ? 'UberMoveTextRegular'
+                                                    : 'Uber Move Text',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -2414,12 +2371,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? 19
-                                                  : 17,
+                                                  ? RFValue(19)
+                                                  : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Medium'
-                                                    : 'Allrounder Grotesk Medium',
+                                                    ? 'UberMoveTextMedium'
+                                                    : ' Medium',
                                                 color: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
@@ -2455,14 +2412,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             style={{
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Book'
-                                  : 'Allrounder Grotesk Book',
-                              fontSize: 17,
+                                  ? 'UberMoveTextRegular'
+                                  : 'UberMoveText',
+                              fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                            Internet connection error
+                            Oups, something's wrong, please try again.
                           </Text>
                         )
                       ) : (
@@ -2470,9 +2427,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
-                            fontSize: 17,
+                                ? 'UberMoveTextRegular'
+                                : 'UberMoveText',
+                            fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2515,18 +2472,18 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       }}>
                       <IconMaterialIcons
                         name="credit-card"
-                        size={28}
+                        size={24}
                         style={{marginRight: 3}}
                       />
                       <Text
                         style={[
                           {
-                            fontSize: 19,
+                            fontSize: RFValue(18.5),
                             color: '#0D8691',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           },
                         ]}>
                         {this.props.parentNodeHome.ucFirst(
@@ -2541,15 +2498,18 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         alignItems: 'center',
                         padding: 5,
                       }}>
-                      <IconAnt name="user" size={16} style={{marginRight: 3}} />
+                      <Image
+                        source={require('../../Media_assets/Images/user-3.png')}
+                        style={{width: 13, height: 13, marginRight: 4}}
+                      />
                       <Text
                         style={[
                           {
-                            fontSize: 19,
+                            fontSize: RFValue(18),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           },
                         ]}>
                         {
@@ -2572,20 +2532,21 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       padding: 5,
                       paddingLeft: 15,
                       paddingRight: 0,
+                      flex: 1,
                     }}>
                     <IconFeather
                       name="clock"
-                      size={18}
+                      size={16}
                       style={{marginRight: 3}}
                     />
                     <Text
                       style={[
                         {
-                          fontSize: 16.5,
+                          fontSize: RFValue(16),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
+                              ? 'UberMoveTextLight'
+                              : 'Uber Move Text Light',
                         },
                       ]}>
                       {this.props.App.selectedScheduleTime === 'now'
@@ -2620,9 +2581,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 23.5,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(21),
                         color: '#fff',
                       }}>
                       Next
@@ -2676,10 +2637,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <View
                       style={{
                         flexDirection: 'row',
-                        //flex: 3,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        //paddingTop: '10%',
                         width: this.props.App.windowWidth,
                         paddingRight: '3%',
                       }}>
@@ -2859,11 +2818,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 14,
+                                                fontSize: RFValue(14),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk',
+                                                    ? 'UberMoveTextRegular'
+                                                    : 'Uber Move Text',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -2877,11 +2836,15 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
+                                                fontSize: /^available$/i.test(
+                                                  vehicle.availability,
+                                                )
+                                                  ? RFValue(19)
+                                                  : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Medium'
-                                                    : 'Allrounder Grotesk Medium',
-                                                fontSize: 17,
+                                                    ? 'UberMoveTextMedium'
+                                                    : 'Uber Move Text Medium',
                                                 color: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
@@ -2917,24 +2880,24 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             style={{
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Book'
-                                  : 'Allrounder Grotesk Book',
-                              fontSize: 17,
+                                  ? 'UberMoveTextRegular'
+                                  : 'UberMoveText',
+                              fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                            Internet connection error
+                            Oups, something's wrong, please try again.
                           </Text>
                         )
                       ) : (
                         <Text
                           style={{
-                            fontFamily:
+                            ffontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
-                            fontSize: 17,
+                                ? 'UberMoveTextRegular'
+                                : 'UberMoveText',
+                            fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -2948,10 +2911,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <View
                       style={{
                         flexDirection: 'row',
-                        //flex: 3,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        //paddingTop: '10%',
                         width: this.props.App.windowWidth,
                         paddingRight: '3%',
                       }}>
@@ -3107,11 +3068,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             style={[
                                               {
                                                 color: '#fff',
-                                                fontSize: 14,
+                                                fontSize: RFValue(14),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk',
+                                                    ? 'UberMoveTextRegular'
+                                                    : 'Uber Move Text',
                                               },
                                             ]}>
                                             {vehicle.app_label}
@@ -3125,11 +3086,15 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                           <Text
                                             style={[
                                               {
+                                                fontSize: /^available$/i.test(
+                                                  vehicle.availability,
+                                                )
+                                                  ? RFValue(19)
+                                                  : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Book'
-                                                    : 'Allrounder Grotesk Book',
-                                                fontSize: 17,
+                                                    ? 'UberMoveTextMedium'
+                                                    : 'Uber Move Text Medium',
                                                 color: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
@@ -3165,14 +3130,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             style={{
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Book'
-                                  : 'Allrounder Grotesk Book',
-                              fontSize: 17,
+                                  ? 'UberMoveTextRegular'
+                                  : 'UberMoveText',
+                              fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
-                            Internet connection error
+                            Oups, something's wrong, please try again.
                           </Text>
                         )
                       ) : (
@@ -3180,9 +3145,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
-                            fontSize: 17,
+                                ? 'UberMoveTextRegular'
+                                : 'UberMoveText',
+                            fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -3225,18 +3190,18 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       }}>
                       <IconMaterialIcons
                         name="credit-card"
-                        size={23}
+                        size={24}
                         style={{marginRight: 3}}
                       />
                       <Text
                         style={[
                           {
-                            fontSize: 17,
+                            fontSize: RFValue(18.5),
                             color: '#0D8691',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           },
                         ]}>
                         {this.props.parentNodeHome.ucFirst(
@@ -3245,39 +3210,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         )}
                       </Text>
                     </TouchableOpacity>
-
-                    {/RIDE/i.test(
-                      this.props.App.bottomVitalsFlow.flowParent,
-                    ) ? (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          padding: 5,
-                        }}>
-                        <IconEntypo
-                          name="user"
-                          size={14}
-                          style={{marginRight: 3}}
-                        />
-                        <Text
-                          style={[
-                            {
-                              fontSize: 17,
-                              top: 1,
-                              fontFamily:
-                                Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk',
-                            },
-                          ]}>
-                          {
-                            this.props.App.bottomVitalsFlow
-                              .rideOrDeliveryMetadata.numberOfPassengersSelected
-                          }
-                        </Text>
-                      </View>
-                    ) : null}
                   </View>
                   <TouchableOpacity
                     onPress={() => this.rideTypeToSchedulerTransistor(true)}
@@ -3297,11 +3229,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 15,
+                          fontSize: RFValue(16),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
+                              ? 'UberMoveTextLight'
+                              : 'Uber Move Text Light',
                         },
                       ]}>
                       {this.props.App.selectedScheduleTime === 'now'
@@ -3336,9 +3268,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 23.5,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(21),
                         color: '#fff',
                       }}>
                       Next
@@ -3405,9 +3337,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 22.5,
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(20),
                     color: '#fff',
                   }}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -3447,7 +3379,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 marginTop: '10%',
               }}>
               <TextInput
-                placeholder="Enter your fare (N$)"
+                placeholder="Enter your Fare (N$)"
                 keyboardType={'number-pad'}
                 maxLength={3}
                 onChangeText={(text) =>
@@ -3458,14 +3390,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     borderBottomWidth: 1,
                     width: '100%',
                     borderBottomColor: '#a5a5a5',
-                    fontSize: 19,
+                    fontSize: RFValue(19),
                     padding: 15,
                     paddingLeft: 0,
                     height: 50,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                   },
                 ]}
               />
@@ -3481,11 +3413,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 16,
+                      fontSize: RFValue(15),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextLight'
+                          : 'Uber Move Light',
                     },
                   ]}>
                   Your minimum fare is{' '}
@@ -3494,8 +3426,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       {
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Medium',
                         color: '#096ED4',
                       },
                     ]}>
@@ -3525,9 +3457,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 23.5,
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(21),
                     color: '#fff',
                   }}>
                   Done
@@ -3867,7 +3799,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 5,
+    borderRadius: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

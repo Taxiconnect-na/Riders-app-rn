@@ -1194,12 +1194,12 @@ class RenderContentBottomVitals extends React.PureComponent {
           <AnimatedNative.Text
             style={[
               {
-                fontSize: 21,
+                fontSize: RFValue(18),
                 color: '#000',
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
                 opacity: this.props.App.titleSchedulerSelectRideOpacity,
                 transform: [
                   {
@@ -1233,14 +1233,14 @@ class RenderContentBottomVitals extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontSize: 19,
                     width: '100%',
                     textAlign: 'center',
-                    color: '#454545',
+                    fontSize: RFValue(18),
+                    color: '#000',
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 {
@@ -1256,10 +1256,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                     left: 5,
                     bottom: 0,
                     color: '#a2a2a2',
+                    fontSize: RFValue(16),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                   }}>
                   {
                     this.props.App.headerRideTypesVars.headerSelectRideTypes[
@@ -1275,10 +1276,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                   right: 5,
                   bottom: 0,
                   color: '#a2a2a2',
+                  fontSize: RFValue(16),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
                 }}>
                 {this.props.App.headerRideTypesVars.currentHeaderIndex < 2
                   ? this.props.App.headerRideTypesVars.headerSelectRideTypes[
@@ -1309,14 +1311,14 @@ class RenderContentBottomVitals extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontSize: 19,
                     width: '100%',
                     textAlign: 'center',
-                    color: '#454545',
+                    fontSize: RFValue(18),
+                    color: '#000',
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 {
@@ -1333,10 +1335,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                     left: 5,
                     bottom: 0,
                     color: '#a2a2a2',
+                    fontSize: RFValue(16),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                   }}>
                   {
                     this.props.App.headerRideTypesVars
@@ -1353,10 +1356,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                   right: 5,
                   bottom: 0,
                   color: '#a2a2a2',
+                  fontSize: RFValue(16),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
                 }}>
                 {this.props.App.headerRideTypesVars.currentHeaderIndex < 2
                   ? this.props.App.headerRideTypesVars
@@ -1379,12 +1383,12 @@ class RenderContentBottomVitals extends React.PureComponent {
         <AnimatedNative.Text
           style={[
             {
+              fontSize: RFValue(18),
+              color: '#000',
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Medium'
-                  : 'Allrounder Grotesk Medium',
-              fontSize: 19,
-              color: '#000',
+                  ? 'UberMoveTextMedium'
+                  : 'Uber Move Text Medium',
               opacity: this.props.App.titleSummaryOpacity,
               transform: [
                 {
@@ -2514,7 +2518,6 @@ class RenderContentBottomVitals extends React.PureComponent {
             <View
               style={{
                 height: 35,
-                paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
@@ -2537,12 +2540,12 @@ class RenderContentBottomVitals extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 17.5,
+                      fontSize: RFValue(17),
                       bottom: 25,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -2575,7 +2578,6 @@ class RenderContentBottomVitals extends React.PureComponent {
             <View
               style={{
                 height: 40,
-                paddingTop: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
@@ -3290,7 +3292,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 5, //Was 200
+    borderRadius: 3, //Was 200
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
