@@ -27,6 +27,7 @@ import ErrorModal from '../Helpers/ErrorModal';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import EmailValidator from '../Helpers/EmailValidator';
 import SyncStorage from 'sync-storage';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class NewAccountAdditionalDetails extends React.PureComponent {
   constructor(props) {
@@ -122,9 +123,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     this.props.App.socket.on(
       'updateAdditionalProfileData-response',
       function (response) {
+        console.log(response);
         globalObject.setState({loaderState: false}); //stop loader
         if (response !== false && response.response !== undefined) {
-          console.log(response);
           if (!/error/i.test(response.response)) {
             //Success
             //Update the general state infos and move forward
@@ -234,33 +235,22 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       showErrorName: false,
       showEmailError: false,
     });
-    console.log({
-      name: this.state.name,
-      email: this.state.email,
-      gender: this.props.App.gender_user,
-      user_fingerprint: this.props.App.user_fingerprint,
-    });
     //Check the name
     if (this.state.name.trim().length >= 2) {
       //Good
       //Check the email
       if (EmailValidator(this.state.email)) {
+        console.log({
+          name: this.state.name,
+          email: this.state.email,
+          gender: this.props.App.gender_user,
+          user_fingerprint: this.props.App.user_fingerprint,
+        });
         //Good
         let user_fingerprint = this.props.App.user_fingerprint;
-        if (
-          user_fingerprint !== undefined &&
-          user_fingerprint !== null &&
-          user_fingerprint.length !== undefined &&
-          user_fingerprint.length > 50
-        ) {
+        if (user_fingerprint !== undefined && user_fingerprint !== null) {
           //Good
           //Request for profile update
-          console.log({
-            name: this.state.name,
-            email: this.state.email,
-            gender: this.props.App.gender_user,
-            user_fingerprint: user_fingerprint,
-          });
           this.props.App.socket.emit('updateAdditionalProfileData', {
             name: this.state.name,
             email: this.state.email,
@@ -269,7 +259,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
           });
         } //Go back to entry screen
         else {
-          this.props.navigation.navigate('EntryScreen');
+          //this.props.navigation.navigate('EntryScreen');
         }
       } //Email with wrong format error
       else {
@@ -332,7 +322,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
-          <GenericLoader active={this.state.loaderState} />
+          <GenericLoader active={this.state.loaderState} thickness={4} />
           {this.props.App.generalErrorModal_vars.showErrorGeneralModal
             ? this.renderError_modalView()
             : null}
@@ -348,11 +338,11 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: 22,
+                  fontSize: RFValue(22),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Medium',
                   marginTop: 15,
                   marginBottom: 35,
                   textAlign: 'center',
@@ -371,12 +361,12 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 19,
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text Regular',
+                  fontSize: RFValue(18.5),
                   borderBottomWidth: /name/i.test(this.state.currentFocusName)
-                    ? 1
-                    : 0.7,
+                    ? 1.5
+                    : 1.5,
                   borderBottomColor: /name/i.test(this.state.currentFocusName)
                     ? '#0e8491'
                     : '#000',
@@ -390,10 +380,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
                       color: '#b22222',
-                      fontSize: 16,
+                      fontSize: RFValue(14),
                       marginTop: 10,
                     },
                   ]}>
@@ -406,11 +396,11 @@ class NewAccountAdditionalDetails extends React.PureComponent {
               style={{
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Book'
-                    : 'Allrounder Grotesk Book',
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
                 marginTop: '10%',
                 marginBottom: 15,
-                fontSize: 14,
+                fontSize: RFValue(14),
                 color: '#a5a5a5',
               }}>
               Gender
@@ -418,7 +408,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             <TouchableOpacity
               onPress={() => this.showModalGenderSelecter()}
               style={{
-                borderBottomWidth: 0.7,
+                borderBottomWidth: 1.5,
                 paddingBottom: 20,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -435,9 +425,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 19,
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text Regular',
+                  fontSize: RFValue(18.5),
                   marginLeft: 5,
                   flex: 1,
                   alignItems: 'center',
@@ -464,12 +454,12 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 19,
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text Regular',
+                  fontSize: RFValue(18.5),
                   borderBottomWidth: /email/i.test(this.state.currentFocusName)
-                    ? 1
-                    : 0.7,
+                    ? 1.5
+                    : 1.5,
                   borderBottomColor: /email/i.test(this.state.currentFocusName)
                     ? '#0e8491'
                     : '#000',
@@ -485,10 +475,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
                       color: '#b22222',
-                      fontSize: 16,
+                      fontSize: RFValue(14),
                       marginTop: 10,
                     },
                   ]}>
@@ -507,11 +497,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                 width: '100%',
               }}>
               <View style={{flexDirection: 'row', flex: 1}}>
-                <Text
-                  style={[
-                    systemWeights.light,
-                    {fontSize: 12, marginLeft: 6},
-                  ]}></Text>
+                <Text style={[{fontSize: 12, marginLeft: 6}]}></Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity

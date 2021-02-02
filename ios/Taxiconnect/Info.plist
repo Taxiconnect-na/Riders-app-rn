@@ -36,18 +36,18 @@
 	<key>MGLMapboxMetricsEnabledSettingShownInApp</key>
 	<string>YES</string>
 	<key>NSAppTransportSecurity</key>
-  <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <false/>
-      <key>NSExceptionDomains</key>
-      <dict>
-        <key>taxiconnectna.com</key>
-        <dict>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-        </dict>
-      </dict>
-  </dict>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>taxiconnectna.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>TaxiConnect needs access your camera in order for you to take a picture for your profile picture.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -101,6 +101,10 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
+		<string>UberMoveTextBold.otf</string>
+		<string>UberMoveTextLight.otf</string>
+		<string>UberMoveTextMedium.otf</string>
+		<string>UberMoveTextRegular.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
@@ -116,8 +120,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string></string>
-		<string></string>
+		<string/>
+		<string/>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

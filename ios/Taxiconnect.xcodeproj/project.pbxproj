@@ -88,6 +88,10 @@
 		96FB811F25C56A06003CF807 /* libYogaKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96FB811E25C56A06003CF807 /* libYogaKit.a */; };
 		B53CE28016BD68AAF6387B6E /* libPods-Taxiconnect-TaxiconnectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0479D7D550621DECB4271C9D /* libPods-Taxiconnect-TaxiconnectTests.a */; };
 		E510A40AD3EB050F1C8EE46A /* libPods-Taxiconnect-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96A43294731881C53CE9D9BB /* libPods-Taxiconnect-tvOS.a */; };
+		EF1BA301914A4F8CBBEBFE95 /* UberMoveTextBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C5AC11AABD7D4912A5CE85E7 /* UberMoveTextBold.otf */; };
+		D09051B795004D3096BDA4D1 /* UberMoveTextLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = D3C829DCDDDC4BC6B8508674 /* UberMoveTextLight.otf */; };
+		5CC61C9335CF462EA3314A87 /* UberMoveTextMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 537125F103664E2CA1ED4D1C /* UberMoveTextMedium.otf */; };
+		1C541736A829440194C25CEC /* UberMoveTextRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = B6324EB18E5448AB8363E072 /* UberMoveTextRegular.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +186,10 @@
 		F73B1D41A575456FA47EA7F4 /* Allrounder-Monument-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Allrounder-Monument-Regular.otf"; path = "../Media_assets/fonts/Allrounder-Monument-Regular.otf"; sourceTree = "<group>"; };
 		F746225DF0C94B0198BFA3CB /* MoveMedium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MoveMedium.otf; path = ../Media_assets/fonts/MoveMedium.otf; sourceTree = "<group>"; };
 		FEE1DBABE4D0799A3AFC3D6F /* Pods-Taxiconnect-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taxiconnect-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Taxiconnect-tvOSTests/Pods-Taxiconnect-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C5AC11AABD7D4912A5CE85E7 /* UberMoveTextBold.otf */ = {isa = PBXFileReference; name = "UberMoveTextBold.otf"; path = "../Media_assets/fonts/UberMoveTextBold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D3C829DCDDDC4BC6B8508674 /* UberMoveTextLight.otf */ = {isa = PBXFileReference; name = "UberMoveTextLight.otf"; path = "../Media_assets/fonts/UberMoveTextLight.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		537125F103664E2CA1ED4D1C /* UberMoveTextMedium.otf */ = {isa = PBXFileReference; name = "UberMoveTextMedium.otf"; path = "../Media_assets/fonts/UberMoveTextMedium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B6324EB18E5448AB8363E072 /* UberMoveTextRegular.otf */ = {isa = PBXFileReference; name = "UberMoveTextRegular.otf"; path = "../Media_assets/fonts/UberMoveTextRegular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,6 +380,10 @@
 				8566E669034E4709A3F7E3DB /* MoveLight.ttf */,
 				F746225DF0C94B0198BFA3CB /* MoveMedium.otf */,
 				B571D3CC35384A3B90D2E288 /* MoveRegular.ttf */,
+				C5AC11AABD7D4912A5CE85E7 /* UberMoveTextBold.otf */,
+				D3C829DCDDDC4BC6B8508674 /* UberMoveTextLight.otf */,
+				537125F103664E2CA1ED4D1C /* UberMoveTextMedium.otf */,
+				B6324EB18E5448AB8363E072 /* UberMoveTextRegular.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -551,6 +563,10 @@
 				964AF1ED25C2DD9F007C5D25 /* MoveMedium.otf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				EF1BA301914A4F8CBBEBFE95 /* UberMoveTextBold.otf in Resources */,
+				D09051B795004D3096BDA4D1 /* UberMoveTextLight.otf in Resources */,
+				5CC61C9335CF462EA3314A87 /* UberMoveTextMedium.otf in Resources */,
+				1C541736A829440194C25CEC /* UberMoveTextRegular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

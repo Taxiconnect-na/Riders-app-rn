@@ -30,6 +30,7 @@ import {
 import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import SyncStorage from 'sync-storage';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 const App = ({valueM, parentNode, editable}) => {
   const [value, setValue] = useState('');
@@ -101,7 +102,7 @@ class OTPVerificationEntry extends React.PureComponent {
       didCheckOTP: false, //TO know if the otp was already check - once
       networkStateChecker: false,
       accountCreation_state: 'full', //To know whether or not to redirecto to the addditional page for minimal account or not: minimal or full
-      smsHashLinker: '####', //Has to link to the sms for the auto-completion
+      smsHashLinker: 'gKhOmsx', //Has to link to the sms for the auto-completion
       userAccountDetails: null, //Will hold the user details if already registered and assign them to the globals when the OTP is checked.
     };
     this.otpHandler = this.otpHandler.bind(this);
@@ -257,11 +258,11 @@ class OTPVerificationEntry extends React.PureComponent {
           } //Home
           else {
             //? Restore the saved account details
+            response = globalObject.state.userAccountDetails;
             if (
               /full/i.test(globalObject.state.userAccountDetails.account_state)
             ) {
               //Minimal details already added - update big vars
-              response = globalObject.state.userAccountDetails;
               //! Save the user_fp and the rest of the globals
               globalObject.props.App.user_fingerprint = response.user_fp;
               globalObject.props.App.gender_user = response.gender;
@@ -283,20 +284,17 @@ class OTPVerificationEntry extends React.PureComponent {
               SyncStorage.set('@accountCreation_state', 'full');
               //....
               globalObject.state.accountCreation_state = 'full';
+              //? Check the state of the account creation
+              globalObject.props.navigation.navigate('Home');
             } //Minimal account - go to complete details
             else {
+              console.log(response);
               //! Save the user_fp and the rest of the globals
               globalObject.props.App.user_fingerprint = response.user_fp;
               SyncStorage.set('@accountCreation_state', 'minimal');
               //....
               globalObject.state.accountCreation_state = 'minimal';
-            }
-
-            //Check the state of the account creation
-            if (/full/i.test(globalObject.state.accountCreation_state)) {
-              globalObject.props.navigation.navigate('Home');
-            } //Minimal account - move to the additional details screen
-            else {
+              //? Minimal account - move to the additional details screen
               globalObject.props.navigation.navigate(
                 'NewAccountAdditionalDetails',
               );
@@ -538,7 +536,7 @@ class OTPVerificationEntry extends React.PureComponent {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
-          <GenericLoader active={this.state.loaderState} />
+          <GenericLoader active={this.state.loaderState} thickness={4} />
           {this.autoCheckOTPAsTyped()}
           {this.props.App.generalErrorModal_vars.showErrorGeneralModal
             ? this.renderError_modalView()
@@ -551,13 +549,12 @@ class OTPVerificationEntry extends React.PureComponent {
             </TouchableOpacity>
             <Text
               style={[
-                systemWeights.semibold,
                 {
-                  fontSize: 21,
+                  fontSize: RFValue(19),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                   marginTop: 15,
                   marginBottom: 35,
                 },
@@ -579,10 +576,10 @@ class OTPVerificationEntry extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       color: '#0e8491',
-                      fontSize: 17,
+                      fontSize: RFValue(17),
                     },
                   ]}>
                   I didn't receive the code.
@@ -595,10 +592,10 @@ class OTPVerificationEntry extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       color: '#b22222',
-                      fontSize: 17,
+                      fontSize: RFValue(17),
                     },
                   ]}>
                   The code entered is not correct.

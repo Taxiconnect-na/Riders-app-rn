@@ -14,6 +14,7 @@ import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SyncStorage from 'sync-storage';
 import {acc} from 'react-native-reanimated';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class EntryScreen extends React.PureComponent {
   constructor(props) {
@@ -108,6 +109,21 @@ class EntryScreen extends React.PureComponent {
           }>
           <SafeAreaView style={{flex: 1, backgroundColor: '#0e8491'}}>
             <View style={styles.presentationWindow}>
+              {/**Pattern */}
+              <Image
+                source={require('../../Media_assets/Images/back.png')}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: '100%',
+                  height: '100%',
+                  opacity: 0.035,
+                }}
+              />
+              {/**--- */}
               <View
                 style={{
                   backgroundColor: '#fff',
@@ -132,11 +148,11 @@ class EntryScreen extends React.PureComponent {
                   style={{resizeMode: 'contain', width: '105%', height: '105%'}}
                 />
               </View>
-              <View style={{height: 70}}>
+              <View style={{height: '15%'}}>
                 <Text
                   style={[
                     {
-                      fontSize: 25,
+                      fontSize: RFValue(26),
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'MoveBold'
@@ -144,7 +160,7 @@ class EntryScreen extends React.PureComponent {
                       color: '#fff',
                     },
                   ]}>
-                  Get yourself a safe ride.
+                  Get yourself a safe ride
                 </Text>
               </View>
             </View>
@@ -161,29 +177,30 @@ class EntryScreen extends React.PureComponent {
             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
               <IconMaterialIcons
                 name="phone"
-                size={25}
+                size={23}
                 style={{marginRight: 5}}
                 color="#000"
               />
               <Text
                 style={[
-                  systemWeights.regular,
                   {
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
-                    fontSize: 19,
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(19),
+                    flex: 1,
                   },
                 ]}>
                 What's your phone number?
               </Text>
+              <IconMaterialIcons
+                name="arrow-forward-ios"
+                size={17}
+                color="#0e8491"
+                style={{marginTop: 3}}
+              />
             </View>
-            <IconMaterialIcons
-              name="arrow-forward-ios"
-              size={18}
-              color="#0e8491"
-            />
           </View>
         </TouchableOpacity>
       </View>

@@ -3,6 +3,7 @@ import React from 'react';
 import {View, TouchableOpacity, Image, Text, Platform} from 'react-native';
 import flagsIco from './Assets/FlagImagesRessources';
 import {systemWeights} from 'react-native-typography';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class ItemFlag extends React.PureComponent {
   constructor(props) {
@@ -54,13 +55,12 @@ class ItemFlag extends React.PureComponent {
         <View style={[{paddingLeft: 5}]}>
           <Text
             style={[
-              systemWeights.regular,
               {
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Regular'
-                    : 'Allrounder Grotesk',
-                fontSize: 16,
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
+                fontSize: RFValue(16),
               },
             ]}>
             {this.props.country.name} ({this.props.country.dial_code})

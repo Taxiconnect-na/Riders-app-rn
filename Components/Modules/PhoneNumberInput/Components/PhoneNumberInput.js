@@ -31,6 +31,7 @@ import {
   UpdateDialDataORQueryTyped,
   UpdateErrorMessagesStateInputRecDelivery,
 } from '../../../Redux/HomeActionsCreators';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -147,7 +148,7 @@ class PhoneNumberInput extends React.PureComponent {
               height: 50,
               justifyContent: 'center',
             }}>
-            <IconAnt name="arrowleft" color={'#fff'} size={25} />
+            <IconAnt name="arrowleft" color={'#fff'} size={23} />
           </TouchableOpacity>
           <View style={{flex: 1}}>
             <TextInput
@@ -163,9 +164,9 @@ class PhoneNumberInput extends React.PureComponent {
                 {
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 17,
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
+                  fontSize: RFValue(17),
                   color: '#fff',
                 },
               ]}
@@ -206,18 +207,17 @@ class PhoneNumberInput extends React.PureComponent {
               height: 50,
               justifyContent: 'center',
             }}>
-            <IconAnt name="arrowleft" color={'#fff'} size={25} />
+            <IconAnt name="arrowleft" color={'#fff'} size={23} />
           </TouchableOpacity>
           <View style={{flex: 1}}>
             <Text
               style={[
-                systemWeights.regular,
                 {
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 19,
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
+                  fontSize: RFValue(19),
                   color: '#fff',
                 },
               ]}>
@@ -309,13 +309,12 @@ class PhoneNumberInput extends React.PureComponent {
                   }}>
                   <Text
                     style={[
-                      systemWeights.regular,
                       {
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 15,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(16),
                         color: '#797979',
                       },
                     ]}>
@@ -449,13 +448,12 @@ class PhoneNumberInput extends React.PureComponent {
               />
               <Text
                 style={[
-                  systemWeights.regular,
                   {
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
-                    fontSize: 18,
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(19),
                     left: 2,
                   },
                 ]}>
@@ -488,13 +486,12 @@ class PhoneNumberInput extends React.PureComponent {
               value={this.props.App.phoneNumberEntered}
               maxLength={this.props.App.dynamicMaxLength}
               style={[
-                systemWeights.regular,
                 {
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 18,
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
+                  fontSize: RFValue(19),
                   borderBottomWidth: 1.5,
                   flex: 1,
                   marginLeft: 5,
@@ -512,10 +509,13 @@ class PhoneNumberInput extends React.PureComponent {
             {this.props.App.errorReceiverPhoneNumberShow ? (
               <Text
                 style={[
-                  systemWeights.light,
                   {
                     color: '#b22222',
-                    fontSize: 13,
+                    fontSize: RFValue(13),
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                     bottom: -25,
                     position: 'absolute',
                     left: 5,

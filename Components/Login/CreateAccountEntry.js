@@ -20,6 +20,7 @@ import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
 import SyncStorage from 'sync-storage';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class CreateAccountEntry extends React.PureComponent {
   constructor(props) {
@@ -51,6 +52,7 @@ class CreateAccountEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    this.state.creatingAccount = false; //? Reinitialize creating account state var to false.
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
@@ -170,10 +172,6 @@ class CreateAccountEntry extends React.PureComponent {
    * Responsible for creating a new minimal rider account with PHONE NUMBER!
    */
   createNewAccount() {
-    //DEBUG
-    //this.props.App.finalPhoneNumber = '3283782787323';
-    //this.props.App.pushnotif_token = 'dadjshds-dummy-push-notif';
-    //DEBUG----
     if (
       this.props.App.finalPhoneNumber !== false &&
       this.props.App.finalPhoneNumber !== undefined &&
@@ -267,11 +265,9 @@ class CreateAccountEntry extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 30,
+                fontSize: RFValue(30),
                 fontFamily:
-                  Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
+                  Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
                 marginTop: 15,
                 marginBottom: 35,
                 width: '100%',
@@ -287,8 +283,8 @@ class CreateAccountEntry extends React.PureComponent {
               alignItems: 'center',
             }}>
             <Image
-              source={require('../../Media_assets/Images/3398662.jpg')}
-              style={{resizeMode: 'contain', width: '95%', height: '95%'}}
+              source={require('../../Media_assets/Images/newDriverWelcome.jpg')}
+              style={{resizeMode: 'contain', width: '105%', height: '105%'}}
             />
           </View>
           <Text
@@ -297,10 +293,10 @@ class CreateAccountEntry extends React.PureComponent {
                 flex: 1,
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
                 color: '#000',
-                fontSize: 21,
+                fontSize: RFValue(20),
                 marginTop: '10%',
                 textAlign: 'center',
                 width: '100%',
@@ -317,10 +313,10 @@ class CreateAccountEntry extends React.PureComponent {
                   {
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
+                        ? 'UberMoveTextLight'
+                        : 'Uber Move Text Light',
                     color: '#000',
-                    fontSize: 14,
+                    fontSize: RFValue(14),
                     textAlign: 'left',
                     width: '100%',
                     lineHeight: 20,
@@ -332,8 +328,8 @@ class CreateAccountEntry extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                   }}>
                   Create your account
                 </Text>
@@ -342,8 +338,8 @@ class CreateAccountEntry extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     color: '#0e8491',
                   }}>
                   terms and conditions.
@@ -368,9 +364,9 @@ class CreateAccountEntry extends React.PureComponent {
                         {
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
-                          fontSize: 23,
+                              ? 'UberMoveTextBold'
+                              : 'Uber Move Text Bold',
+                          fontSize: RFValue(23),
                           color: '#fff',
                         },
                       ]}>

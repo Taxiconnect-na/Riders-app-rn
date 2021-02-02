@@ -10,7 +10,6 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
@@ -21,6 +20,7 @@ import {
 } from '../Redux/HomeActionsCreators';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class PhoneDetailsScreen extends React.PureComponent {
   constructor(props) {
@@ -159,13 +159,12 @@ class PhoneDetailsScreen extends React.PureComponent {
             </TouchableOpacity>
             <Text
               style={[
-                systemWeights.semibold,
                 {
-                  fontSize: 21,
+                  fontSize: RFValue(19),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                   marginTop: 15,
                   marginBottom: 35,
                 },
@@ -186,13 +185,14 @@ class PhoneDetailsScreen extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 13,
+                      fontSize: RFValue(13),
                       marginLeft: 6,
                       lineHeight: 18,
+                      color: '#141414',
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   By proceeding, you will receive an SMS and additional fees may
