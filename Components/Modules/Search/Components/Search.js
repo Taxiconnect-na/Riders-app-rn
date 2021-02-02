@@ -32,6 +32,7 @@ import {
   ResetStateProps,
 } from '../../../Redux/HomeActionsCreators';
 import SyncStorage from 'sync-storage';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class Search extends React.PureComponent {
   constructor(props) {
@@ -652,38 +653,41 @@ class Search extends React.PureComponent {
                         style={{paddingRight: 20, top: 2}}
                       />
                     </View>
-                    <View>
+                    <View style={{flex: 1}}>
                       <Text
                         style={[
                           {
-                            fontSize: 15.5,
+                            fontSize: RFValue(15),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            flex: 1,
                           },
                         ]}>
-                        {item.location_name.length > 35
-                          ? item.location_name.substring(0, 35) + '...'
-                          : item.location_name}
+                        {item.location_name}
                       </Text>
-                      <View style={{flexDirection: 'row', marginTop: 5}}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginTop: 5,
+                          flex: 1,
+                        }}>
                         <Text
                           style={[
                             styles.detailsSearchRes,
                             {
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk',
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
                             },
                           ]}>
                           {item.street === undefined
                             ? ''
                             : item.street === false
                             ? ''
-                            : item.street.length > 20
-                            ? item.street.substring(0, 20) + '. '
                             : item.street + '  '}
                         </Text>
                         <Text
@@ -693,8 +697,8 @@ class Search extends React.PureComponent {
                               paddingRight: item.city === undefined ? 0 : 10,
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Regular'
-                                  : 'Allrounder Grotesk',
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
                             },
                           ]}>
                           {item.city === undefined ? '' : item.city}
@@ -826,15 +830,18 @@ class Search extends React.PureComponent {
             <TouchableOpacity
               onPress={() => this.dismissBackSearchNodeMain()}
               style={styles.backArrowHeaderSearch}>
-              <IconAnt name="arrowleft" size={28} />
+              <IconAnt name="arrowleft" size={25} />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row'}}>
-              <View style={[styles.imageSearchNode]}>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}>
+              <View style={[styles.imageSearchNode, {top: 5}]}>
                 {this.props.showSimplified !== undefined &&
                 this.props.showSimplified ? null : (
                   <>
                     <View style={styles.doBlackImageSearch} />
-                    <View style={styles.lineMiddleImageSearch} />
+                    <View style={[styles.lineMiddleImageSearch]} />
                   </>
                 )}
                 <View style={styles.squareBlueImageSearch} />
@@ -845,18 +852,18 @@ class Search extends React.PureComponent {
                   <TextInput
                     style={[
                       {
-                        fontSize: 16.5,
+                        fontSize: RFValue(16),
                         borderWidth: 0.5,
                         padding: 10,
                         paddingTop: 5,
                         paddingBottom: 7,
-                        borderRadius: 3,
-                        backgroundColor: '#fcfcfc',
-                        borderColor: '#e7e7e7',
+                        borderRadius: 1,
+                        backgroundColor: '#F6F6F6',
+                        borderColor: '#F6F6F6',
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
                       },
                     ]}
                     placeholder="Where are you?"
@@ -1235,8 +1242,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   detailsSearchRes: {
-    color: '#707070',
-    fontSize: 15,
+    color: '#757575',
+    fontSize: RFValue(14),
   },
   headerSearchNode: {
     borderBottomWidth: 1,
@@ -1289,18 +1296,16 @@ const styles = StyleSheet.create({
   },
   mainSearchBar: {
     borderWidth: 1,
-    borderColor: '#e7e7e7',
+    borderColor: '#E2E2E2',
     padding: 10,
     color: '#096ED4',
-    borderRadius: 3,
+    borderRadius: 1,
     marginTop: 20,
     marginBottom: 25,
-    fontSize: 17.5,
-    backgroundColor: '#e7e7e7',
+    fontSize: RFValue(16),
+    backgroundColor: '#E2E2E2',
     fontFamily:
-      Platform.OS === 'android'
-        ? 'Allrounder-Grotesk-Regular'
-        : 'Allrounder Grotesk',
+      Platform.OS === 'android' ? 'UberMoveTextRegular' : 'Uber Move Text',
   },
   resultsSearchNode: {
     padding: 20,

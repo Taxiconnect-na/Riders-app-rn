@@ -259,7 +259,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
           });
         } //Go back to entry screen
         else {
-          //this.props.navigation.navigate('EntryScreen');
+          this.props.navigation.navigate('EntryScreen');
         }
       } //Email with wrong format error
       else {

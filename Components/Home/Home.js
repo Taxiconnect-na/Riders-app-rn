@@ -130,7 +130,9 @@ class Home extends React.PureComponent {
                 this.props.App.longitude === 0
               ) {
                 if (/off the map/i.test(this.props.App.hello2Text)) {
-                  globalObject.replaceHello2_text("How's your day?");
+                  globalObject.replaceHello2_text(
+                    `Hi ${this.props.App.username}`,
+                  );
                 }
                 //Permission granted
                 this.getCurrentPositionCusto();
@@ -339,7 +341,9 @@ class Home extends React.PureComponent {
                   this.props.App.longitude === 0
                 ) {
                   if (/off the map/i.test(this.props.App.hello2Text)) {
-                    globalObject.replaceHello2_text("How's your day?");
+                    globalObject.replaceHello2_text(
+                      `Hi ${this.props.App.username}`,
+                    );
                   }
                   //Permission granted
                   this.getCurrentPositionCusto();
@@ -436,7 +440,9 @@ class Home extends React.PureComponent {
                     `at ZERO with -> lat: ${globalObject.props.App.latitude}, lng: ${globalObject.props.App.longitude}`,
                   );
                   if (/off the map/i.test(this.props.App.hello2Text)) {
-                    globalObject.replaceHello2_text("How's your day?");
+                    globalObject.replaceHello2_text(
+                      `Hi ${this.props.App.username}`,
+                    );
                   }
                   //Permission granted
                   this.getCurrentPositionCusto();

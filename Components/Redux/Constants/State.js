@@ -15,7 +15,7 @@ const taxiRankIco = require('../../../Media_assets/Images/taxi-stop-sign.png');
 const carIcon = require('../../../Media_assets/Images/cargreentop100.png');
 const carIcon_black = require('../../../Media_assets/Images/caradvanced_black.png');
 //...
-const privateLocationIco = require('../../../Media_assets/Images/home.png');
+const privateLocationIco = require('../../../Media_assets/Images/home.jpeg');
 const airportLocationIco = require('../../../Media_assets/Images/flight.png');
 const routingIco = require('../../../Media_assets/Images/route.png');
 //Economy
