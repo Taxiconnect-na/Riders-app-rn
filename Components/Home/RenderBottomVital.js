@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   Platform,
   SafeAreaView,
+  InteractionManager,
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -728,11 +729,13 @@ class RenderBottomVital extends React.PureComponent {
               </View>
               <TouchableOpacity
                 onPress={() =>
-                  this.props.UpdateErrorModalLog(
-                    true,
-                    'show_cancel_ride_modal',
-                    'any',
-                  )
+                  InteractionManager.runAfterInteractions(() => {
+                    this.props.UpdateErrorModalLog(
+                      true,
+                      'show_cancel_ride_modal',
+                      'any',
+                    );
+                  })
                 }
                 style={{
                   borderLeftWidth: 0.5,
