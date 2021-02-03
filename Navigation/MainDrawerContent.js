@@ -14,7 +14,7 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 export function MainDrawerContent(props) {
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{backgroundColor: '#000'}}>
+      <SafeAreaView style={{backgroundColor: '#0e8491'}}>
         <HeaderDrawerContent />
       </SafeAreaView>
       <SafeAreaView style={{flex: 1}}>

@@ -2716,8 +2716,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           : 'Uber Move Text',
                     },
                   ]}>
-                  The receiver can use the app to track in real-time the
-                  delivery of the package.
+                  The receiver track in real-time the delivery of the package.
                 </Text>
               </View>
               {this.props.App.renderCountryCodeSeacher === false ? (

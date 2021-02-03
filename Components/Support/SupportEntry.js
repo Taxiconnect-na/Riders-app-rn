@@ -80,7 +80,7 @@ class SupportEntry extends React.PureComponent {
                         : 'Allrounder Grotesk',
                     marginLeft: 5,
                   }}>
-                  We're here for you.
+                  We are here for you.
                 </Text>
               </View>
               <View
@@ -145,7 +145,7 @@ class SupportEntry extends React.PureComponent {
                         ? 'Allrounder-Grotesk-Medium'
                         : 'Allrounder Grotesk Medium',
                   }}>
-                  Call TaxiConnect
+                  Contact TaxiConnect
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity

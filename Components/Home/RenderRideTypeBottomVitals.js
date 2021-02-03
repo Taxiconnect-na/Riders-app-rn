@@ -1491,8 +1491,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         },
                       ]}>
                       {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
-                        ? 'I want my ride right away'
-                        : 'I want my delivery right away'}
+                        ? 'Right away'
+                        : 'Right away'}
                     </Text>
                   </View>
                   {this.props.parentNodeHome.renderCheckForScheduleContext(
