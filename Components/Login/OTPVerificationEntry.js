@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {CommonActions} from '@react-navigation/stack';
 import {
   SafeAreaView,
   View,
@@ -10,6 +11,7 @@ import {
   Keyboard,
   PermissionsAndroid,
   Platform,
+  InteractionManager,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -108,7 +110,7 @@ class OTPVerificationEntry extends React.PureComponent {
     this.otpHandler = this.otpHandler.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     let globalObject = this;
 
     //? Generate the SMS hash linker to auto pick the verification code from the SMS.
@@ -243,16 +245,17 @@ class OTPVerificationEntry extends React.PureComponent {
      */
     this.props.App.socket.on('checkThisOTP_SMS-response', function (response) {
       console.log(response);
-      globalObject.setState({loaderState: false}); //Disable the loader
       //! Reset otp value - to avoid loop hell
-      globalObject.setState({otpValue: ''});
+      globalObject.setState({otpValue: '', loaderState: false}); //Disable the loader
       //----
       if (response.response !== undefined) {
         if (response.response === true) {
+          console.log(/new_user/i.test(globalObject.state.userStatus));
           //true
           //Correct
           //Check the net navigation
           if (/new_user/i.test(globalObject.state.userStatus)) {
+            console.log('go to new screen');
             //Create new account
             globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home

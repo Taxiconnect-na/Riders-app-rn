@@ -14,6 +14,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import RootScreens from './Navigation/RootScreens';
 import config from './Components/Helpers/config';
 import StorageManager from './Components/Helpers/StorageManager';
+import {enableScreens} from 'react-native-screens';
+
+enableScreens();
 //import {LogBox} from 'react-native';
 
 //LogBox.ignoreAllLogs();

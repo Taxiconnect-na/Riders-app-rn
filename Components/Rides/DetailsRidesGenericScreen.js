@@ -23,6 +23,8 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
+import {RFValue} from 'react-native-responsive-fontsize';
+import FastImage from 'react-native-fast-image';
 
 class DetailsRidesGenericScreen extends React.PureComponent {
   constructor(props) {
@@ -48,6 +50,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
+        //Update data
         globalObject.props.navigation.goBack();
         return true;
       },
@@ -201,11 +204,10 @@ class DetailsRidesGenericScreen extends React.PureComponent {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
               color: '#fff',
-              fontSize: 16,
-              marginLeft: 5,
+              fontSize: RFValue(16),
             }}>
             {date.replace(/\//g, '-')}
           </Text>
@@ -219,16 +221,15 @@ class DetailsRidesGenericScreen extends React.PureComponent {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
               color: '#fff',
-              fontSize: 16,
-              marginLeft: 5,
+              fontSize: RFValue(16),
               flex: 1,
             }}>
             {date}
           </Text>
-          <IconFeather name="package" size={25} color="#fff" />
+          <IconFeather name="package" size={23} color="#fff" />
         </>
       );
     }
@@ -278,9 +279,9 @@ class DetailsRidesGenericScreen extends React.PureComponent {
           style={{
             fontFamily:
               Platform.OS === 'android'
-                ? 'Allrounder-Grotesk-Book'
-                : 'Allrounder Grotesk Book',
-            fontSize: 16,
+                ? 'UberMoveTextRegular'
+                : 'Uber Move Text',
+            fontSize: RFValue(16),
             marginTop: 15,
             width: '80%',
             textAlign: 'center',
@@ -306,49 +307,34 @@ class DetailsRidesGenericScreen extends React.PureComponent {
    * Responsible for rendering the modal view only once.
    */
   renderError_modalView() {
-    if (
-      this._shouldShow_errorModal &&
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal
-    ) {
-      //Show once, and lock
-      this._shouldShow_errorModal = false; //!LOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    } else if (
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
-    ) {
-      //Disable modal lock when modal off
-      this._shouldShow_errorModal = true; //!UNLOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    } else {
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    }
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+        parentNode={this}
+      />
+    );
   }
 
   render() {
+    if (this.state.detailed_requestData.driver_details === undefined) {
+      <ScrollView
+        style={styles.mainWindow}
+        refreshControl={
+          <RefreshControl
+            onRefresh={() => this.pullRefreshRequest()}
+            refreshing={this.state.pullRefreshing}
+          />
+        }>
+        <StatusBar backgroundColor="#000" />
+        {this.state.loaderState ? (
+          <GenericLoader active={this.state.loaderState} thickness={4} />
+        ) : null}
+      </ScrollView>;
+    }
+    //...
     return (
       <ScrollView
         style={styles.mainWindow}
@@ -385,18 +371,19 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                 }}>
                 <View
                   style={{
-                    height: 150,
+                    height: 180,
                     alignItems: 'center',
                     justifyContent: 'center',
                     width: '100%',
                   }}>
-                  <Image
-                    source={require('../../Media_assets/Images/windhoekMap.png')}
-                    style={{
-                      resizeMode: 'cover',
-                      width: '100%',
-                      height: '100%',
+                  <FastImage
+                    source={{
+                      uri:
+                        'https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/17.0824,-22.5747,11.8,0/1280x1280?access_token=pk.eyJ1IjoiZG9taW5pcXVla3R0IiwiYSI6ImNrYXg0M3gyNDAybDgyem81cjZuMXp4dzcifQ.PpW6VnORUHYSYqNCD9n6Yg',
+                      priority: FastImage.priority.normal,
                     }}
+                    resizeMode={FastImage.resizeMode.cover}
+                    style={{width: '100%', height: '100%'}}
                   />
                 </View>
                 <View
@@ -423,539 +410,577 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                   )}
                 </View>
               </View>
-              <View style={{marginTop: 10}}>
-                <View style={{}}>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      color: '#a5a5a5',
-                      padding: 20,
-                      paddingBottom: 0,
-                    }}>
-                    {/ride/i.test(this.state.detailed_requestData.ride_mode)
-                      ? 'Trip'
-                      : 'Delivery'}
-                  </Text>
-                  <View
-                    style={{
-                      padding: 20,
-                    }}>
-                    <View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                        }}>
-                        <View style={{width: 16, height: '87%', top: 6}}>
-                          <View style={{position: 'absolute', top: 0}}>
-                            <View
-                              style={{
-                                height: 11,
-                                width: 11,
-                                borderRadius: 100,
-                                backgroundColor: '#000',
-                              }}
-                            />
-                          </View>
-
-                          <View
-                            style={{
-                              flex: 1,
-                              left: 5,
-                              width: 1.5,
-                              height: 50,
-                              backgroundColor: '#000',
-                            }}></View>
-                          <View style={{position: 'absolute', bottom: 0}}>
-                            <View
-                              style={{
-                                height: 11,
-                                width: 11,
-                                borderRadius: 0,
-                                backgroundColor: '#096ED4',
-                              }}
-                            />
-                          </View>
-                        </View>
-                        <View style={{flex: 1}}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                            }}>
-                            <View style={{width: 35}}>
-                              <Text
+              {this.state.detailed_requestData.driver_details !== undefined ? (
+                <View style={{marginTop: 10}}>
+                  <View style={{}}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(17),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        color: '#AFAFAF',
+                        padding: 20,
+                        paddingBottom: 0,
+                      }}>
+                      {/ride/i.test(this.state.detailed_requestData.ride_mode)
+                        ? 'Trip'
+                        : 'Delivery'}
+                    </Text>
+                    <View
+                      style={{
+                        padding: 20,
+                      }}>
+                      <View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}>
+                          <View style={{width: 16, height: '87%', top: 6}}>
+                            <View style={{position: 'absolute', top: 0}}>
+                              <View
                                 style={{
-                                  fontFamily:
-                                    Platform.OS === 'android'
-                                      ? 'Allrounder-Grotesk-Book'
-                                      : 'Allrounder Grotesk Book',
-                                  fontSize: 14,
-                                  top: 2,
-                                }}>
-                                From
-                              </Text>
+                                  height: 11,
+                                  width: 11,
+                                  borderRadius: 100,
+                                  backgroundColor: '#000',
+                                }}
+                              />
                             </View>
+
                             <View
                               style={{
                                 flex: 1,
-                                alignItems: 'flex-start',
+                                left: 5,
+                                width: 1.5,
+                                height: 50,
+                                backgroundColor: '#000',
+                              }}></View>
+                            <View style={{position: 'absolute', bottom: 0}}>
+                              <View
+                                style={{
+                                  height: 11,
+                                  width: 11,
+                                  borderRadius: 0,
+                                  backgroundColor: '#096ED4',
+                                }}
+                              />
+                            </View>
+                          </View>
+                          <View style={{flex: 1}}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
                               }}>
+                              <View style={{width: 35}}>
+                                <Text
+                                  style={{
+                                    fontFamily:
+                                      Platform.OS === 'android'
+                                        ? 'UberMoveTextRegular'
+                                        : 'Uber Move Text Regular',
+                                    fontSize: RFValue(14),
+                                    top: 2,
+                                  }}>
+                                  From
+                                </Text>
+                              </View>
                               <View
                                 style={{
                                   flex: 1,
                                   alignItems: 'flex-start',
                                 }}>
+                                <View
+                                  style={{
+                                    flex: 1,
+                                    alignItems: 'flex-start',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontFamily:
+                                        Platform.OS === 'android'
+                                          ? 'UberMoveTextMedium'
+                                          : 'Uber Move Text Medium',
+                                      fontSize: RFValue(17),
+                                      marginLeft: 5,
+                                      flex: 1,
+                                    }}>
+                                    {String(
+                                      this.state.detailed_requestData
+                                        .pickup_name,
+                                    )}
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                            {/**Destination */}
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                marginTop: 25,
+                              }}>
+                              <View style={{width: 35}}>
                                 <Text
                                   style={{
                                     fontFamily:
                                       Platform.OS === 'android'
-                                        ? 'Allrounder-Grotesk-Medium'
-                                        : 'Allrounder Grotesk Medium',
-                                    fontSize: 17,
-                                    marginLeft: 5,
-                                    flex: 1,
+                                        ? 'UberMoveTextRegular'
+                                        : 'Uber Move Text Regular',
+                                    fontSize: RFValue(14),
+                                    top: 1,
                                   }}>
-                                  {String(
-                                    this.state.detailed_requestData.pickup_name,
-                                  )}
+                                  To
                                 </Text>
                               </View>
-                            </View>
-                          </View>
-                          {/**Destination */}
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              marginTop: 25,
-                            }}>
-                            <View style={{width: 35}}>
-                              <Text
+                              <View
                                 style={{
-                                  fontFamily:
-                                    Platform.OS === 'android'
-                                      ? 'Allrounder-Grotesk-Book'
-                                      : 'Allrounder Grotesk Book',
-                                  fontSize: 14,
-                                  top: 1,
+                                  flex: 1,
+                                  alignItems: 'flex-start',
                                 }}>
-                                To
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flex: 1,
-                                alignItems: 'flex-start',
-                              }}>
-                              {this.state.detailed_requestData.destination_name
-                                .split(',')
-                                .map((destination, index) => {
-                                  return (
-                                    <View
-                                      key={String(index + 1)}
-                                      style={{
-                                        flex: 1,
-                                        alignItems: 'flex-start',
-                                        marginTop: index > 0 ? 5 : 0,
-                                      }}>
+                                {this.state.detailed_requestData.destination_name
+                                  .split(',')
+                                  .map((destination, index) => {
+                                    return (
                                       <View
+                                        key={String(index + 1)}
                                         style={{
                                           flex: 1,
-                                          flexDirection: 'row',
-                                          alignItems: 'center',
+                                          alignItems: 'flex-start',
+                                          marginTop: index > 0 ? 5 : 0,
                                         }}>
-                                        {this.state.detailed_requestData.destination_name.split(
-                                          ',',
-                                        ).length > 1 ? (
+                                        <View
+                                          style={{
+                                            flex: 1,
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                          }}>
+                                          {this.state.detailed_requestData.destination_name.split(
+                                            ',',
+                                          ).length > 1 ? (
+                                            <View
+                                              style={{
+                                                height: '100%',
+                                                justifyContent: 'flex-start',
+                                              }}>
+                                              <Text
+                                                style={{
+                                                  fontFamily:
+                                                    Platform.OS === 'android'
+                                                      ? 'UberMoveTextRegular'
+                                                      : 'Uber Move Text',
+                                                  fontSize: RFValue(17),
+                                                  color: '#096ED4',
+                                                }}>
+                                                {index + 1 + '. '}
+                                              </Text>
+                                            </View>
+                                          ) : null}
                                           <View
                                             style={{
                                               height: '100%',
-                                              justifyContent: 'flex-start',
+                                              alignItems: 'flex-start',
                                             }}>
                                             <Text
                                               style={{
                                                 fontFamily:
                                                   Platform.OS === 'android'
-                                                    ? 'Allrounder-Grotesk-Regular'
-                                                    : 'Allrounder Grotesk',
-                                                fontSize: 17,
-                                                color: '#096ED4',
+                                                    ? 'UberMoveTextRegular'
+                                                    : 'Uber Move Text',
+                                                fontSize: RFValue(17),
                                               }}>
-                                              {index + 1 + '. '}
+                                              {destination.trim()}.
                                             </Text>
                                           </View>
-                                        ) : null}
-                                        <View
-                                          style={{
-                                            height: '100%',
-                                            alignItems: 'flex-start',
-                                          }}>
-                                          <Text
-                                            style={{
-                                              fontFamily:
-                                                Platform.OS === 'android'
-                                                  ? 'Allrounder-Grotesk-Regular'
-                                                  : 'Allrounder Grotesk',
-                                              fontSize: 16.5,
-                                            }}>
-                                            {destination.trim()}.
-                                          </Text>
                                         </View>
                                       </View>
-                                    </View>
-                                  );
-                                })}
+                                    );
+                                  })}
+                              </View>
                             </View>
                           </View>
                         </View>
                       </View>
                     </View>
-                  </View>
-                  {/**ETA */}
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      padding: 20,
-                      borderTopWidth: 0.7,
-                      borderTopColor: '#d0d0d0',
-                      borderBottomWidth: 0.7,
-                      borderBottomColor: '#d0d0d0',
-                      backgroundColor: '#fafafa',
-                    }}>
-                    <View>
-                      <View
-                        style={{
-                          top: 1,
-                          height: 10,
-                          width: 10,
-                          borderWidth: 3,
-                          borderColor: '#096ED4',
-                          borderRadius: 100,
-                          backgroundColor: '#fff',
-                        }}
-                      />
-                    </View>
-                    {this.state.detailed_requestData.estimated_travel_time !==
-                      undefined &&
-                    this.state.detailed_requestData.estimated_travel_time !==
-                      false &&
-                    this.state.detailed_requestData.estimated_travel_time !==
-                      null ? (
-                      <Text
-                        style={{
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
-                          fontSize: 16.5,
-                          marginLeft: 5,
-                          flex: 1,
-                        }}>
-                        Approximately{' '}
+                    {/**ETA */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        padding: 20,
+                        backgroundColor: '#EEEEEE',
+                      }}>
+                      <View>
+                        <View
+                          style={{
+                            top: 1,
+                            height: 10,
+                            width: 10,
+                            borderWidth: 3,
+                            borderColor: '#096ED4',
+                            borderRadius: 100,
+                            backgroundColor: '#fff',
+                          }}
+                        />
+                      </View>
+                      {this.state.detailed_requestData.estimated_travel_time !==
+                        undefined &&
+                      this.state.detailed_requestData.estimated_travel_time !==
+                        false &&
+                      this.state.detailed_requestData.estimated_travel_time !==
+                        null ? (
                         <Text
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
-                            fontSize: 16,
+                                ? 'UberMoveTextLight'
+                                : 'Uber Move Text Light',
+                            fontSize: RFValue(16),
                             marginLeft: 5,
-                            color: '#096ED4',
+                            flex: 1,
                           }}>
-                          {this.state.detailed_requestData.estimated_travel_time.replace(
-                            ' away',
-                            '',
-                          )}
-                          .
+                          Approximately{' '}
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(16),
+                              marginLeft: 5,
+                              color: '#096ED4',
+                            }}>
+                            {this.state.detailed_requestData.estimated_travel_time.replace(
+                              ' away',
+                              '',
+                            )}
+                            .
+                          </Text>
                         </Text>
-                      </Text>
-                    ) : (
+                      ) : (
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextLight'
+                                : 'Uber Move Text Light',
+                            fontSize: RFValue(16.5),
+                            marginLeft: 5,
+                            flex: 1,
+                          }}>
+                          ...
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      padding: 20,
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#EEEEEE',
+                      height: 70,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        flex: 1,
+                      }}>
+                      {/cash/i.test(
+                        String(this.state.detailed_requestData.payment_method),
+                      ) ? (
+                        <View style={{width: 20, height: 20}}>
+                          <Image
+                            source={require('../../Media_assets/Images/cash-payment.png')}
+                            style={{
+                              resizeMode: 'contain',
+                              width: '100%',
+                              height: '100%',
+                            }}
+                          />
+                        </View>
+                      ) : (
+                        <View style={{width: 20, height: 20}}>
+                          <Image
+                            source={require('../../Media_assets/Images/wallet.png')}
+                            style={{
+                              resizeMode: 'contain',
+                              width: '100%',
+                              height: '100%',
+                            }}
+                          />
+                        </View>
+                      )}
+
                       <Text
                         style={{
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
-                          fontSize: 16.5,
-                          marginLeft: 5,
-                          flex: 1,
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          fontSize: RFValue(18),
+                          marginLeft: 4,
                         }}>
-                        ...
+                        {String(
+                          this.state.detailed_requestData.payment_method,
+                        )[0] +
+                          String(this.state.detailed_requestData.payment_method)
+                            .substring(
+                              1,
+                              String(
+                                this.state.detailed_requestData.payment_method,
+                              ).length,
+                            )
+                            .toLowerCase()}
                       </Text>
-                    )}
+                    </View>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(20),
+                        color: '#09864A',
+                        flex: 1,
+                        textAlign: 'center',
+                      }}>
+                      {'N$' + this.state.detailed_requestData.fare_amount}
+                    </Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        flex: 1,
+                      }}>
+                      <View style={{width: 13, height: 13}}>
+                        <Image
+                          source={require('../../Media_assets/Images/user-3.png')}
+                          style={{
+                            resizeMode: 'contain',
+                            width: '100%',
+                            height: '100%',
+                          }}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          fontSize: RFValue(18),
+                          marginLeft: 4,
+                        }}>
+                        {this.state.detailed_requestData.numberOf_passengers}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                <View
-                  style={{
-                    padding: 20,
-                    borderBottomWidth: 0.7,
-                    borderBottomColor: '#d0d0d0',
-                    height: 70,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
                   <View
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      flex: 1,
+                      padding: 20,
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#EEEEEE',
                     }}>
-                    {/cash/i.test(
-                      String(this.state.detailed_requestData.payment_method),
-                    ) ? (
-                      <IconCommunity
-                        name="cash-usd"
-                        color={'black'}
-                        size={25}
-                      />
-                    ) : (
-                      <IconMaterialIcons name="credit-card" size={25} />
-                    )}
+                    <Text
+                      style={{
+                        fontSize: RFValue(17),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        color: '#AFAFAF',
+                        paddingBottom: 25,
+                        marginTop: 10,
+                      }}>
+                      Driver
+                    </Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={{flexDirection: 'row', flex: 1}}>
+                        <View
+                          style={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: 150,
+                            alignItems: 'center',
+                            borderWidth: 0.5,
+                            borderColor: '#d0d0d0',
+                            justifyContent: 'center',
+                            backgroundColor: '#fff',
+                            shadowColor: '#000',
+                            shadowOffset: {
+                              width: 0,
+                              height: 2,
+                            },
+                            shadowOpacity: 0.25,
+                            shadowRadius: 3.84,
 
-                    <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 18,
-                        marginLeft: 4,
-                      }}>
-                      {String(
-                        this.state.detailed_requestData.payment_method,
-                      )[0] +
-                        String(this.state.detailed_requestData.payment_method)
-                          .substring(
-                            1,
-                            String(
-                              this.state.detailed_requestData.payment_method,
-                            ).length,
+                            elevation: 3,
+                          }}>
+                          <Image
+                            source={require('../../Media_assets/Images/driver.jpg')}
+                            style={{
+                              resizeMode: 'cover',
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: 150,
+                            }}
+                          />
+                        </View>
+                        <View style={{marginLeft: 10}}>
+                          <Text
+                            style={{
+                              fontSize: RFValue(16.5),
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                            }}>
+                            {
+                              this.state.detailed_requestData.driver_details
+                                .name
+                            }
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: RFValue(17),
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextMedium'
+                                  : 'Uber Move Text Medium',
+                              color: '#096ED4',
+                            }}>
+                            {
+                              this.state.detailed_requestData.car_details
+                                .taxi_number
+                            }
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <IconMaterialIcons
+                          name="star"
+                          color="#FFC043"
+                          size={20}
+                        />
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                            fontSize: RFValue(18),
+                          }}>
+                          {/notYet/i.test(
+                            this.state.detailed_requestData.ride_rating,
                           )
-                          .toLowerCase()}
-                    </Text>
+                            ? 'Not rated'
+                            : this.state.detailed_requestData.ride_rating}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
-                  <Text
-                    style={{
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                      fontSize: 20,
-                      color: 'green',
-                      flex: 1,
-                      textAlign: 'center',
-                    }}>
-                    {'N$' + this.state.detailed_requestData.fare_amount}
-                  </Text>
                   <View
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'flex-end',
-                      flex: 1,
+                      padding: 20,
+                      marginBottom: 50,
                     }}>
-                    <IconAnt name="user" size={17} />
                     <Text
                       style={{
+                        fontSize: RFValue(17),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 18,
-                        marginLeft: 4,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        color: '#AFAFAF',
+                        paddingBottom: 25,
+                        marginTop: 10,
                       }}>
-                      {this.state.detailed_requestData.numberOf_passengers}
+                      Car details
                     </Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    padding: 20,
-                    borderBottomWidth: 0.7,
-                    borderBottomColor: '#d0d0d0',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      color: '#a5a5a5',
-                      paddingBottom: 25,
-                      marginBottom: 10,
-                    }}>
-                    Driver
-                  </Text>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={{flexDirection: 'row', flex: 1}}>
+                    <View style={{flexDirection: 'row'}}>
                       <View
                         style={{
-                          width: 45,
-                          height: 45,
-                          borderRadius: 150,
+                          borderWidth: 1,
+                          borderColor: '#EEEEEE',
+                          width: 130,
+                          height: 70,
+                          borderRadius: 3,
                           alignItems: 'center',
-                          borderWidth: 0.5,
-                          borderColor: '#d0d0d0',
                           justifyContent: 'center',
-                          backgroundColor: '#fff',
-                          shadowColor: '#000',
-                          shadowOffset: {
-                            width: 0,
-                            height: 2,
-                          },
-                          shadowOpacity: 0.25,
-                          shadowRadius: 3.84,
-
-                          elevation: 3,
                         }}>
                         <Image
-                          source={require('../../Media_assets/Images/driver.jpg')}
+                          source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
                           style={{
                             resizeMode: 'cover',
                             width: '100%',
                             height: '100%',
-                            borderRadius: 150,
                           }}
                         />
                       </View>
-                      <View style={{marginLeft: 10}}>
+                      <View style={{marginLeft: 10, flex: 1}}>
                         <Text
                           style={{
-                            fontSize: 16.5,
+                            fontSize: RFValue(17),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
-                          }}>
-                          {this.state.detailed_requestData.driver_details.name}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 17,
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
-                            color: '#096ED4',
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
                           }}>
                           {
                             this.state.detailed_requestData.car_details
-                              .taxi_number
+                              .plate_number
                           }
                         </Text>
-                      </View>
-                    </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <IconMaterialIcons name="star" size={20} />
-                      <Text
-                        style={{
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk',
-                          fontSize: 17.5,
-                        }}>
-                        {/notYet/i.test(
-                          this.state.detailed_requestData.ride_rating,
-                        )
-                          ? 'Not rated'
-                          : this.state.detailed_requestData.ride_rating}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    padding: 20,
-                    marginBottom: 50,
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      color: '#a5a5a5',
-                      paddingBottom: 15,
-                    }}>
-                    Car details
-                  </Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        borderColor: '#d0d0d0',
-                        width: 130,
-                        height: 70,
-                        borderRadius: 3,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                      <Image
-                        source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
-                        style={{
-                          resizeMode: 'cover',
-                          width: '100%',
-                          height: '100%',
-                        }}
-                      />
-                    </View>
-                    <View style={{marginLeft: 10, flex: 1}}>
-                      <Text
-                        style={{
-                          fontSize: 17,
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
-                        }}>
-                        {
-                          this.state.detailed_requestData.car_details
-                            .plate_number
-                        }
-                      </Text>
-                      <Text
-                        style={{
-                          fontSize: 16.5,
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
-                        }}>
-                        {this.state.detailed_requestData.car_details.car_brand}
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginTop: 8,
-                          alignItems: 'center',
-                        }}>
-                        <IconFeather name="shield" color="green" size={16} />
                         <Text
                           style={{
-                            fontSize: 14,
+                            fontSize: RFValue(16.5),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Book'
-                                : 'Allrounder Grotesk Book',
-                            color: 'green',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           }}>
                           {
                             this.state.detailed_requestData.car_details
-                              .verification_status
+                              .car_brand
                           }
                         </Text>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            marginTop: 8,
+                            alignItems: 'center',
+                          }}>
+                          <IconMaterialIcons
+                            name="shield"
+                            color="#09864A"
+                            size={14}
+                          />
+                          <Text
+                            style={{
+                              fontSize: RFValue(14),
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextLight'
+                                  : 'Uber Move Text Light',
+                              color: '#09864A',
+                            }}>
+                            {
+                              this.state.detailed_requestData.car_details
+                                .verification_status
+                            }
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   </View>
                 </View>
-              </View>
+              ) : null}
             </>
           ) : (
             this.fillForEmptyRequests()

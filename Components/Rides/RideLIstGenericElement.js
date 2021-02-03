@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconOcticons from 'react-native-vector-icons/Octicons';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class RideLIstGenericElement extends React.PureComponent {
   constructor(props) {
@@ -41,31 +42,32 @@ class RideLIstGenericElement extends React.PureComponent {
                 style={{top: 6}}
               />
             </View>
-            <View style={{}}>
+            <View style={{flex: 1, paddingRight: 10}}>
               <Text
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 17,
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
+                  fontSize: RFValue(17),
                   marginBottom: 5,
+                  flex: 1,
                 }}>
                 To{' '}
-                {this.props.requestLightData.destination_name.length < 25
+                {this.props.requestLightData.destination_name.length < 30
                   ? this.props.requestLightData.destination_name
                   : this.props.requestLightData.destination_name.substring(
                       0,
-                      25,
+                      30,
                     ) + '...'}
               </Text>
               <Text
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
-                  fontSize: 14,
+                      ? 'UberMoveTextLight'
+                      : 'Uber Move Text Light',
+                  fontSize: RFValue(16),
                   marginBottom: 5,
                 }}>
                 {this.props.requestLightData.date_requested}
@@ -74,9 +76,10 @@ class RideLIstGenericElement extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
-                  fontSize: 14,
+                      ? 'UberMoveTextLight'
+                      : 'Uber Move Text Light',
+                  fontSize: RFValue(16),
+                  color: '#0e8491',
                 }}>
                 {this.props.requestLightData.car_brand}
               </Text>
@@ -100,8 +103,8 @@ class RideLIstGenericElement extends React.PureComponent {
 
 const styles = StyleSheet.create({
   rideItemMainView: {
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#d0d0d0',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E2E2',
     padding: 20,
     flexDirection: 'row',
     marginBottom: 20,

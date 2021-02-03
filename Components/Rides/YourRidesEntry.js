@@ -23,6 +23,8 @@ import NetInfo from '@react-native-community/netinfo';
 import RideLIstGenericElement from './RideLIstGenericElement';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFeather from 'react-native-vector-icons/Feather';
+import {ScrollView} from 'react-native-gesture-handler';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 //const DATA = new Array(2).fill(50);
 
@@ -58,6 +60,13 @@ class YourRidesEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = this.props.navigation.addListener(
+      'focus',
+      () => {
+        globalObject.fetchRequestedRequests_history();
+      },
+    );
     this._isMounted = true;
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
@@ -127,7 +136,6 @@ class YourRidesEntry extends React.PureComponent {
     this.props.App.socket.on(
       'getRides_historyRiders_batchOrNot-response',
       function (response) {
-        console.log(response);
         globalObject.setState({
           loaderState: false,
           fetchingRides_Data: false,
@@ -223,12 +231,14 @@ class YourRidesEntry extends React.PureComponent {
    * }
    */
   fetchRequestedRequests_history(type = false) {
+    //...
     this.setState({
       loaderState: true,
       fetchingRides_Data: true,
       areResultsEmpty: false,
       gotErrorDuringRequest: false,
     }); //Activate the loader
+    this.props.App.rides_history_details_data.rides_history_data = []; //! CLEAN HISTORY ARRAY.
     //Get from the server
     this.props.App.socket.emit('getRides_historyRiders_batchOrNot', {
       user_fingerprint: this.props.App.user_fingerprint,
@@ -250,16 +260,16 @@ class YourRidesEntry extends React.PureComponent {
             alignItems: 'center',
             paddingTop: '35%',
           }}>
-          <IconEntypo name="box" size={40} color="#a5a5a5" />
+          <IconEntypo name="box" size={40} color="#757575" />
           <Text
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
-              fontSize: 18,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              fontSize: RFValue(18),
               marginTop: 15,
-              color: '#a5a5a5',
+              color: '#757575',
             }}>
             No requests so far.
           </Text>
@@ -274,16 +284,16 @@ class YourRidesEntry extends React.PureComponent {
             alignItems: 'center',
             paddingTop: '35%',
           }}>
-          <IconFeather name="clock" size={40} color="#a5a5a5" />
+          <IconFeather name="clock" size={40} color="#757575" />
           <Text
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
-              fontSize: 18,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              fontSize: RFValue(18),
               marginTop: 15,
-              color: '#a5a5a5',
+              color: '#757575',
             }}>
             No pending scheduled requests so far.
           </Text>
@@ -298,15 +308,16 @@ class YourRidesEntry extends React.PureComponent {
             alignItems: 'center',
             paddingTop: '35%',
           }}>
-          <IconFeather name="briefcase" size={40} color="#a5a5a5" />
+          <IconFeather name="briefcase" size={40} color="#757575" />
           <Text
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
-              fontSize: 16,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              fontSize: RFValue(18),
               marginTop: 15,
+              color: '#757575',
             }}>
             No business requests made so far.
           </Text>
@@ -329,46 +340,15 @@ class YourRidesEntry extends React.PureComponent {
    * Responsible for rendering the modal view only once.
    */
   renderError_modalView() {
-    if (
-      this._shouldShow_errorModal &&
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal
-    ) {
-      //Show once, and lock
-      this._shouldShow_errorModal = false; //!LOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    } else if (
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
-    ) {
-      //Disable modal lock when modal off
-      this._shouldShow_errorModal = true; //!UNLOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    } else {
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    }
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+        parentNode={this}
+      />
+    );
   }
 
   render() {
@@ -383,7 +363,8 @@ class YourRidesEntry extends React.PureComponent {
               : null}
 
             {this.state.fetchingRides_Data === false ? (
-              this.state.areResultsEmpty === false ? (
+              this.props.App.rides_history_details_data.rides_history_data
+                .length > 0 ? (
                 <FlatList
                   data={
                     this.props.App.rides_history_details_data.rides_history_data
@@ -408,7 +389,16 @@ class YourRidesEntry extends React.PureComponent {
                   )}
                 />
               ) : (
-                this.fillForEmptyRequests()
+                <ScrollView
+                  style={styles.mainWindow}
+                  refreshControl={
+                    <RefreshControl
+                      onRefresh={() => this.pullRefreshRequest()}
+                      refreshing={this.state.pullRefreshing}
+                    />
+                  }>
+                  {this.fillForEmptyRequests()}
+                </ScrollView>
               )
             ) : null}
           </View>

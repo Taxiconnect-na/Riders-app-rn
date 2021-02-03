@@ -17,7 +17,6 @@ const carIcon_black = require('../../../Media_assets/Images/caradvanced_black.pn
 //...
 const privateLocationIco = require('../../../Media_assets/Images/home.jpeg');
 const airportLocationIco = require('../../../Media_assets/Images/flight.png');
-const routingIco = require('../../../Media_assets/Images/route.png');
 //Economy
 const carImageNormalRide = require('../../../Media_assets/Images/normaltaxieconomy.jpg');
 const carIconElectricRode = require('../../../Media_assets/Images/electricEconomy.jpg');
@@ -85,7 +84,6 @@ const STATE = {
   airportLocationIco: airportLocationIco,
   carImageNormalRide: carImageNormalRide,
   carIconElectricRode: carIconElectricRode,
-  routingIco: routingIco,
   //Comfort
   comfortrideNormal: comfortrideNormal,
   comfortrideElectric: comfortrideElectric,

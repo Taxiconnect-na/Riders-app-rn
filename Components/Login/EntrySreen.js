@@ -10,7 +10,6 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SyncStorage from 'sync-storage';
 import {acc} from 'react-native-reanimated';
@@ -152,7 +151,7 @@ class EntryScreen extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(26),
+                      fontSize: RFValue(30),
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'MoveBold'

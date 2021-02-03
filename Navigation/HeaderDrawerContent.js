@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {View, Text, StyleSheet, Image, Platform} from 'react-native';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class HeaderDrawerContent extends React.PureComponent {
   constructor(props) {
@@ -41,22 +42,26 @@ class HeaderDrawerContent extends React.PureComponent {
             style={{
               resizeMode:
                 this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null
+                this.props.App.user_profile_pic !== null &&
+                !/user\.png/i.test(this.props.App.user_profile_pic)
                   ? 'cover'
                   : 'contain',
               width:
                 this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null
+                this.props.App.user_profile_pic !== null &&
+                !/user\.png/i.test(this.props.App.user_profile_pic)
                   ? '100%'
                   : '60%',
               height:
                 this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null
+                this.props.App.user_profile_pic !== null &&
+                !/user\.png/i.test(this.props.App.user_profile_pic)
                   ? '100%'
                   : '80%',
               borderRadius:
                 this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null
+                this.props.App.user_profile_pic !== null &&
+                !/user\.png/i.test(this.props.App.user_profile_pic)
                   ? 200
                   : 0,
             }}
@@ -67,9 +72,9 @@ class HeaderDrawerContent extends React.PureComponent {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Medium'
-                  : 'Allrounder Grotesk Medium',
-              fontSize: 18,
+                  ? 'UberMoveTextMedium'
+                  : 'Uber Move Text Medium',
+              fontSize: RFValue(19),
               width: '100%',
               textAlign: 'left',
               paddingLeft: 10,
@@ -87,7 +92,6 @@ class HeaderDrawerContent extends React.PureComponent {
               flexDirection: 'row',
               paddingLeft: 10,
               paddingRight: 10,
-              marginTop: 5,
               width: '100%',
               alignItems: 'center',
             }}>
@@ -95,9 +99,9 @@ class HeaderDrawerContent extends React.PureComponent {
               style={{
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Regular'
-                    : 'Allrounder Grotesk',
-                fontSize: 15,
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
+                fontSize: RFValue(15),
                 textAlign: 'center',
                 color: '#ffff',
               }}>

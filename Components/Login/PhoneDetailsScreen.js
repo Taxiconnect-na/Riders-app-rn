@@ -17,6 +17,7 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {
   ValidateGenericPhoneNumber,
   UpdateErrorModalLog,
+  ResetGenericPhoneNumberInput,
 } from '../Redux/HomeActionsCreators';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
@@ -35,6 +36,13 @@ class PhoneDetailsScreen extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        globalObject.props.ResetGenericPhoneNumberInput();
+      },
+    );
     //Auto reset phone number validity to false
     this.props.App.isPhoneNumberValid = false;
     //Network state checker
@@ -264,6 +272,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       ValidateGenericPhoneNumber,
       UpdateErrorModalLog,
+      ResetGenericPhoneNumberInput,
     },
     dispatch,
   );

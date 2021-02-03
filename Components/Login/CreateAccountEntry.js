@@ -38,19 +38,8 @@ class CreateAccountEntry extends React.PureComponent {
     };
   }
 
-  componentWillUnmount() {
-    //Reset phone number
-    this.props.ResetGenericPhoneNumberInput();
-    if (this.state.networkStateChecker !== false) {
-      this.state.networkStateChecker();
-    }
-    //...
-    if (this.backHander !== null) {
-      this.backHander.remove();
-    }
-  }
-
   componentDidMount() {
+    console.log('CREATE NEW ACCOUNT SCREEN');
     let globalObject = this;
     this.state.creatingAccount = false; //? Reinitialize creating account state var to false.
     this.backHander = BackHandler.addEventListener(
@@ -64,7 +53,7 @@ class CreateAccountEntry extends React.PureComponent {
     );
 
     //Network state checker
-    this.state.networkStateChecker = NetInfo.addEventListener((state) => {
+    /*this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {
         globalObject.props.UpdateErrorModalLog(
           state.isConnected,
@@ -103,7 +92,7 @@ class CreateAccountEntry extends React.PureComponent {
     });
     this.props.App.socket.on('reconnect_failed', () => {
       globalObject.props.App.socket.connect();
-    });
+    });*/
 
     /**
      * SOCKET.IO RESPONSES
@@ -156,6 +145,19 @@ class CreateAccountEntry extends React.PureComponent {
     );
   }
 
+  componentWillUnmount() {
+    console.log('UNMMOUNTING CREATE ACCOUNT SCREEN');
+    //Reset phone number
+    this.props.ResetGenericPhoneNumberInput();
+    if (this.state.networkStateChecker !== false) {
+      this.state.networkStateChecker();
+    }
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
+  }
+
   /**
    * @func goBackFUncPhoneInput
    * Responsible for going back the phone number verification and
@@ -163,6 +165,7 @@ class CreateAccountEntry extends React.PureComponent {
    *
    */
   goBackFUncPhoneInput() {
+    console.log('GO BACK TO DETAILS PHONE CREATE ACCOUNT SCREEN');
     this.props.ResetGenericPhoneNumberInput();
     this.props.navigation.navigate('PhoneDetailsScreen');
   }

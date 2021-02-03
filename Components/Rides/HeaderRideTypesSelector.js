@@ -7,6 +7,7 @@ import {
   ResetGenericPhoneNumberInput,
   UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class HeaderRideTypesSelector extends React.PureComponent {
   constructor(props) {
@@ -32,10 +33,10 @@ class HeaderRideTypesSelector extends React.PureComponent {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
-              color: '#f0f0f0',
-              fontSize: 18,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              color: '#E2E2E2',
+              fontSize: RFValue(18),
             }}>
             {this.props.App.shownRides_types}
           </Text>
@@ -43,7 +44,7 @@ class HeaderRideTypesSelector extends React.PureComponent {
             name="arrow-drop-down"
             size={20}
             style={{top: 2}}
-            color="#f0f0f0"
+            color="#E2E2E2"
           />
         </TouchableOpacity>
       </>
@@ -55,9 +56,9 @@ const styles = StyleSheet.create({
   mainWindow:
     Platform.OS === 'android'
       ? {
-          borderWidth: 0.7,
+          borderWidth: 1,
           borderRadius: 200,
-          borderColor: '#d0d0d0',
+          borderColor: '#E2E2E2',
           backgroundColor: '#1a1a1a',
           right: 20,
           padding: 5,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
       : {
           borderWidth: 1,
           borderRadius: 200,
-          borderColor: '#d0d0d0',
+          borderColor: '#E2E2E2',
           backgroundColor: '#1a1a1a',
           right: 10,
           paddingLeft: 10,

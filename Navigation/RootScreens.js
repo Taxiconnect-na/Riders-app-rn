@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Platform} from 'react-native';
+import {View, Text, Platform, StyleSheet} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import EntryScreen from '../Components/Login/EntrySreen';
@@ -25,9 +25,20 @@ import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryS
 import OTPVerificationGeneric from '../Components/Settings/OTPVerificationGeneric';
 import SupportEntry from '../Components/Support/SupportEntry';
 import {MainDrawerContent} from './MainDrawerContent';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
+const styles = StyleSheet.create({
+  genericHeader: {
+    fontFamily:
+      Platform.OS === 'android' ? 'UberMoveTextRegular' : 'Uber Move Text',
+    fontSize: RFValue(20),
+    right: Platform.OS === 'android' ? 20 : 0,
+    color: '#fff',
+  },
+});
 
 //a. Your rides screens
 function YourRidesEntry_drawer() {
@@ -50,18 +61,7 @@ function YourRidesEntry_drawer() {
                 alignItems: 'center',
                 paddingRight: 10,
               }}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Your requests
-              </Text>
+              <Text style={styles.genericHeader}>Your requests</Text>
             </View>
           ),
           headerRight: () => <HeaderRideTypesSelector />,
@@ -77,18 +77,7 @@ function YourRidesEntry_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Details
-              </Text>
+              <Text style={styles.genericHeader}>Details</Text>
             </View>
           ),
         }}
@@ -142,18 +131,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Transfer funds
-              </Text>
+              <Text style={styles.genericHeader}>Transfer funds</Text>
             </View>
           ),
         }}
@@ -168,18 +146,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Pay a driver
-              </Text>
+              <Text style={styles.genericHeader}>Pay a driver</Text>
             </View>
           ),
         }}
@@ -195,18 +162,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Top-up amount
-              </Text>
+              <Text style={styles.genericHeader}>Top-up amount</Text>
             </View>
           ),
         }}
@@ -221,18 +177,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Confirmation
-              </Text>
+              <Text style={styles.genericHeader}>Confirmation</Text>
             </View>
           ),
         }}
@@ -247,18 +192,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Top-up your wallet
-              </Text>
+              <Text style={styles.genericHeader}>Top-up your wallet</Text>
             </View>
           ),
         }}
@@ -273,18 +207,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Transfer funds
-              </Text>
+              <Text style={styles.genericHeader}>Transfer funds</Text>
             </View>
           ),
         }}
@@ -299,18 +222,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Transfer funds
-              </Text>
+              <Text style={styles.genericHeader}>Transfer funds</Text>
             </View>
           ),
         }}
@@ -325,18 +237,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Payment settings
-              </Text>
+              <Text style={styles.genericHeader}>Payment settings</Text>
             </View>
           ),
         }}
@@ -361,18 +262,7 @@ function Support_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Support
-              </Text>
+              <Text style={styles.genericHeader}>Support</Text>
             </View>
           ),
         }}
@@ -396,18 +286,7 @@ function SettingsDrawer_navigator() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Settings
-              </Text>
+              <Text style={styles.genericHeader}>Settings</Text>
             </View>
           ),
         }}
@@ -423,18 +302,7 @@ function SettingsDrawer_navigator() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                  fontSize: 20,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#fff',
-                }}>
-                Personal information
-              </Text>
+              <Text style={styles.genericHeader}>Personal information</Text>
             </View>
           ),
         }}
@@ -486,6 +354,11 @@ function RootScreens() {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="CreateAccountEntry"
+        component={CreateAccountEntry}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="PhoneDetailsScreen"
         component={PhoneDetailsScreen}
         options={{headerShown: false}}
@@ -495,11 +368,7 @@ function RootScreens() {
         component={OTPVerificationEntry}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="CreateAccountEntry"
-        component={CreateAccountEntry}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name="NewAccountAdditionalDetails"
         component={NewAccountAdditionalDetails}

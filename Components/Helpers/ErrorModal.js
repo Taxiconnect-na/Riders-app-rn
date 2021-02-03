@@ -1419,7 +1419,7 @@ class ErrorModal extends React.PureComponent {
                       }}>
                       <IconMaterialIcons
                         name="shield"
-                        color="green"
+                        color="#09864A"
                         size={15}
                       />
                       <Text
@@ -1429,7 +1429,7 @@ class ErrorModal extends React.PureComponent {
                             Platform.OS === 'android'
                               ? 'Allrounder-Grotesk-Book'
                               : 'Allrounder Grotesk Book',
-                          color: 'green',
+                          color: '#09864A',
                         }}>
                         {
                           this.props.App.generalTRIP_details_driverDetails
@@ -1772,7 +1772,7 @@ class ErrorModal extends React.PureComponent {
                         ? 'Allrounder-Grotesk-Medium'
                         : 'Allrounder Grotesk Medium',
                     fontSize: 19,
-                    color: 'green',
+                    color: '#09864A',
                     flex: 1,
                     textAlign: 'center',
                   }}>

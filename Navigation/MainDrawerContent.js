@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import HeaderDrawerContent from './HeaderDrawerContent';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 export function MainDrawerContent(props) {
   return (
@@ -25,7 +26,7 @@ export function MainDrawerContent(props) {
             <Text style={styles.menuTitles}>Your rides</Text>
             <IconMaterialIcons
               name="keyboard-arrow-right"
-              color="#a5a5a5"
+              color="#AFAFAF"
               size={20}
             />
           </TouchableOpacity>
@@ -35,7 +36,7 @@ export function MainDrawerContent(props) {
             <Text style={styles.menuTitles}>Wallet</Text>
             <IconMaterialIcons
               name="keyboard-arrow-right"
-              color="#a5a5a5"
+              color="#AFAFAF"
               size={20}
             />
           </TouchableOpacity>
@@ -45,7 +46,7 @@ export function MainDrawerContent(props) {
             <Text style={styles.menuTitles}>Settings</Text>
             <IconMaterialIcons
               name="keyboard-arrow-right"
-              color="#a5a5a5"
+              color="#AFAFAF"
               size={20}
             />
           </TouchableOpacity>
@@ -55,7 +56,7 @@ export function MainDrawerContent(props) {
             <Text style={styles.menuTitles}>Support</Text>
             <IconMaterialIcons
               name="keyboard-arrow-right"
-              color="#a5a5a5"
+              color="#AFAFAF"
               size={20}
             />
           </TouchableOpacity>
@@ -65,9 +66,9 @@ export function MainDrawerContent(props) {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
-              fontSize: 15,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              fontSize: RFValue(16),
               flex: 1,
             }}>
             Legal
@@ -76,14 +77,14 @@ export function MainDrawerContent(props) {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
-              fontSize: 14,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              fontSize: RFValue(15),
               flex: 1,
-              color: '#a5a5a5',
+              color: '#AFAFAF',
               textAlign: 'right',
             }}>
-            v2.1.248
+            v2.1.258
           </Text>
         </View>
       </SafeAreaView>
@@ -106,9 +107,9 @@ const styles = StyleSheet.create({
   menuTitles: {
     fontFamily:
       Platform.OS === 'android'
-        ? 'Allrounder-Grotesk-Regular'
-        : 'Allrounder Grotesk',
-    fontSize: 20,
+        ? 'UberMoveTextMedium'
+        : 'Uber Move Text Medium',
+    fontSize: RFValue(20),
     flex: 1,
   },
   footerDrawer: {
