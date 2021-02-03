@@ -238,7 +238,7 @@ class RenderMainMapView extends React.PureComponent {
           else {
             if (label === 'destination') {
               this.props.App.previewDestinationData.destinationAnchor = {
-                x: -0.1,
+                x: 0,
                 y: 0.9,
               };
             } else {

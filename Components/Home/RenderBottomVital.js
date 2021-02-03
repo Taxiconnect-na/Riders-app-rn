@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  Easing,
   Image,
   ActivityIndicator,
   Platform,
@@ -17,9 +16,8 @@ import {
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconFeather from 'react-native-vector-icons/Feather';
+import {RFValue} from 'react-native-responsive-fontsize';
 //Import of action creators
 import {
   UpdateRiderOrPackagePossesserSwitcher,
@@ -715,15 +713,15 @@ class RenderBottomVital extends React.PureComponent {
                   style={{
                     marginRight: 5,
                   }}>
-                  <ActivityIndicator size="large" color="#0e8491" />
+                  <ActivityIndicator size="small" color="#0e8491" />
                 </View>
                 <Text
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
-                    fontSize: 19,
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(18.5),
                   }}>
                   Finding you a Taxi
                 </Text>

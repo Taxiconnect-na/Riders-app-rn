@@ -2631,13 +2631,13 @@ class RenderContentBottomVitals extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: 21,
                   marginTop: 15,
                   marginBottom: 25,
+                  fontSize: RFValue(19),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                 },
               ]}>
               Who's receiving the package?
@@ -2667,12 +2667,12 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={[
                   {
                     borderBottomWidth: 1.5,
-                    fontSize: 18,
+                    fontSize: RFValue(18),
                     paddingLeft: 0,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                   },
                 ]}
               />
@@ -2681,12 +2681,12 @@ class RenderContentBottomVitals extends React.PureComponent {
                   style={[
                     {
                       color: '#b22222',
-                      fontSize: 14,
+                      fontSize: RFValue(14),
                       top: 11,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   {this.props.App.errorReceiverNameText}
@@ -2705,20 +2705,15 @@ class RenderContentBottomVitals extends React.PureComponent {
               }}>
               <View
                 style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                <Image
-                  source={this.props.App.routingIco}
-                  style={{width: 20, height: 20, bottom: 14}}
-                />
                 <Text
                   style={[
                     {
-                      fontSize: 13,
+                      fontSize: RFValue(13),
                       marginLeft: 6,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
-                      lineHeight: 14,
+                          ? 'UberMoveTextLight'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   The receiver can use the app to track in real-time the
@@ -2778,13 +2773,13 @@ class RenderContentBottomVitals extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: 21,
                   marginTop: 15,
                   marginBottom: 25,
+                  fontSize: RFValue(19),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                 },
               ]}>
               What's your package size?
@@ -2844,28 +2839,28 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: 17.5,
+                        fontSize: RFValue(16.5),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
                       },
                     ]}>
-                    Envelope
+                    Small package
                   </Text>
                   <Text
                     style={[
                       {
-                        fontSize: 13.5,
-                        color: '#a5a5a5',
+                        fontSize: RFValue(13.5),
+                        color: '#757575',
                         marginTop: 5,
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
                       },
                     ]}>
-                    Small package (24cm x 25cm)
+                    24cm x 25cm
                   </Text>
                 </View>
                 <View
@@ -2879,7 +2874,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   ) ? (
                     <IconFeather
                       name="check"
-                      size={25}
+                      size={23}
                       style={{top: 1}}
                       color={'#0D8691'}
                     />
@@ -2941,28 +2936,28 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: 17.5,
+                        fontSize: RFValue(16.5),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
                       },
                     ]}>
-                    Small box
+                    Medium package
                   </Text>
                   <Text
                     style={[
                       {
-                        fontSize: 13.5,
-                        color: '#a5a5a5',
+                        fontSize: RFValue(13.5),
+                        color: '#757575',
                         marginTop: 5,
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
                       },
                     ]}>
-                    Medium package (47cm x 68cm x 50cm)
+                    47cm x 68cm x 50cm
                   </Text>
                 </View>
                 <View
@@ -3038,28 +3033,28 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: 17.5,
+                        fontSize: RFValue(16.5),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
                       },
                     ]}>
-                    Large box
+                    Large package
                   </Text>
                   <Text
                     style={[
                       {
-                        fontSize: 13.5,
-                        color: '#a5a5a5',
+                        fontSize: RFValue(13.5),
+                        color: '#757575',
                         marginTop: 5,
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
                       },
                     ]}>
-                    Large package (62cm x 46cm x 76cm)
+                    62cm x 46cm x 76cm
                   </Text>
                 </View>
                 <View
@@ -3092,16 +3087,14 @@ class RenderContentBottomVitals extends React.PureComponent {
               }}>
               <View
                 style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                <IconCommunity name="truck" size={16} style={{bottom: 15}} />
                 <Text
                   style={{
-                    fontSize: 13,
+                    fontSize: RFValue(13),
                     marginLeft: 6,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
-                    lineHeight: 14,
+                        ? 'UberMoveTextLight'
+                        : 'Uber Move Text Light',
                   }}>
                   Select the right package size for a better delivery handling
                   experience.

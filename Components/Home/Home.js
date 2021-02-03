@@ -772,6 +772,29 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
+        //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
+        if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
+          /*globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
+          //Reset
+          globalObject._RESET_STATE();
+          //Recalibrate map
+          if (
+            globalObject.map !== undefined &&
+            globalObject.map !== null &&
+            globalObject.camera !== undefined &&
+            globalObject.camera !== null
+          ) {
+            globalObject.camera.setCamera({
+              centerCoordinate: [
+                globalObject.props.App.longitude,
+                globalObject.props.App.latitude,
+              ],
+              zoomLevel: 14,
+              animationDuration: 2000,
+            });
+          }*/
+        }
+
         //1. Trip in progress: in route to pickup or in route to drop off
         if (
           response.response === undefined &&
@@ -1219,24 +1242,6 @@ class Home extends React.PureComponent {
             globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
           );
           globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
-          //Reset
-          globalObject._RESET_STATE();
-          //Recalibrate map
-          if (
-            globalObject.map !== undefined &&
-            globalObject.map !== null &&
-            globalObject.camera !== undefined &&
-            globalObject.camera !== null
-          ) {
-            globalObject.camera.setCamera({
-              centerCoordinate: [
-                globalObject.props.App.longitude,
-                globalObject.props.App.latitude,
-              ],
-              zoomLevel: 14,
-              animationDuration: 2000,
-            });
-          }
         } //An unxepected error occured
         else if (
           response !== false &&
@@ -1280,7 +1285,6 @@ class Home extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false; //! MARK AS UNMOUNTED.
-    this._shouldShow_errorModal = false;
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();

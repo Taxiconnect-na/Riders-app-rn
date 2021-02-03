@@ -1159,7 +1159,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 ? 0
                 : 6,
               borderTopLeftRadius: 169,
-              borderBottomLeftRadius: 170,
+              borderBottomLeftRadius: /^bikes$/i.test(
+                this.props.App.carTypeSelected,
+              )
+                ? 90
+                : 170,
               resizeMode: 'contain',
             }}
           />
@@ -2796,7 +2800,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         />
                                         <View
                                           style={{
-                                            width: 95,
+                                            width: 110,
                                             padding: 7,
                                             borderRadius: 200,
                                             backgroundColor: /^available$/i.test(
@@ -3046,7 +3050,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         />
                                         <View
                                           style={{
-                                            width: 95,
+                                            width: 110,
                                             padding: 7,
                                             borderRadius: 200,
                                             backgroundColor: /^available$/i.test(
