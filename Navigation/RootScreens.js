@@ -16,6 +16,7 @@ import SendFundsFriendInputNumber from '../Components/Wallet/SendFundsFriendInpu
 import WalletTopUpEntry from '../Components/Wallet/WalletTopUpEntry';
 import TopUpWalletScreen from '../Components/Wallet/TopUpWalletScreen';
 import EnterTopupAmountScreen from '../Components/Wallet/EnterTopupAmountScreen';
+import CheckPhoneOrTaxiNumber from '../Components/Wallet/CheckPhoneOrTaxiNumber';
 import Home from '../Components/Home/Home';
 import YourRidesEntry from '../Components/Rides/YourRidesEntry';
 import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector';
@@ -90,7 +91,7 @@ function YourRidesEntry_drawer() {
 function Wallet_drawer() {
   return (
     <Stack.Navigator
-      initialRouteName="WalletEntry"
+      initialRouteName="CheckPhoneOrTaxiNumber"
       screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="WalletEntry"
@@ -106,15 +107,17 @@ function Wallet_drawer() {
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  fontSize: 21,
-                  right: Platform.OS === 'android' ? 20 : 0,
-                  color: '#000',
-                }}>
+                style={[
+                  styles.genericHeader,
+                  {
+                    color: '#000',
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(21),
+                  },
+                ]}>
                 Connect Wallet
               </Text>
             </View>
@@ -201,7 +204,7 @@ function Wallet_drawer() {
         name="SendFundsFriendInputNumber"
         component={SendFundsFriendInputNumber}
         options={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {backgroundColor: '#000'},
           headerTintColor: '#fff',
           headerBackTitle: 'Back',
@@ -210,6 +213,14 @@ function Wallet_drawer() {
               <Text style={styles.genericHeader}>Transfer funds</Text>
             </View>
           ),
+        }}
+      />
+
+      <Stack.Screen
+        name="CheckPhoneOrTaxiNumber"
+        component={CheckPhoneOrTaxiNumber}
+        options={{
+          headerShown: false,
         }}
       />
       <Stack.Screen

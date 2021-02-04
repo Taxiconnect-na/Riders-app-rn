@@ -18,6 +18,7 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class PayTaxiInputNumber extends React.PureComponent {
   constructor(props) {

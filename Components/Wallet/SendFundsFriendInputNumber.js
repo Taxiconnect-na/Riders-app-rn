@@ -10,33 +10,116 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
+import {
+  ValidateGenericPhoneNumber,
+  UpdateErrorModalLog,
+  ResetGenericPhoneNumberInput,
+} from '../Redux/HomeActionsCreators';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconAnt from 'react-native-vector-icons/AntDesign';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import {RFValue} from 'react-native-responsive-fontsize';
+import NetInfo from '@react-native-community/netinfo';
 
 class SendFundsFriendInputNumber extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      networkStateChecker: false,
+    };
+  }
+
+  componentDidMount() {
+    let globalObject = this;
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        globalObject.props.ResetGenericPhoneNumberInput();
+      },
+    );
+    //Auto reset phone number validity to false
+    this.props.App.isPhoneNumberValid = false;
+    //Network state checker
+    this.state.networkStateChecker = NetInfo.addEventListener((state) => {
+      if (state.isConnected === false) {
+        globalObject.props.UpdateErrorModalLog(
+          state.isConnected,
+          'connection_no_network',
+          state.type,
+        );
+      } //connected
+      else {
+        globalObject.props.UpdateErrorModalLog(false, false, state.type);
+      }
+    });
+
+    //connection
+    this.props.App.socket.on('connect', () => {
+      globalObject.props.UpdateErrorModalLog(false, false, 'any');
+    });
+    //Socket error handling
+    this.props.App.socket.on('error', (error) => {});
+    this.props.App.socket.on('disconnect', () => {
+      globalObject.props.App.socket.connect();
+    });
+    this.props.App.socket.on('connect_error', () => {
+      console.log('connect_error');
+      //Ask for the OTP again
+      globalObject.props.UpdateErrorModalLog(
+        true,
+        'service_unavailable',
+        'any',
+      );
+      globalObject.props.App.socket.connect();
+    });
+    this.props.App.socket.on('connect_timeout', () => {
+      globalObject.props.App.socket.connect();
+    });
+    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect_error', () => {
+      globalObject.props.App.socket.connect();
+    });
+    this.props.App.socket.on('reconnect_failed', () => {
+      globalObject.props.App.socket.connect();
+    });
+  }
+  /**
+   * @func automoveForward
+   * Responsible for auto move forward if the phone number is true
+   */
+  automoveForward() {
+    if (this.props.App.isPhoneNumberValid) {
+      this.props.navigation.navigate('SendFundsInputAmount');
+      return null;
+    } else {
+      return null;
+    }
   }
 
   render() {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
+          {this.automoveForward()}
           <StatusBar backgroundColor="#000" />
           <View style={styles.presentationWindow}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}
+              style={{width: '30%'}}>
+              <IconAnt name="arrowleft" size={29} />
+            </TouchableOpacity>
             <Text
               style={[
-                systemWeights.semibold,
                 {
-                  fontSize: 21,
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text',
                   marginBottom: 35,
-                  marginTop: 10,
+                  marginTop: 15,
                 },
               ]}>
               Who's receiving?
@@ -56,23 +139,24 @@ class SendFundsFriendInputNumber extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 13.5,
+                      fontSize: RFValue(14),
                       marginLeft: 6,
                       lineHeight: 18,
+                      color: '#141414',
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
-                  You can only send funds to active TaxiConnect accounts.
+                  You can only send funds to active{' '}
+                  <Text style={{fontWeight: 'bold'}}>TaxiConnect</Text>{' '}
+                  accounts.
                 </Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('SendFundsInputAmount')
-                  }
+                  onPress={() => this.props.ValidateGenericPhoneNumber()}
                   style={[
                     styles.arrowCircledForwardBasic,
                     styles.shadowButtonArrowCircledForward,
@@ -143,4 +227,17 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(SendFundsFriendInputNumber);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      ValidateGenericPhoneNumber,
+      UpdateErrorModalLog,
+      ResetGenericPhoneNumberInput,
+    },
+    dispatch,
+  );
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SendFundsFriendInputNumber);

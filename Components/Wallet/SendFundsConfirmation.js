@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   SafeAreaView,
   View,
@@ -11,6 +12,7 @@ import {
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class PayDriverConfirmation extends React.PureComponent {
   constructor(props) {
@@ -48,12 +50,12 @@ class PayDriverConfirmation extends React.PureComponent {
               style={[
                 systemWeights.semibold,
                 {
-                  fontSize: 17,
-                  lineHeight: 20,
+                  fontSize: RFValue(17),
+                  lineHeight: 23,
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
+                      ? 'UberMoveTextLight'
+                      : 'Uber Move Text Light',
                   marginBottom: 20,
                 },
               ]}>
@@ -61,62 +63,21 @@ class PayDriverConfirmation extends React.PureComponent {
             </Text>
 
             <View style={{flex: 1}}>
-              <View
-                style={{borderBottomWidth: 0.5, borderBottomColor: '#d0d0d0'}}>
-                <Text
-                  style={[
-                    systemWeights.semibold,
-                    {
-                      fontSize: 17,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                      marginBottom: 5,
-                    },
-                  ]}>
-                  Sender's information
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
-                    marginBottom: 5,
-                  }}>
-                  MR. REINHOLD
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    marginBottom: 10,
-                    color: '#0e8491',
-                  }}>
-                  +264817563369
-                </Text>
-              </View>
               {/**Destination infos */}
               <View
                 style={{
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: '#d0d0d0',
-                  marginTop: 15,
+                  borderBottomWidth: 1,
+                  borderBottomColor: '#EEEEEE',
+                  marginTop: 5,
                 }}>
                 <Text
                   style={[
-                    systemWeights.semibold,
                     {
-                      fontSize: 18,
+                      fontSize: RFValue(18),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
                       marginBottom: 5,
                     },
                   ]}>
@@ -124,36 +85,39 @@ class PayDriverConfirmation extends React.PureComponent {
                 </Text>
                 <Text
                   style={{
-                    fontSize: 16,
+                    marginTop: 10,
+                    fontSize: RFValue(17),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                     marginBottom: 5,
                   }}>
                   MR. DAVID
                 </Text>
                 {/**ONLY FOR DRIVERS */}
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    marginBottom: 5,
-                    color: '#0e8491',
-                  }}>
-                  TAXI H09
-                </Text>
+                {/driver/i.test(this.props.App.user_sender_nature) ? (
+                  <Text
+                    style={{
+                      fontSize: RFValue(17),
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      marginBottom: 5,
+                      color: '#0e8491',
+                    }}>
+                    TAXI H09
+                  </Text>
+                ) : null}
                 {/**--- */}
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: RFValue(17),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     marginBottom: 20,
                     color: '#0e8491',
                   }}>
@@ -245,41 +209,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  arrowCircledForwardBasic: {
-    backgroundColor: '#0e8491',
-    width: 60,
-    height: 60,
-    borderRadius: 10000,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  shadowButtonArrowCircledForward: {
-    shadowColor: '#d0d0d0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.6,
-
-    elevation: 6,
-  },
-  root: {flex: 1, padding: 20},
-  title: {textAlign: 'center', fontSize: 30},
-  codeFieldRoot: {marginTop: 20},
-  cell: {
-    flex: 1,
-    height: 40,
-    lineHeight: 38,
-    marginRight: 20,
-    fontSize: 25,
-    borderBottomWidth: 2,
-    borderColor: '#00000030',
-    textAlign: 'center',
-  },
-  focusCell: {
-    borderColor: '#000',
-  },
   bttnGenericTc: {
     borderColor: '#000',
     padding: 12,
@@ -288,7 +217,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 5,
+    borderRadius: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -301,4 +230,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PayDriverConfirmation;
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default connect(mapStateToProps)(PayDriverConfirmation);

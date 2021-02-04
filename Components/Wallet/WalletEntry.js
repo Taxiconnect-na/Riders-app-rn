@@ -16,6 +16,8 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
 import WalletTransacRecords from './WalletTransacRecords';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import {RFValue} from 'react-native-responsive-fontsize';
+import FastImage from 'react-native-fast-image';
 
 class WalletEntry extends React.PureComponent {
   constructor(props) {
@@ -67,7 +69,7 @@ class WalletEntry extends React.PureComponent {
                 <View
                   style={{
                     padding: 20,
-                    backgroundColor: '#fff',
+                    backgroundColor: '#0e8491',
                     height: 200,
                     marginBottom: 15,
                   }}>
@@ -82,10 +84,10 @@ class WalletEntry extends React.PureComponent {
                         flex: 1,
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        fontSize: 18,
-                        color: '#0e8491',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(17),
+                        color: '#fff',
                       }}>
                       Hey, {this.props.App.username}
                     </Text>
@@ -107,57 +109,48 @@ class WalletEntry extends React.PureComponent {
 
                         elevation: 14,
                       }}>
-                      <Image
-                        source={
-                          this.props.App.user_profile_pic !== undefined &&
-                          this.props.App.user_profile_pic !== null
-                            ? {
-                                uri: this.props.App.user_profile_pic,
-                                cache: 'reload',
-                              }
-                            : require('../../Media_assets/Images/user.png')
-                        }
-                        style={{
-                          resizeMode:
-                            this.props.App.user_profile_pic !== undefined &&
-                            this.props.App.user_profile_pic !== null
-                              ? 'cover'
-                              : 'contain',
-                          width:
-                            this.props.App.user_profile_pic !== undefined &&
-                            this.props.App.user_profile_pic !== null
-                              ? '100%'
-                              : '60%',
-                          height:
-                            this.props.App.user_profile_pic !== undefined &&
-                            this.props.App.user_profile_pic !== null
-                              ? '100%'
-                              : '80%',
-                          borderRadius:
-                            this.props.App.user_profile_pic !== undefined &&
-                            this.props.App.user_profile_pic !== null
-                              ? 200
-                              : 0,
-                        }}
-                      />
+                      {this.props.App.user_profile_pic !== undefined &&
+                      this.props.App.user_profile_pic !== null &&
+                      !/user\.png/i.test(this.props.App.user_profile_pic) ? (
+                        <FastImage
+                          source={{
+                            uri: this.props.App.user_profile_pic,
+                            priority: FastImage.priority.normal,
+                          }}
+                          resizeMode={FastImage.resizeMode.cover}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 150,
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          source={require('../../Media_assets/Images/user.png')}
+                          style={{
+                            resizeMode: 'contain',
+                            width: '60%',
+                            height: '80%',
+                            borderRadius: 0,
+                          }}
+                        />
+                      )}
                     </View>
                   </View>
                   <View
                     style={{
-                      //marginTop: 25,
                       flex: 1,
                       justifyContent: 'center',
                     }}>
                     <Text
                       style={[
-                        //systemWeights.bold,
                         {
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'MoveBold'
                               : 'Uber Move Bold',
-                          fontSize: 37,
-                          color: '#0e8491',
+                          fontSize: RFValue(37),
+                          color: '#fff',
                         },
                       ]}>
                       N$450
@@ -166,10 +159,10 @@ class WalletEntry extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        color: '#a5a5a5',
-                        fontSize: 16,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        color: '#d0d0d0',
+                        fontSize: RFValue(16),
                       }}>
                       Your balance
                     </Text>
@@ -177,9 +170,6 @@ class WalletEntry extends React.PureComponent {
                 </View>
                 <View
                   style={{
-                    borderWidth: 1,
-                    borderColor: '#d0d0d0',
-                    borderBottomWidth: 1,
                     flex: 1,
                     borderTopLeftRadius: 30,
                     borderTopRightRadius: 30,
@@ -264,10 +254,10 @@ class WalletEntry extends React.PureComponent {
                         style={{
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk',
-                          fontSize: 18,
-                          color: '#a5a5a5',
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          fontSize: RFValue(18),
+                          color: '#AFAFAF',
                           paddingBottom: 15,
                           flex: 1,
                         }}>
@@ -278,10 +268,10 @@ class WalletEntry extends React.PureComponent {
                           {
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'MoveBold'
-                                : 'Uber Move Bold',
-                            fontSize: 17.5,
-                            color: '#a5a5a5',
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(17.5),
+                            color: '#757575',
                             paddingBottom: 15,
                           },
                         ]}>
@@ -316,7 +306,7 @@ class WalletEntry extends React.PureComponent {
 const styles = StyleSheet.create({
   mainWindow: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0e8491',
   },
   presentationWindow: {
     flex: 1,
@@ -327,7 +317,7 @@ const styles = StyleSheet.create({
     height: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 250,
+    borderRadius: 300,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -339,8 +329,11 @@ const styles = StyleSheet.create({
     elevation: 9,
   },
   textSelectMenu3: {
-    fontFamily: Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
-    fontSize: 17,
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'UberMoveTextMedium'
+        : 'Uber Move Text Medium',
+    fontSize: RFValue(17),
     marginTop: 15,
   },
   arrowCircledForwardBasic: {

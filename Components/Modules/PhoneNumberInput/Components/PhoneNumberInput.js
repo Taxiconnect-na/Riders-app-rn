@@ -523,7 +523,7 @@ class PhoneNumberInput extends React.PureComponent {
                 style={[
                   {
                     color: '#b22222',
-                    fontSize: RFValue(13),
+                    fontSize: RFValue(14),
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextRegular'

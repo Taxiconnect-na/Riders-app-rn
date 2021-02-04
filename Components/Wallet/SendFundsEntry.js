@@ -14,6 +14,7 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class SendFundsEntry extends React.PureComponent {
   constructor(props) {
@@ -41,6 +42,17 @@ class SendFundsEntry extends React.PureComponent {
     );
   }
 
+  /**
+   * @func updateUser_natureRecipient
+   * Responsible for updating the related string for the recipient. (friend or driver - ONLY).
+   * And move to the next screen after.
+   * @param user_nature
+   */
+  updateUser_natureRecipient(user_nature) {
+    this.props.App.user_sender_nature = user_nature; //! Update the recipient's user nature: friend/driver
+    this.props.navigation.navigate('SendFundsFriendInputNumber');
+  }
+
   render() {
     return (
       <DismissKeyboard>
@@ -51,11 +63,11 @@ class SendFundsEntry extends React.PureComponent {
               style={[
                 systemWeights.semibold,
                 {
-                  fontSize: 21,
+                  fontSize: RFValue(22),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
+                      ? 'MoveMedium'
+                      : 'Uber Move Medium',
                   marginBottom: 30,
                   marginTop: 10,
                   padding: 20,
@@ -65,14 +77,12 @@ class SendFundsEntry extends React.PureComponent {
             </Text>
             <View>
               <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate('SendFundsFriendInputNumber')
-                }
+                onPress={() => this.updateUser_natureRecipient('friend')}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: '#d0d0d0',
+                  borderBottomWidth: 1,
+                  borderBottomColor: '#EEEEEE',
                   paddingBottom: 35,
                   paddingLeft: 20,
                   paddingRight: 20,
@@ -90,11 +100,11 @@ class SendFundsEntry extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 19,
+                          fontSize: RFValue(19),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
                           color: '#0e8491',
                           flex: 1,
                         },
@@ -106,10 +116,10 @@ class SendFundsEntry extends React.PureComponent {
                         flex: 1,
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        lineHeight: 17,
-                        fontSize: 13.5,
+                            ? 'UberMoveTextLight'
+                            : 'Uber Move Text Light',
+                        lineHeight: RFValue(17),
+                        paddingRight: 10,
                       }}>
                       Send rides or deliveries money to your friends and family
                       instantlly and hustle free.
@@ -124,7 +134,8 @@ class SendFundsEntry extends React.PureComponent {
                   />
                 </View>
               </TouchableOpacity>
-              <View
+              <TouchableOpacity
+                onPress={() => this.updateUser_natureRecipient('driver')}
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -146,11 +157,11 @@ class SendFundsEntry extends React.PureComponent {
                     <Text
                       style={[
                         {
-                          fontSize: 19,
+                          fontSize: RFValue(19),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
                           color: '#0e8491',
                           flex: 1,
                         },
@@ -162,10 +173,10 @@ class SendFundsEntry extends React.PureComponent {
                         flex: 1,
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        lineHeight: 17,
-                        fontSize: 13.5,
+                            ? 'UberMoveTextLight'
+                            : 'Uber Move Text Light',
+                        lineHeight: RFValue(17),
+                        paddingRight: 10,
                       }}>
                       Directly send payments to your driver's wallet seamlessly
                       without any VAT.
@@ -179,7 +190,7 @@ class SendFundsEntry extends React.PureComponent {
                     color="#000"
                   />
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </SafeAreaView>

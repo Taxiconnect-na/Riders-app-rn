@@ -4,6 +4,7 @@ import {View, TouchableOpacity, Text, StyleSheet, Platform} from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class WalletTransacRecords extends React.PureComponent {
   constructor(props) {
@@ -24,8 +25,10 @@ class WalletTransacRecords extends React.PureComponent {
           <Text
             style={{
               fontFamily:
-                Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
-              fontSize: 17,
+                Platform.OS === 'android'
+                  ? 'UberMoveTextMedium'
+                  : 'Uber Move Text Medium',
+              fontSize: RFValue(17),
             }}>
             Top-up
           </Text>
@@ -33,10 +36,11 @@ class WalletTransacRecords extends React.PureComponent {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Regular'
-                  : 'Allrounder Grotesk',
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
               color: '#a5a5a5',
-              fontSize: 16,
+              fontSize: RFValue(16),
+              marginTop: 5,
             }}>
             Today at 15:45
           </Text>
@@ -51,8 +55,10 @@ class WalletTransacRecords extends React.PureComponent {
           <Text
             style={{
               fontFamily:
-                Platform.OS === 'android' ? 'MoveRegular' : 'Uber Move',
-              fontSize: 17,
+                Platform.OS === 'android'
+                  ? 'UberMoveTextMedium'
+                  : 'Uber Move Text Medium',
+              fontSize: RFValue(18),
               color: '#0e8491',
             }}>
             N$50

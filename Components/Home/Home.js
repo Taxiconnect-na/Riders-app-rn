@@ -744,16 +744,15 @@ class Home extends React.PureComponent {
           response !== undefined &&
           response.total !== undefined
         ) {
+          //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
           if (
-            /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
+            /(connection_no_network|service_unavailable)/i.test(
               globalObject.props.App.generalErrorModalType,
-            ) !== true &&
-            /selectCarTypeAndPaymentMethod/i.test(
-              globalObject.props.App.bottomVitalsFlow.currentStep,
-            ) !== true
+            ) &&
+            globalObject.props.App.showErrorGeneralModal
           ) {
             //Do not interrupt the select gender process
-            //globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
           }
           //...
           globalObject.props.UpdateTotalWalletAmount(response);
