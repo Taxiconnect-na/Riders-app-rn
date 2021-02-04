@@ -45,6 +45,7 @@ class EntryScreen extends React.PureComponent {
     let phone = SyncStorage.get('@phone_user');
     let user_profile_pic = SyncStorage.get('@user_profile_pic');
     let accountCreation_state = SyncStorage.get('@accountCreation_state');
+    let favorite_places = SyncStorage.get('@favorite_places');
 
     //Update globals
     this.props.App.gender_user =
@@ -69,6 +70,27 @@ class EntryScreen extends React.PureComponent {
       accountCreation_state !== undefined && accountCreation_state !== null
         ? accountCreation_state
         : 'minimal'; //full or minimal
+
+    this.props.App.user_favorites_destinations =
+      favorite_places !== undefined && favorite_places !== null
+        ? favorite_places
+        : [
+            {
+              name: 'Home',
+              icon: 'home',
+              location_infos: false, //Contains infos like street name, coordinates, etc... related to the place
+            },
+            {
+              name: 'Work',
+              icon: 'briefcase',
+              location_infos: false, //Contains infos like street name, coordinates, etc... related to the place
+            },
+            {
+              name: 'Gym',
+              icon: 'human',
+              location_infos: false, //Contains infos like street name, coordinates, etc... related to the place
+            },
+          ];
 
     try {
       userCurrentLocationMetaData = JSON.parse(userCurrentLocationMetaData);

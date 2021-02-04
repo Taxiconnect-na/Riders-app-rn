@@ -15,6 +15,7 @@ import {
   Platform,
   SafeAreaView,
   StatusBar,
+  Keyboard,
 } from 'react-native';
 import examples from 'libphonenumber-js/examples.mobile.json';
 import {getExampleNumber, AsYouType} from 'libphonenumber-js';
@@ -140,7 +141,11 @@ class PhoneNumberInput extends React.PureComponent {
     if (this.props.App.isFilterCountryShown) {
       //Show filter
       return (
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
           <TouchableOpacity
             onPress={() => this.showFilterHeader(false)}
             style={{
@@ -194,7 +199,11 @@ class PhoneNumberInput extends React.PureComponent {
     } //SHow normal header
     else {
       return (
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
           <TouchableOpacity
             onPress={() =>
               this.dismissCountrySearcher(
@@ -381,6 +390,9 @@ class PhoneNumberInput extends React.PureComponent {
    * Responsible for opening up the country code searcher and all the animations in between.
    */
   openCountrySearcherScreen() {
+    //? Dismiss the keyboard initially
+    Keyboard.dismiss();
+
     this.props.RenderCountryPhoneCodeSearcher(true);
     Animated.parallel([
       Animated.timing(this.props.App.searchCountryScreenOpacity, {

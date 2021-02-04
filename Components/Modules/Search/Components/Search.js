@@ -435,17 +435,17 @@ class Search extends React.PureComponent {
       Animated.parallel([
         Animated.timing(this.props.App.search_headerSearchNodePosition, {
           toValue: 0,
-          duration: 350,
+          duration: 150,
           useNativeDriver: true,
         }),
         Animated.timing(globalObj.props.App.search_resultsSearchNodeOpacity, {
           toValue: 1,
-          duration: 350,
+          duration: 150,
           useNativeDriver: true,
         }),
         Animated.timing(globalObj.props.App.search_resultSearchNodePosition, {
           toValue: 0,
-          duration: 350,
+          duration: 150,
           useNativeDriver: true,
         }),
       ]).start(() => {
@@ -732,17 +732,17 @@ class Search extends React.PureComponent {
       Animated.parallel([
         Animated.timing(globalObj.props.App.search_headerSearchNodePosition, {
           toValue: -500,
-          duration: 300,
+          duration: 200,
           useNativeDriver: true,
         }),
         Animated.timing(globalObj.props.App.search_resultsSearchNodeOpacity, {
           toValue: 0,
-          duration: 250,
+          duration: 150,
           useNativeDriver: true,
         }),
         Animated.timing(globalObj.props.App.search_resultSearchNodePosition, {
           toValue: 90,
-          duration: 250,
+          duration: 150,
           useNativeDriver: true,
         }),
       ]).start(() => {

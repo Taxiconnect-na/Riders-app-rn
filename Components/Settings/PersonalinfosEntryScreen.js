@@ -20,6 +20,7 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Notifiyer from '../Helpers/Notifiyer';
 import ErrorModal from '../Helpers/ErrorModal';
 import SyncStorage from 'sync-storage';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class PersonalinfosEntryScreen extends React.PureComponent {
   constructor(props) {
@@ -61,6 +62,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
+        console.log(response);
         if (
           response !== undefined &&
           response !== null &&
@@ -149,12 +151,19 @@ class PersonalinfosEntryScreen extends React.PureComponent {
    * @param infoToUpdate: the type of information to update (name,surname,etc...)
    */
   showModalChange_updater(infoToUpdate) {
-    this.state.detailToModify = infoToUpdate;
-    this.props.UpdateErrorModalLog(
-      true,
-      'show_changePersonalDetails_modal',
-      'any',
-    );
+    if (!/gender/i.test(infoToUpdate)) {
+      //Everything but the gender
+      this.state.detailToModify = infoToUpdate;
+      this.props.UpdateErrorModalLog(
+        true,
+        'show_changePersonalDetails_modal',
+        'any',
+      );
+    } else if (/gender/i.test(infoToUpdate)) {
+      //The gender
+      this.state.detailToModify = infoToUpdate;
+      this.props.UpdateErrorModalLog(true, 'gender_select', 'any');
+    }
   }
 
   /**
@@ -162,49 +171,16 @@ class PersonalinfosEntryScreen extends React.PureComponent {
    * Responsible for rendering the modal view only once.
    */
   renderError_modalView() {
-    if (
-      this._shouldShow_errorModal &&
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal
-    ) {
-      //Show once, and lock
-      this._shouldShow_errorModal = false; //!LOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          detailToModify={this.state.detailToModify}
-          parentNode={this}
-        />
-      );
-    } else if (
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
-    ) {
-      //Disable modal lock when modal off
-      this._shouldShow_errorModal = true; //!UNLOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          detailToModify={this.state.detailToModify}
-          parentNode={this}
-        />
-      );
-    } else {
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          detailToModify={this.state.detailToModify}
-          parentNode={this}
-        />
-      );
-    }
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+        detailToModify={this.state.detailToModify}
+        parentNode={this}
+      />
+    );
   }
 
   render() {
@@ -230,17 +206,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               padding: 20,
             }}>
             <View style={{marginBottom: 10}}>
-              <Text
-                style={{
-                  fontSize: 16.5,
-                  color: '#a5a5a5',
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                }}>
-                Name
-              </Text>
+              <Text style={styles.labelStyle}>Name</Text>
             </View>
             <View
               style={{
@@ -249,15 +215,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 paddingBottom: 10,
                 alignItems: 'center',
               }}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  fontSize: 17.5,
-                  flex: 1,
-                }}>
+              <Text style={styles.infosValue}>
                 {this.props.App.username !== false &&
                 this.props.App.username !== null &&
                 this.props.App.username !== undefined &&
@@ -283,17 +241,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               padding: 20,
             }}>
             <View style={{marginBottom: 10}}>
-              <Text
-                style={{
-                  fontSize: 16.5,
-                  color: '#a5a5a5',
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                }}>
-                Surname
-              </Text>
+              <Text style={styles.labelStyle}>Surname</Text>
             </View>
             <View
               style={{
@@ -302,15 +250,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 paddingBottom: 10,
                 alignItems: 'center',
               }}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  fontSize: 17.5,
-                  flex: 1,
-                }}>
+              <Text style={styles.infosValue}>
                 {this.props.App.surname_user !== false &&
                 this.props.App.surname_user !== null &&
                 this.props.App.surname_user !== undefined &&
@@ -336,17 +276,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               padding: 20,
             }}>
             <View style={{marginBottom: 10}}>
-              <Text
-                style={{
-                  fontSize: 16.5,
-                  color: '#a5a5a5',
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                }}>
-                Gender
-              </Text>
+              <Text style={styles.labelStyle}>Gender</Text>
             </View>
             <View
               style={{
@@ -355,15 +285,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 paddingBottom: 10,
                 alignItems: 'center',
               }}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  fontSize: 17.5,
-                  flex: 1,
-                }}>
+              <Text style={styles.infosValue}>
                 {this.props.App.gender_user !== false &&
                 this.props.App.gender_user !== null &&
                 this.props.App.gender_user !== undefined &&
@@ -389,17 +311,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               padding: 20,
             }}>
             <View style={{marginBottom: 10}}>
-              <Text
-                style={{
-                  fontSize: 16.5,
-                  color: '#a5a5a5',
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                }}>
-                Phone number
-              </Text>
+              <Text style={styles.labelStyle}>Phone number</Text>
             </View>
             <View
               style={{
@@ -420,14 +332,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                     }}
                   />
                 </View>
-                <Text
-                  style={{
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 17.5,
-                  }}>
+                <Text style={styles.infosValue}>
                   {this.props.App.phone_user !== false &&
                   this.props.App.phone_user !== null &&
                   this.props.App.phone_user !== undefined &&
@@ -450,17 +355,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               padding: 20,
             }}>
             <View style={{marginBottom: 10}}>
-              <Text
-                style={{
-                  fontSize: 16.5,
-                  color: '#a5a5a5',
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
-                }}>
-                Email
-              </Text>
+              <Text style={styles.labelStyle}>Email</Text>
             </View>
             <View
               style={{
@@ -469,15 +364,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
                 paddingBottom: 10,
                 alignItems: 'center',
               }}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  fontSize: 17.5,
-                  flex: 1,
-                }}>
+              <Text style={styles.infosValue}>
                 {this.props.App.user_email !== false &&
                 this.props.App.user_email !== null &&
                 this.props.App.user_email !== undefined &&
@@ -517,6 +404,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderBottomColor: '#d0d0d0',
     marginBottom: 5,
+  },
+  labelStyle: {
+    fontSize: RFValue(16),
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'UberMoveTextMedium'
+        : 'Uber Move Text Medium',
+    color: '#AFAFAF',
+  },
+  infosValue: {
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'UberMoveTextMedium'
+        : 'Uber Move Text Medium',
+    fontSize: RFValue(17.5),
+    flex: 1,
   },
 });
 

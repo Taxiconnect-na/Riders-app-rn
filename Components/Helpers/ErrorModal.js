@@ -329,6 +329,13 @@ class ErrorModal extends React.PureComponent {
           else {
             //Do nothing
           }
+        } else if (/^gender$/i.test(infoToUpdate)) {
+          //Name or surname
+          this.setState({isErrorThrown: false, isLoading_something: true});
+          this.props.App.socket.emit(
+            'updateRiders_profileInfos_io',
+            bundleData,
+          );
         }
         //For the rest proceed
         else {
@@ -759,7 +766,11 @@ class ErrorModal extends React.PureComponent {
           </View>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
-              onPress={() => this.props.UpdateUserGenderState('male')}
+              onPress={() =>
+                this.props.detailToModify === undefined
+                  ? this.props.UpdateUserGenderState('male')
+                  : this.updateLocalStateNewPersonal_infos('gender', 'male')
+              }
               style={[
                 styles.bttnGenericTc,
                 {borderRadius: 2, marginBottom: 15},
@@ -777,7 +788,11 @@ class ErrorModal extends React.PureComponent {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => this.props.UpdateUserGenderState('female')}
+              onPress={() =>
+                this.props.detailToModify === undefined
+                  ? this.props.UpdateUserGenderState('female')
+                  : this.updateLocalStateNewPersonal_infos('gender', 'female')
+              }
               style={[
                 styles.bttnGenericTc,
                 {borderRadius: 2, marginBottom: 15},
@@ -803,7 +818,11 @@ class ErrorModal extends React.PureComponent {
                   alignItems: 'center',
                 },
               ]}
-              onPress={() => this.props.UpdateUserGenderState('unknown')}>
+              onPress={() =>
+                this.props.detailToModify === undefined
+                  ? this.props.UpdateUserGenderState('unknown')
+                  : this.updateLocalStateNewPersonal_infos('gender', 'unknown')
+              }>
               <IconEntypo name="block" size={17} color="#000" top={10} />
               <Text
                 style={{
@@ -3118,17 +3137,17 @@ class ErrorModal extends React.PureComponent {
                   }
                   style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View style={{top: 0}}>
-                    <IconAnt name="arrowleft" size={30} />
+                    <IconAnt name="arrowleft" size={25} />
                   </View>
                 </TouchableOpacity>
                 <Text
                   style={[
                     {
-                      fontSize: 22,
+                      fontSize: RFValue(22),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                          ? 'MoveMedium'
+                          : 'Uber Move Medium',
                       marginTop: 15,
                     },
                   ]}>
@@ -3165,12 +3184,12 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 19.5,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(19.5),
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
-                      paddingBottom: 20,
+                      paddingBottom: 15,
                     }}
                   />
                 ) : /^surname$/i.test(this.props.detailToModify) ? (
@@ -3192,12 +3211,12 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 19.5,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(19.5),
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
-                      paddingBottom: 20,
+                      paddingBottom: 15,
                     }}
                   />
                 ) : /^gender$/i.test(this.props.detailToModify) ? (
@@ -3219,12 +3238,12 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 19.5,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(19.5),
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
-                      paddingBottom: 20,
+                      paddingBottom: 15,
                     }}
                   />
                 ) : /^phone$/i.test(this.props.detailToModify) ? (
@@ -3248,12 +3267,12 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 19.5,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(19.5),
                       borderBottomWidth: 1.7,
                       paddingLeft: 0,
-                      paddingBottom: 20,
+                      paddingBottom: 15,
                     }}
                   />
                 ) : (
@@ -3264,9 +3283,9 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 15,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(15),
                       marginTop: 15,
                       color: '#b22222',
                     }}>
@@ -3283,36 +3302,38 @@ class ErrorModal extends React.PureComponent {
                   height: 100,
                 }}>
                 {this.state.isLoading_something === false ? (
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.state.isLoading_something
-                        ? {}
-                        : this.updatePersonalInfos(
-                            this.state.tmpString,
-                            this.props.detailToModify,
-                          )
-                    }
-                    style={{
-                      borderColor: 'transparent',
-                      width: '100%',
-                      justifyContent: 'center',
-                    }}>
-                    <View style={[styles.bttnGenericTc]}>
-                      <Text
-                        style={[
-                          {
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Medium'
-                                : 'Allrounder Grotesk Medium',
-                            fontSize: 23,
-                            color: '#fff',
-                          },
-                        ]}>
-                        Save
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
+                  this.props.App.renderCountryCodeSeacher === false ? (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.state.isLoading_something
+                          ? {}
+                          : this.updatePersonalInfos(
+                              this.state.tmpString,
+                              this.props.detailToModify,
+                            )
+                      }
+                      style={{
+                        borderColor: 'transparent',
+                        width: '100%',
+                        justifyContent: 'center',
+                      }}>
+                      <View style={[styles.bttnGenericTc]}>
+                        <Text
+                          style={[
+                            {
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextMedium'
+                                  : 'Uber Move Text Medium',
+                              fontSize: RFValue(22),
+                              color: '#fff',
+                            },
+                          ]}>
+                          Save
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  ) : null
                 ) : null}
               </View>
             </View>
@@ -3438,7 +3459,7 @@ class ErrorModal extends React.PureComponent {
               this.props.UpdateErrorModalLog(false, false, 'any')
             }
             onBackdropPress={() =>
-              /(show_guardian_toolkit|show_cancel_ride_modal|show_select_ride_type_modal)/i.test(
+              /(show_guardian_toolkit|show_cancel_ride_modal|show_select_ride_type_modal|gender_select)/i.test(
                 this.props.error_status,
               )
                 ? this.props.UpdateErrorModalLog(false, false, 'any')

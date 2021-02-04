@@ -31,6 +31,7 @@ import {
 import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import SyncStorage from 'sync-storage';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 const App = ({valueM, parentNode, editable}) => {
   const [value, setValue] = useState('');
@@ -402,7 +403,7 @@ class OTPVerificationGeneric extends React.PureComponent {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
-          <GenericLoader active={this.state.loaderState} thickness={5} />
+          <GenericLoader active={this.state.loaderState} thickness={4} />
           {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
             <ErrorModal
               active={
@@ -422,13 +423,12 @@ class OTPVerificationGeneric extends React.PureComponent {
             </TouchableOpacity>
             <Text
               style={[
-                systemWeights.semibold,
                 {
-                  fontSize: 21,
+                  fontSize: RFValue(19),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                   marginTop: 15,
                   marginBottom: 35,
                 },
@@ -450,10 +450,10 @@ class OTPVerificationGeneric extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       color: '#0e8491',
-                      fontSize: 17,
+                      fontSize: RFValue(17),
                     },
                   ]}>
                   I didn't receive the code.
@@ -466,10 +466,10 @@ class OTPVerificationGeneric extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       color: '#b22222',
-                      fontSize: 17,
+                      fontSize: RFValue(17),
                     },
                   ]}>
                   The code entered is not correct.

@@ -18,10 +18,13 @@ import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import ImagePicker from 'react-native-image-crop-picker';
 import ErrorModal from '../Helpers/ErrorModal';
 import Notifiyer from '../Helpers/Notifiyer';
 import SyncStorage from 'sync-storage';
+import FastImage from 'react-native-fast-image';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class SettingsEntryScreen extends React.Component {
   constructor(props) {
@@ -82,7 +85,9 @@ class SettingsEntryScreen extends React.Component {
           response !== undefined &&
           response !== null &&
           response.response !== undefined &&
-          response.response !== null
+          response.response !== null &&
+          response.picture_name !== undefined &&
+          response.picture_name !== null
         ) {
           if (/success/i.test(response.response)) {
             globalObject.props.UpdateErrorModalLog(false, false, 'any');
@@ -150,10 +155,17 @@ class SettingsEntryScreen extends React.Component {
           }}
           style={[styles.locationRender]}>
           <View>
-            {place.name !== 'Gym' ? (
-              <IconFeather
+            {/work/i.test(place.name) ? (
+              <IconCommunity
                 name={place.icon}
                 size={20}
+                style={{paddingRight: 15}}
+                color="#0e8491"
+              />
+            ) : /home/i.test(place.name) ? (
+              <IconEntypo
+                name={place.icon}
+                size={21}
                 style={{paddingRight: 15}}
                 color="#0e8491"
               />
@@ -170,11 +182,11 @@ class SettingsEntryScreen extends React.Component {
             <Text
               style={[
                 {
-                  fontSize: 17,
+                  fontSize: RFValue(16),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                 },
               ]}>
               {place.name}
@@ -185,11 +197,11 @@ class SettingsEntryScreen extends React.Component {
                   <Text
                     style={[
                       {
-                        fontSize: 14,
+                        fontSize: RFValue(15),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text Regular',
                       },
                     ]}>
                     {place.location_infos.location_name !== false
@@ -213,8 +225,8 @@ class SettingsEntryScreen extends React.Component {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
                     },
                   ]}>
                   Add a location.
@@ -253,49 +265,16 @@ class SettingsEntryScreen extends React.Component {
    * Responsible for rendering the modal view only once.
    */
   renderError_modalView() {
-    if (
-      this._shouldShow_errorModal &&
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal
-    ) {
-      //Show once, and lock
-      this._shouldShow_errorModal = false; //!LOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-          favoritePlace_label={this.state.favoritePlace_label}
-        />
-      );
-    } else if (
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
-    ) {
-      //Disable modal lock when modal off
-      this._shouldShow_errorModal = true; //!UNLOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-          favoritePlace_label={this.state.favoritePlace_label}
-        />
-      );
-    } else {
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-          favoritePlace_label={this.state.favoritePlace_label}
-        />
-      );
-    }
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+        parentNode={this}
+        favoritePlace_label={this.state.favoritePlace_label}
+      />
+    );
   }
 
   render() {
@@ -379,39 +358,32 @@ class SettingsEntryScreen extends React.Component {
                       <ActivityIndicator size="large" color="#fff" />
                     </View>
                   ) : null}
-                  <Image
-                    source={
-                      this.props.App.user_profile_pic !== undefined &&
-                      this.props.App.user_profile_pic !== null
-                        ? {
-                            uri: this.props.App.user_profile_pic,
-                            cache: 'reload',
-                          }
-                        : require('../../Media_assets/Images/user.png')
-                    }
-                    style={{
-                      resizeMode:
-                        this.props.App.user_profile_pic !== undefined &&
-                        this.props.App.user_profile_pic !== null
-                          ? 'cover'
-                          : 'contain',
-                      width:
-                        this.props.App.user_profile_pic !== undefined &&
-                        this.props.App.user_profile_pic !== null
-                          ? '100%'
-                          : '70%',
-                      height:
-                        this.props.App.user_profile_pic !== undefined &&
-                        this.props.App.user_profile_pic !== null
-                          ? '100%'
-                          : '70%',
-                      borderRadius:
-                        this.props.App.user_profile_pic !== undefined &&
-                        this.props.App.user_profile_pic !== null
-                          ? 150
-                          : 0,
-                    }}
-                  />
+                  {this.props.App.user_profile_pic !== undefined &&
+                  this.props.App.user_profile_pic !== null &&
+                  !/user\.png/i.test(this.props.App.user_profile_pic) ? (
+                    <FastImage
+                      source={{
+                        uri: this.props.App.user_profile_pic,
+                        priority: FastImage.priority.normal,
+                      }}
+                      resizeMode={FastImage.resizeMode.cover}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 150,
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      source={require('../../Media_assets/Images/user.png')}
+                      style={{
+                        resizeMode: 'contain',
+                        width: '60%',
+                        height: '80%',
+                        borderRadius: 0,
+                      }}
+                    />
+                  )}
                   <View
                     style={{
                       position: 'absolute',
@@ -441,9 +413,9 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                      fontSize: 18,
+                          ? 'MoveMedium'
+                          : 'Uber Move Medium',
+                      fontSize: RFValue(19),
                     }}>
                     {`${this.props.App.username} ${
                       this.props.App.surname !== undefined &&
@@ -464,12 +436,12 @@ class SettingsEntryScreen extends React.Component {
                 <View style={{marginBottom: 10}}>
                   <Text
                     style={{
-                      fontSize: 16.5,
-                      color: '#a5a5a5',
+                      fontSize: RFValue(16),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      color: '#AFAFAF',
                     }}>
                     Identity
                   </Text>
@@ -488,9 +460,9 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 18,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(18),
                       flex: 1,
                     }}>
                     Personal information
@@ -512,12 +484,12 @@ class SettingsEntryScreen extends React.Component {
                 <View style={{marginBottom: 10}}>
                   <Text
                     style={{
-                      fontSize: 16.5,
-                      color: '#a5a5a5',
+                      fontSize: RFValue(16),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      color: '#AFAFAF',
                     }}>
                     Favorite places
                   </Text>
@@ -532,12 +504,12 @@ class SettingsEntryScreen extends React.Component {
                 <View style={{marginBottom: 10}}>
                   <Text
                     style={{
-                      fontSize: 16.5,
-                      color: '#a5a5a5',
+                      fontSize: RFValue(16),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      color: '#AFAFAF',
                     }}>
                     Privacy
                   </Text>
@@ -558,16 +530,16 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 17,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
                       flex: 1,
                     }}>
                     Terms & Conditions
                   </Text>
                   <IconMaterialIcons
                     name="keyboard-arrow-right"
-                    color="#d0d0d0"
+                    color="#AFAFAF"
                     size={25}
                   />
                 </TouchableOpacity>
@@ -587,16 +559,16 @@ class SettingsEntryScreen extends React.Component {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 17,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
                       flex: 1,
                     }}>
                     Privacy statements
                   </Text>
                   <IconMaterialIcons
                     name="keyboard-arrow-right"
-                    color="#d0d0d0"
+                    color="#AFAFAF"
                     size={25}
                   />
                 </TouchableOpacity>
@@ -624,10 +596,11 @@ class SettingsEntryScreen extends React.Component {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 17,
+                        ? 'UberMoveTextBold'
+                        : 'Uber Move Text Bold',
+                    fontSize: RFValue(17),
                     flex: 1,
+                    color: '#b22222',
                   }}>
                   Sign Out
                 </Text>
