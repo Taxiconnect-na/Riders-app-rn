@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   SafeAreaView,
   View,
@@ -32,6 +33,16 @@ class SendFundsEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        console.log('focused');
+        globalObject.props.App.recipient_crucial_data = null; //! Clear the recipient
+        globalObject.props.App.user_sender_nature = null; //! Clear the user nature
+      },
+    );
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -244,4 +255,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SendFundsEntry;
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default connect(mapStateToProps)(SendFundsEntry);

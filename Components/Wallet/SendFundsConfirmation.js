@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
+import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -48,7 +49,6 @@ class PayDriverConfirmation extends React.PureComponent {
           <View style={styles.presentationWindow}>
             <Text
               style={[
-                systemWeights.semibold,
                 {
                   fontSize: RFValue(17),
                   lineHeight: 23,
@@ -70,19 +70,22 @@ class PayDriverConfirmation extends React.PureComponent {
                   borderBottomColor: '#EEEEEE',
                   marginTop: 5,
                 }}>
-                <Text
-                  style={[
-                    {
-                      fontSize: RFValue(18),
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
-                      marginBottom: 5,
-                    },
-                  ]}>
-                  Receiver's information
-                </Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <IconCommunity name="information" size={17} />
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(18),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        marginLeft: 5,
+                      },
+                    ]}>
+                    Receiver's information
+                  </Text>
+                </View>
                 <Text
                   style={{
                     marginTop: 10,
@@ -93,7 +96,7 @@ class PayDriverConfirmation extends React.PureComponent {
                         : 'Uber Move Text',
                     marginBottom: 5,
                   }}>
-                  MR. DAVID
+                  {this.props.App.recipient_crucial_data.receipient_name}
                 </Text>
                 {/**ONLY FOR DRIVERS */}
                 {/driver/i.test(this.props.App.user_sender_nature) ? (
@@ -121,7 +124,7 @@ class PayDriverConfirmation extends React.PureComponent {
                     marginBottom: 20,
                     color: '#0e8491',
                   }}>
-                  +264856997167
+                  {this.props.App.recipient_crucial_data.recipient_number}
                 </Text>
               </View>
 
@@ -131,11 +134,30 @@ class PayDriverConfirmation extends React.PureComponent {
                     fontSize: 15,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
+                        ? 'UberMoveTextLight'
+                        : 'Uber Move Text Light',
                     marginBottom: 10,
                   }}>
-                  Windhoek, Namibia.
+                  {this.props.App.userCurrentLocationMetaData.city !==
+                    undefined &&
+                  this.props.App.userCurrentLocationMetaData.city !== false
+                    ? this.props.App.userCurrentLocationMetaData.city
+                    : this.props.App.userCurrentLocationMetaData.street !==
+                        undefined &&
+                      this.props.App.userCurrentLocationMetaData.street !==
+                        false
+                    ? this.props.App.userCurrentLocationMetaData.street
+                    : this.props.App.userCurrentLocationMetaData.country !==
+                        undefined &&
+                      this.props.App.userCurrentLocationMetaData.country !==
+                        false
+                    ? this.props.App.userCurrentLocationMetaData.country
+                    : null}
+                  {this.props.App.userCurrentLocationMetaData.country !==
+                    undefined &&
+                  this.props.App.userCurrentLocationMetaData.country !== false
+                    ? `, ${this.props.App.userCurrentLocationMetaData.country}`
+                    : null}
                 </Text>
               </View>
             </View>
@@ -151,9 +173,9 @@ class PayDriverConfirmation extends React.PureComponent {
                   {
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
-                    fontSize: 14,
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(14),
                     lineHeight: 19,
                     color: '#a5a5a5',
                     flex: 1,
@@ -171,6 +193,9 @@ class PayDriverConfirmation extends React.PureComponent {
                 height: 100,
               }}>
               <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('TransactionFinalReport')
+                }
                 style={{
                   borderWidth: 1,
                   borderColor: 'transparent',
@@ -182,13 +207,13 @@ class PayDriverConfirmation extends React.PureComponent {
                       {
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 23.5,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(22),
                         color: '#fff',
                       },
                     ]}>
-                    Proceed - N$50
+                    {`Proceed - N$${this.props.App.recipient_crucial_data.amount}`}
                   </Text>
                 </View>
               </TouchableOpacity>

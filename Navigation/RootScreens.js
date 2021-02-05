@@ -17,6 +17,7 @@ import WalletTopUpEntry from '../Components/Wallet/WalletTopUpEntry';
 import TopUpWalletScreen from '../Components/Wallet/TopUpWalletScreen';
 import EnterTopupAmountScreen from '../Components/Wallet/EnterTopupAmountScreen';
 import CheckPhoneOrTaxiNumber from '../Components/Wallet/CheckPhoneOrTaxiNumber';
+import TransactionFinalReport from '../Components/Wallet/TransactionFinalReport';
 import Home from '../Components/Home/Home';
 import YourRidesEntry from '../Components/Rides/YourRidesEntry';
 import HeaderRideTypesSelector from '../Components/Rides/HeaderRideTypesSelector';
@@ -91,7 +92,7 @@ function YourRidesEntry_drawer() {
 function Wallet_drawer() {
   return (
     <Stack.Navigator
-      initialRouteName="CheckPhoneOrTaxiNumber"
+      initialRouteName="WalletEntry"
       screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
       <Stack.Screen
         name="WalletEntry"
@@ -251,6 +252,13 @@ function Wallet_drawer() {
               <Text style={styles.genericHeader}>Payment settings</Text>
             </View>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="TransactionFinalReport"
+        component={TransactionFinalReport}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

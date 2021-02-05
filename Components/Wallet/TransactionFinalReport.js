@@ -19,7 +19,7 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 
-class CheckPhoneOrTaxiNumber extends React.PureComponent {
+class TransactionFinalReport extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -27,10 +27,10 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     this.backHander = null;
 
     this.state = {
-      isCheckingDetails: true, //TO know whether the checking process is still running (determines the state of the loader) - default: false
-      hasFoundSomeErrors: false, //TO know whether the checking process was failed or not - default: false
+      isWorking: false, //TO know whether the transaction is still loading or not
+      hasFoundSomeErrors: true, //TO know whether the checking process was failed or not - default: false
       errorsNature: null, //? The type of errors found : 3 cases (not active Taxiconnect, active account or another error)
-      responseData: null, //Will contain the checked data if any
+      responseData: null, //Will contain the transaction data data if any
     };
   }
 
@@ -51,10 +51,9 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
       'focus',
       () => {
         console.log('focused');
-        globalObject.checkSenderDetails(); //! AUTO CHECK THE RECIPIENT
-        globalObject.props.App.recipient_crucial_data = null; //! Clear the recipient AFTER check data
+        globalObject.makeTransaction(); //! AUTO MAKE THE TRANSACTION THE RECIPIENT
         globalObject.setState({
-          isCheckingDetails: true,
+          isWorking: true,
           hasFoundSomeErrors: false,
           errorsNature: null,
           responseData: null,
@@ -70,47 +69,41 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
-        return true;
+        return;
       },
     );
 
     /**
      * SOCKET EVENTS HANDLERS
      */
-
     /**
-     * Handle the response of the recipient checker.
-     * event: checkRecipient_information_beforeTransfer
-     * ? Have 3 case : not active Taxiconnect account, active account or general error
+     * Handle the response of the transaction process.
+     * event: getRiders_walletInfos_io
+     * ? Have 3 case : successfull, unsufficient funds or general error
      */
     this.props.App.socket.on(
-      'checkRecipient_information_beforeTransfer-response',
+      'makeWallet_transaction_io-response',
       function (response) {
-        console.log(response);
+        console.log('HERE -->', response);
         if (
           response !== undefined &&
           response !== null &&
           response.response !== undefined &&
           response.response !== null &&
-          /verified/i.test(response.response) &&
-          response.receipient_name !== undefined &&
-          response.receipient_name !== null
+          /successful/i.test(response.response)
         ) {
-          globalObject.props.App.recipient_crucial_data = response;
-          globalObject.props.App.recipient_crucial_data['recipient_number'] =
-            globalObject.props.App.finalPhoneNumber; //! Save the recipient AFTER check data - add the phone number as well
           globalObject.setState({
             responseData: response,
-            isCheckingDetails: false,
+            isWorking: false,
             hasFoundSomeErrors: false,
             errorsNature: null,
           }); //? Make sure the close the loader
         } //Transaction error
         else {
           globalObject.setState({
-            isCheckingDetails: false,
+            isWorking: false,
             hasFoundSomeErrors: true,
+            responseData: null,
             errorsNature:
               response.flag !== undefined && response.flag !== null
                 ? response.flag
@@ -122,36 +115,50 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
   }
 
   /**
-   * @func checkSenderDetails
-   * Responsible for checking if the sender is valid or not.
+   * @func makeTransaction
+   * Responsible for launching the transaction proccess.
    */
-  checkSenderDetails() {
+  makeTransaction() {
     //DEBUG
-    //this.props.App.user_sender_nature = 'friend';
-    //this.props.App.finalPhoneNumber = '+264856997167';
+    /*this.props.App.recipient_crucial_data = {
+      response: 'verified',
+      recipient_number: '+264856997167',
+      amount: 70,
+      user_nature: 'friend',
+    };
+    this.props.App.user_sender_nature = 'friend';*/
     //DEBUG
-    if (this.props.App.user_sender_nature !== undefined) {
+
+    if (
+      this.props.App.user_sender_nature !== undefined &&
+      /verified/i.test(this.props.App.recipient_crucial_data.response) &&
+      this.props.App.recipient_crucial_data.recipient_number !== undefined &&
+      this.props.App.recipient_crucial_data.recipient_number !== null &&
+      this.props.App.recipient_crucial_data.amount !== undefined &&
+      this.props.App.recipient_crucial_data.amount !== null
+    ) {
       //Valid  user nature : friend / driver
-      let phoneNumber = this.props.App.finalPhoneNumber;
-      if (phoneNumber !== false) {
+      if (this.props.App.recipient_crucial_data.recipient_number !== false) {
         //Start the loader
         this.setState({
-          isCheckingDetails: true,
+          isWorking: true,
           hasFoundSomeErrors: false,
           errorsNature: null,
           responseData: null,
         });
 
-        let bundleCheckRecipient = {
+        let bundleMakeRequest = {
           user_fingerprint: this.props.App.user_fingerprint,
           user_nature: this.props.App.user_sender_nature,
-          payNumberOrPhoneNumber: phoneNumber,
+          payNumberOrPhoneNumber: this.props.App.recipient_crucial_data
+            .recipient_number,
+          amount: this.props.App.recipient_crucial_data.amount,
         };
-        console.log(bundleCheckRecipient);
+        console.log(bundleMakeRequest);
         //..
         this.props.App.socket.emit(
-          'checkRecipient_information_beforeTransfer',
-          bundleCheckRecipient,
+          'makeWallet_transaction_io',
+          bundleMakeRequest,
         );
       } //Return to choose sending users
       else {
@@ -167,11 +174,11 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
-          <GenericLoader active={this.state.isCheckingDetails} thickness={4} />
+          <GenericLoader active={this.state.isWorking} thickness={4} />
           <StatusBar backgroundColor="#000" />
           <View style={styles.presentationWindow}>
             <View style={{flex: 1}}>
-              {this.state.isCheckingDetails ? (
+              {this.state.isWorking ? (
                 <View
                   style={{
                     alignItems: 'center',
@@ -187,7 +194,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                           : 'Uber Move Text Medium',
                       color: '#0e8491',
                     }}>
-                    Give us a sec...
+                    Making the transaction...
                   </Text>
                   <Text
                     style={{
@@ -198,13 +205,15 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                           ? 'UberMoveTextLight'
                           : 'Uber Move Text Light',
                     }}>
-                    Checking the receiver's information
+                    All transactions are instantly and VAT free.
                   </Text>
                 </View>
               ) : this.state.hasFoundSomeErrors === false ? (
                 <>
                   <TouchableOpacity
-                    onPress={() => this.goBack()}
+                    onPress={() =>
+                      this.props.navigation.navigate('WalletEntry')
+                    }
                     style={{width: '30%'}}>
                     <IconAnt name="arrowleft" size={29} />
                   </TouchableOpacity>
@@ -219,17 +228,17 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                         width: '100%',
                         alignItems: 'center',
                         padding: 20,
-                        paddingBottom: '15%',
+                        paddingBottom: '5%',
                       }}>
                       <Text
                         style={{
                           fontSize: RFValue(22),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'UberMoveTextBold'
-                              : 'Uber Move Text Bold',
+                              ? 'MoveMedium'
+                              : 'Uber Move Medium',
                         }}>
-                        Good to go!
+                        Transfer successful!
                       </Text>
                     </View>
                     <View
@@ -240,26 +249,8 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: '#fff',
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 7,
-                        },
-                        shadowOpacity: 0.41,
-                        shadowRadius: 9.11,
-
-                        elevation: 14,
-                        marginBottom: 20,
                       }}>
-                      <Image
-                        source={require('../../Media_assets/Images/user.png')}
-                        style={{
-                          resizeMode: 'contain',
-                          width: '60%',
-                          height: '80%',
-                          borderRadius: 0,
-                        }}
-                      />
+                      <IconAnt name="checkcircleo" color="#09864A" size={45} />
                     </View>
                     <Text
                       style={{
@@ -269,7 +260,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                             ? 'UberMoveTextMedium'
                             : 'Uber Move Text Medium',
                       }}>
-                      {this.state.responseData.receipient_name}
+                      {`Sent N$${this.props.App.recipient_crucial_data.amount}`}
                     </Text>
                     <View
                       style={{
@@ -287,7 +278,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                           textAlign: 'left',
                           color: '#09864A',
                         }}>
-                        You are allowed to make the transaction.
+                        Your transaction has been done successfully.
                       </Text>
                     </View>
                   </View>
@@ -295,7 +286,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
               ) : (
                 <>
                   <TouchableOpacity
-                    onPress={() => this.goBack()}
+                    onPress={() => this.props.navigation.goBack()}
                     style={{width: '30%'}}>
                     <IconAnt name="arrowleft" size={29} />
                   </TouchableOpacity>
@@ -325,7 +316,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                               ? 'UberMoveTextMedium'
                               : 'Uber Move Text Medium',
                         }}>
-                        Unable to proceed
+                        Transaction failed
                       </Text>
                     </View>
 
@@ -333,9 +324,28 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                       style={{
                         width: '100%',
                       }}>
-                      {/transaction_error_want_toSend_toHiHermslef/i.test(
+                      {/transaction_error_unsifficient_funds/i.test(
                         this.state.errorsNature,
                       ) ? (
+                        <Text
+                          style={{
+                            fontSize: RFValue(17.5),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextLight'
+                                : 'Uber Move Text Light',
+                            textAlign: 'left',
+                            lineHeight: 23,
+                          }}>
+                          Sorry it looks like you don't have enough funds in
+                          your wallet to make this transaction, please top-up
+                          first and try again, visit the{' '}
+                          <Text style={{fontWeight: 'bold'}}>Support Tab</Text>{' '}
+                          for any assistance.
+                        </Text>
+                      ) : /transaction_error_want_toSend_toHiHermslef/i.test(
+                          this.state.errorsNature,
+                        ) ? (
                         <Text
                           style={{
                             fontSize: RFValue(17.5),
@@ -363,12 +373,11 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                             textAlign: 'left',
                             lineHeight: 23,
                           }}>
-                          Sorry you are only allowed to make transfers to{' '}
-                          <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
-                            active TaxiConnect numbers
-                          </Text>{' '}
-                          , please make sure that your receiver has a
-                          TaxiConnect account and try again.
+                          We were unable to complete this transaction due to an
+                          unexpected error, please try again much later or visit
+                          the{' '}
+                          <Text style={{fontWeight: 'bold'}}>Support Tab</Text>{' '}
+                          if the error persists.
                         </Text>
                       )}
                     </View>
@@ -377,11 +386,11 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
               )}
             </View>
             <View style={{}}>
-              {this.state.isCheckingDetails === false ? (
+              {this.state.isWorking === false ? (
                 <TouchableOpacity
                   onPress={() =>
                     this.state.hasFoundSomeErrors === false
-                      ? this.props.navigation.navigate('SendFundsInputAmount')
+                      ? this.props.navigation.navigate('WalletEntry')
                       : this.props.navigation.goBack()
                   }
                   style={{
@@ -405,13 +414,8 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                               textAlign: 'center',
                             },
                           ]}>
-                          Next
+                          Done
                         </Text>
-                        <IconMaterialIcons
-                          name="arrow-forward-ios"
-                          size={20}
-                          color="#fff"
-                        />
                       </>
                     ) : (
                       <Text
@@ -487,4 +491,4 @@ const mapDispatchToProps = (dispatch) =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(CheckPhoneOrTaxiNumber);
+)(TransactionFinalReport);

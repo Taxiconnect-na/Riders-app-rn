@@ -57,14 +57,6 @@ class SendFundsInputAmount extends React.PureComponent {
         });
       },
     );
-
-    this.backHander = BackHandler.addEventListener(
-      'hardwareBackPress',
-      function () {
-        globalObject.props.navigation.goBack();
-        return true;
-      },
-    );
   }
 
   /**

@@ -25,12 +25,16 @@ import NetInfo from '@react-native-community/netinfo';
 class SendFundsFriendInputNumber extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this._isMounted = true;
+
     this.state = {
       networkStateChecker: false,
     };
   }
 
   componentDidMount() {
+    this._isMounted = true;
     let globalObject = this;
     //? Add navigator listener - auto clean on focus
     globalObject._navigatorEvent = globalObject.props.navigation.addListener(
@@ -90,88 +94,96 @@ class SendFundsFriendInputNumber extends React.PureComponent {
    * Responsible for auto move forward if the phone number is true
    */
   automoveForward() {
+    this.props.ValidateGenericPhoneNumber();
     if (this.props.App.isPhoneNumberValid) {
-      this.props.navigation.navigate('SendFundsInputAmount');
+      this.props.navigation.navigate('CheckPhoneOrTaxiNumber');
       return null;
     } else {
       return null;
     }
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   render() {
     return (
-      <DismissKeyboard>
-        <SafeAreaView style={styles.mainWindow}>
-          {this.automoveForward()}
-          <StatusBar backgroundColor="#000" />
-          <View style={styles.presentationWindow}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.goBack()}
-              style={{width: '30%'}}>
-              <IconAnt name="arrowleft" size={29} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                {
-                  fontSize: RFValue(21),
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextMedium'
-                      : 'Uber Move Text',
-                  marginBottom: 35,
-                  marginTop: 15,
-                },
-              ]}>
-              Who's receiving?
-            </Text>
-            <PhoneNumberInput />
-
-            <View
-              style={{
-                flexDirection: 'row',
-                position: 'absolute',
-                bottom: '10%',
-                left: 20,
-                right: 20,
-                width: '100%',
-              }}>
-              <View style={{flexDirection: 'row', flex: 1}}>
+      <>
+        {this._isMounted ? (
+          <DismissKeyboard>
+            <SafeAreaView style={styles.mainWindow}>
+              <StatusBar backgroundColor="#000" />
+              <View style={styles.presentationWindow}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.goBack()}
+                  style={{width: '30%'}}>
+                  <IconAnt name="arrowleft" size={29} />
+                </TouchableOpacity>
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(14),
-                      marginLeft: 6,
-                      lineHeight: 18,
-                      color: '#141414',
+                      fontSize: RFValue(21),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
+                          ? 'UberMoveTextMedium'
                           : 'Uber Move Text',
+                      marginBottom: 35,
+                      marginTop: 15,
                     },
                   ]}>
-                  You can only send funds to active{' '}
-                  <Text style={{fontWeight: 'bold'}}>TaxiConnect</Text>{' '}
-                  accounts.
+                  Who's receiving?
                 </Text>
+                <PhoneNumberInput />
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: '10%',
+                    left: 20,
+                    right: 20,
+                    width: '100%',
+                  }}>
+                  <View style={{flexDirection: 'row', flex: 1}}>
+                    <Text
+                      style={[
+                        {
+                          fontSize: RFValue(14),
+                          marginLeft: 6,
+                          lineHeight: 18,
+                          color: '#141414',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                        },
+                      ]}>
+                      You can only send funds to active{' '}
+                      <Text style={{fontWeight: 'bold'}}>TaxiConnect</Text>{' '}
+                      accounts.
+                    </Text>
+                  </View>
+                  <View style={{flex: 1, alignItems: 'flex-end'}}>
+                    <TouchableOpacity
+                      onPress={() => this.automoveForward()}
+                      style={[
+                        styles.arrowCircledForwardBasic,
+                        styles.shadowButtonArrowCircledForward,
+                      ]}>
+                      <IconMaterialIcons
+                        name="arrow-forward-ios"
+                        size={30}
+                        color="#fff"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <TouchableOpacity
-                  onPress={() => this.props.ValidateGenericPhoneNumber()}
-                  style={[
-                    styles.arrowCircledForwardBasic,
-                    styles.shadowButtonArrowCircledForward,
-                  ]}>
-                  <IconMaterialIcons
-                    name="arrow-forward-ios"
-                    size={30}
-                    color="#fff"
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </SafeAreaView>
-      </DismissKeyboard>
+            </SafeAreaView>
+          </DismissKeyboard>
+        ) : null}
+      </>
     );
   }
 }
