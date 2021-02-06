@@ -23,8 +23,8 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import NetInfo from '@react-native-community/netinfo';
 import Modal from 'react-native-modal';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
-
-const windowWidth = Dimensions.get('window').width;
+import GenericLoader from '../Modules/GenericLoader/GenericLoader';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class TopUpWalletScreen extends React.PureComponent {
   constructor(props) {
@@ -38,17 +38,15 @@ class TopUpWalletScreen extends React.PureComponent {
     this.cardData = null;
     this.state = {
       cardInfosValidated: false,
-      enablePayButton: null,
+      enablePayButton: null, //Whether or not to enable the payment button based on the validity of the inputs
       buttonPayOpacity: new Animated.Value(0.2),
       errorMessageOpacity: new Animated.Value(0),
       errorMessageTopPosition: new Animated.Value(10),
-      errorMessageText: 'Please recheck your details',
-      renderPayModal: false,
-      paymentAmount: 70,
-      resultOperations: null,
+      errorMessageText: 'Please recheck your details', //The error message to show during the user input - ddefault: AS SEET
+      renderPayModal: false, //To know whether to show or not the payment modal - default: false
+      resultOperations: null, //The result of the top-up process - default: null
       resultOperationErrorText: 'Unable to make the payment.',
-      loaderPosition: new Animated.Value(0), //For animation loader
-      showLocationSearch_loader: false,
+      loaderState: false, //To know whether the loader is on or off - default: falsee
       isDeviceConnectedInternet: true,
       internetConnectionType: 'Cellular',
     };
@@ -58,6 +56,30 @@ class TopUpWalletScreen extends React.PureComponent {
 
   componentDidMount() {
     var globalObject = this;
+
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        //? Reset generic infos
+        globalObject.cardData = null;
+        globalObject.setState({
+          cardInfosValidated: false,
+          enablePayButton: null,
+          buttonPayOpacity: new Animated.Value(0.2),
+          errorMessageOpacity: new Animated.Value(0),
+          errorMessageTopPosition: new Animated.Value(10),
+          errorMessageText: 'Please recheck your details',
+          renderPayModal: false,
+          resultOperations: null,
+          resultOperationErrorText: 'Unable to make the payment.',
+          loaderState: false,
+          isDeviceConnectedInternet: true,
+          internetConnectionType: 'Cellular',
+        });
+      },
+    );
+
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
@@ -85,7 +107,7 @@ class TopUpWalletScreen extends React.PureComponent {
           state.isConnected
         ) {
           //Transition from disconnected to connected
-          if (globalObject.state.resultOperations.status == 'failed') {
+          if (/failed/i.test(globalObject.state.resultOperations.status)) {
             globalObject.dismissPaymentModal();
           }
         } else if (
@@ -107,31 +129,22 @@ class TopUpWalletScreen extends React.PureComponent {
       }
     });
 
-    //...
-    this.props.App.socket.on('connect', () => {
-      //Auto cancel anything
-      //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
-    });
-    this.props.App.socket.on('error', (error) => {});
-    this.props.App.socket.on('disconnect', () => {
-      //objectApp.setState({errorInternet: true});
-    });
-    this.props.App.socket.on('connect_error', () => {
-      //objectApp.setState({errorInternet: true});
-    });
-    this.props.App.socket.on('connect_timeout', () => {});
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {});
-    this.props.App.socket.on('reconnect_failed', () => {});
-
     /**
-     * LISTENERS
+     * SOCKET IO Handlers
+     */
+    /**
+     * Handle to topup event response
+     * event: topUp_wallet_io
      */
     this.props.App.socket.on(
-      'paymentCreditTopup-response',
+      'topUp_wallet_io-response',
       function (dataReceived) {
+        console.log(dataReceived);
         if (dataReceived !== undefined) {
-          if (dataReceived.response === 'success') {
+          if (
+            /success/i.test(dataReceived.response) &&
+            dataReceived.response !== false
+          ) {
             //Successful transation
             globalObject.setState({
               resultOperations: {status: 'success'},
@@ -140,14 +153,22 @@ class TopUpWalletScreen extends React.PureComponent {
           else {
             globalObject.setState({
               resultOperations: {status: 'failed'},
-              resultOperationErrorText: 'Unable to make the payment.',
+              resultOperationErrorText:
+                dataReceived.message !== undefined &&
+                /declined/i.test(dataReceived.message)
+                  ? 'Credit card declined'
+                  : 'Unable to make the payment.',
             });
           }
         } //Error
         else {
           globalObject.setState({
             resultOperations: {status: 'failed'},
-            resultOperationErrorText: 'Unable to make the payment.',
+            resultOperationErrorText:
+              dataReceived.message !== undefined &&
+              /declined/i.test(dataReceived.message)
+                ? 'Credit card declined'
+                : 'Unable to make the payment.',
           });
         }
       },
@@ -219,47 +240,41 @@ class TopUpWalletScreen extends React.PureComponent {
    * @func execTopup()
    * Responsible for firing up the payement request to the corresponding service
    */
-  execTopup = () => {
-    let globalObject = this;
+  execTopup() {
     if (this.state.cardInfosValidated) {
       //Good to go
       if (this.state.enablePayButton === true) {
         this.setState({
           renderPayModal: true,
-          showLocationSearch_loader: true,
           resultOperations: null,
+          loaderState: true,
         });
         //Make the payment
         let dataBundle = {
           user_fp: this.props.App.user_fingerprint,
-          amount: this.state.paymentAmount,
+          amount: this.props.App.top_up_wallet_crucialData.amount,
           number: this.cardData.values.number.replace(' ', ''),
           expiry: this.cardData.values.expiry.replace('/', ''),
           cvv: this.cardData.values.cvc,
-          name: this.props.App.user_name,
           type: this.cardData.values.type,
         };
         //...
-        if (globalObject.state.isDeviceConnectedInternet) {
-          globalObject.socket.emit('paymentCreditTopup', dataBundle);
+        if (this.state.isDeviceConnectedInternet) {
+          this.props.App.socket.emit('topUp_wallet_io', dataBundle);
         } //Device not connected to the internet
         else {
-          globalObject.setState({
+          this.setState({
             resultOperations: {status: 'failed'},
             resultOperationErrorText: 'No Internet connection.',
           });
         }
-        /*setInterval(function () {
-          console.log(dataBundle);
-          globalObject.socket.emit('paymentCreditTopup', dataBundle);
-        }, 2000);*/
       }
     } else {
       if (this.cardData !== null) {
         this.highlightErrors();
       }
     }
-  };
+  }
 
   /**
    * @func renderAppropriateScreens()
@@ -280,19 +295,15 @@ class TopUpWalletScreen extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 22,
-                color: '#fff',
-                paddingRight: 5,
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
+                fontSize: RFValue(22),
+                color: '#fff',
               },
             ]}>
-            Top-up wallet
-            <Text style={[{color: '#fff', paddingRight: 5}]}>
-              • N$ {this.state.paymentAmount}
-            </Text>
+            {`Top-up wallet - N${this.props.App.top_up_wallet_crucialData.amount}`}
           </Text>
         </>
       );
@@ -376,39 +387,27 @@ class TopUpWalletScreen extends React.PureComponent {
    * Responsible for filling up the content of the modal view.
    */
   renderModalContent() {
+    //DEBUG
     //this.state.resultOperations = {};
-    //this.state.resultOperations['status'] = 'success';
-    ///-----------------------------------------------
-    this.fire_search_animation();
+    //this.state.resultOperations['status'] = 'failed';
+    ///DEBUG-----------------------------------------------
     if (
       this.state.renderPayModal && //to false for debug!!!
       this.state.resultOperations === null
     ) {
       return (
-        <View style={{backgroundColor: '#fff', height: 200}}>
-          <View>
-            <Animated.View
-              style={[
-                styles.loader,
-                {
-                  borderTopColor: this.state.showLocationSearch_loader
-                    ? '#000'
-                    : '#fff',
-                  transform: [{translateX: this.state.loaderPosition}],
-                },
-              ]}
-            />
-          </View>
+        <View style={{backgroundColor: '#fff', height: 300}}>
+          <GenericLoader active={this.state.loaderState} thickness={4} />
           <View
             style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text
               style={[
                 {
-                  fontSize: 19,
+                  fontSize: RFValue(20),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
                 },
               ]}>
               Making the payment
@@ -422,132 +421,117 @@ class TopUpWalletScreen extends React.PureComponent {
     ) {
       if (
         this.state.renderPayModal &&
-        this.state.resultOperations.status === 'failed'
+        /failed/i.test(this.state.resultOperations.status)
       ) {
         return (
-          <View style={{backgroundColor: '#fff', height: 200}}>
-            <View
-              style={{
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-              }}>
-              <TouchableOpacity
-                onPress={() => this.dismissPaymentModal()}
-                style={styles.backArrowHeaderSearch}>
-                <IconAnt name="arrowleft" size={28} />
-              </TouchableOpacity>
-            </View>
+          <View style={{backgroundColor: '#fff', height: 350}}>
             <View
               style={{
                 flex: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'row',
               }}>
               <IconFeather
                 name="slash"
-                color={'red'}
-                size={20}
+                color={'#b22222'}
+                size={35}
                 style={{marginRight: 5}}
               />
               <Text
                 style={[
                   {
-                    fontSize: 18,
-                    color: 'red',
+                    fontSize: RFValue(19),
+                    color: '#b22222',
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    marginTop: 15,
                   },
                 ]}>
                 {this.state.resultOperationErrorText}
               </Text>
             </View>
+            <View style={{padding: 20, paddingBottom: 40}}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.setState({renderPayModal: false, resultOperations: null})
+                }
+                style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(20),
+                    color: '#fff',
+                  }}>
+                  Try again
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         );
       } else if (
         this.state.renderPayModal &&
-        this.state.resultOperations.status == 'success'
+        /success/i.test(this.state.resultOperations.status)
       ) {
         return (
-          <View style={{backgroundColor: '#fff', height: 200}}>
-            <View
-              style={{
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-              }}>
-              <TouchableOpacity
-                onPress={() => this.dismissPaymentModalToWallet()}
-                style={styles.backArrowHeaderSearch}>
-                <IconAnt name="arrowleft" size={28} />
-              </TouchableOpacity>
-            </View>
+          <View style={{backgroundColor: '#fff', height: 350}}>
             <View
               style={{
                 flex: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'row',
               }}>
-              <IconFeather
-                name="check"
-                color={'#0D8691'}
-                size={20}
-                style={{marginRight: 5}}
-              />
+              <IconAnt name="checkcircleo" color="#09864A" size={35} />
               <Text
                 style={[
                   {
-                    fontSize: 19,
-                    color: '#0D8691',
+                    fontSize: RFValue(19),
+                    color: '#09864A',
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Regular'
-                        : 'Allrounder Grotesk',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    marginTop: 15,
                   },
                 ]}>
                 Payment successful for{' '}
                 <Text
                   style={[
                     {
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                      fontWeight: 'bold',
                     },
                   ]}>
-                  N${this.state.paymentAmount}
+                  N${this.props.App.top_up_wallet_crucialData.amount}
                 </Text>
                 .
               </Text>
+            </View>
+            <View style={{padding: 20, paddingBottom: 40}}>
+              <TouchableOpacity
+                onPress={() => this.dismissPaymentModal()}
+                style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(20),
+                    color: '#fff',
+                  }}>
+                  Done
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         );
       }
     } else {
       return <></>;
-    }
-  }
-
-  fire_search_animation() {
-    if (this.state.showLocationSearch_loader) {
-      Animated.timing(this.state.loaderPosition, {
-        toValue: windowWidth,
-        duration: 500,
-        easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-        useNativeDriver: true,
-      }).start(() => {
-        Animated.timing(this.state.loaderPosition, {
-          toValue: 0,
-          duration: 500,
-          useNativeDriver: true,
-        }).start(() => {
-          this.fire_search_animation();
-        });
-      });
     }
   }
 
@@ -559,9 +543,9 @@ class TopUpWalletScreen extends React.PureComponent {
     this.setState({
       resultOperations: null,
       renderPayModal: false,
-      loaderPosition: new Animated.Value(0), //For animation loader
-      showLocationSearch_loader: false,
     });
+    //Move back to wallet entry
+    this.props.navigation.navigate('WalletEntry');
   }
 
   /**
@@ -612,11 +596,12 @@ class TopUpWalletScreen extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 22.5,
+                      fontSize: RFValue(21),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+
                       marginTop: 15,
                     },
                   ]}>
@@ -649,13 +634,13 @@ class TopUpWalletScreen extends React.PureComponent {
                   }}
                   inputStyle={[
                     {
-                      fontSize: 19,
+                      fontSize: RFValue(19),
                       paddingLeft: 20,
                       paddingRight: 20,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}
                   additionalInputsProps={{
@@ -674,14 +659,18 @@ class TopUpWalletScreen extends React.PureComponent {
               </View>
               <Animated.Text
                 style={[
-                  systemWeights.light,
                   {
                     opacity: this.state.errorMessageOpacity,
                     padding: 20,
-                    color: 'red',
+                    color: '#b22222',
                     transform: [
                       {translateY: this.state.errorMessageTopPosition},
                     ],
+                    fontSize: RFValue(15),
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                   },
                 ]}>
                 {this.state.errorMessageText}
@@ -690,32 +679,55 @@ class TopUpWalletScreen extends React.PureComponent {
             <View style={styles.nextArea}>
               <View
                 style={{
-                  flexDirection: 'row',
-                  alignContent: 'center',
-                  justifyContent: 'center',
                   paddingBottom: 10,
+                  flexDirection: 'row',
                 }}>
-                <IconMaterialIcons
-                  name="shield"
-                  size={15}
-                  color={'#0D8691'}
-                  style={{marginRight: 3, top: 1}}
-                />
-                <Text
-                  style={[
-                    {
-                      fontSize: 14.5,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
-                    },
-                  ]}>
-                  All the information entered is secured.
-                </Text>
+                <View style={{marginRight: 3}}>
+                  <IconMaterialIcons
+                    name="shield"
+                    size={15}
+                    color={'#0D8691'}
+                  />
+                </View>
+                <View style={{flex: 1}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={[
+                        {
+                          fontSize: RFValue(15),
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          flex: 1,
+                          color: '#757575',
+                        },
+                      ]}>
+                      All the information entered is secured.
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: RFValue(15),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+
+                        color: '#333333',
+                      }}>
+                      A VAT of 3.5% applies.
+                    </Text>
+                  </View>
+                </View>
               </View>
               <TouchableOpacity
-                onPress={() => {} /*this.execTopup*/}
+                onPress={() => this.execTopup()}
                 style={{borderWidth: 1, borderColor: 'transparent'}}>
                 <Animated.View
                   style={[
@@ -757,7 +769,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 5,
+    borderRadius: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

@@ -9,13 +9,16 @@ import {
   StyleSheet,
   ScrollView,
   StatusBar,
+  Image,
   BackHandler,
   Platform,
 } from 'react-native';
+import {UpdatePreferredPayment_method} from '../Redux/HomeActionsCreators';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class WalletTopUpEntry extends React.PureComponent {
   constructor(props) {
@@ -54,58 +57,71 @@ class WalletTopUpEntry extends React.PureComponent {
                   <View
                     style={{
                       flexDirection: 'row',
-                      borderBottomWidth: 0.5,
-                      borderBottomColor: '#a5a5a5',
+                      borderBottomWidth: 1,
+                      borderBottomColor: '#EEEEEE',
                       padding: 20,
-                      paddingTop: 30,
+                      paddingTop: 20,
+                      alignItems: 'center',
                     }}>
-                    <IconMaterialIcons
-                      name="account-balance-wallet"
-                      size={30}
-                      color={'#096ED4'}
-                    />
-                    <Text
-                      style={[
-                        {
-                          fontSize: 19.5,
+                    <View style={{width: 20, height: 20}}>
+                      <Image
+                        source={require('../../Media_assets/Images/wallet.png')}
+                        style={{
+                          resizeMode: 'contain',
+                          width: '100%',
+                          height: '100%',
+                        }}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginLeft: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={[
+                          {
+                            fontSize: RFValue(17),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                            flex: 1,
+                          },
+                        ]}>
+                        Your wallet
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: RFValue(20),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Regular'
-                              : 'Allrounder Grotesk',
-                          marginLeft: 5,
-                          flex: 1,
-                        },
-                      ]}>
-                      Your wallet
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        color: '#096ED4',
-                      }}>
-                      N${this.props.App.wallet_state_vars.totalWallet_amount}
-                    </Text>
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          color: '#096ED4',
+                        }}>
+                        N${this.props.App.wallet_state_vars.totalWallet_amount}
+                      </Text>
+                    </View>
                   </View>
                   <View
                     style={{
-                      borderBottomWidth: 0.5,
-                      paddingBottom: '10%',
-                      borderBottomColor: '#a5a5a5',
+                      borderBottomWidth: 1,
+                      paddingBottom: '15%',
+                      borderBottomColor: '#EEEEEE',
                     }}>
                     <Text
                       style={{
-                        fontSize: 16,
+                        fontSize: RFValue(16),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        color: '#a5a5a5',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        color: '#AFAFAF',
                         padding: 20,
-                        paddingBottom: 10,
+                        paddingBottom: 5,
                       }}>
                       Top up with
                     </Text>
@@ -113,7 +129,7 @@ class WalletTopUpEntry extends React.PureComponent {
                       onPress={() =>
                         this.props.navigation.navigate('EnterTopupAmountScreen')
                       }
-                      style={{marginTop: 15}}>
+                      style={{marginTop: 10}}>
                       <View
                         style={{
                           flexDirection: 'row',
@@ -122,16 +138,24 @@ class WalletTopUpEntry extends React.PureComponent {
                           paddingTop: 0,
                           paddingBottom: 10,
                         }}>
-                        <View style={{width: 40}}>
-                          <IconAnt name="creditcard" size={28} />
+                        <View style={{width: 30, height: 30}}>
+                          <Image
+                            source={require('../../Media_assets/Images/credit-card.png')}
+                            style={{
+                              resizeMode: 'contain',
+                              width: '100%',
+                              height: '100%',
+                            }}
+                          />
                         </View>
                         <Text
                           style={{
-                            fontSize: 18,
+                            marginLeft: 10,
+                            fontSize: RFValue(18),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text Regular',
                           }}>
                           Credit card
                         </Text>
@@ -141,16 +165,16 @@ class WalletTopUpEntry extends React.PureComponent {
                   <View>
                     <Text
                       style={{
-                        fontSize: 16,
+                        fontSize: RFValue(16),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        color: '#a5a5a5',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        color: '#AFAFAF',
                         padding: 20,
-                        paddingBottom: 10,
+                        paddingBottom: 5,
                       }}>
-                      Preferred payment method
+                      Preferred method
                     </Text>
                     <View style={{marginTop: 15}}>
                       <TouchableOpacity
@@ -185,17 +209,25 @@ class WalletTopUpEntry extends React.PureComponent {
                               ? 0.15
                               : 1,
                         }}>
-                        <View style={{width: 40}}>
-                          <IconMaterialIcons name="credit-card" size={32} />
+                        <View style={{width: 30, height: 30}}>
+                          <Image
+                            source={require('../../Media_assets/Images/wallet.png')}
+                            style={{
+                              resizeMode: 'contain',
+                              width: '100%',
+                              height: '100%',
+                            }}
+                          />
                         </View>
                         <Text
                           style={{
-                            fontSize: 18,
+                            marginLeft: 10,
                             flex: 1,
+                            fontSize: RFValue(18),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text Regular',
                           }}>
                           Wallet
                         </Text>
@@ -205,7 +237,7 @@ class WalletTopUpEntry extends React.PureComponent {
                               .selectedPayment_method,
                           ) ? (
                           <IconCommunity
-                            name="check-circle"
+                            name="check"
                             size={25}
                             style={{top: 1}}
                             color={'#096ED4'}
@@ -221,34 +253,35 @@ class WalletTopUpEntry extends React.PureComponent {
                           alignItems: 'center',
                           padding: 20,
                           paddingBottom: 10,
-                          borderTopWidth: 0.5,
-                          borderTopColor: '#d0d0d0',
                         }}>
-                        <View style={{width: 40}}>
-                          <IconCommunity
-                            name="cash-usd"
-                            color={'#000'}
-                            size={32}
+                        <View style={{width: 30, height: 30}}>
+                          <Image
+                            source={require('../../Media_assets/Images/cash-payment.png')}
+                            style={{
+                              resizeMode: 'contain',
+                              width: '100%',
+                              height: '100%',
+                            }}
                           />
                         </View>
                         <Text
                           style={{
-                            fontSize: 18,
+                            marginLeft: 10,
                             flex: 1,
+                            fontSize: RFValue(18),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text Regular',
                           }}>
                           Cash
                         </Text>
-                        {this.props.App.wallet_state_vars.totalWallet_amount ===
-                        0 ? null : /cash/i.test(
-                            this.props.App.wallet_state_vars
-                              .selectedPayment_method,
-                          ) ? (
+                        {/cash/i.test(
+                          this.props.App.wallet_state_vars
+                            .selectedPayment_method,
+                        ) ? (
                           <IconCommunity
-                            name="check-circle"
+                            name="check"
                             size={25}
                             style={{top: 1}}
                             color={'#096ED4'}
@@ -260,38 +293,6 @@ class WalletTopUpEntry extends React.PureComponent {
                 </View>
               </View>
             </ScrollView>
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                paddingLeft: 20,
-                paddingRight: 20,
-                height: 100,
-              }}>
-              <TouchableOpacity
-                onPress={() => {}}
-                style={{
-                  borderColor: 'transparent',
-                  width: '100%',
-                  justifyContent: 'center',
-                }}>
-                <View style={[styles.bttnGenericTc]}>
-                  <Text
-                    style={[
-                      {
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 23,
-                        color: '#fff',
-                      },
-                    ]}>
-                    Done
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
           </View>
         </SafeAreaView>
       </DismissKeyboard>
@@ -307,44 +308,6 @@ const styles = StyleSheet.create({
   presentationWindow: {
     flex: 1,
   },
-  arrowCircledForwardBasic: {
-    backgroundColor: '#0e8491',
-    width: 60,
-    height: 60,
-    borderRadius: 10000,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  shadowButtonArrowCircledForward: {
-    shadowColor: '#d0d0d0',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.6,
-
-    elevation: 6,
-  },
-  bttnGenericTc: {
-    borderColor: '#000',
-    padding: 12,
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#000',
-    borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 5.84,
-
-    elevation: 3,
-  },
 });
 
 const mapStateToProps = (state) => {
@@ -352,4 +315,12 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(WalletTopUpEntry);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      UpdatePreferredPayment_method,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(WalletTopUpEntry);

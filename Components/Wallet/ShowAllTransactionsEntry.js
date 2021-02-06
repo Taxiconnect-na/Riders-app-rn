@@ -6,17 +6,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
   StatusBar,
   BackHandler,
   Platform,
 } from 'react-native';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconFeather from 'react-native-vector-icons/Feather';
 import WalletTransacRecords from './WalletTransacRecords';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
-import FastImage from 'react-native-fast-image';
 import {FlatList} from 'react-native-gesture-handler';
 
 class ShowAllTransactionsEntry extends React.PureComponent {

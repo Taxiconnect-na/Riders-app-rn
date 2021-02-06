@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   SafeAreaView,
   View,
@@ -9,18 +10,24 @@ import {
   BackHandler,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import {TextInput} from 'react-native-gesture-handler';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import {RFValue} from 'react-native-responsive-fontsize';
 
-class EnterTopupAmountScreen extends React.PureComponent {
+class SendFundsInputAmount extends React.PureComponent {
   constructor(props) {
     super(props);
 
     //Handlers
     this.backHander = null;
+
+    this.state = {
+      amountInputed: null, //Will hold the amount inserted by the user - default: null
+      showErrorWithAmount: false, //Whether or not to show an error linked to the amount inserted. - default: false
+      errorWithAmountMessage: null, //The message to display for the corresponding error - default: null
+    };
   }
 
   componentWillUnmount() {
@@ -32,13 +39,98 @@ class EnterTopupAmountScreen extends React.PureComponent {
   componentDidMount() {
     let globalObject = this;
 
-    this.backHander = BackHandler.addEventListener(
-      'hardwareBackPress',
-      function () {
-        globalObject.props.navigation.goBack();
-        return true;
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        if (
+          globalObject.props.App.top_up_wallet_crucialData !== null &&
+          globalObject.props.App.top_up_wallet_crucialData !== undefined &&
+          globalObject.props.App.top_up_wallet_crucialData.amount !==
+            undefined &&
+          globalObject.props.App.top_up_wallet_crucialData.amount !== null
+        ) {
+          globalObject.props.App.top_up_wallet_crucialData.amount = null; //! Clear amount data if any
+        }
+
+        globalObject.setState({
+          amountInputed: null,
+          showErrorWithAmount: false,
+          errorWithAmountMessage: null,
+        });
       },
     );
+  }
+
+  /**
+   * @func activelyCheck_amountToSend
+   * Responsible for checking as the user types that the amount criteria's are strictly respected.
+   * ? Remove all spaces.
+   * @param currentText
+   */
+  activelyCheck_amountToSend(currentText) {
+    try {
+      currentText = parseFloat(currentText.trim());
+      if (!isNaN(currentText)) {
+        //Not NaN
+        this.setState({
+          amountInputed: currentText,
+          showErrorWithAmount: false,
+        });
+      } //NaN
+      else {
+        this.setState({
+          amountInputed: null,
+          showErrorWithAmount: false,
+        });
+      }
+    } catch (error) {
+      this.setState({amountInputed: null, showErrorWithAmount: false});
+    }
+  }
+
+  /**
+   * @func validateAmount_inserted
+   * Responsible for validating and moving to the confirmation page of the process if amount valid.
+   */
+  validateAmount_inserted() {
+    let amountInserted = parseFloat(this.state.amountInputed);
+
+    if (amountInserted >= 50 && amountInserted <= 1000) {
+      //Auto create array type for global variable if null
+      this.props.App.top_up_wallet_crucialData =
+        this.props.App.top_up_wallet_crucialData === null ||
+        this.props.App.top_up_wallet_crucialData === undefined
+          ? {}
+          : this.props.App.top_up_wallet_crucialData;
+      //Valid amount
+      this.props.App.top_up_wallet_crucialData['amount'] = amountInserted; //! SAVE THE AMOUNT INSERTED
+      this.props.navigation.navigate('TopUpWalletScreen');
+    } //In valid amount
+    else {
+      if (amountInserted <= 49) {
+        //Should be at least N$50
+        this.setState({
+          showErrorWithAmount: true,
+          errorWithAmountMessage: 'Should be at least N$50',
+          amountInputed: null,
+        });
+      } else if (amountInserted > 1000) {
+        //To high
+        this.setState({
+          showErrorWithAmount: true,
+          errorWithAmountMessage: 'Should be at most N$1000',
+          amountInputed: null,
+        });
+      } //Strange amount
+      else {
+        this.setState({
+          showErrorWithAmount: true,
+          errorWithAmountMessage: 'Please insert a valid amount',
+          amountInputed: null,
+        });
+      }
+    }
   }
 
   render() {
@@ -49,13 +141,12 @@ class EnterTopupAmountScreen extends React.PureComponent {
           <View style={styles.presentationWindow}>
             <Text
               style={[
-                systemWeights.semibold,
                 {
-                  fontSize: 21,
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Regular'
-                      : 'Allrounder Grotesk',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text',
                   marginBottom: 35,
                   marginTop: 10,
                 },
@@ -66,32 +157,39 @@ class EnterTopupAmountScreen extends React.PureComponent {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                borderWidth: 0.5,
-                borderRadius: 3,
+                borderBottomWidth: 1,
                 padding: 10,
-                borderColor: '#d0d0d0',
+                paddingLeft: 0,
+                borderColor: '#E2E2E2',
               }}>
               <Text
                 style={{
-                  fontSize: 19,
+                  fontSize: RFValue(20),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  paddingLeft: 10,
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                   paddingRight: 5,
                 }}>
                 N$
               </Text>
               <TextInput
                 style={{
-                  fontSize: 19,
+                  fontSize: RFValue(20),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
                   flex: 1,
                 }}
+                value={
+                  this.state.amountInputed !== undefined &&
+                  this.state.amountInputed !== null
+                    ? String(this.state.amountInputed)
+                    : ''
+                }
+                onChangeText={(text) => this.activelyCheck_amountToSend(text)}
+                maxLength={4}
                 placeholder="Amount"
                 keyboardType="number-pad"
                 autoFocus
@@ -108,34 +206,59 @@ class EnterTopupAmountScreen extends React.PureComponent {
                 style={{
                   marginRight: 5,
                   justifyContent: 'flex-start',
-                  height: '100%',
                 }}>
-                <IconAnt name="infocirlce" color="#0e8491" size={17} />
+                <IconAnt
+                  name="infocirlce"
+                  color={
+                    this.state.showErrorWithAmount === false
+                      ? '#0e8491'
+                      : '#b22222'
+                  }
+                  size={15}
+                />
               </View>
-              <Text
-                style={[
-                  {
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
-                    color: '#000',
-                    fontSize: 15,
-                    lineHeight: 20,
-                    flex: 1,
-                  },
-                ]}>
-                The maximum amount is{' '}
+              {this.state.showErrorWithAmount === false ? (
                 <Text
-                  style={{
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                  }}>
-                  N$1000.
+                  style={[
+                    {
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      color: '#000',
+                      fontSize: 15,
+                      lineHeight: 20,
+                      flex: 1,
+                    },
+                  ]}>
+                  Your maximum amount is{' '}
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                    }}>
+                    N$1000.
+                  </Text>
                 </Text>
-              </Text>
+              ) : (
+                <Text
+                  style={[
+                    {
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      color: '#b22222',
+                      fontSize: 15,
+                      lineHeight: 20,
+                      flex: 1,
+                    },
+                  ]}>
+                  {this.state.errorWithAmountMessage}
+                </Text>
+              )}
             </View>
 
             <View
@@ -151,33 +274,24 @@ class EnterTopupAmountScreen extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: 13.5,
+                      fontSize: RFValue(14),
                       marginLeft: 6,
                       lineHeight: 18,
+                      color: '#141414',
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   Your{' '}
-                  <Text
-                    style={{
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                    }}>
-                    Purchased voucher
-                  </Text>{' '}
+                  <Text style={{fontWeight: 'bold'}}>purchased voucher</Text>{' '}
                   will be automatically toped-up.
                 </Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity
-                  onPress={() =>
-                    this.props.navigation.navigate('TopUpWalletScreen')
-                  }
+                  onPress={() => this.validateAmount_inserted()}
                   style={[
                     styles.arrowCircledForwardBasic,
                     styles.shadowButtonArrowCircledForward,
@@ -243,4 +357,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EnterTopupAmountScreen;
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default connect(mapStateToProps)(SendFundsInputAmount);

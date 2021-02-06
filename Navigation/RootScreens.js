@@ -174,7 +174,7 @@ function Wallet_drawer() {
           headerBackTitle: 'Back',
           headerTitle: (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.genericHeader}>Top-up amount</Text>
+              <Text style={styles.genericHeader}>Purchase</Text>
             </View>
           ),
         }}

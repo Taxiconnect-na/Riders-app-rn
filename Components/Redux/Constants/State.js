@@ -445,6 +445,8 @@ const STATE = {
   user_sender_nature: null, //? TO know which category of users the transaction - friend/driver - default:null
   paymentNumberOrTaxiNumber: null, //?The taxi number or payment number
   recipient_crucial_data: null, //? Will contain the recipient after checking infos (name, verification status, user nature) - default: null
+  //TOP-UP
+  top_up_wallet_crucialData: null, //? Will contain all the necessary vars for toping-up the wallet.
 
   //Add more details about trip/delivery MAIN VARS
   maxCharAdditionalNote: 70, //The maximum number of characters in the additional pickup note for rides or deliveries - default: 70 - static
