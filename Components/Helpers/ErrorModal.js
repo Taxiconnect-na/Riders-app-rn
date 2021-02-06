@@ -2891,58 +2891,7 @@ class ErrorModal extends React.PureComponent {
                       </Text>
                     </View>
                   </View>
-                  <View
-                    style={{
-                      borderBottomWidth: 1,
-                      paddingBottom: '5%',
-                      borderBottomColor: '#EEEEEE',
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: RFValue(16),
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                        color: '#AFAFAF',
-                        padding: 20,
-                        paddingBottom: 5,
-                      }}>
-                      Top up with
-                    </Text>
-                    <View style={{marginTop: 10}}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          padding: 20,
-                          paddingTop: 0,
-                          paddingBottom: 10,
-                        }}>
-                        <View style={{width: 30, height: 30}}>
-                          <Image
-                            source={require('../../Media_assets/Images/credit-card.png')}
-                            style={{
-                              resizeMode: 'contain',
-                              width: '100%',
-                              height: '100%',
-                            }}
-                          />
-                        </View>
-                        <Text
-                          style={{
-                            marginLeft: 10,
-                            fontSize: RFValue(18),
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text Regular',
-                          }}>
-                          Credit card
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
+
                   <View>
                     <Text
                       style={{
