@@ -516,20 +516,21 @@ class Search extends React.PureComponent {
       );
     } //Common destination favorite places
     else {
-      let globalObject = this;
       return (
         <View>
           {this.props.App.user_favorites_destinations.map((place, index) => {
-            if (place.location_infos !== false) {
+            if (
+              place.location_infos !== false &&
+              place.location_infos !== undefined &&
+              place.location_infos !== null
+            ) {
               return (
                 <TouchableOpacity
                   key={index}
                   onPress={() => {
                     place.location_infos !== false
                       ? this._onDestinationSelect(place.location_infos)
-                      : globalObject.props.parentNode.props.navigation.navigate(
-                          'SettingsEntryScreen',
-                        );
+                      : {};
                   }}
                   style={styles.locationRender}>
                   <View>

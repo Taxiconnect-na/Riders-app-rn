@@ -19,7 +19,6 @@ import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
-import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';

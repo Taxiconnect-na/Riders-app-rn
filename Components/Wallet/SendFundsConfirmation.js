@@ -10,7 +10,6 @@ import {
   BackHandler,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';

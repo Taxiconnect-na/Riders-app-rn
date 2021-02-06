@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import io from 'socket.io-client';
-//const nodeURL = 'http://taxiconnectna.com:7005/'; //Local
 const nodeURL = 'http://192.168.8.145:9097/';
 //...
 const socket = io(nodeURL, {

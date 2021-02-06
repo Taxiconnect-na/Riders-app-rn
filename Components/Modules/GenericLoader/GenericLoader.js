@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Animated,
-  StyleSheet,
-  Easing,
-  Dimensions,
-} from 'react-native';
+import {View, Animated, StyleSheet, Easing, Dimensions} from 'react-native';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 class GenericLoader extends React.PureComponent {
   constructor(props) {

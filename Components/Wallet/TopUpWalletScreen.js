@@ -8,7 +8,6 @@ import {
   Animated,
   Easing,
   StyleSheet,
-  Dimensions,
   ActivityIndicator,
   SafeAreaView,
   StatusBar,
@@ -16,7 +15,6 @@ import {
   Platform,
 } from 'react-native';
 import {CreditCardInput} from '../Modules/react-native-credit-card-input';
-import {systemWeights} from 'react-native-typography';
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';

@@ -136,27 +136,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  menuContent: {
-    flex: 1,
-  },
-  menuItem: {
-    padding: 20,
-    marginBottom: 10,
-  },
-  menuTitles: {
-    fontFamily:
-      Platform.OS === 'android'
-        ? 'Allrounder-Grotesk-Regular'
-        : 'Allrounder Grotesk',
-    fontSize: 20,
-  },
-  footerDrawer: {
-    borderTopWidth: 0.5,
-    borderTopColor: '#d0d0d0',
-    flexDirection: 'row',
-    padding: 20,
-    alignItems: 'center',
-  },
 });
 
 const mapStateToProps = (state) => {

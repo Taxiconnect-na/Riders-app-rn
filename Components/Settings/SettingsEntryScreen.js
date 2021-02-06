@@ -17,7 +17,6 @@ import {
 import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconFeather from 'react-native-vector-icons/Feather';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import ImagePicker from 'react-native-image-crop-picker';
 import ErrorModal from '../Helpers/ErrorModal';

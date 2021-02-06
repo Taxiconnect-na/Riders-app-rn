@@ -8,7 +8,6 @@ import {
   Animated as AnimatedNative,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
   Image,
   ActivityIndicator,
   Platform,
@@ -808,25 +807,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 0,
     elevation: 0,
-  },
-  bttnGenericTc: {
-    borderColor: '#000',
-    padding: 12,
-    height: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    backgroundColor: '#000',
-    borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 5.84,
-
-    elevation: 3,
   },
 });
 

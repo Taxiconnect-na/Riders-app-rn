@@ -18,7 +18,6 @@ import {
 } from '../Redux/HomeActionsCreators';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import ErrorModal from '../Helpers/ErrorModal';
-import NetInfo from '@react-native-community/netinfo';
 import SyncStorage from 'sync-storage';
 import {RFValue} from 'react-native-responsive-fontsize';
 

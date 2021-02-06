@@ -13,8 +13,6 @@ import {
   Easing,
   TouchableOpacity,
   Platform,
-  SafeAreaView,
-  StatusBar,
   Keyboard,
 } from 'react-native';
 import examples from 'libphonenumber-js/examples.mobile.json';

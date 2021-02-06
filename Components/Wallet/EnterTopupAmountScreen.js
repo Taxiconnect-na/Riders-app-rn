@@ -60,6 +60,14 @@ class SendFundsInputAmount extends React.PureComponent {
         });
       },
     );
+
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.goBack();
+        return true;
+      },
+    );
   }
 
   /**
@@ -338,22 +346,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2.6,
 
     elevation: 6,
-  },
-  root: {flex: 1, padding: 20},
-  title: {textAlign: 'center', fontSize: 30},
-  codeFieldRoot: {marginTop: 20},
-  cell: {
-    flex: 1,
-    height: 40,
-    lineHeight: 38,
-    marginRight: 20,
-    fontSize: 25,
-    borderBottomWidth: 2,
-    borderColor: '#00000030',
-    textAlign: 'center',
-  },
-  focusCell: {
-    borderColor: '#000',
   },
 });
 

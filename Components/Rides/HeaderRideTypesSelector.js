@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   ResetGenericPhoneNumberInput,

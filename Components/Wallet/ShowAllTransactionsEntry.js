@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
   StatusBar,
   BackHandler,

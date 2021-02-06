@@ -21,7 +21,6 @@ import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import NetInfo from '@react-native-community/netinfo';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {RFValue} from 'react-native-responsive-fontsize';
 import FastImage from 'react-native-fast-image';

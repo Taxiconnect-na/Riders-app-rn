@@ -10,10 +10,8 @@ import {
   StyleSheet,
   BackHandler,
   Platform,
-  Image,
 } from 'react-native';
 import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';

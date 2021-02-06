@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {CommonActions} from '@react-navigation/stack';
 import {
   SafeAreaView,
   View,
@@ -11,7 +10,6 @@ import {
   Keyboard,
   PermissionsAndroid,
   Platform,
-  InteractionManager,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';

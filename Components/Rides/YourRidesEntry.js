@@ -26,8 +26,6 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-//const DATA = new Array(2).fill(50);
-
 class YourRidesEntry extends React.PureComponent {
   constructor(props) {
     super(props);

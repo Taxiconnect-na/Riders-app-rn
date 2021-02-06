@@ -11,7 +11,6 @@ const StorageManager = (options) => {
     storageInit();
   } //No options passed
   else {
-    console.log('No options passedd');
   }
 };
 

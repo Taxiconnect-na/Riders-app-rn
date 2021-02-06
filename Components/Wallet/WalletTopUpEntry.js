@@ -8,14 +8,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  StatusBar,
   Image,
   BackHandler,
   Platform,
 } from 'react-native';
 import {UpdatePreferredPayment_method} from '../Redux/HomeActionsCreators';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';

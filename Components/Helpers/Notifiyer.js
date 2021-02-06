@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Platform,
-} from 'react-native';
-import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconFeather from 'react-native-vector-icons/Feather';
+import {View, Text, Platform} from 'react-native';
 
 class Notifiyer extends React.PureComponent {
   constructor(props) {

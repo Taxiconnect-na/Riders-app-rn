@@ -329,22 +329,6 @@ const styles = StyleSheet.create({
 
     elevation: 6,
   },
-  root: {flex: 1, padding: 20},
-  title: {textAlign: 'center', fontSize: 30},
-  codeFieldRoot: {marginTop: 20},
-  cell: {
-    flex: 1,
-    height: 40,
-    lineHeight: 38,
-    marginRight: 20,
-    fontSize: 25,
-    borderBottomWidth: 2,
-    borderColor: '#00000030',
-    textAlign: 'center',
-  },
-  focusCell: {
-    borderColor: '#000',
-  },
 });
 
 const mapStateToProps = (state) => {
