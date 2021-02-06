@@ -119,52 +119,93 @@ class TransactionFinalReport extends React.PureComponent {
    * Responsible for launching the transaction proccess.
    */
   makeTransaction() {
-    //DEBUG
-    /*this.props.App.recipient_crucial_data = {
-      response: 'verified',
-      recipient_number: '+264856997167',
-      amount: 70,
-      user_nature: 'friend',
-    };
-    this.props.App.user_sender_nature = 'friend';*/
-    //DEBUG
+    if (/friend/i.test(this.props.App.user_sender_nature)) {
+      //To friend and family
+      if (
+        this.props.App.user_sender_nature !== undefined &&
+        /verified/i.test(this.props.App.recipient_crucial_data.response) &&
+        this.props.App.recipient_crucial_data.recipient_number !== undefined &&
+        this.props.App.recipient_crucial_data.recipient_number !== null &&
+        this.props.App.recipient_crucial_data.amount !== undefined &&
+        this.props.App.recipient_crucial_data.amount !== null
+      ) {
+        //Valid  user nature : friend / driver
+        if (this.props.App.recipient_crucial_data.recipient_number !== false) {
+          //Start the loader
+          this.setState({
+            isWorking: true,
+            hasFoundSomeErrors: false,
+            errorsNature: null,
+            responseData: null,
+          });
 
-    if (
-      this.props.App.user_sender_nature !== undefined &&
-      /verified/i.test(this.props.App.recipient_crucial_data.response) &&
-      this.props.App.recipient_crucial_data.recipient_number !== undefined &&
-      this.props.App.recipient_crucial_data.recipient_number !== null &&
-      this.props.App.recipient_crucial_data.amount !== undefined &&
-      this.props.App.recipient_crucial_data.amount !== null
-    ) {
-      //Valid  user nature : friend / driver
-      if (this.props.App.recipient_crucial_data.recipient_number !== false) {
-        //Start the loader
-        this.setState({
-          isWorking: true,
-          hasFoundSomeErrors: false,
-          errorsNature: null,
-          responseData: null,
-        });
-
-        let bundleMakeRequest = {
-          user_fingerprint: this.props.App.user_fingerprint,
-          user_nature: this.props.App.user_sender_nature,
-          payNumberOrPhoneNumber: this.props.App.recipient_crucial_data
-            .recipient_number,
-          amount: this.props.App.recipient_crucial_data.amount,
-        };
-        console.log(bundleMakeRequest);
-        //..
-        this.props.App.socket.emit(
-          'makeWallet_transaction_io',
-          bundleMakeRequest,
-        );
+          let bundleMakeRequest = {
+            user_fingerprint: this.props.App.user_fingerprint,
+            user_nature: this.props.App.user_sender_nature,
+            payNumberOrPhoneNumber: this.props.App.recipient_crucial_data
+              .recipient_number,
+            amount: this.props.App.recipient_crucial_data.amount,
+          };
+          console.log(bundleMakeRequest);
+          //..
+          this.props.App.socket.emit(
+            'makeWallet_transaction_io',
+            bundleMakeRequest,
+          );
+        } //Return to choose sending users
+        else {
+          this.props.navigation.navigate('SendFundsEntry');
+        }
       } //Return to choose sending users
       else {
         this.props.navigation.navigate('SendFundsEntry');
       }
-    } //Return to choose sending users
+    } else if (/driver/i.test(this.props.App.user_sender_nature)) {
+      //To drivers
+      this.props.App.recipient_crucial_data[
+        'recipient_number'
+      ] = this.props.App.paymentNumberOrTaxiNumber; //? Upddate the recipient number
+      //...
+      if (
+        this.props.App.user_sender_nature !== undefined &&
+        /verified/i.test(this.props.App.recipient_crucial_data.response) &&
+        this.props.App.recipient_crucial_data.recipient_number !== undefined &&
+        this.props.App.recipient_crucial_data.recipient_number !== null &&
+        this.props.App.recipient_crucial_data.amount !== undefined &&
+        this.props.App.recipient_crucial_data.amount !== null
+      ) {
+        //Valid  user nature : friend / driver
+        if (this.props.App.recipient_crucial_data.recipient_number !== false) {
+          //Start the loader
+          this.setState({
+            isWorking: true,
+            hasFoundSomeErrors: false,
+            errorsNature: null,
+            responseData: null,
+          });
+
+          let bundleMakeRequest = {
+            user_fingerprint: this.props.App.user_fingerprint,
+            user_nature: this.props.App.user_sender_nature,
+            payNumberOrPhoneNumber: this.props.App.recipient_crucial_data
+              .recipient_number,
+            amount: this.props.App.recipient_crucial_data.amount,
+          };
+          console.log(bundleMakeRequest);
+          //..
+          this.props.App.socket.emit(
+            'makeWallet_transaction_io',
+            bundleMakeRequest,
+          );
+        } //Return to choose sending users
+        else {
+          this.props.navigation.navigate('SendFundsEntry');
+        }
+      } //Return to choose sending users
+      else {
+        this.props.navigation.navigate('SendFundsEntry');
+      }
+    } //Invalid data
     else {
       this.props.navigation.navigate('SendFundsEntry');
     }

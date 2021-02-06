@@ -14,6 +14,7 @@ import SendFundsInputAmount from '../Components/Wallet/SendFundsInputAmount';
 import SendFundsConfirmation from '../Components/Wallet/SendFundsConfirmation';
 import SendFundsFriendInputNumber from '../Components/Wallet/SendFundsFriendInputNumber';
 import WalletTopUpEntry from '../Components/Wallet/WalletTopUpEntry';
+import ShowAllTransactionsEntry from '../Components/Wallet/ShowAllTransactionsEntry';
 import TopUpWalletScreen from '../Components/Wallet/TopUpWalletScreen';
 import EnterTopupAmountScreen from '../Components/Wallet/EnterTopupAmountScreen';
 import CheckPhoneOrTaxiNumber from '../Components/Wallet/CheckPhoneOrTaxiNumber';
@@ -126,6 +127,21 @@ function Wallet_drawer() {
         }}
       />
       <Stack.Screen
+        name="ShowAllTransactionsEntry"
+        component={ShowAllTransactionsEntry}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerBackTitle: 'Back',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.genericHeader}>Transactions history</Text>
+            </View>
+          ),
+        }}
+      />
+      <Stack.Screen
         name="SendFundsEntry"
         component={SendFundsEntry}
         options={{
@@ -144,15 +160,7 @@ function Wallet_drawer() {
         name="PayTaxiInputNumber"
         component={PayTaxiInputNumber}
         options={{
-          headerShown: true,
-          headerStyle: {backgroundColor: '#000'},
-          headerTintColor: '#fff',
-          headerBackTitle: 'Back',
-          headerTitle: (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.genericHeader}>Pay a driver</Text>
-            </View>
-          ),
+          headerShown: false,
         }}
       />
 

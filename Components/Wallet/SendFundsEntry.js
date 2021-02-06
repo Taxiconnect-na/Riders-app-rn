@@ -10,7 +10,6 @@ import {
   BackHandler,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import IconEntypo from 'react-native-vector-icons/Entypo';
@@ -61,7 +60,13 @@ class SendFundsEntry extends React.PureComponent {
    */
   updateUser_natureRecipient(user_nature) {
     this.props.App.user_sender_nature = user_nature; //! Update the recipient's user nature: friend/driver
-    this.props.navigation.navigate('SendFundsFriendInputNumber');
+    if (/friend/i.test(user_nature)) {
+      //Send to friend or family
+      this.props.navigation.navigate('SendFundsFriendInputNumber');
+    } else if (/driver/i.test(user_nature)) {
+      //Send to driver
+      this.props.navigation.navigate('PayTaxiInputNumber');
+    }
   }
 
   render() {
@@ -72,7 +77,6 @@ class SendFundsEntry extends React.PureComponent {
           <View style={styles.presentationWindow}>
             <Text
               style={[
-                systemWeights.semibold,
                 {
                   fontSize: RFValue(22),
                   fontFamily:

@@ -443,6 +443,7 @@ const STATE = {
 
   //WALLET VARS
   user_sender_nature: null, //? TO know which category of users the transaction - friend/driver - default:null
+  paymentNumberOrTaxiNumber: null, //?The taxi number or payment number
   recipient_crucial_data: null, //? Will contain the recipient after checking infos (name, verification status, user nature) - default: null
 
   //Add more details about trip/delivery MAIN VARS
@@ -515,6 +516,7 @@ const STATE = {
     totalWallet_amount: 0, //Current wallet balance - default: 0
     transactions_data: null, //Contains the detailed wallet transactions made from trips or normal wallet transfers. - default: nll
     selectedPayment_method: 'cash', //Default selected payment method - default: cash - auto select wallet after selecting a car type based on the fare amount.
+    transactions_details: null, //Will contain all the transactions made by the user using his wallet - or by cash.
   },
 };
 

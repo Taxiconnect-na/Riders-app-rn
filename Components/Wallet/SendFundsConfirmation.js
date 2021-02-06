@@ -88,7 +88,7 @@ class PayDriverConfirmation extends React.PureComponent {
                 </View>
                 <Text
                   style={{
-                    marginTop: 10,
+                    marginTop: 20,
                     fontSize: RFValue(17),
                     fontFamily:
                       Platform.OS === 'android'
@@ -110,7 +110,7 @@ class PayDriverConfirmation extends React.PureComponent {
                       marginBottom: 5,
                       color: '#0e8491',
                     }}>
-                    TAXI H09
+                    {this.props.App.paymentNumberOrTaxiNumber}
                   </Text>
                 ) : null}
                 {/**--- */}

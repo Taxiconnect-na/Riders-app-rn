@@ -574,7 +574,7 @@ class Home extends React.PureComponent {
 
               globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
                 user_fingerprint: globalObject.props.App.user_fingerprint,
-                mode: 'total',
+                mode: 'detailed',
               });
             } //Kill the persister
             else {
@@ -748,8 +748,7 @@ class Home extends React.PureComponent {
           if (
             /(connection_no_network|service_unavailable)/i.test(
               globalObject.props.App.generalErrorModalType,
-            ) &&
-            globalObject.props.App.showErrorGeneralModal
+            )
           ) {
             //Do not interrupt the select gender process
             globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable

@@ -87,7 +87,6 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     this.props.App.socket.on(
       'checkRecipient_information_beforeTransfer-response',
       function (response) {
-        console.log(response);
         if (
           response !== undefined &&
           response !== null &&
@@ -132,28 +131,65 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     //DEBUG
     if (this.props.App.user_sender_nature !== undefined) {
       //Valid  user nature : friend / driver
-      let phoneNumber = this.props.App.finalPhoneNumber;
-      if (phoneNumber !== false) {
-        //Start the loader
-        this.setState({
-          isCheckingDetails: true,
-          hasFoundSomeErrors: false,
-          errorsNature: null,
-          responseData: null,
-        });
+      if (/friend/i.test(this.props.App.user_sender_nature)) {
+        //Friend
+        let phoneNumber = this.props.App.finalPhoneNumber;
+        if (phoneNumber !== false) {
+          //Start the loader
+          this.setState({
+            isCheckingDetails: true,
+            hasFoundSomeErrors: false,
+            errorsNature: null,
+            responseData: null,
+          });
 
-        let bundleCheckRecipient = {
-          user_fingerprint: this.props.App.user_fingerprint,
-          user_nature: this.props.App.user_sender_nature,
-          payNumberOrPhoneNumber: phoneNumber,
-        };
-        console.log(bundleCheckRecipient);
-        //..
-        this.props.App.socket.emit(
-          'checkRecipient_information_beforeTransfer',
-          bundleCheckRecipient,
-        );
-      } //Return to choose sending users
+          let bundleCheckRecipient = {
+            user_fingerprint: this.props.App.user_fingerprint,
+            user_nature: this.props.App.user_sender_nature,
+            payNumberOrPhoneNumber: phoneNumber,
+          };
+          console.log(bundleCheckRecipient);
+          //..
+          this.props.App.socket.emit(
+            'checkRecipient_information_beforeTransfer',
+            bundleCheckRecipient,
+          );
+        } //Return to choose sending users
+        else {
+          this.props.navigation.navigate('SendFundsEntry');
+        }
+      } else if (/driver/i.test(this.props.App.user_sender_nature)) {
+        //Driver
+        let paymentNumber = this.props.App.paymentNumberOrTaxiNumber;
+        if (
+          paymentNumber !== false &&
+          paymentNumber !== null &&
+          paymentNumber !== undefined
+        ) {
+          //Start the loader
+          this.setState({
+            isCheckingDetails: true,
+            hasFoundSomeErrors: false,
+            errorsNature: null,
+            responseData: null,
+          });
+
+          let bundleCheckRecipient = {
+            user_fingerprint: this.props.App.user_fingerprint,
+            user_nature: this.props.App.user_sender_nature,
+            payNumberOrPhoneNumber: paymentNumber,
+          };
+          console.log(bundleCheckRecipient);
+          //..
+          this.props.App.socket.emit(
+            'checkRecipient_information_beforeTransfer',
+            bundleCheckRecipient,
+          );
+        } //Return to choose sending users
+        else {
+          this.props.navigation.navigate('SendFundsEntry');
+        }
+      } //!Invalid user nature
       else {
         this.props.navigation.navigate('SendFundsEntry');
       }
@@ -201,10 +237,189 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                     Checking the receiver's information
                   </Text>
                 </View>
-              ) : this.state.hasFoundSomeErrors === false ? (
+              ) : /friend/i.test(this.props.App.user_sender_nature) ? (
+                this.state.hasFoundSomeErrors === false ? (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => this.props.navigation.goBack()}
+                      style={{width: '30%'}}>
+                      <IconAnt name="arrowleft" size={29} />
+                    </TouchableOpacity>
+                    <View
+                      style={{
+                        height: '80%',
+                        alignItems: 'center',
+                        paddingTop: '7%',
+                      }}>
+                      <View
+                        style={{
+                          width: '100%',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingBottom: '15%',
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: RFValue(22),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'MoveMedium'
+                                : 'Uber Move Medium',
+                          }}>
+                          Good to go!
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: 70,
+                          height: 70,
+                          borderRadius: 200,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: '#fff',
+                          shadowColor: '#000',
+                          shadowOffset: {
+                            width: 0,
+                            height: 7,
+                          },
+                          shadowOpacity: 0.41,
+                          shadowRadius: 9.11,
+
+                          elevation: 14,
+                          marginBottom: 20,
+                        }}>
+                        <Image
+                          source={require('../../Media_assets/Images/user.png')}
+                          style={{
+                            resizeMode: 'contain',
+                            width: '60%',
+                            height: '80%',
+                            borderRadius: 0,
+                          }}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: RFValue(20),
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                        }}>
+                        {this.state.responseData.receipient_name}
+                      </Text>
+                      <View
+                        style={{
+                          width: '100%',
+                          alignItems: 'center',
+                          marginTop: 10,
+                        }}>
+                        <Text
+                          style={{
+                            fontSize: RFValue(16),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                            textAlign: 'left',
+                            color: '#09864A',
+                          }}>
+                          You are allowed to make the transaction.
+                        </Text>
+                      </View>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => this.props.navigation.goBack()}
+                      style={{width: '30%'}}>
+                      <IconAnt name="arrowleft" size={29} />
+                    </TouchableOpacity>
+                    <View
+                      style={{
+                        flex: 1,
+                        paddingTop: '7%',
+                      }}>
+                      <View
+                        style={{
+                          width: '100%',
+                          alignItems: 'center',
+                          paddingBottom: 20,
+                          flexDirection: 'row',
+                        }}>
+                        <IconAnt
+                          name="closecircleo"
+                          size={20}
+                          color={'#b22222'}
+                        />
+                        <Text
+                          style={{
+                            fontSize: RFValue(21),
+                            marginLeft: 5,
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                          }}>
+                          Unable to proceed
+                        </Text>
+                      </View>
+
+                      <View
+                        style={{
+                          width: '100%',
+                        }}>
+                        {/transaction_error_want_toSend_toHiHermslef/i.test(
+                          this.state.errorsNature,
+                        ) ? (
+                          <Text
+                            style={{
+                              fontSize: RFValue(17.5),
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextLight'
+                                  : 'Uber Move Text Light',
+                              textAlign: 'left',
+                              lineHeight: 23,
+                            }}>
+                            Sorry it looks like you are trying to make this
+                            transaction to yourslef, you cannot perform this
+                            kind of action, please visit the{' '}
+                            <Text style={{fontWeight: 'bold'}}>
+                              Support Tab
+                            </Text>{' '}
+                            for any assistance.
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                              fontSize: RFValue(17.5),
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextLight'
+                                  : 'Uber Move Text Light',
+                              textAlign: 'left',
+                              lineHeight: 23,
+                            }}>
+                            Sorry you are only allowed to make transfers to{' '}
+                            <Text
+                              style={{fontWeight: 'bold', color: '#0e8491'}}>
+                              active TaxiConnect numbers
+                            </Text>{' '}
+                            , please make sure that your receiver has a
+                            TaxiConnect account and try again.
+                          </Text>
+                        )}
+                      </View>
+                    </View>
+                  </>
+                )
+              ) : //FOR DRIVERS
+              this.state.hasFoundSomeErrors === false ? (
                 <>
                   <TouchableOpacity
-                    onPress={() => this.goBack()}
+                    onPress={() => this.props.navigation.goBack()}
                     style={{width: '30%'}}>
                     <IconAnt name="arrowleft" size={29} />
                   </TouchableOpacity>
@@ -226,8 +441,8 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                           fontSize: RFValue(22),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'UberMoveTextBold'
-                              : 'Uber Move Text Bold',
+                              ? 'MoveMedium'
+                              : 'Uber Move Medium',
                         }}>
                         Good to go!
                       </Text>
@@ -287,7 +502,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                           textAlign: 'left',
                           color: '#09864A',
                         }}>
-                        You are allowed to make the transaction.
+                        Driver transaction allowed
                       </Text>
                     </View>
                   </View>
@@ -295,7 +510,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
               ) : (
                 <>
                   <TouchableOpacity
-                    onPress={() => this.goBack()}
+                    onPress={() => this.props.navigation.goBack()}
                     style={{width: '30%'}}>
                     <IconAnt name="arrowleft" size={29} />
                   </TouchableOpacity>
@@ -365,10 +580,10 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                           }}>
                           Sorry you are only allowed to make transfers to{' '}
                           <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
-                            active TaxiConnect numbers
+                            active TaxiConnect drivers
                           </Text>{' '}
-                          , please make sure that your receiver has a
-                          TaxiConnect account and try again.
+                          , please make sure that your receiver is a TaxiConnect
+                          driver and try again.
                         </Text>
                       )}
                     </View>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import {
   SafeAreaView,
   View,
@@ -9,16 +10,52 @@ import {
   BackHandler,
   Platform,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAnt from 'react-native-vector-icons/AntDesign';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import IconAnt from 'react-native-vector-icons/AntDesign';
+import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
+
+const App = ({valueM, parentNode}) => {
+  const [value, setValue] = useState('');
+  const ref = useBlurOnFulfill({value, cellCount: 6});
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
+
+  return (
+    <View style={styles.root}>
+      <CodeField
+        ref={ref}
+        {...props}
+        value={valueM.length > 0 ? valueM : value}
+        onChangeText={setValue}
+        onChange={(event) =>
+          parentNode.autoUpdaterThePaymentNumber(event.nativeEvent.text)
+        }
+        autoFocus
+        cellCount={6}
+        rootStyle={styles.codeFieldRoot}
+        keyboardType="number-pad"
+        textContentType="oneTimeCode"
+        renderCell={({index, symbol, isFocused}) => (
+          <Text
+            key={index}
+            style={[styles.cell, isFocused && styles.focusCell]}
+            onLayout={getCellOnLayoutHandler(index)}>
+            {symbol || (isFocused ? <Cursor /> : null)}
+          </Text>
+        )}
+      />
+    </View>
+  );
+};
 
 class PayTaxiInputNumber extends React.PureComponent {
   constructor(props) {
@@ -26,6 +63,13 @@ class PayTaxiInputNumber extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+
+    this.state = {
+      paymentNumber: '', //The value of the taxi number or payment number - default: ''
+      showErrorMessage: false, //To know whether to show an error message or not - default: false
+      errorType: 'codeTooShort', //The type of error to display the message for - can be: too short or empty
+      errorMessageContent: `The code is too short`, //The error message to display - default: AS SET
+    };
   }
 
   componentWillUnmount() {
@@ -37,6 +81,18 @@ class PayTaxiInputNumber extends React.PureComponent {
   componentDidMount() {
     let globalObject = this;
 
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        globalObject.props.App.paymentNumberOrTaxiNumber = null; //! CLEAR THE GLOBAL PAYMENT NUMBER VARIABLE.
+        globalObject.setState({
+          paymentNumber: '',
+          showErrorMessage: false,
+        });
+      },
+    );
+
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
@@ -46,109 +102,159 @@ class PayTaxiInputNumber extends React.PureComponent {
     );
   }
 
+  /**
+   * @func autoUpdaterThePaymentNumber
+   * Responsible for updating the Taxi number or payment number
+   * @param paymentNumber: the payment number value received
+   */
+  autoUpdaterThePaymentNumber(paymentNumber) {
+    this.setState({
+      paymentNumber: paymentNumber.toUpperCase(),
+      showErrorMessage: false,
+    });
+  }
+
+  /**
+   * @func validDate_paymentNumberFormat
+   * Responsible for checking that the taxi number or payment number has the right format.
+   * And auto move forward to checking the driver screen.
+   */
+  validDate_paymentNumberFormat() {
+    if (this.state.paymentNumber.trim().length > 1) {
+      //Good
+      //! Update the global payment number
+      this.props.App.paymentNumberOrTaxiNumber = this.state.paymentNumber;
+      //? Move to checking
+      this.props.navigation.navigate('CheckPhoneOrTaxiNumber');
+    } else if (this.state.paymentNumber.trim().length === 0) {
+      //Empty
+      this.setState({
+        showErrorMessage: true,
+        errorType: 'EmptyCode',
+        errorMessageContent: 'Please fill before proceeding',
+      });
+    } else if (this.state.paymentNumber.trim().length === 1) {
+      this.setState({
+        showErrorMessage: true,
+        errorType: 'codeTooShort',
+        errorMessageContent: 'The code is too short',
+      });
+    }
+  }
+
   render() {
     return (
-      <SafeAreaView style={styles.mainWindow}>
-        <StatusBar backgroundColor="#000" />
-        <View style={styles.presentationWindow}>
-          <Text
-            style={[
-              systemWeights.semibold,
-              {
-                fontSize: 19,
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Book'
-                    : 'Allrounder Grotesk Book',
-                marginBottom: 35,
-              },
-            ]}>
-            What's the taxi number?
-          </Text>
-          <CodeField
-            //ref={ref}
-            //value={value}
-            //onChangeText={setValue}
-            cellCount={5}
-            rootStyle={styles.codeFieldRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            renderCell={({index, symbol, isFocused}) => (
-              <Text
-                key={index}
-                style={[styles.cell, isFocused && styles.focusCell]}
-                /*onLayout={getCellOnLayoutHandler(index)}*/
-              >
-                {symbol || (isFocused ? <Cursor /> : null)}
-              </Text>
-            )}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: '15%',
-              alignItems: 'center',
-              width: '100%',
-            }}>
-            <View
-              style={{
-                marginRight: 5,
-                justifyContent: 'flex-start',
-                height: '100%',
-              }}>
-              <IconAnt name="infocirlce" size={17} />
-            </View>
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <StatusBar backgroundColor="#000" />
+          <View style={styles.presentationWindow}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack()}
+              style={{width: '30%'}}>
+              <IconAnt name="arrowleft" size={29} />
+            </TouchableOpacity>
             <Text
               style={[
                 {
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
-                  color: '#0e8491',
-                  fontSize: 14,
-                  lineHeight: 20,
-                  color: '#a5a5a5',
-                  flex: 1,
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text',
+                  marginBottom: 35,
+                  marginTop: 15,
                 },
               ]}>
-              Please make sure that the taxi number is accurate before
-              proceeding to any transactions.
+              What's the taxi number?
             </Text>
-          </View>
+            <View>
+              <App valueM={this.state.paymentNumber} parentNode={this} />
 
-          <View
-            style={{
-              flexDirection: 'row',
-              position: 'absolute',
-              bottom: '10%',
-              left: 20,
-              right: 20,
-              width: '100%',
-            }}>
-            <View style={{flexDirection: 'row', flex: 1}}>
-              <Text
-                style={[
-                  systemWeights.light,
-                  {fontSize: 12, marginLeft: 6},
-                ]}></Text>
+              {this.state.showErrorMessage ? (
+                /codeTooShort/i.test(this.state.errorType) ? (
+                  <View style={{marginTop: '25%'}}>
+                    <Text
+                      style={[
+                        {
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          color: '#b22222',
+                          fontSize: RFValue(17),
+                        },
+                      ]}>
+                      {this.state.errorMessageContent}
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{marginTop: '25%'}}>
+                    <Text
+                      style={[
+                        {
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          color: '#b22222',
+                          fontSize: RFValue(17),
+                        },
+                      ]}>
+                      {this.state.errorMessageContent}
+                    </Text>
+                  </View>
+                )
+              ) : null}
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <TouchableOpacity
-                style={[
-                  styles.arrowCircledForwardBasic,
-                  styles.shadowButtonArrowCircledForward,
-                ]}>
-                <IconMaterialIcons
-                  name="arrow-forward-ios"
-                  size={30}
-                  color="#fff"
-                />
-              </TouchableOpacity>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: '10%',
+                left: 20,
+                right: 20,
+                width: '100%',
+              }}>
+              <View style={{flexDirection: 'row', flex: 1}}>
+                <Text
+                  style={[
+                    {
+                      fontSize: RFValue(14),
+                      marginLeft: 6,
+                      lineHeight: 18,
+                      color: '#141414',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                    },
+                  ]}>
+                  Note that you can also use the driver's{' '}
+                  <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
+                    payment number
+                  </Text>{' '}
+                  instead.
+                </Text>
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <TouchableOpacity
+                  onPress={() => this.validDate_paymentNumberFormat()}
+                  style={[
+                    styles.arrowCircledForwardBasic,
+                    styles.shadowButtonArrowCircledForward,
+                  ]}>
+                  <IconMaterialIcons
+                    name="arrow-forward-ios"
+                    size={30}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }
@@ -181,14 +287,14 @@ const styles = StyleSheet.create({
 
     elevation: 6,
   },
-  root: {flex: 1, padding: 20},
+  root: {flex: 1},
   title: {textAlign: 'center', fontSize: 30},
-  codeFieldRoot: {marginTop: 20},
+  codeFieldRoot: {marginTop: 10},
   cell: {
     flex: 1,
     height: 40,
     lineHeight: 38,
-    marginRight: 20,
+    marginRight: 10,
     fontSize: 25,
     borderBottomWidth: 2,
     borderColor: '#00000030',
@@ -199,4 +305,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PayTaxiInputNumber;
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default connect(mapStateToProps)(PayTaxiInputNumber);

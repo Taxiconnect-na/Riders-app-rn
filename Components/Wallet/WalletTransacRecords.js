@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet, Platform} from 'react-native';
-import {systemWeights} from 'react-native-typography';
-import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -18,7 +16,7 @@ class WalletTransacRecords extends React.PureComponent {
           <IconCommunity
             name="square"
             size={6}
-            style={{top: 10, marginRight: 7}}
+            style={{top: 7, marginRight: 7}}
           />
         </View>
         <View style={{flex: 1}}>
@@ -30,8 +28,55 @@ class WalletTransacRecords extends React.PureComponent {
                   : 'Uber Move Text Medium',
               fontSize: RFValue(17),
             }}>
-            Top-up
+            {/sentToFriend/i.test(
+              this.props.transactionDetails.transaction_nature,
+            )
+              ? `Sent to ${this.props.transactionDetails.recipient_name}`
+              : /topup/i.test(this.props.transactionDetails.transaction_nature)
+              ? 'Top-up'
+              : /(paidDriver|sentToDriver)/i.test(
+                  this.props.transactionDetails.transaction_nature,
+                )
+              ? `Paid ${this.props.transactionDetails.recipient_name}`
+              : /(ride|delivery)/i.test(
+                  this.props.transactionDetails.transaction_nature,
+                )
+              ? `Paid for ${this.props.transactionDetails.transaction_nature.toLowerCase()}`
+              : 'Transaction'}
           </Text>
+          {/(sentToFriend|paidDriver|sentToDriver|topup)/i.test(
+            this.props.transactionDetails.transaction_nature,
+          ) ? (
+            <Text
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
+                color: '#545454',
+                fontSize: RFValue(15),
+                marginTop: 5,
+              }}>
+              Wallet payment
+            </Text>
+          ) : /(ride|delivery)/i.test(
+              this.props.transactionDetails.transaction_nature,
+            ) ? (
+            <Text
+              style={{
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
+                color: '#545454',
+                fontSize: RFValue(15),
+                marginTop: 5,
+              }}>
+              {`${this.props.transactionDetails.payment_method[0].toUpperCase()}${this.props.transactionDetails.payment_method
+                .substr(1)
+                .toLowerCase()} payment`}
+            </Text>
+          ) : null}
           <Text
             style={{
               fontFamily:
@@ -42,15 +87,16 @@ class WalletTransacRecords extends React.PureComponent {
               fontSize: RFValue(16),
               marginTop: 5,
             }}>
-            Today at 15:45
+            {this.props.transactionDetails.date_made
+              .replace(/\//g, '-')
+              .replace(' ', ' at ')}
           </Text>
         </View>
         <View
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-
-            width: 55,
+            minWidth: 55,
           }}>
           <Text
             style={{
@@ -61,7 +107,7 @@ class WalletTransacRecords extends React.PureComponent {
               fontSize: RFValue(18),
               color: '#0e8491',
             }}>
-            N$50
+            {`N$${this.props.transactionDetails.amount}`}
           </Text>
         </View>
       </TouchableOpacity>

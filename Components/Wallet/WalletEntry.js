@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  SectionList,
   StatusBar,
   BackHandler,
   Platform,
@@ -18,6 +17,7 @@ import WalletTransacRecords from './WalletTransacRecords';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
 import FastImage from 'react-native-fast-image';
+import {FlatList} from 'react-native-gesture-handler';
 
 class WalletEntry extends React.PureComponent {
   constructor(props) {
@@ -40,6 +40,14 @@ class WalletEntry extends React.PureComponent {
   componentDidMount() {
     let globalObject = this;
     this._isMounted = true;
+
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      'focus',
+      () => {
+        console.log('focused');
+      },
+    );
 
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
@@ -153,7 +161,14 @@ class WalletEntry extends React.PureComponent {
                           color: '#fff',
                         },
                       ]}>
-                      N$450
+                      {`N$${
+                        this.props.App.wallet_state_vars.totalWallet_amount !==
+                          undefined &&
+                        this.props.App.wallet_state_vars.totalWallet_amount !==
+                          null
+                          ? this.props.App.wallet_state_vars.totalWallet_amount
+                          : 0
+                      }`}
                     </Text>
                     <Text
                       style={{
@@ -245,6 +260,11 @@ class WalletEntry extends React.PureComponent {
                   </View>
                   <View style={{padding: 20, flex: 1}}>
                     <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate(
+                          'ShowAllTransactionsEntry',
+                        )
+                      }
                       style={{
                         flexDirection: 'row',
                         paddingBottom: 10,
@@ -263,34 +283,81 @@ class WalletEntry extends React.PureComponent {
                         }}>
                         Last transaction
                       </Text>
-                      <Text
-                        style={[
-                          {
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextMedium'
-                                : 'Uber Move Text Medium',
-                            fontSize: RFValue(17.5),
-                            color: '#757575',
-                            paddingBottom: 15,
-                          },
-                        ]}>
-                        Show all
-                      </Text>
+                      {this.props.App.wallet_state_vars.transactions_details !==
+                        undefined &&
+                      this.props.App.wallet_state_vars.transactions_details !==
+                        null &&
+                      this.props.App.wallet_state_vars
+                        .transactions_details[0] !== undefined &&
+                      this.props.App.wallet_state_vars
+                        .transactions_details[0] !== null &&
+                      this.props.App.wallet_state_vars.transactions_details
+                        .length > 0 ? (
+                        <Text
+                          style={[
+                            {
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextMedium'
+                                  : 'Uber Move Text Medium',
+                              fontSize: RFValue(17.5),
+                              color: '#757575',
+                              paddingBottom: 15,
+                            },
+                          ]}>
+                          Show all
+                        </Text>
+                      ) : null}
                     </TouchableOpacity>
 
                     <View style={{flex: 1}}>
-                      <SectionList
-                        sections={[
-                          {
-                            title: 'Top-up',
-                            data: [{transaction_type: 'topup', amount: 50}],
-                          },
-                        ]}
-                        keyboardShouldPersistTaps={'always'}
-                        keyExtractor={(item, index) => item + index}
-                        renderItem={({item}) => <WalletTransacRecords />}
-                      />
+                      {this.props.App.wallet_state_vars.transactions_details !==
+                        undefined &&
+                      this.props.App.wallet_state_vars.transactions_details !==
+                        null &&
+                      this.props.App.wallet_state_vars
+                        .transactions_details[0] !== undefined &&
+                      this.props.App.wallet_state_vars
+                        .transactions_details[0] !== null &&
+                      this.props.App.wallet_state_vars.transactions_details
+                        .length > 0 ? (
+                        <FlatList
+                          data={[
+                            this.props.App.wallet_state_vars
+                              .transactions_details[0],
+                          ]}
+                          keyboardShouldPersistTaps={'always'}
+                          keyExtractor={(item, index) => item + index}
+                          renderItem={({item}) => (
+                            <WalletTransacRecords transactionDetails={item} />
+                          )}
+                        />
+                      ) : (
+                        <View
+                          style={{
+                            height: '30%',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}>
+                          <IconMaterialIcons
+                            name="info"
+                            color={'#757575'}
+                            size={18}
+                          />
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(17),
+                              color: '#757575',
+                              marginLeft: 5,
+                            }}>
+                            No transactions yet.
+                          </Text>
+                        </View>
+                      )}
                     </View>
                   </View>
                 </View>
