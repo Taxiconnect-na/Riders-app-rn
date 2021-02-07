@@ -1065,7 +1065,6 @@ class ErrorModal extends React.PureComponent {
         <SafeAreaView
           style={{
             backgroundColor: '#fff',
-            //padding: 20,
             flex: 1,
           }}>
           <View style={styles.presentationWindow}>
@@ -1080,7 +1079,7 @@ class ErrorModal extends React.PureComponent {
                       paddingBottom: 15,
                       borderBottomWidth: 0.7,
                       borderBottomColor: '#d0d0d0',
-                      backgroundColor: '#fff',
+                      backgroundColor: '#000',
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -1108,18 +1107,18 @@ class ErrorModal extends React.PureComponent {
                 }
                 style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" size={23} />
+                  <IconAnt name="arrowleft" color="#fff" size={22} />
                 </View>
                 <Text
                   style={[
-                    systemWeights.semibold,
                     {
-                      fontSize: 20,
+                      fontSize: RFValue(20),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       marginLeft: 5,
+                      color: '#fff',
                     },
                   ]}>
                   Trip details
@@ -1178,9 +1177,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 19,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(19.5),
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1197,9 +1196,9 @@ class ErrorModal extends React.PureComponent {
                         style={{
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
-                          fontSize: 18,
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(18),
                           color: '#096ED4',
                         }}>
                         {this.props.App.generalTRIP_details_driverDetails
@@ -1220,9 +1219,9 @@ class ErrorModal extends React.PureComponent {
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
-                            fontSize: 17,
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                            fontSize: RFValue(17),
                           }}>
                           {
                             this.props.App.generalTRIP_details_driverDetails
@@ -1243,10 +1242,10 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       color: '#096ED4',
-                      fontSize: 16.5,
+                      fontSize: RFValue(17),
                     }}>
                     {this.props.App.generalTRIP_details_driverDetails.eta !==
                       null &&
@@ -1260,84 +1259,52 @@ class ErrorModal extends React.PureComponent {
                 </View>
               </View>
               {/**Call or cancel */}
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  paddingLeft: 20,
-                  paddingRight: 20,
-                }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    call({
-                      number: this.props.App.generalTRIP_details_driverDetails
-                        .driverDetails.phone_number,
-                      prompt: true,
-                    })
-                  }
+              {this.props.App.generalTRIP_details_driverDetails
+                .riderOwnerInfoBundle === undefined ? (
+                <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    flex: /inRouteToPickup/i.test(this.props.App.request_status)
-                      ? 0
-                      : 1,
-                    padding: 15,
-                    borderRadius: 4,
-                    height: 58,
-                    borderTopRightRadius: /inRouteToPickup/i.test(
-                      this.props.App.request_status,
-                    )
-                      ? 0
-                      : 4,
-                    borderBottomRightRadius: /inRouteToPickup/i.test(
-                      this.props.App.request_status,
-                    )
-                      ? 0
-                      : 4,
-                    backgroundColor: '#096ED4',
-                    marginRight: /inRouteToPickup/i.test(
-                      this.props.App.request_status,
-                    )
-                      ? 10
-                      : 0,
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 2,
-                    },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-
-                    elevation: 5,
+                    paddingLeft: 20,
+                    paddingRight: 20,
                   }}>
-                  <IconMaterialIcons name="phone" color="#fff" size={28} />
-                </TouchableOpacity>
-
-                {/inRouteToPickup/i.test(this.props.App.request_status) ? (
                   <TouchableOpacity
-                    onPress={() => {
-                      this.props.UpdateErrorModalLog(false, false, 'any');
-                      this.props.UpdateErrorModalLog(
-                        true,
-                        'show_cancel_ride_modal',
-                        'any',
-                      );
-                    }}
+                    onPress={() =>
+                      call({
+                        number: this.props.App.generalTRIP_details_driverDetails
+                          .driverDetails.phone_number,
+                        prompt: true,
+                      })
+                    }
                     style={{
                       flexDirection: 'row',
-                      flex: 1,
                       alignItems: 'center',
                       justifyContent: 'center',
+                      flex: /inRouteToPickup/i.test(
+                        this.props.App.request_status,
+                      )
+                        ? 0
+                        : 1,
                       padding: 15,
-                      height: 58,
-                      borderWidth: 1,
-                      borderColor: '#d0d0d0',
                       borderRadius: 4,
-                      borderTopLeftRadius: 0,
-                      borderBottomLeftRadius: 0,
-                      backgroundColor: '#fff',
-                      shadowColor: '#d0d0d0',
+                      height: 58,
+                      borderTopRightRadius: /inRouteToPickup/i.test(
+                        this.props.App.request_status,
+                      )
+                        ? 0
+                        : 4,
+                      borderBottomRightRadius: /inRouteToPickup/i.test(
+                        this.props.App.request_status,
+                      )
+                        ? 0
+                        : 4,
+                      backgroundColor: '#096ED4',
+                      marginRight: /inRouteToPickup/i.test(
+                        this.props.App.request_status,
+                      )
+                        ? 10
+                        : 0,
+                      shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
                         height: 2,
@@ -1345,22 +1312,59 @@ class ErrorModal extends React.PureComponent {
                       shadowOpacity: 0.25,
                       shadowRadius: 3.84,
 
-                      elevation: 3,
+                      elevation: 5,
                     }}>
-                    <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 19,
-                        color: '#b22222',
-                      }}>
-                      Cancel the trip
-                    </Text>
+                    <IconMaterialIcons name="phone" color="#fff" size={28} />
                   </TouchableOpacity>
-                ) : null}
-              </View>
+
+                  {/inRouteToPickup/i.test(this.props.App.request_status) ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.props.UpdateErrorModalLog(false, false, 'any');
+                        this.props.UpdateErrorModalLog(
+                          true,
+                          'show_cancel_ride_modal',
+                          'any',
+                        );
+                      }}
+                      style={{
+                        flexDirection: 'row',
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: 15,
+                        height: 58,
+                        borderWidth: 1,
+                        borderColor: '#d0d0d0',
+                        borderRadius: 4,
+                        borderTopLeftRadius: 0,
+                        borderBottomLeftRadius: 0,
+                        backgroundColor: '#fff',
+                        shadowColor: '#d0d0d0',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+
+                        elevation: 3,
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'Allrounder-Grotesk-Medium'
+                              : 'Allrounder Grotesk Medium',
+                          fontSize: 19,
+                          color: '#b22222',
+                        }}>
+                        Cancel the trip
+                      </Text>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
+              ) : null}
               {/**Car details */}
               <View
                 style={{
@@ -1372,11 +1376,11 @@ class ErrorModal extends React.PureComponent {
                 }}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: RFValue(16.5),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     color: '#a5a5a5',
                     paddingBottom: 16,
                   }}>
@@ -1406,11 +1410,11 @@ class ErrorModal extends React.PureComponent {
                   <View style={{marginLeft: 10, flex: 1}}>
                     <Text
                       style={{
-                        fontSize: 17.5,
+                        fontSize: RFValue(17.5),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1419,11 +1423,11 @@ class ErrorModal extends React.PureComponent {
                     </Text>
                     <Text
                       style={{
-                        fontSize: 16,
+                        fontSize: RFValue(16.5),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
                       }}>
                       {
                         this.props.App.generalTRIP_details_driverDetails
@@ -1439,15 +1443,15 @@ class ErrorModal extends React.PureComponent {
                       <IconMaterialIcons
                         name="shield"
                         color="#09864A"
-                        size={15}
+                        size={14}
                       />
                       <Text
                         style={{
-                          fontSize: 14,
+                          fontSize: RFValue(14),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Book'
-                              : 'Allrounder Grotesk Book',
+                              ? 'UberMoveTextLight'
+                              : 'Uber Move Text Light',
                           color: '#09864A',
                         }}>
                         {
@@ -1463,11 +1467,11 @@ class ErrorModal extends React.PureComponent {
               <View style={{}}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: RFValue(16.5),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     color: '#a5a5a5',
                     padding: 20,
                     paddingBottom: 0,
@@ -1530,9 +1534,9 @@ class ErrorModal extends React.PureComponent {
                               style={{
                                 fontFamily:
                                   Platform.OS === 'android'
-                                    ? 'Allrounder-Grotesk-Book'
-                                    : 'Allrounder Grotesk Book',
-                                fontSize: 15,
+                                    ? 'UberMoveTextLight'
+                                    : 'Uber Move Text Light',
+                                fontSize: RFValue(15),
                                 top: 2,
                               }}>
                               From
@@ -1552,9 +1556,9 @@ class ErrorModal extends React.PureComponent {
                                 style={{
                                   fontFamily:
                                     Platform.OS === 'android'
-                                      ? 'Allrounder-Grotesk-Medium'
-                                      : 'Allrounder Grotesk Medium',
-                                  fontSize: 17,
+                                      ? 'UberMoveTextMedium'
+                                      : 'Uber Move Text Medium',
+                                  fontSize: RFValue(18),
                                   marginLeft: 5,
                                   flex: 1,
                                 }}>
@@ -1596,9 +1600,9 @@ class ErrorModal extends React.PureComponent {
                               style={{
                                 fontFamily:
                                   Platform.OS === 'android'
-                                    ? 'Allrounder-Grotesk-Book'
-                                    : 'Allrounder Grotesk Book',
-                                fontSize: 15,
+                                    ? 'UberMoveTextLight'
+                                    : 'Uber Move Text Light',
+                                fontSize: RFValue(15),
                                 top: 1,
                               }}>
                               To
@@ -1624,8 +1628,8 @@ class ErrorModal extends React.PureComponent {
                                       style={{
                                         fontFamily:
                                           Platform.OS === 'android'
-                                            ? 'Allrounder-Grotesk-Regular'
-                                            : 'Allrounder Grotesk',
+                                            ? 'UberMoveTextRegular'
+                                            : 'Uber Move Text',
                                         fontSize: 17,
                                         marginLeft: 5,
                                         flex: 1,
@@ -1637,9 +1641,9 @@ class ErrorModal extends React.PureComponent {
                                           style={{
                                             fontFamily:
                                               Platform.OS === 'android'
-                                                ? 'Allrounder-Grotesk-Medium'
-                                                : 'Allrounder Grotesk Medium',
-                                            fontSize: 15,
+                                                ? 'UberMoveTextMedium'
+                                                : 'Uber Move Text Medium',
+                                            fontSize: RFValue(15),
                                             marginLeft: 5,
                                             flex: 1,
                                             color: '#096ED4',
@@ -1690,9 +1694,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        fontSize: 16.5,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(16.5),
                         marginLeft: 5,
                         flex: 1,
                       }}>
@@ -1701,9 +1705,9 @@ class ErrorModal extends React.PureComponent {
                         style={{
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
-                          fontSize: 16,
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(16),
                           marginLeft: 5,
                           color: '#096ED4',
                         }}>
@@ -1718,9 +1722,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Book'
-                            : 'Allrounder Grotesk Book',
-                        fontSize: 15,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(15),
                         marginLeft: 5,
                         flex: 1,
                       }}>
@@ -1730,191 +1734,197 @@ class ErrorModal extends React.PureComponent {
                 </View>
               </View>
               {/**Payment method, amount and passenger number */}
-              <View
-                style={{
-                  padding: 20,
-                  borderBottomWidth: 0.7,
-                  borderBottomColor: '#d0d0d0',
-                  height: 70,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+              {this.props.App.generalTRIP_details_driverDetails
+                .riderOwnerInfoBundle === undefined ? (
                 <View
                   style={{
+                    padding: 20,
+                    borderBottomWidth: 0.7,
+                    borderBottomColor: '#d0d0d0',
+                    height: 70,
                     flexDirection: 'row',
                     alignItems: 'center',
-                    flex: 1,
+                    justifyContent: 'center',
                   }}>
-                  {/cash/i.test(
-                    String(
-                      this.props.App.generalTRIP_details_driverDetails
-                        .basicTripDetails.payment_method,
-                    ),
-                  ) ? (
-                    <IconCommunity name="cash-usd" color={'#000'} size={25} />
-                  ) : (
-                    <IconMaterialIcons name="credit-card" size={25} />
-                  )}
-
-                  <Text
-                    style={{
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 18,
-                      marginLeft: 4,
-                    }}>
-                    {String(
-                      this.props.App.generalTRIP_details_driverDetails
-                        .basicTripDetails.payment_method,
-                    )[0] +
-                      String(
-                        this.props.App.generalTRIP_details_driverDetails
-                          .basicTripDetails.payment_method,
-                      )
-                        .substring(
-                          1,
-                          String(
-                            this.props.App.generalTRIP_details_driverDetails
-                              .basicTripDetails.payment_method,
-                          ).length,
-                        )
-                        .toLowerCase()}
-                  </Text>
-                </View>
-                <Text
-                  style={{
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 19,
-                    color: '#09864A',
-                    flex: 1,
-                    textAlign: 'center',
-                  }}>
-                  {'N$' +
-                    this.props.App.generalTRIP_details_driverDetails
-                      .basicTripDetails.fare_amount}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                    flex: 1,
-                  }}>
-                  <IconAnt name="user" size={17} />
-                  <Text
-                    style={{
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                      fontSize: 18,
-                      marginLeft: 4,
-                    }}>
-                    {
-                      this.props.App.generalTRIP_details_driverDetails
-                        .basicTripDetails.passengers_number
-                    }
-                  </Text>
-                </View>
-              </View>
-              {/**Guardian */}
-              <View
-                style={{
-                  padding: 20,
-                  paddingBottom: 30,
-                  marginBottom: 50,
-                  paddingTop: 30,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    color: '#a5a5a5',
-                    paddingBottom: 35,
-                  }}>
-                  Safety
-                </Text>
-                <View>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.onShare(
-                        'My TaxiConnect ride',
-                        "Hey, I'm in a TaxiConnect taxi " +
-                          (this.props.App.generalTRIP_details_driverDetails
-                            .carDetails.taxi_number !== false
-                            ? this.props.App.generalTRIP_details_driverDetails
-                                .carDetails.taxi_number
-                            : this.props.App.generalTRIP_details_driverDetails
-                                .carDetails.car_brand) +
-                          ' (Plate number: ' +
-                          this.props.App.generalTRIP_details_driverDetails
-                            .carDetails.plate_number +
-                          ') with the driver ' +
-                          this.props.App.generalTRIP_details_driverDetails
-                            .driverDetails.name +
-                          '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
-                          this.props.App.generalTRIP_details_driverDetails
-                            .basicTripDetails.ride_simplified_id,
-                      )
-                    }
+                  <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
-                      marginBottom: 20,
-                      paddingBottom: 10,
+                      flex: 1,
                     }}>
-                    <IconCommunity name="earth" color="#000" size={25} />
+                    {/cash/i.test(
+                      String(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.payment_method,
+                      ),
+                    ) ? (
+                      <IconCommunity name="cash-usd" color={'#000'} size={26} />
+                    ) : (
+                      <IconMaterialIcons name="credit-card" size={26} />
+                    )}
+
                     <Text
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 19,
-                        color: '#000',
-                        marginLeft: 5,
-                        flex: 1,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(19),
+                        marginLeft: 4,
                       }}>
-                      Share your trip
+                      {String(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.payment_method,
+                      )[0] +
+                        String(
+                          this.props.App.generalTRIP_details_driverDetails
+                            .basicTripDetails.payment_method,
+                        )
+                          .substring(
+                            1,
+                            String(
+                              this.props.App.generalTRIP_details_driverDetails
+                                .basicTripDetails.payment_method,
+                            ).length,
+                          )
+                          .toLowerCase()}
                     </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() =>
-                      call({
-                        number: '061302302',
-                        prompt: true,
-                      })
-                    }
-                    style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <IconMaterialIcons
-                      name="shield"
-                      color="#b22222"
-                      size={25}
-                    />
+                  </View>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(20),
+                      color: '#09864A',
+                      flex: 1,
+                      textAlign: 'center',
+                    }}>
+                    {'N$' +
+                      this.props.App.generalTRIP_details_driverDetails
+                        .basicTripDetails.fare_amount}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      flex: 1,
+                    }}>
+                    <IconAnt name="user" size={16} />
                     <Text
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 19,
-                        color: '#b22222',
-                        marginLeft: 5,
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(19),
+                        marginLeft: 4,
                       }}>
-                      Emergency call
+                      {
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.passengers_number
+                      }
                     </Text>
-                  </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
+              ) : null}
+              {/**Guardian */}
+              {this.props.App.generalTRIP_details_driverDetails
+                .riderOwnerInfoBundle === undefined ? (
+                <View
+                  style={{
+                    padding: 20,
+                    paddingBottom: 30,
+                    marginBottom: 50,
+                    paddingTop: 30,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(18),
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      color: '#a5a5a5',
+                      paddingBottom: 35,
+                    }}>
+                    Safety
+                  </Text>
+                  <View>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.onShare(
+                          'My TaxiConnect ride',
+                          "Hey, I'm in a TaxiConnect taxi " +
+                            (this.props.App.generalTRIP_details_driverDetails
+                              .carDetails.taxi_number !== false
+                              ? this.props.App.generalTRIP_details_driverDetails
+                                  .carDetails.taxi_number
+                              : this.props.App.generalTRIP_details_driverDetails
+                                  .carDetails.car_brand) +
+                            ' (Plate number: ' +
+                            this.props.App.generalTRIP_details_driverDetails
+                              .carDetails.plate_number +
+                            ') with the driver ' +
+                            this.props.App.generalTRIP_details_driverDetails
+                              .driverDetails.name +
+                            '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                            this.props.App.generalTRIP_details_driverDetails
+                              .basicTripDetails.ride_simplified_id,
+                        )
+                      }
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginBottom: 20,
+                        paddingBottom: 10,
+                      }}>
+                      <IconCommunity name="earth" color="#000" size={25} />
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(19),
+                          color: '#000',
+                          marginLeft: 5,
+                          flex: 1,
+                        }}>
+                        Share your trip
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        call({
+                          number: '061302302',
+                          prompt: true,
+                        })
+                      }
+                      style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <IconMaterialIcons
+                        name="shield"
+                        color="#b22222"
+                        size={25}
+                      />
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(19),
+                          color: '#b22222',
+                          marginLeft: 5,
+                        }}>
+                        Emergency call
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : null}
             </ScrollView>
           </View>
         </SafeAreaView>
@@ -3442,6 +3452,7 @@ class ErrorModal extends React.PureComponent {
                           ? 'UberMoveTextMedium'
                           : 'Uber Move Text Medium',
                       fontSize: RFValue(20),
+                      marginTop: 15,
                     }}>
                     We couldn't get the shared link.
                   </Text>
@@ -3533,6 +3544,60 @@ class ErrorModal extends React.PureComponent {
                   </TouchableOpacity>
                 </View>
               </View>
+            ) : /tripInProgress/i.test(error_status) ? (
+              <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 2,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <IconAnt name="closecircleo" size={35} color={'#b22222'} />
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(20),
+                      marginTop: 15,
+                    }}>
+                    You have a trip in progress
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
+                      fontSize: RFValue(17),
+                      marginTop: 10,
+                      textAlign: 'center',
+                    }}>
+                    Sorry you cannot track someone else's trip while you have an
+                    active one.
+                  </Text>
+                </View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(21),
+                        color: '#fff',
+                      }}>
+                      Close
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             ) : (
               <View style={{flex: 1}}>
                 <View
@@ -3549,6 +3614,7 @@ class ErrorModal extends React.PureComponent {
                           ? 'UberMoveTextMedium'
                           : 'Uber Move Text Medium',
                       fontSize: RFValue(20),
+                      marginTop: 15,
                     }}>
                     We couldn't get the shared link.
                   </Text>

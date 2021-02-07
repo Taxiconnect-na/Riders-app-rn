@@ -17,6 +17,7 @@ import {
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
 import {RFValue} from 'react-native-responsive-fontsize';
 //Import of action creators
 import {
@@ -24,6 +25,7 @@ import {
   UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
 import RenderContentBottomVitals from './RenderContentBottomVitals';
+import FastImage from 'react-native-fast-image';
 
 /**
  * @class RenderBottomVital()
@@ -32,6 +34,19 @@ import RenderContentBottomVitals from './RenderContentBottomVitals';
 class RenderBottomVital extends React.PureComponent {
   constructor(props) {
     super(props);
+  }
+
+  /**
+   * @func closeSharedTripView
+   * Responsible for closing and cleaning the vars after the shared trip view is closed.
+   */
+  closeSharedTripView() {
+    //Nullify
+    this.props.App.sharedSimplifiedLink = null;
+    //RESET ALL
+    this.props.parentNode._RESET_STATE();
+    //...
+    this.props.parentNode.recalibrateMap(true);
   }
 
   customRenderOrderer() {
@@ -142,186 +157,173 @@ class RenderBottomVital extends React.PureComponent {
     else {
       //In route to pickup or destination
       if (/inRouteTo/i.test(this.props.App.request_status)) {
+        //? Check if it's not a shared trip
         if (
-          this.props.App.generalTRIP_details_driverDetails.driverDetails ===
-          undefined
+          this.props.App.generalTRIP_details_driverDetails
+            .riderOwnerInfoBundle === undefined
         ) {
-          return null;
-        }
-        //Driver in route to pickup the rider
-        return (
-          <>
-            <SafeAreaView
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '100%',
-                padding: 20,
-                paddingLeft: 10,
-                paddingRight: 10,
-                paddingBottom: 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              {/**------SAFETY GUARDIAN */}
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.UpdateErrorModalLog(
-                    true,
-                    'show_guardian_toolkit',
-                    'any',
-                  )
-                }
+          //Normal trip/delivery
+          if (
+            this.props.App.generalTRIP_details_driverDetails.driverDetails ===
+            undefined
+          ) {
+            return null;
+          }
+          //Driver in route to pickup the rider
+          return (
+            <>
+              <SafeAreaView
                 style={{
                   position: 'absolute',
-                  borderWidth: 3,
-                  borderColor: '#096ED4',
-                  top: -80,
-                  right: 20,
-                  backgroundColor: '#fff',
-                  width: 55,
-                  height: 55,
-                  borderRadius: 150,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 4,
-                  },
-                  shadowOpacity: 0.32,
-                  shadowRadius: 5.46,
-
-                  elevation: 9,
-                }}>
-                <IconMaterialIcons name="shield" color="#096ED4" size={30} />
-              </TouchableOpacity>
-              {/**------ */}
-              <View
-                style={{
-                  backgroundColor: '#f0f0f0',
-                  width: Platform.OS === 'android' ? '100%' : '95%',
-                  padding: 10,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderTopLeftRadius: 7,
-                  borderTopRightRadius: 7,
-                  borderColor: '#d0d0d0',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 3,
-                  },
-                  shadowOpacity: 0.27,
-                  shadowRadius: 4.65,
-
-                  elevation: 6,
-                }}>
-                <Text
-                  style={{
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    color: '#000',
-                    fontSize: 17.5,
-                    flex: 1,
-                  }}>
-                  {this.props.App.generalTRIP_details_driverDetails.eta !==
-                    null &&
-                  this.props.App.generalTRIP_details_driverDetails.eta !==
-                    false &&
-                  this.props.App.generalTRIP_details_driverDetails.eta !==
-                    undefined
-                    ? this.props.App.generalTRIP_details_driverDetails.eta
-                    : 'Driver on his way'}
-                </Text>
-              </View>
-              <TouchableOpacity
-                onPress={() =>
-                  /inroute/i.test(this.props.App.request_status)
-                    ? this.props.UpdateErrorModalLog(
-                        true,
-                        'show_modalMore_tripDetails',
-                        'any',
-                      )
-                    : {}
-                }
-                style={{
-                  flex: 1,
-                  backgroundColor: '#fff',
-                  flexDirection: 'row',
-                  width: Platform.OS === 'android' ? '100%' : '95%',
-                  borderTopLeftRadius: 0,
-                  borderTopRightRadius: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
                   padding: 20,
-                  paddingTop: 18,
-                  paddingLeft: 15,
-                  paddingBottom: 15,
-                  borderRadius: 7,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingBottom: 10,
                   alignItems: 'center',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 3,
-                  },
-                  shadowOpacity: 0.27,
-                  shadowRadius: 4.65,
-
-                  elevation: 6,
+                  justifyContent: 'center',
                 }}>
-                <View style={{flexDirection: 'row', flex: 1}}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderWidth: 0.5,
-                      borderColor: '#f0f0f0',
-                      backgroundColor: '#fff',
-                      width: 65,
-                      height: 65,
-                      borderRadius: 150,
-                      shadowColor: '#000',
-                      shadowOffset: {
-                        width: 0,
-                        height: 2,
-                      },
-                      shadowOpacity: 0.25,
-                      shadowRadius: 3.84,
+                {/**------SAFETY GUARDIAN */}
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.UpdateErrorModalLog(
+                      true,
+                      'show_guardian_toolkit',
+                      'any',
+                    )
+                  }
+                  style={{
+                    position: 'absolute',
+                    borderWidth: 3,
+                    borderColor: '#096ED4',
+                    top: -80,
+                    right: 20,
+                    backgroundColor: '#fff',
+                    width: 55,
+                    height: 55,
+                    borderRadius: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 4,
+                    },
+                    shadowOpacity: 0.32,
+                    shadowRadius: 5.46,
 
-                      elevation: 3,
+                    elevation: 9,
+                  }}>
+                  <IconMaterialIcons name="shield" color="#096ED4" size={30} />
+                </TouchableOpacity>
+                {/**------ */}
+                <View
+                  style={{
+                    backgroundColor: '#f0f0f0',
+                    width: Platform.OS === 'android' ? '100%' : '95%',
+                    padding: 10,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderTopLeftRadius: 7,
+                    borderTopRightRadius: 7,
+                    borderColor: '#d0d0d0',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.27,
+                    shadowRadius: 4.65,
+
+                    elevation: 6,
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                      color: '#000',
+                      fontSize: 17.5,
+                      flex: 1,
                     }}>
-                    <Image
-                      source={require('../../Media_assets/Images/driver.jpg')}
-                      style={{
-                        resizeMode: 'cover',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 150,
-                      }}
-                    />
-                  </View>
-                  <View style={{marginLeft: 7, flex: 1}}>
-                    <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Medium'
-                            : 'Allrounder Grotesk Medium',
-                        fontSize: 19,
-                      }}>
-                      {
-                        this.props.App.generalTRIP_details_driverDetails
-                          .driverDetails.name
-                      }
-                    </Text>
+                    {this.props.App.generalTRIP_details_driverDetails.eta !==
+                      null &&
+                    this.props.App.generalTRIP_details_driverDetails.eta !==
+                      false &&
+                    this.props.App.generalTRIP_details_driverDetails.eta !==
+                      undefined
+                      ? this.props.App.generalTRIP_details_driverDetails.eta
+                      : 'Driver on his way'}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    /inroute/i.test(this.props.App.request_status)
+                      ? this.props.UpdateErrorModalLog(
+                          true,
+                          'show_modalMore_tripDetails',
+                          'any',
+                        )
+                      : {}
+                  }
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                    flexDirection: 'row',
+                    width: Platform.OS === 'android' ? '100%' : '95%',
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                    padding: 20,
+                    paddingTop: 18,
+                    paddingLeft: 15,
+                    paddingBottom: 15,
+                    borderRadius: 7,
+                    alignItems: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.27,
+                    shadowRadius: 4.65,
+
+                    elevation: 6,
+                  }}>
+                  <View style={{flexDirection: 'row', flex: 1}}>
                     <View
                       style={{
-                        flexDirection: 'row',
                         alignItems: 'center',
-                        marginTop: 1,
+                        justifyContent: 'center',
+                        borderWidth: 0.5,
+                        borderColor: '#f0f0f0',
+                        backgroundColor: '#fff',
+                        width: 65,
+                        height: 65,
+                        borderRadius: 150,
+                        shadowColor: '#000',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+
+                        elevation: 3,
                       }}>
+                      <Image
+                        source={require('../../Media_assets/Images/driver.jpg')}
+                        style={{
+                          resizeMode: 'cover',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 150,
+                        }}
+                      />
+                    </View>
+                    <View style={{marginLeft: 7, flex: 1}}>
                       <Text
                         style={{
                           fontFamily:
@@ -329,52 +331,304 @@ class RenderBottomVital extends React.PureComponent {
                               ? 'Allrounder-Grotesk-Medium'
                               : 'Allrounder Grotesk Medium',
                           fontSize: 19,
-                          color: '#096ED4',
                         }}>
-                        {this.props.App.generalTRIP_details_driverDetails
-                          .carDetails.taxi_number !== false
-                          ? this.props.App.generalTRIP_details_driverDetails
-                              .carDetails.taxi_number
-                          : this.props.App.generalTRIP_details_driverDetails
-                              .carDetails.car_brand}
+                        {
+                          this.props.App.generalTRIP_details_driverDetails
+                            .driverDetails.name
+                        }
                       </Text>
                       <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <IconMaterialIcons
-                          name="star"
-                          size={17}
-                          color="#ffbf00"
-                          style={{marginLeft: 7, marginRight: 4}}
-                        />
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginTop: 1,
+                        }}>
                         <Text
                           style={{
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
-                            fontSize: 18,
+                                ? 'Allrounder-Grotesk-Medium'
+                                : 'Allrounder Grotesk Medium',
+                            fontSize: 19,
+                            color: '#096ED4',
                           }}>
-                          {
-                            this.props.App.generalTRIP_details_driverDetails
-                              .driverDetails.global_rating
-                          }
+                          {this.props.App.generalTRIP_details_driverDetails
+                            .carDetails.taxi_number !== false
+                            ? this.props.App.generalTRIP_details_driverDetails
+                                .carDetails.taxi_number
+                            : this.props.App.generalTRIP_details_driverDetails
+                                .carDetails.car_brand}
+                        </Text>
+                        <View
+                          style={{flexDirection: 'row', alignItems: 'center'}}>
+                          <IconMaterialIcons
+                            name="star"
+                            size={17}
+                            color="#ffbf00"
+                            style={{marginLeft: 7, marginRight: 4}}
+                          />
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'Allrounder-Grotesk-Regular'
+                                  : 'Allrounder Grotesk',
+                              fontSize: 18,
+                            }}>
+                            {
+                              this.props.App.generalTRIP_details_driverDetails
+                                .driverDetails.global_rating
+                            }
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: 5,
+                    }}>
+                    <IconMaterialIcons name="arrow-forward-ios" size={15} />
+                  </View>
+                </TouchableOpacity>
+              </SafeAreaView>
+            </>
+          );
+        } //?Shared trip
+        else {
+          if (
+            this.props.App.generalTRIP_details_driverDetails.driverDetails ===
+            undefined
+          ) {
+            return null;
+          }
+          //Driver in route to pickup the rider
+          return (
+            <>
+              <SafeAreaView
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                  padding: 20,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingBottom: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {/**------CANCEL SHARED TRIP VIEW */}
+                <TouchableOpacity
+                  onPress={() => this.closeSharedTripView()}
+                  style={{
+                    position: 'absolute',
+                    borderWidth: 1,
+                    borderColor: '#b22222',
+                    top: -80,
+                    right: 20,
+                    backgroundColor: '#fff',
+                    width: 55,
+                    height: 55,
+                    borderRadius: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 4,
+                    },
+                    shadowOpacity: 0.32,
+                    shadowRadius: 5.46,
+
+                    elevation: 9,
+                  }}>
+                  <IconFontisto name="close-a" color="#b22222" size={25} />
+                </TouchableOpacity>
+                {/**------ */}
+                <View
+                  style={{
+                    backgroundColor: '#f0f0f0',
+                    width: Platform.OS === 'android' ? '100%' : '95%',
+                    padding: 10,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderTopLeftRadius: 7,
+                    borderTopRightRadius: 7,
+                    borderColor: '#d0d0d0',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.27,
+                    shadowRadius: 4.65,
+                    elevation: 6,
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      color: '#000',
+                      fontSize: RFValue(18),
+                      flex: 1,
+                    }}>
+                    {this.props.App.generalTRIP_details_driverDetails.eta !==
+                      null &&
+                    this.props.App.generalTRIP_details_driverDetails.eta !==
+                      false &&
+                    this.props.App.generalTRIP_details_driverDetails.eta !==
+                      undefined
+                      ? this.props.App.generalTRIP_details_driverDetails.eta
+                      : 'Driver on his way'}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    /inroute/i.test(this.props.App.request_status)
+                      ? this.props.UpdateErrorModalLog(
+                          true,
+                          'show_modalMore_tripDetails',
+                          'any',
+                        )
+                      : {}
+                  }
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#fff',
+                    flexDirection: 'row',
+                    width: Platform.OS === 'android' ? '100%' : '95%',
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                    padding: 20,
+                    paddingTop: 18,
+                    paddingLeft: 15,
+                    paddingBottom: 15,
+                    borderRadius: 7,
+                    alignItems: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.27,
+                    shadowRadius: 4.65,
+
+                    elevation: 6,
+                  }}>
+                  <View style={{flexDirection: 'row', flex: 1}}>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 0.5,
+                        borderColor: '#f0f0f0',
+                        backgroundColor: '#fff',
+                        width: 65,
+                        height: 65,
+                        borderRadius: 150,
+                        shadowColor: '#000',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
+
+                        elevation: 3,
+                      }}>
+                      {/http/i.test(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .riderOwnerInfoBundle.profile_picture,
+                      ) &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .riderOwnerInfoBundle.profile_picture !== undefined &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .riderOwnerInfoBundle.profile_picture !== null ? (
+                        <FastImage
+                          source={{
+                            uri:
+                              this.props.App.generalTRIP_details_driverDetails
+                                .riderOwnerInfoBundle.profile_picture !==
+                                undefined &&
+                              this.props.App.generalTRIP_details_driverDetails
+                                .riderOwnerInfoBundle.profile_picture !== null
+                                ? this.props.App
+                                    .generalTRIP_details_driverDetails
+                                    .riderOwnerInfoBundle.profile_picture
+                                : 'user.png',
+                            priority: FastImage.priority.normal,
+                          }}
+                          resizeMode={FastImage.resizeMode.cover}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 150,
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          source={require('../../Media_assets/Images/driver.jpg')}
+                          style={{
+                            resizeMode: 'cover',
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 150,
+                          }}
+                        />
+                      )}
+                    </View>
+                    <View style={{marginLeft: 7, flex: 1}}>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMpveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(19),
+                        }}>
+                        {
+                          this.props.App.generalTRIP_details_driverDetails
+                            .riderOwnerInfoBundle.name
+                        }
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginTop: 1,
+                        }}>
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                            fontSize: RFValue(16),
+                            color: '#096ED4',
+                          }}>
+                          This trip was shared with you.
                         </Text>
                       </View>
                     </View>
                   </View>
-                </View>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: 5,
-                  }}>
-                  <IconMaterialIcons name="arrow-forward-ios" size={15} />
-                </View>
-              </TouchableOpacity>
-            </SafeAreaView>
-          </>
-        );
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: 5,
+                    }}>
+                    <IconMaterialIcons name="arrow-forward-ios" size={15} />
+                  </View>
+                </TouchableOpacity>
+              </SafeAreaView>
+            </>
+          );
+        }
       } else if (
         /riderDropoffConfirmation_left/i.test(this.props.App.request_status)
       ) {

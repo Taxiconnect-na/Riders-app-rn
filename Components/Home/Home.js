@@ -547,7 +547,6 @@ class Home extends React.PureComponent {
           });
       } //Location permission explicitly requested
       else {
-        console.log('requested permission by click');
         GeolocationP.requestAuthorization('whenInUse');
       }
     }
@@ -571,12 +570,36 @@ class Home extends React.PureComponent {
                 globalObject.GPRS_resolver();
                 globalObject.updateRemoteLocationsData();
               });
-              //Request for the total wallet balance
 
+              //2. Request for the total wallet balance
               globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
                 user_fingerprint: globalObject.props.App.user_fingerprint,
                 mode: 'detailed',
               });
+              //3. Request for any shared ride - if any - and if not ride is in progress
+              if (
+                globalObject.props.App.sharedSimplifiedLink !== undefined &&
+                globalObject.props.App.sharedSimplifiedLink !== null &&
+                globalObject.props.App.sharedSimplifiedLink.length > 0
+              ) {
+                if (globalObject.props.App.isRideInProgress !== true) {
+                  globalObject.props.App.socket.emit(
+                    'getSharedTrip_information_io',
+                    {
+                      sharedTo_user_fingerprint:
+                        globalObject.props.App.user_fingerprint,
+                      trip_simplified_id:
+                        globalObject.props.App.sharedSimplifiedLink,
+                    },
+                  );
+                } //Nullify the shared link
+                else {
+                  //! Leave this part alone
+                  //console.log('SNIKKER!!!');
+                  //globalObject.props.App.sharedSimplifiedLink = null;
+                  //globalObject.props.UpdateErrorModalLog(false, false, 'any');
+                }
+              }
             } //Kill the persister
             else {
               clearInterval(
@@ -767,6 +790,66 @@ class Home extends React.PureComponent {
     );
 
     /**
+     * @socket getRiders_walletInfos_io-response
+     * Get total wallet balance
+     * Responsible for only getting the total current balance of the rider and update the global state if different.
+     */
+    this.props.App.socket.on(
+      'getSharedTrip_information_io-response',
+      function (response) {
+        if (
+          response !== null &&
+          response !== undefined &&
+          response.responsePass !== undefined
+        ) {
+          if (/error/i.test(response.responsePass)) {
+            //Error
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'showStatus_gettingSharedTrip_details__errorGettingTheShared',
+              'any',
+            );
+            globalObject.props.App.sharedSimplifiedLink = null;
+          } else if (/no_rides/i.test(response.responsePass)) {
+            //The trip might be completed
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'showStatus_gettingSharedTrip_details__doneTrip',
+              'any',
+            );
+            globalObject.props.App.sharedSimplifiedLink = null;
+          }
+          //Got something
+          else if (/success/i.test(response.responsePass)) {
+            //? 1. Auto close the loading modal
+            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            //? 2. Simulate route tracking
+            /*globalObject.props.App.socket.emit(
+              'trackdriverroute-response',
+              response,
+            );*/
+          } //Error
+          else {
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'showStatus_gettingSharedTrip_details__errorGettingTheShared',
+              'any',
+            );
+            globalObject.props.App.sharedSimplifiedLink = null;
+          }
+        } //Error
+        else {
+          globalObject.props.UpdateErrorModalLog(
+            true,
+            'showStatus_gettingSharedTrip_details__errorGettingTheShared',
+            'any',
+          );
+          globalObject.props.App.sharedSimplifiedLink = null;
+        }
+      },
+    );
+
+    /**
      * @socket trackdriverroute-response
      * Get route tracker response
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
@@ -816,6 +899,10 @@ class Home extends React.PureComponent {
             driverDetails: response.driverDetails,
             carDetails: response.carDetails,
             basicTripDetails: response.basicTripDetails,
+            riderOwnerInfoBundle:
+              response.riderOwnerInfoBundle !== undefined
+                ? response.riderOwnerInfoBundle
+                : undefined,
           }; //Very important
 
           //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
@@ -824,7 +911,11 @@ class Home extends React.PureComponent {
             globalObject.props.App.request_status = 'inRouteToPickup';
 
             //Update loop request
-            if (globalObject.props.App.intervalProgressLoop === false) {
+            //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
+            if (
+              globalObject.props.App.intervalProgressLoop === false &&
+              globalObject.props.App.sharedSimplifiedLink === null
+            ) {
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
@@ -849,7 +940,11 @@ class Home extends React.PureComponent {
               response.distance; //Distance
 
             //Update loop request
-            if (globalObject.props.App.intervalProgressLoop === false) {
+            //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
+            if (
+              globalObject.props.App.intervalProgressLoop === false &&
+              globalObject.props.App.sharedSimplifiedLink === null
+            ) {
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
@@ -936,7 +1031,11 @@ class Home extends React.PureComponent {
           globalObject.props.App.generalTRIP_details_driverDetails = response;
 
           //Update loop request
-          if (globalObject.props.App.intervalProgressLoop === false) {
+          //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
+          if (
+            globalObject.props.App.intervalProgressLoop === false &&
+            globalObject.props.App.sharedSimplifiedLink === null
+          ) {
             //Reposition the map
             if (
               globalObject.camera !== undefined &&
@@ -1006,16 +1105,19 @@ class Home extends React.PureComponent {
       } //No rides
       else {
         //Update status
-        //Reset the state partially depending on the state of the trip variables
-        globalObject.props.App.intervalProgressLoop = false;
-        let testReg = new RegExp(response.request_status, 'i');
-        if (testReg.test(globalObject.props.App.request_status) === false) {
-          if (globalObject.props.App.request_status !== null) {
-            console.log('LEAK!');
-            globalObject._RESET_STATE();
+        if (globalObject.props.App.sharedSimplifiedLink === null) {
+          //? ONLY WHEN THERE's no active trip shared
+          //Reset the state partially depending on the state of the trip variables
+          globalObject.props.App.intervalProgressLoop = false;
+          let testReg = new RegExp(response.request_status, 'i');
+          if (testReg.test(globalObject.props.App.request_status) === false) {
+            if (globalObject.props.App.request_status !== null) {
+              console.log('LEAK!');
+              globalObject._RESET_STATE();
+            }
+            //...
+            globalObject.props.App.request_status = response.request_status;
           }
-          //...
-          globalObject.props.App.request_status = response.request_status;
         }
       }
     });
@@ -1478,16 +1580,27 @@ class Home extends React.PureComponent {
       //Fire the sharing realtime of the received trip if no trip is in progress
       if (this.props.App.isRideInProgress) {
         //Has a ride in progress
-        console.log('there is a ride in progress');
+        this.props.UpdateErrorModalLog(
+          true,
+          'showStatus_gettingSharedTrip_details__tripInProgress',
+          'any',
+        );
+        this.props.App.sharedSimplifiedLink = null;
       } //Can see trip of friends and family
       else {
         //Open modal loader
         this.props.UpdateErrorModalLog(
           true,
           'showStatus_gettingSharedTrip_details__gettingLink',
+          'any',
         );
-        console.log('get shared trip information -> id : ', id);
+        //!Save the simplified link
+        this.props.App.sharedSimplifiedLink = id;
+        //? No need to request here - the MAIN INTERVAL FETCHER WILL TAKE CARE OF IT.
       }
+    } //Nullify the global var
+    else {
+      this.props.App.sharedSimplifiedLink = null;
     }
   };
   handleOpenURL = (event) => {
@@ -1836,12 +1949,16 @@ class Home extends React.PureComponent {
         () => {},
         () => {},
       );
-      let bundle = {
-        latitude: this.props.App.latitude,
-        longitude: this.props.App.longitude,
-        user_fingerprint: this.props.App.user_fingerprint,
-      };
-      this.props.App.socket.emit('update-passenger-location', bundle);
+
+      //ONLY GET CURRENT RIDE STATUS WHEN NO RIDE IS UP
+      if (this.props.App.sharedSimplifiedLink === null) {
+        let bundle = {
+          latitude: this.props.App.latitude,
+          longitude: this.props.App.longitude,
+          user_fingerprint: this.props.App.user_fingerprint,
+        };
+        this.props.App.socket.emit('update-passenger-location', bundle);
+      }
     }
   }
 

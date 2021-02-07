@@ -316,7 +316,7 @@ const STATE = {
   },
 
   //DEEP LINK vars
-  sharedSimplifiedLink: null, //Will contain the link shared to this user by another user.
+  sharedSimplifiedLink: null, //! Will contain the link shared to this user by another user.
 
   //DESTINATION PREVIEW
   //Previewing.the way to destination after selecting the locations
