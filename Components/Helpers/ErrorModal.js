@@ -3390,6 +3390,206 @@ class ErrorModal extends React.PureComponent {
           />
         </SafeAreaView>
       );
+    } else if (/showStatus_gettingSharedTrip_details/i.test(error_status)) {
+      //? Will always append the message type at the end of the "error_status" with a __ (double underscore)
+      return (
+        <View
+          style={{
+            backgroundColor: '#fff',
+            padding: 0,
+            height: 340,
+          }}>
+          {/gettingLink/i.test(error_status) ? (
+            <GenericLoader active={true} thickness={3} />
+          ) : null}
+          <View
+            style={{
+              padding: 20,
+              flex: 1,
+              paddingTop: 0,
+            }}>
+            {/gettingLink/i.test(error_status) ? (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text Regular',
+                    fontSize: RFValue(20),
+                  }}>
+                  Getting the trip shared with you
+                </Text>
+              </View>
+            ) : /errorGetting/i.test(error_status) ? (
+              <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 2,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <IconAnt name="closecircleo" size={35} color={'#b22222'} />
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(20),
+                    }}>
+                    We couldn't get the shared link.
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
+                      fontSize: RFValue(17),
+                      marginTop: 10,
+                      textAlign: 'center',
+                    }}>
+                    Due to an unexpected error, we were unable to link you to
+                    the shared trip.
+                  </Text>
+                </View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(21),
+                        color: '#fff',
+                      }}>
+                      Close
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : /doneTrip/i.test(error_status) ? (
+              <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 2,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <IconAnt name="checkcircleo" color="#09864A" size={35} />
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(20),
+                      marginTop: 15,
+                    }}>
+                    Trip already completed
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
+                      fontSize: RFValue(17),
+                      marginTop: 10,
+                      textAlign: 'center',
+                    }}>
+                    Call the sender of this link to confirm the successful
+                    dropoff. Thank you.
+                  </Text>
+                </View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(21),
+                        color: '#fff',
+                      }}>
+                      Close
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+              <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 2,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <IconAnt name="closecircleo" size={35} color={'#b22222'} />
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(20),
+                    }}>
+                    We couldn't get the shared link.
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text Regular',
+                      fontSize: RFValue(17),
+                      marginTop: 10,
+                      textAlign: 'center',
+                    }}>
+                    Due to an unexpected error, we were unable to link you to
+                    the shared trip.
+                  </Text>
+                </View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(21),
+                        color: '#fff',
+                      }}>
+                      Close
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </View>
+        </View>
+      );
     } else {
       return <></>;
     }
@@ -3482,4 +3682,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorModal);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(ErrorModal),
+);

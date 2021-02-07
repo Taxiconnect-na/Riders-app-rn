@@ -31,6 +31,14 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+        <intent-filter android:label="TaxiConnect">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <!-- Accepts URIs that begin with "taxiconnect://sharedRide” -->
+            <data android:scheme="https" android:host="www.taxiconnectna.com" />
+            <data android:scheme="taxiconnect" android:host="sharedRide" />
+        </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>

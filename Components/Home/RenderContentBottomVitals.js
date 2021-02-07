@@ -3339,7 +3339,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RenderContentBottomVitals);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(RenderContentBottomVitals),
+);

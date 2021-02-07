@@ -810,4 +810,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RenderBottomVital);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(RenderBottomVital),
+);

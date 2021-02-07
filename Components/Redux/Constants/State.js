@@ -315,6 +315,9 @@ const STATE = {
     carTypesPricingMetada: [], //The pricing metadata received from the server- default [], empty array
   },
 
+  //DEEP LINK vars
+  sharedSimplifiedLink: null, //Will contain the link shared to this user by another user.
+
   //DESTINATION PREVIEW
   //Previewing.the way to destination after selecting the locations
   previewDestinationData: {

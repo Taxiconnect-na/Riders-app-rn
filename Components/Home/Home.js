@@ -18,6 +18,7 @@ import {
   BackHandler,
   Platform,
   SafeAreaView,
+  Linking,
 } from 'react-native';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
@@ -641,6 +642,12 @@ class Home extends React.PureComponent {
         return true;
       },
     );
+
+    //Check if deep linked for a shared ride
+    Linking.getInitialURL().then((url) => {
+      globalObject.processDeepLinkedURL(url);
+    });
+    Linking.addEventListener('url', this.handleOpenURL); //iOS
 
     //! SET AUTHORIZATION LEVEL FOR iOS LOCATION
     if (Platform.OS === 'ios') {
@@ -1455,6 +1462,42 @@ class Home extends React.PureComponent {
       resolve(true);
     }
   }
+
+  /**
+   * ? Deep linking tools
+   */
+  UNSAFE_componentWillMount() {
+    Linking.removeEventListener('url', this.handleOpenURL);
+  }
+
+  processDeepLinkedURL = (url) => {
+    if (url !== null && url !== undefined) {
+      let route = url.replace(/.*?:\/\//g, '');
+      let id = route.match(/\/([^\/]+)\/?$/)[1];
+
+      //Fire the sharing realtime of the received trip if no trip is in progress
+      if (this.props.App.isRideInProgress) {
+        //Has a ride in progress
+        console.log('there is a ride in progress');
+      } //Can see trip of friends and family
+      else {
+        //Open modal loader
+        this.props.UpdateErrorModalLog(
+          true,
+          'showStatus_gettingSharedTrip_details__gettingLink',
+        );
+        console.log('get shared trip information -> id : ', id);
+      }
+    }
+  };
+  handleOpenURL = (event) => {
+    // D
+    if (event !== null && event !== undefined) {
+      if (event.url !== undefined) {
+        this.processDeepLinkedURL(event.url);
+      }
+    }
+  };
 
   /**
    * @func initializeRouteNavigation()

@@ -894,4 +894,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RenderMainMapView);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(RenderMainMapView),
+);
