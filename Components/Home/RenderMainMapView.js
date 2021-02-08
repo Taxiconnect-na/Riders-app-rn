@@ -79,17 +79,17 @@ const AnnotationPickup = ({title}) => (
   </View>
 );
 
-const AnnotationDestination = ({title, etaInfos}) => (
+const AnnotationDestination = ({title, etaInfos, showSuffix}) => (
   <View
     style={{
       padding: 10,
-      width: 140,
+      width: showSuffix ? 140 : 57,
       borderWidth: 1,
       borderColor: 'transparent',
     }}>
     <View
       style={{
-        backgroundColor: '#fff',
+        backgroundColor: showSuffix ? '#fff' : '#096ED4',
         flexDirection: 'row',
         height: 40,
         shadowColor: '#000',
@@ -140,29 +140,31 @@ const AnnotationDestination = ({title, etaInfos}) => (
           {etaInfos.eta.split(' ')[1].toUpperCase()}
         </Text>
       </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingLeft: 5,
-          paddingRight: 5,
-          flex: 1,
-        }}>
-        <Text
-          style={[
-            {
-              fontSize: RFValue(13),
-              fontFamily:
-                Platform.OS === 'android'
-                  ? 'UberMoveTextRegular'
-                  : 'Uber Move Text',
-              flex: 1,
-              top: 2,
-            },
-          ]}>
-          {title.length > 17 ? title.substring(0, 17) + '.' : title}
-        </Text>
-      </View>
+      {showSuffix ? (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingLeft: 5,
+            paddingRight: 5,
+            flex: 1,
+          }}>
+          <Text
+            style={[
+              {
+                fontSize: RFValue(13),
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
+                flex: 1,
+                top: 2,
+              },
+            ]}>
+            {title.length > 17 ? title.substring(0, 17) + '.' : title}
+          </Text>
+        </View>
+      ) : null}
     </View>
   </View>
 );
@@ -323,6 +325,7 @@ class RenderMainMapView extends React.PureComponent {
                 eta: this.props.App.previewDestinationData
                   .originDestinationPreviewData.eta,
               }}
+              showSuffix={true}
             />
           </MarkerView>
 
@@ -563,6 +566,7 @@ class RenderMainMapView extends React.PureComponent {
             <AnnotationDestination
               title={'Destination'}
               etaInfos={this.props.App.destinationLocation_metadata}
+              showSuffix={false}
             />
           </MarkerView>
         </View>

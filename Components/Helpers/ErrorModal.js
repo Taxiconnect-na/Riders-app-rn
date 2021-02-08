@@ -41,6 +41,7 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 import EmailValidator from './EmailValidator';
 import SyncStorage from 'sync-storage';
 import Search from '../Modules/Search/Components/Search';
+import FastImage from 'react-native-fast-image';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 class ErrorModal extends React.PureComponent {
@@ -1157,15 +1158,44 @@ class ErrorModal extends React.PureComponent {
 
                       elevation: 5,
                     }}>
-                    <Image
-                      source={require('../../Media_assets/Images/driver.jpg')}
-                      style={{
-                        resizeMode: 'cover',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 150,
-                      }}
-                    />
+                    {/http/i.test(
+                      this.props.App.generalTRIP_details_driverDetails
+                        .driverDetails.profile_picture,
+                    ) &&
+                    this.props.App.generalTRIP_details_driverDetails
+                      .driverDetails.profile_picture !== undefined &&
+                    this.props.App.generalTRIP_details_driverDetails
+                      .driverDetails.profile_picture !== null ? (
+                      <FastImage
+                        source={{
+                          uri:
+                            this.props.App.generalTRIP_details_driverDetails
+                              .driverDetails.profile_picture !== undefined &&
+                            this.props.App.generalTRIP_details_driverDetails
+                              .driverDetails.profile_picture !== null
+                              ? this.props.App.generalTRIP_details_driverDetails
+                                  .driverDetails.profile_picture
+                              : 'user.png',
+                          priority: FastImage.priority.normal,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 150,
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        source={require('../../Media_assets/Images/driver.jpg')}
+                        style={{
+                          resizeMode: 'cover',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 150,
+                        }}
+                      />
+                    )}
                   </View>
                   <View
                     style={{
@@ -1354,9 +1384,9 @@ class ErrorModal extends React.PureComponent {
                         style={{
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'Allrounder-Grotesk-Medium'
-                              : 'Allrounder Grotesk Medium',
-                          fontSize: 19,
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(19),
                           color: '#b22222',
                         }}>
                         Cancel the trip
@@ -1397,15 +1427,44 @@ class ErrorModal extends React.PureComponent {
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                    <Image
-                      source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
-                      style={{
-                        resizeMode: 'cover',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 3,
-                      }}
-                    />
+                    {/http/i.test(
+                      this.props.App.generalTRIP_details_driverDetails
+                        .carDetails.car_image,
+                    ) &&
+                    this.props.App.generalTRIP_details_driverDetails.carDetails
+                      .car_image !== undefined &&
+                    this.props.App.generalTRIP_details_driverDetails.carDetails
+                      .car_imagee !== null ? (
+                      <FastImage
+                        source={{
+                          uri:
+                            this.props.App.generalTRIP_details_driverDetails
+                              .carDetails.car_image !== undefined &&
+                            this.props.App.generalTRIP_details_driverDetails
+                              .carDetails.car_image !== null
+                              ? this.props.App.generalTRIP_details_driverDetails
+                                  .carDetails.car_image
+                              : 'user.png',
+                          priority: FastImage.priority.normal,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 3,
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
+                        style={{
+                          resizeMode: 'cover',
+                          width: '100%',
+                          height: '100%',
+                          borderRadius: 3,
+                        }}
+                      />
+                    )}
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
                     {this.props.App.generalTRIP_details_driverDetails
@@ -2105,7 +2164,6 @@ class ErrorModal extends React.PureComponent {
         <SafeAreaView
           style={{
             backgroundColor: '#fff',
-            //padding: 20,
             flex: 1,
           }}>
           <View style={styles.presentationWindow}>
@@ -2118,9 +2176,7 @@ class ErrorModal extends React.PureComponent {
                       padding: 20,
                       paddingTop: 15,
                       paddingBottom: 15,
-                      borderBottomWidth: 0.7,
-                      borderBottomColor: '#d0d0d0',
-                      backgroundColor: '#fff',
+                      backgroundColor: '#000',
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -2148,17 +2204,18 @@ class ErrorModal extends React.PureComponent {
                 }
                 style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" size={23} />
+                  <IconAnt name="arrowleft" color="#fff" size={22} />
                 </View>
                 <Text
                   style={[
                     {
-                      fontSize: 20,
+                      fontSize: RFValue(20),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                       marginLeft: 5,
+                      color: '#fff',
                     },
                   ]}>
                   Rating
@@ -2194,23 +2251,52 @@ class ErrorModal extends React.PureComponent {
 
                     elevation: 6,
                   }}>
-                  <Image
-                    source={require('../../Media_assets/Images/driver.jpg')}
-                    style={{
-                      resizeMode: 'cover',
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: 150,
-                    }}
-                  />
+                  {/http/i.test(
+                    this.props.App.generalTRIP_details_driverDetails
+                      .driver_details.profile_picture,
+                  ) &&
+                  this.props.App.generalTRIP_details_driverDetails
+                    .driver_details.profile_picture !== undefined &&
+                  this.props.App.generalTRIP_details_driverDetails
+                    .driver_details.profile_picture !== null ? (
+                    <FastImage
+                      source={{
+                        uri:
+                          this.props.App.generalTRIP_details_driverDetails
+                            .driver_details.profile_picture !== undefined &&
+                          this.props.App.generalTRIP_details_driverDetails
+                            .driver_details.profile_picture !== null
+                            ? this.props.App.generalTRIP_details_driverDetails
+                                .driver_details.profile_picture
+                            : 'user.png',
+                        priority: FastImage.priority.normal,
+                      }}
+                      resizeMode={FastImage.resizeMode.cover}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 150,
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      source={require('../../Media_assets/Images/driver.jpg')}
+                      style={{
+                        resizeMode: 'cover',
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 150,
+                      }}
+                    />
+                  )}
                 </View>
                 <Text
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 20,
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(20),
                     marginTop: 10,
                   }}>
                   {
@@ -2222,9 +2308,9 @@ class ErrorModal extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Book'
-                        : 'Allrounder Grotesk Book',
-                    fontSize: 15.5,
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(16),
                     marginTop: 4,
                   }}>
                   {this.props.App.generalTRIP_details_driverDetails.trip_details.date_requested.replace(
@@ -2266,7 +2352,7 @@ class ErrorModal extends React.PureComponent {
               {/**Compliments */}
               <View
                 style={{
-                  borderBottomWidth: 0.5,
+                  //borderBottomWidth: 0.5,
                   paddingBottom: 25,
                   borderBottomColor: '#d0d0d0',
                 }}>
@@ -2274,12 +2360,12 @@ class ErrorModal extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 17,
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(17),
                     width: '100%',
                     textAlign: 'center',
-                    color: '#a5a5a5',
+                    color: '#757575',
                     marginBottom: 5,
                   }}>
                   Give a compliment?
@@ -2335,9 +2421,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 14,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(14),
                         marginTop: 10,
                         flex: 1,
                         textAlign: 'center',
@@ -2392,9 +2478,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 14,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(14),
                         marginTop: 10,
                         flex: 1,
                         textAlign: 'center',
@@ -2449,9 +2535,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 14,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(14),
                         marginTop: 10,
                         flex: 1,
                         textAlign: 'center',
@@ -2506,9 +2592,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 14,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(14),
                         marginTop: 10,
                         flex: 1,
                         textAlign: 'center',
@@ -2564,9 +2650,9 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'Allrounder-Grotesk-Regular'
-                            : 'Allrounder Grotesk',
-                        fontSize: 14,
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(14),
                         marginTop: 10,
                         flex: 1,
                         textAlign: 'center',
@@ -2593,9 +2679,12 @@ class ErrorModal extends React.PureComponent {
                 }}>
                 <View
                   style={{
-                    borderBottomWidth: 0.5,
-                    marginTop: 15,
+                    borderWidth: 1,
+                    marginTop: 10,
                     width: '100%',
+                    padding: 10,
+                    borderColor: '#EEEEEE',
+                    backgroundColor: '#EEEEEE',
                   }}>
                   <TextInput
                     placeholder="Add a personal note"
@@ -2607,9 +2696,9 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Regular'
-                          : 'Allrounder Grotesk',
-                      fontSize: 17.5,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17.5),
                       paddingTop: Platform.OS === 'android' ? 0 : 10,
                       paddingBottom: Platform.OS === 'android' ? 0 : 10,
                     }}
@@ -2641,9 +2730,9 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                      fontSize: 23.5,
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(23),
                       color: '#fff',
                     }}>
                     {this.state.isLoading_something ? (
@@ -3715,7 +3804,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#000',
-    borderRadius: 5,
+    borderRadius: 3,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

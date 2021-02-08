@@ -1531,14 +1531,14 @@ class Home extends React.PureComponent {
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
                 [90, 90, 200, 90],
-                Platform.OS === 'android' ? 3500 : 1500,
+                1000,
               );
             } catch (error) {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
                 [90, 90, 200, 90],
-                Platform.OS === 'android' ? 3500 : 1500,
+                1000,
               );
             }
           }
@@ -1597,8 +1597,8 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[1],
                 ],
                 [currentPoint[0], currentPoint[1]],
-                [paddingFit, paddingFit, paddingFit + 100, paddingFit],
-                Platform.OS === 'android' ? 3500 : 1000,
+                [90, 90, 200, 90],
+                1000,
               );
             } catch (error) {
               globalObject.camera.fitBounds(
@@ -1608,7 +1608,7 @@ class Home extends React.PureComponent {
                 ],
                 [currentPoint[0], currentPoint[1]],
                 [90, 90, 200, 90],
-                Platform.OS === 'android' ? 3500 : 1000,
+                1000,
               );
             }
           }

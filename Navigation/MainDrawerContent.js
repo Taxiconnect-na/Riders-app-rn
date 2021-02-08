@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Linking,
 } from 'react-native';
 import HeaderDrawerContent from './HeaderDrawerContent';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -63,6 +64,9 @@ export function MainDrawerContent(props) {
         </ScrollView>
         <View style={styles.footerDrawer}>
           <Text
+            onPress={() =>
+              Linking.openURL('https://www.taxiconnectna.com/privacy.html')
+            }
             style={{
               fontFamily:
                 Platform.OS === 'android'
