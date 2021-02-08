@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RideLIstGenericElement;
+export default React.memo(RideLIstGenericElement);

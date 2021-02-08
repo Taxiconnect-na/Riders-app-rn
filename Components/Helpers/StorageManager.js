@@ -1,3 +1,4 @@
+import React from 'react';
 import SyncStorage from 'sync-storage';
 
 //Initialize the storage manager

@@ -246,4 +246,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhoneDetailsScreen);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(PhoneDetailsScreen),
+);

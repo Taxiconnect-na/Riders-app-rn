@@ -633,229 +633,235 @@ class RenderBottomVital extends React.PureComponent {
         /riderDropoffConfirmation_left/i.test(this.props.App.request_status)
       ) {
         if (
-          this.props.App.generalTRIP_details_driverDetails.trip_details ===
-            undefined ||
-          this.props.App.generalTRIP_details_driverDetails.trip_details
-            .ride_mode === undefined
+          this.props.App.generalTRIP_details_driverDetails
+            .riderOwnerInfoBundle === undefined
         ) {
-          return null;
-        }
-        //Confirm drop off
-        return (
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              width: '100%',
-              padding: 20,
-              paddingBottom: 26,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          //Normal trip
+          if (
+            this.props.App.generalTRIP_details_driverDetails.trip_details ===
+              undefined ||
+            this.props.App.generalTRIP_details_driverDetails.trip_details
+              .ride_mode === undefined
+          ) {
+            return null;
+          }
+          //Confirm drop off
+          return (
             <View
               style={{
-                flex: 1,
-                backgroundColor: '#fff',
-                padding: 20,
-                paddingTop: 18,
-                paddingLeft: 15,
-                paddingBottom: 15,
-                marginBottom: 10,
-                borderRadius: 7,
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-
-                elevation: 6,
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
                 width: '100%',
+                padding: 20,
+                paddingBottom: 26,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}>
               <View
                 style={{
-                  alignItems: 'center',
                   flex: 1,
+                  backgroundColor: '#fff',
+                  padding: 20,
+                  paddingTop: 18,
+                  paddingLeft: 15,
+                  paddingBottom: 15,
+                  marginBottom: 10,
+                  borderRadius: 7,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+
+                  elevation: 6,
                   width: '100%',
                 }}>
-                <View style={{flex: 1, width: '100%'}}>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Medium'
-                          : 'Allrounder Grotesk Medium',
-                      color: '#a5a5a5',
-                      padding: 20,
-                      paddingTop: 0,
-                      paddingLeft: 0,
-                      paddingBottom: 0,
-                    }}>
-                    {/ride/i.test(
-                      this.props.App.generalTRIP_details_driverDetails
-                        .trip_details.ride_mode,
-                    )
-                      ? 'Trip summary'
-                      : 'Delivery summary'}
-                  </Text>
-                  <View
-                    style={{
-                      paddingTop: 20,
-                      paddingBottom: 20,
-                    }}>
-                    <View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                        }}>
-                        <View style={{width: 16, height: '87%', top: 6}}>
-                          <View style={{position: 'absolute', top: 0}}>
-                            <View
-                              style={{
-                                height: 11,
-                                width: 11,
-                                borderRadius: 100,
-                                backgroundColor: '#000',
-                              }}
-                            />
-                          </View>
-
-                          <View
-                            style={{
-                              flex: 1,
-                              left: 5,
-                              width: 1.5,
-                              height: 50,
-                              backgroundColor: '#000',
-                            }}></View>
-                          <View style={{position: 'absolute', bottom: -3}}>
-                            <View
-                              style={{
-                                height: 11,
-                                width: 11,
-                                borderRadius: 0,
-                                backgroundColor: '#096ED4',
-                              }}
-                            />
-                          </View>
-                        </View>
-                        <View style={{flex: 1}}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                            }}>
-                            <View style={{width: 45}}>
-                              <Text
+                <View
+                  style={{
+                    alignItems: 'center',
+                    flex: 1,
+                    width: '100%',
+                  }}>
+                  <View style={{flex: 1, width: '100%'}}>
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'Allrounder-Grotesk-Medium'
+                            : 'Allrounder Grotesk Medium',
+                        color: '#a5a5a5',
+                        padding: 20,
+                        paddingTop: 0,
+                        paddingLeft: 0,
+                        paddingBottom: 0,
+                      }}>
+                      {/ride/i.test(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .trip_details.ride_mode,
+                      )
+                        ? 'Trip summary'
+                        : 'Delivery summary'}
+                    </Text>
+                    <View
+                      style={{
+                        paddingTop: 20,
+                        paddingBottom: 20,
+                      }}>
+                      <View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}>
+                          <View style={{width: 16, height: '87%', top: 6}}>
+                            <View style={{position: 'absolute', top: 0}}>
+                              <View
                                 style={{
-                                  fontFamily:
-                                    Platform.OS === 'android'
-                                      ? 'Allrounder-Grotesk-Book'
-                                      : 'Allrounder Grotesk Book',
-                                  fontSize: 15,
-                                  top: 2,
-                                }}>
-                                From
-                              </Text>
+                                  height: 11,
+                                  width: 11,
+                                  borderRadius: 100,
+                                  backgroundColor: '#000',
+                                }}
+                              />
                             </View>
+
                             <View
                               style={{
                                 flex: 1,
-                                alignItems: 'flex-start',
+                                left: 5,
+                                width: 1.5,
+                                height: 50,
+                                backgroundColor: '#000',
+                              }}></View>
+                            <View style={{position: 'absolute', bottom: -3}}>
+                              <View
+                                style={{
+                                  height: 11,
+                                  width: 11,
+                                  borderRadius: 0,
+                                  backgroundColor: '#096ED4',
+                                }}
+                              />
+                            </View>
+                          </View>
+                          <View style={{flex: 1}}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
                               }}>
+                              <View style={{width: 45}}>
+                                <Text
+                                  style={{
+                                    fontFamily:
+                                      Platform.OS === 'android'
+                                        ? 'Allrounder-Grotesk-Book'
+                                        : 'Allrounder Grotesk Book',
+                                    fontSize: 15,
+                                    top: 2,
+                                  }}>
+                                  From
+                                </Text>
+                              </View>
                               <View
                                 style={{
                                   flex: 1,
                                   alignItems: 'flex-start',
                                 }}>
+                                <View
+                                  style={{
+                                    flex: 1,
+                                    alignItems: 'flex-start',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontFamily:
+                                        Platform.OS === 'android'
+                                          ? 'Allrounder-Grotesk-Medium'
+                                          : 'Allrounder Grotesk Medium',
+                                      fontSize: 16,
+                                      marginLeft: 5,
+                                      flex: 1,
+                                    }}>
+                                    {String(
+                                      this.props.App
+                                        .generalTRIP_details_driverDetails
+                                        .trip_details.pickup_name,
+                                    )}
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                            {/**Destination */}
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                marginTop: 25,
+                              }}>
+                              <View style={{width: 45}}>
                                 <Text
                                   style={{
                                     fontFamily:
                                       Platform.OS === 'android'
-                                        ? 'Allrounder-Grotesk-Medium'
-                                        : 'Allrounder Grotesk Medium',
-                                    fontSize: 16,
-                                    marginLeft: 5,
-                                    flex: 1,
+                                        ? 'Allrounder-Grotesk-Book'
+                                        : 'Allrounder Grotesk Book',
+                                    fontSize: 15,
+                                    top: 1,
                                   }}>
-                                  {String(
-                                    this.props.App
-                                      .generalTRIP_details_driverDetails
-                                      .trip_details.pickup_name,
-                                  )}
+                                  To
                                 </Text>
                               </View>
-                            </View>
-                          </View>
-                          {/**Destination */}
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              marginTop: 25,
-                            }}>
-                            <View style={{width: 45}}>
-                              <Text
+                              <View
                                 style={{
-                                  fontFamily:
-                                    Platform.OS === 'android'
-                                      ? 'Allrounder-Grotesk-Book'
-                                      : 'Allrounder Grotesk Book',
-                                  fontSize: 15,
-                                  top: 1,
+                                  flex: 1,
+                                  alignItems: 'flex-start',
                                 }}>
-                                To
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                flex: 1,
-                                alignItems: 'flex-start',
-                              }}>
-                              {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name
-                                .split(',')
-                                .map((destination, index) => {
-                                  return (
-                                    <View
-                                      key={String(index + 1)}
-                                      style={{
-                                        flex: 1,
-                                        alignItems: 'flex-start',
-                                        marginTop: index > 0 ? 5 : 0,
-                                      }}>
-                                      <Text
+                                {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name
+                                  .split(',')
+                                  .map((destination, index) => {
+                                    return (
+                                      <View
+                                        key={String(index + 1)}
                                         style={{
-                                          fontFamily:
-                                            Platform.OS === 'android'
-                                              ? 'Allrounder-Grotesk-Regular'
-                                              : 'Allrounder Grotesk',
-                                          fontSize: 16,
-                                          marginLeft: 5,
                                           flex: 1,
+                                          alignItems: 'flex-start',
+                                          marginTop: index > 0 ? 5 : 0,
                                         }}>
-                                        {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name.split(
-                                          ',',
-                                        ).length > 1 ? (
-                                          <Text
-                                            style={{
-                                              fontFamily:
-                                                Platform.OS === 'android'
-                                                  ? 'Allrounder-Grotesk-Medium'
-                                                  : 'Allrounder Grotesk Medium',
-                                              fontSize: 15,
-                                              marginLeft: 5,
-                                              flex: 1,
-                                              color: '#096ED4',
-                                            }}>
-                                            {index + 1 + '. '}
-                                          </Text>
-                                        ) : null}
-                                        {destination.trim()}
-                                      </Text>
-                                    </View>
-                                  );
-                                })}
+                                        <Text
+                                          style={{
+                                            fontFamily:
+                                              Platform.OS === 'android'
+                                                ? 'Allrounder-Grotesk-Regular'
+                                                : 'Allrounder Grotesk',
+                                            fontSize: 16,
+                                            marginLeft: 5,
+                                            flex: 1,
+                                          }}>
+                                          {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name.split(
+                                            ',',
+                                          ).length > 1 ? (
+                                            <Text
+                                              style={{
+                                                fontFamily:
+                                                  Platform.OS === 'android'
+                                                    ? 'Allrounder-Grotesk-Medium'
+                                                    : 'Allrounder Grotesk Medium',
+                                                fontSize: 15,
+                                                marginLeft: 5,
+                                                flex: 1,
+                                                color: '#096ED4',
+                                              }}>
+                                              {index + 1 + '. '}
+                                            </Text>
+                                          ) : null}
+                                          {destination.trim()}
+                                        </Text>
+                                      </View>
+                                    );
+                                  })}
+                              </View>
                             </View>
                           </View>
                         </View>
@@ -864,62 +870,351 @@ class RenderBottomVital extends React.PureComponent {
                   </View>
                 </View>
               </View>
-            </View>
-            {/**Confirm drop off button */}
-            <TouchableOpacity
-              onPress={() =>
-                this.props.UpdateErrorModalLog(
-                  true,
-                  'show_rating_driver_modal',
-                  'any',
-                )
-              }
-              style={{
-                flex: 1,
-                backgroundColor: '#096ED4',
-                flexDirection: 'row',
-                padding: 20,
-                paddingTop: 18,
-                paddingLeft: 15,
-                paddingBottom: 15,
-                height: 80,
-                borderRadius: 7,
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
+              {/**Confirm drop off button */}
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(
+                    true,
+                    'show_rating_driver_modal',
+                    'any',
+                  )
+                }
+                style={{
+                  flex: 1,
+                  backgroundColor: '#096ED4',
+                  flexDirection: 'row',
+                  padding: 20,
+                  paddingTop: 18,
+                  paddingLeft: 15,
+                  paddingBottom: 15,
+                  height: 80,
+                  borderRadius: 7,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
 
-                elevation: 6,
+                  elevation: 6,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
+                  }}>
+                  <IconCommunity name="shield-check" color="#fff" size={25} />
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                      fontSize: 22.5,
+                      marginLeft: 5,
+                      color: '#fff',
+                    }}>
+                    Confirm Drop off
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          );
+        } //? Shared trip
+        else {
+          if (
+            this.props.App.generalTRIP_details_driverDetails.trip_details ===
+              undefined ||
+            this.props.App.generalTRIP_details_driverDetails.trip_details
+              .ride_mode === undefined
+          ) {
+            return null;
+          }
+          //Confirm drop off
+          return (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '100%',
+                padding: 20,
+                paddingBottom: 26,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
               <View
                 style={{
+                  flex: 1,
+                  backgroundColor: '#fff',
+                  padding: 20,
+                  paddingTop: 18,
+                  paddingLeft: 15,
+                  paddingBottom: 15,
+                  marginBottom: 10,
+                  borderRadius: 7,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+
+                  elevation: 6,
+                  width: '100%',
+                }}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    flex: 1,
+                    width: '100%',
+                  }}>
+                  <View style={{flex: 1, width: '100%'}}>
+                    <Text
+                      style={{
+                        fontSize: RFValue(17),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        color: '#a5a5a5',
+                        padding: 20,
+                        paddingTop: 0,
+                        paddingLeft: 0,
+                        paddingBottom: 0,
+                      }}>
+                      {/ride/i.test(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .trip_details.ride_mode,
+                      )
+                        ? 'Trip summary'
+                        : 'Delivery summary'}
+                    </Text>
+                    <View
+                      style={{
+                        paddingTop: 20,
+                        paddingBottom: 20,
+                      }}>
+                      <View>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                          }}>
+                          <View style={{width: 16, height: '87%', top: 6}}>
+                            <View style={{position: 'absolute', top: 0}}>
+                              <View
+                                style={{
+                                  height: 11,
+                                  width: 11,
+                                  borderRadius: 100,
+                                  backgroundColor: '#000',
+                                }}
+                              />
+                            </View>
+
+                            <View
+                              style={{
+                                flex: 1,
+                                left: 5,
+                                width: 1.5,
+                                height: 50,
+                                backgroundColor: '#000',
+                              }}></View>
+                            <View style={{position: 'absolute', bottom: -3}}>
+                              <View
+                                style={{
+                                  height: 11,
+                                  width: 11,
+                                  borderRadius: 0,
+                                  backgroundColor: '#096ED4',
+                                }}
+                              />
+                            </View>
+                          </View>
+                          <View style={{flex: 1}}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                              }}>
+                              <View style={{width: 45}}>
+                                <Text
+                                  style={{
+                                    fontFamily:
+                                      Platform.OS === 'android'
+                                        ? 'UberMoveTextLight'
+                                        : 'Uber Move Text Light',
+                                    fontSize: RFValue(15),
+                                  }}>
+                                  From
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: 'flex-start',
+                                }}>
+                                <View
+                                  style={{
+                                    flex: 1,
+                                    alignItems: 'flex-start',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontFamily:
+                                        Platform.OS === 'android'
+                                          ? 'UberMoveTextMedium'
+                                          : 'Uber Move Text Medium',
+                                      fontSize: RFValue(16),
+                                      marginLeft: 5,
+                                      flex: 1,
+                                    }}>
+                                    {String(
+                                      this.props.App
+                                        .generalTRIP_details_driverDetails
+                                        .trip_details.pickup_name,
+                                    )}
+                                  </Text>
+                                </View>
+                              </View>
+                            </View>
+                            {/**Destination */}
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                marginTop: 25,
+                              }}>
+                              <View style={{width: 45}}>
+                                <Text
+                                  style={{
+                                    fontFamily:
+                                      Platform.OS === 'android'
+                                        ? 'UberMoveTextLight'
+                                        : 'Uber Move Text Light',
+                                    fontSize: RFValue(15),
+                                    top: 1,
+                                  }}>
+                                  To
+                                </Text>
+                              </View>
+                              <View
+                                style={{
+                                  flex: 1,
+                                  alignItems: 'flex-start',
+                                }}>
+                                {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name
+                                  .split(',')
+                                  .map((destination, index) => {
+                                    return (
+                                      <View
+                                        key={String(index + 1)}
+                                        style={{
+                                          flex: 1,
+                                          alignItems: 'flex-start',
+                                          marginTop: index > 0 ? 5 : 0,
+                                        }}>
+                                        <Text
+                                          style={{
+                                            fontFamily:
+                                              Platform.OS === 'android'
+                                                ? 'UberMoveTextRegular'
+                                                : 'Uber Move Text',
+                                            fontSize: RFValue(16),
+                                            marginLeft: 5,
+                                            flex: 1,
+                                          }}>
+                                          {this.props.App.generalTRIP_details_driverDetails.trip_details.destination_name.split(
+                                            ',',
+                                          ).length > 1 ? (
+                                            <Text
+                                              style={{
+                                                fontFamily:
+                                                  PPlatform.OS === 'android'
+                                                    ? 'UberMoveTextMedium'
+                                                    : 'Uber Move Text Medium',
+                                                fontSize: RFValue(15),
+                                                marginLeft: 5,
+                                                flex: 1,
+                                                color: '#096ED4',
+                                              }}>
+                                              {index + 1 + '. '}
+                                            </Text>
+                                          ) : null}
+                                          {destination.trim()}
+                                        </Text>
+                                      </View>
+                                    );
+                                  })}
+                              </View>
+                            </View>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              {/**Confirm drop off button */}
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.UpdateErrorModalLog(
+                    true,
+                    'show_rating_driver_modal',
+                    'any',
+                  )
+                }
+                style={{
+                  flex: 1,
+                  backgroundColor: '#096ED4',
                   flexDirection: 'row',
+                  padding: 20,
+                  paddingTop: 18,
+                  paddingLeft: 15,
+                  paddingBottom: 15,
+                  height: 80,
+                  borderRadius: 7,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+
+                  elevation: 6,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  flex: 1,
                 }}>
-                <IconCommunity name="shield-check" color="#fff" size={25} />
-                <Text
+                <View
                   style={{
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
-                    fontSize: 22.5,
-                    marginLeft: 5,
-                    color: '#fff',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
                   }}>
-                  Confirm Drop off
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        );
+                  <IconCommunity name="shield-check" color="#fff" size={25} />
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'Allrounder-Grotesk-Medium'
+                          : 'Allrounder Grotesk Medium',
+                      fontSize: 22.5,
+                      marginLeft: 5,
+                      color: '#fff',
+                    }}>
+                    Confirm Drop off
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          );
+        }
       } else if (/pending/i.test(this.props.App.request_status)) {
         //Pending requests
         return (

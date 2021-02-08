@@ -1408,19 +1408,22 @@ class ErrorModal extends React.PureComponent {
                     />
                   </View>
                   <View style={{marginLeft: 10, flex: 1}}>
-                    <Text
-                      style={{
-                        fontSize: RFValue(17.5),
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                      }}>
-                      {
-                        this.props.App.generalTRIP_details_driverDetails
-                          .carDetails.plate_number
-                      }
-                    </Text>
+                    {this.props.App.generalTRIP_details_driverDetails
+                      .riderOwnerInfoBundle === undefined ? (
+                      <Text
+                        style={{
+                          fontSize: RFValue(17.5),
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                        }}>
+                        {
+                          this.props.App.generalTRIP_details_driverDetails
+                            .carDetails.plate_number
+                        }
+                      </Text>
+                    ) : null}
                     <Text
                       style={{
                         fontSize: RFValue(16.5),

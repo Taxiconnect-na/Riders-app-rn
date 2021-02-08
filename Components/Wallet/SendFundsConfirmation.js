@@ -259,4 +259,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(PayDriverConfirmation);
+export default React.memo(connect(mapStateToProps)(PayDriverConfirmation));

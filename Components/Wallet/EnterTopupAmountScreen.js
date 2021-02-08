@@ -354,4 +354,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(SendFundsInputAmount);
+export default React.memo(connect(mapStateToProps)(SendFundsInputAmount));

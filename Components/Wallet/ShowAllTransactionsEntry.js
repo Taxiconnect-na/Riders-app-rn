@@ -94,4 +94,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(ShowAllTransactionsEntry);
+export default React.memo(connect(mapStateToProps)(ShowAllTransactionsEntry));
