@@ -700,7 +700,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 1
@@ -722,7 +722,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 2
@@ -744,7 +744,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 3
@@ -769,7 +769,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextMedium'
-                          : 'Allrounder Grotesk Medium',
+                          : 'Uber Move Text Medium',
                     },
                   ]}>
                   4
@@ -800,7 +800,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 1
@@ -823,7 +823,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 2
@@ -845,7 +845,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 3
@@ -870,7 +870,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextMedium'
-                          : 'Allrounder Grotesk Medium',
+                          : 'Uber Move Text Medium',
                     },
                   ]}>
                   4
@@ -901,7 +901,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 1
@@ -923,7 +923,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 2
@@ -946,7 +946,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 3
@@ -971,7 +971,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextMedium'
-                          : 'Allrounder Grotesk Medium',
+                          : 'Uber Move Text Medium',
                     },
                   ]}>
                   4
@@ -1002,7 +1002,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 1
@@ -1024,7 +1024,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 2
@@ -1046,7 +1046,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 3
@@ -1069,7 +1069,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
-                        : 'Allrounder Grotesk Medium',
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 4
@@ -1462,7 +1462,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(20),
+                        fontSize: RFValue(22),
                         color: '#000',
                         fontFamily:
                           Platform.OS === 'android'
@@ -1487,7 +1487,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           ? 'UberMoveTextMedium'
                           : 'Uber Move Text Medium',
                       bottom: 3,
-                      fontSize: 22,
+                      fontSize: RFValue(22),
                       color: '#000',
                       opacity: this.props.App.initialHelloAnimationParams
                         .opacity,
@@ -1621,7 +1621,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(18),
+                        fontSize: RFValue(20),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextBold'
@@ -1709,7 +1709,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(18),
+                        fontSize: RFValue(20),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextBold'
@@ -1720,7 +1720,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                   </Text>
                   <Text
                     style={[
-                      systemWeights.light,
                       {
                         fontSize: RFValue(13),
                         marginTop: 5,
@@ -1793,8 +1792,18 @@ class RenderContentBottomVitals extends React.PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text
+              <AnimatedNative.Text
                 style={{
+                  opacity: this.props.App.bottomVitalsFlow
+                    .rideOrDeliveryMetadata
+                    .identifyinfLocationTypeTopTextOpacity,
+                  transform: [
+                    {
+                      translateX: this.props.App.bottomVitalsFlow
+                        .rideOrDeliveryMetadata
+                        .identifyinfLocationTypeTopTextPosition,
+                    },
+                  ],
                   fontSize: RFValue(13),
                   color: '#000',
                   fontFamily:
@@ -1803,7 +1812,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       : 'Uber Move Text Light',
                 }}>
                 We autodected your pickup location
-              </Text>
+              </AnimatedNative.Text>
             </View>
             <View
               style={{
@@ -2338,7 +2347,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(17),
+                        fontSize: RFValue(19),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextBold'
@@ -2446,7 +2455,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(17),
+                        fontSize: RFValue(19),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextBold'
@@ -2497,9 +2506,10 @@ class RenderContentBottomVitals extends React.PureComponent {
         this.props.App.pricingVariables.didPricingReceivedFromServer !== false
       ) {
         this.props.parentNode.resetAnimationLoader();
+      } //! Fix atttempt
+      else {
+        this.props.parentNode.getFareEstimation();
       }
-
-      this.props.parentNode.getFareEstimation();
 
       return (
         <AnimatedNative.View
@@ -2632,7 +2642,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 {
                   marginTop: 15,
                   marginBottom: 25,
-                  fontSize: RFValue(19),
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextMedium'
@@ -2666,7 +2676,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={[
                   {
                     borderBottomWidth: 1.5,
-                    fontSize: RFValue(18),
+                    fontSize: RFValue(19),
                     paddingLeft: 0,
                     fontFamily:
                       Platform.OS === 'android'
@@ -2773,7 +2783,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 {
                   marginTop: 15,
                   marginBottom: 25,
-                  fontSize: RFValue(19),
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextMedium'
@@ -2837,7 +2847,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(16.5),
+                        fontSize: RFValue(18),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
@@ -2849,7 +2859,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(13.5),
+                        fontSize: RFValue(15.5),
                         color: '#757575',
                         marginTop: 5,
                         fontFamily:
@@ -2934,7 +2944,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(16.5),
+                        fontSize: RFValue(18),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
@@ -2946,7 +2956,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(13.5),
+                        fontSize: RFValue(15.5),
                         color: '#757575',
                         marginTop: 5,
                         fontFamily:
@@ -3031,7 +3041,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(16.5),
+                        fontSize: RFValue(18),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
@@ -3043,7 +3053,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(13.5),
+                        fontSize: RFValue(15.5),
                         color: '#757575',
                         marginTop: 5,
                         fontFamily:
@@ -3087,12 +3097,12 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                 <Text
                   style={{
-                    fontSize: RFValue(13),
+                    fontSize: RFValue(14),
                     marginLeft: 6,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'UberMoveTextLight'
-                        : 'Uber Move Text Light',
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
                   }}>
                   Select the right package size for a better delivery handling
                   experience.
@@ -3125,7 +3135,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       this.props.App.bottomVitalsFlow.currentStep ===
       'selectCarTypeAndPaymentMethodDelivery'
     ) {
-      this.props.parentNode.resetAnimationLoader();
+      //! -- fix attempt -- this.props.parentNode.resetAnimationLoader();
       return (
         <AnimatedNative.View
           style={{
@@ -3188,9 +3198,9 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Medium'
-                      : 'Allrounder Grotesk Medium',
-                  fontSize: 17.5,
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
+                  fontSize: RFValue(17.5),
                 }}>
                 Unable to make the request
               </Text>
@@ -3199,9 +3209,9 @@ class RenderContentBottomVitals extends React.PureComponent {
               style={{
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Book'
-                    : 'Allrounder Grotesk Book',
-                fontSize: 17,
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
+                fontSize: RFValue(17),
               }}>
               Sorry, we were unable to make your ride request due to some
               unexpected error, please try again later.

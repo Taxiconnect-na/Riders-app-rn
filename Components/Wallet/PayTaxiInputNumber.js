@@ -42,7 +42,6 @@ const App = ({valueM, parentNode}) => {
         autoFocus
         cellCount={6}
         rootStyle={styles.codeFieldRoot}
-        keyboardType="number-pad"
         textContentType="oneTimeCode"
         renderCell={({index, symbol, isFocused}) => (
           <Text

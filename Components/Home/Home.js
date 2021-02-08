@@ -2009,6 +2009,7 @@ class Home extends React.PureComponent {
           latitude: this.props.App.latitude,
           longitude: this.props.App.longitude,
           user_fingerprint: this.props.App.user_fingerprint,
+          pushnotif_token: this.props.App.pushnotif_token,
         };
         this.props.App.socket.emit('update-passenger-location', bundle);
       }
@@ -2457,9 +2458,6 @@ class Home extends React.PureComponent {
           pricingInputDataRaw,
         );
       } else if (/DELIVERY/i.test(this.props.App.bottomVitalsFlow.flowParent)) {
-        //DEBUG
-        //this.resetAnimationLoader();
-        //DEBUG---
         //DELIVERY PRICING
         //Prod data input
         let pricingInputDataRaw = {

@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import WalletTransacRecords from './WalletTransacRecords';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
-import {RFValue} from 'react-native-responsive-fontsize';
 import {FlatList} from 'react-native-gesture-handler';
 
 class ShowAllTransactionsEntry extends React.PureComponent {

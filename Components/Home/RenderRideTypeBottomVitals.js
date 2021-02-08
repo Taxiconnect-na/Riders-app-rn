@@ -1303,8 +1303,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 color: '#0D8691',
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'UberMoveTextRegular'
-                    : 'Uber Move Text Regular',
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
               },
             ]}>
             {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
@@ -1917,7 +1917,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? RFValue(19)
+                                                  ? RFValue(20)
                                                   : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
@@ -2150,7 +2150,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? RFValue(19)
+                                                  ? RFValue(20)
                                                   : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
@@ -2375,7 +2375,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? RFValue(19)
+                                                  ? RFValue(20)
                                                   : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
@@ -2486,8 +2486,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             color: '#0D8691',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
                           },
                         ]}>
                         {this.props.parentNodeHome.ucFirst(
@@ -2549,8 +2549,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                           fontSize: RFValue(16),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'UberMoveTextLight'
-                              : 'Uber Move Text Light',
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
                         },
                       ]}>
                       {this.props.App.selectedScheduleTime === 'now'
@@ -2843,7 +2843,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? RFValue(19)
+                                                  ? RFValue(20)
                                                   : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
@@ -3093,7 +3093,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontSize: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
-                                                  ? RFValue(19)
+                                                  ? RFValue(20)
                                                   : RFValue(16),
                                                 fontFamily:
                                                   Platform.OS === 'android'
@@ -3204,8 +3204,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             color: '#0D8691',
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
                           },
                         ]}>
                         {this.props.parentNodeHome.ucFirst(
@@ -3236,8 +3236,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                           fontSize: RFValue(16),
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'UberMoveTextLight'
-                              : 'Uber Move Text Light',
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
                         },
                       ]}>
                       {this.props.App.selectedScheduleTime === 'now'

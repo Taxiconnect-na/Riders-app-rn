@@ -21,7 +21,6 @@ import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialM from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
-import {systemWeights} from 'react-native-typography';
 import {
   UpdateSearchMetadataLoaderState,
   UpdateProcessFlowState,

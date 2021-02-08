@@ -99,9 +99,9 @@ class SupportEntry extends React.PureComponent {
                         : 'Uber Move Text Light',
                   }}>
                   If you <Text style={{fontWeight: 'bold'}}>left</Text> your
-                  belongings in the taxi or you need{' '}
+                  belongings in a taxi or you need{' '}
                   <Text style={{fontWeight: 'bold'}}>assistance</Text> on using
-                  the{' '}
+                  The{' '}
                   <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
                     TaxiConnect platform
                   </Text>
@@ -119,8 +119,8 @@ class SupportEntry extends React.PureComponent {
                         : 'Uber Move Text Light',
                   }}>
                   In case of an{' '}
-                  <Text style={{fontWeight: 'bold'}}>emergency</Text>, contact
-                  the <Text style={{fontWeight: 'bold'}}>police</Text>.
+                  <Text style={{fontWeight: 'bold'}}>emergency</Text>, you can
+                  contact the <Text style={{fontWeight: 'bold'}}>police</Text>.
                 </Text>
               </View>
               {/**Buttons */}

@@ -155,4 +155,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenericLoader;
+export default React.memo(GenericLoader);

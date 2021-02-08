@@ -136,8 +136,8 @@ class SendFundsEntry extends React.PureComponent {
                         lineHeight: RFValue(17),
                         paddingRight: 10,
                       }}>
-                      Send rides or deliveries money to your friends and family
-                      instantlly and hustle free.
+                      Send rides or delivery credits to your friends and family
+                      instantly and hustle free.
                     </Text>
                   </View>
                 </View>
@@ -193,8 +193,7 @@ class SendFundsEntry extends React.PureComponent {
                         lineHeight: RFValue(17),
                         paddingRight: 10,
                       }}>
-                      Directly send payments to your driver's wallet seamlessly
-                      without any VAT.
+                      Directly send payments to your driver seamlessly.
                     </Text>
                   </View>
                 </View>

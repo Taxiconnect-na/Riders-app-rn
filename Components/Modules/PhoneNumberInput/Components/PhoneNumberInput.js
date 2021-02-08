@@ -163,13 +163,12 @@ class PhoneNumberInput extends React.PureComponent {
               value={this.props.App.typedCountrySearchQuery}
               maxLength={25}
               style={[
-                systemWeights.regular,
                 {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextRegular'
                       : 'Uber Move Text',
-                  fontSize: RFValue(17),
+                  fontSize: RFValue(18),
                   color: '#fff',
                 },
               ]}
@@ -224,7 +223,7 @@ class PhoneNumberInput extends React.PureComponent {
                     Platform.OS === 'android'
                       ? 'UberMoveTextMedium'
                       : 'Uber Move Text Medium',
-                  fontSize: RFValue(19),
+                  fontSize: RFValue(20),
                   color: '#fff',
                 },
               ]}>
@@ -390,7 +389,8 @@ class PhoneNumberInput extends React.PureComponent {
   openCountrySearcherScreen() {
     //? Dismiss the keyboard initially
     Keyboard.dismiss();
-
+    //? ---
+    let globalObject = this;
     this.props.RenderCountryPhoneCodeSearcher(true);
     Animated.parallel([
       Animated.timing(this.props.App.searchCountryScreenOpacity, {
@@ -405,7 +405,9 @@ class PhoneNumberInput extends React.PureComponent {
         easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
         useNativeDriver: true,
       }),
-    ]).start();
+    ]).start(() => {
+      globalObject.forceUpdate();
+    });
   }
 
   /**
@@ -448,7 +450,6 @@ class PhoneNumberInput extends React.PureComponent {
                 width: 60,
                 right: 7,
                 alignItems: 'center',
-                //justifyContent: 'center',
                 flexDirection: 'row',
               }}>
               <IconMaterialIcons
@@ -461,9 +462,9 @@ class PhoneNumberInput extends React.PureComponent {
                   {
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'UberMoveTextRegular'
-                        : 'Uber Move Text',
-                    fontSize: RFValue(19),
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    fontSize: RFValue(21),
                     left: 2,
                   },
                 ]}>
@@ -501,7 +502,7 @@ class PhoneNumberInput extends React.PureComponent {
                     Platform.OS === 'android'
                       ? 'UberMoveTextRegular'
                       : 'Uber Move Text',
-                  fontSize: RFValue(19),
+                  fontSize: RFValue(21),
                   borderBottomWidth: 1.5,
                   flex: 1,
                   marginLeft: 5,
@@ -559,4 +560,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhoneNumberInput);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(PhoneNumberInput),
+);

@@ -1013,11 +1013,11 @@ class RenderBottomVital extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'UberMoveTextRegular'
-                        : 'Uber Move Text',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     fontSize: RFValue(18.5),
                   }}>
-                  Finding you a Taxi
+                  Finding you a Ride
                 </Text>
               </View>
               <TouchableOpacity

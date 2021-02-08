@@ -39,6 +39,14 @@ class SendFundsInputAmount extends React.PureComponent {
   componentDidMount() {
     let globalObject = this;
 
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.props.navigation.goBack();
+        return true;
+      },
+    );
+
     //? Add navigator listener - auto clean on focus
     globalObject._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',

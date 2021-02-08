@@ -418,6 +418,7 @@ class ErrorModal extends React.PureComponent {
       SyncStorage.remove('@accountCreation_state');
 
       //Reinitiate values
+      globalObject.props.App.user_fingerprint = null;
       globalObject.props.App.gender_user = 'male';
       globalObject.props.App.username = false;
       globalObject.props.App.surname_user = false;
@@ -425,6 +426,7 @@ class ErrorModal extends React.PureComponent {
       globalObject.props.App.user_profile_pic = null;
       globalObject.props.App.last_dataPersoUpdated = null;
       globalObject.props.App.userCurrentLocationMetaData = {};
+      globalObject.props.App.accountCreation_state = null;
       //Log out
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
       globalObject.props.parentNode.props.navigation.navigate('EntryScreen');

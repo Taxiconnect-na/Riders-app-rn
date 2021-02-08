@@ -2,7 +2,6 @@
 import React from 'react';
 import {View, TouchableOpacity, Image, Text, Platform} from 'react-native';
 import flagsIco from './Assets/FlagImagesRessources';
-import {systemWeights} from 'react-native-typography';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 class ItemFlag extends React.PureComponent {
@@ -71,4 +70,4 @@ class ItemFlag extends React.PureComponent {
   }
 }
 
-export default ItemFlag;
+export default React.memo(ItemFlag);

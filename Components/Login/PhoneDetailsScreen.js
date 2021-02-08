@@ -137,7 +137,7 @@ class PhoneDetailsScreen extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: RFValue(19),
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextMedium'
