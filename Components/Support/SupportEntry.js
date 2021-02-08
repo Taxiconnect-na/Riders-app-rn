@@ -205,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SupportEntry;
+export default React.memo(SupportEntry);

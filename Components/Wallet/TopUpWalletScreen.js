@@ -794,4 +794,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(TopUpWalletScreen);
+export default React.memo(connect(mapStateToProps)(TopUpWalletScreen));

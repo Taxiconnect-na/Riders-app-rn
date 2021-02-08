@@ -229,4 +229,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(SendFundsEntry);
+export default React.memo(connect(mapStateToProps)(SendFundsEntry));

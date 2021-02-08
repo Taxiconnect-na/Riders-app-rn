@@ -578,7 +578,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OTPVerificationGeneric);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(OTPVerificationGeneric),
+);

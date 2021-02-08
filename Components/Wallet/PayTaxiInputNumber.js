@@ -310,4 +310,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(PayTaxiInputNumber);
+export default React.memo(connect(mapStateToProps)(PayTaxiInputNumber));

@@ -410,4 +410,4 @@ function RootScreens() {
   );
 }
 
-export default RootScreens;
+export default React.memo(RootScreens);

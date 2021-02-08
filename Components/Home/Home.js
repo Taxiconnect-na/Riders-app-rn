@@ -582,23 +582,15 @@ class Home extends React.PureComponent {
                 globalObject.props.App.sharedSimplifiedLink !== null &&
                 globalObject.props.App.sharedSimplifiedLink.length > 0
               ) {
-                if (globalObject.props.App.isRideInProgress !== true) {
-                  globalObject.props.App.socket.emit(
-                    'getSharedTrip_information_io',
-                    {
-                      sharedTo_user_fingerprint:
-                        globalObject.props.App.user_fingerprint,
-                      trip_simplified_id:
-                        globalObject.props.App.sharedSimplifiedLink,
-                    },
-                  );
-                } //Nullify the shared link
-                else {
-                  //! Leave this part alone
-                  //console.log('SNIKKER!!!');
-                  //globalObject.props.App.sharedSimplifiedLink = null;
-                  //globalObject.props.UpdateErrorModalLog(false, false, 'any');
-                }
+                globalObject.props.App.socket.emit(
+                  'getSharedTrip_information_io',
+                  {
+                    sharedTo_user_fingerprint:
+                      globalObject.props.App.user_fingerprint,
+                    trip_simplified_id:
+                      globalObject.props.App.sharedSimplifiedLink,
+                  },
+                );
               }
             } //Kill the persister
             else {
@@ -777,7 +769,8 @@ class Home extends React.PureComponent {
           //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
           if (
             /(connection_no_network|service_unavailable)/i.test(
-              globalObject.props.App.generalErrorModalType,
+              globalObject.props.App.generalErrorModal_vars
+                .generalErrorModalType,
             )
           ) {
             //Do not interrupt the select gender process
@@ -821,13 +814,16 @@ class Home extends React.PureComponent {
           }
           //Got something
           else if (/success/i.test(response.responsePass)) {
-            //? 1. Auto close the loading modal
-            globalObject.props.UpdateErrorModalLog(false, false, 'any');
-            //? 2. Simulate route tracking
-            /*globalObject.props.App.socket.emit(
-              'trackdriverroute-response',
-              response,
-            );*/
+            //? 1. Auto close the loading modal - only close for loading modal
+            if (
+              /showStatus_gettingSharedTrip_details__gettingLink/i.test(
+                globalObject.props.App.generalErrorModal_vars
+                  .generalErrorModalType,
+              )
+            ) {
+              //Do not interrupt the select gender process
+              globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+            }
           } //Error
           else {
             globalObject.props.UpdateErrorModalLog(
@@ -855,6 +851,16 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
+      //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
+      if (
+        /(connection_no_network|service_unavailable)/i.test(
+          globalObject.props.App.generalErrorModal_vars.generalErrorModalType,
+        )
+      ) {
+        //Do not interrupt the select gender process
+        globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+      }
+      //...
       if (
         response !== null &&
         response !== undefined &&
@@ -862,7 +868,8 @@ class Home extends React.PureComponent {
       ) {
         //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
         if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
-          /*globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
+          console.log('Resetted');
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
           //Reset
           globalObject._RESET_STATE();
           //Recalibrate map
@@ -880,7 +887,7 @@ class Home extends React.PureComponent {
               zoomLevel: 14,
               animationDuration: 2000,
             });
-          }*/
+          }
         }
 
         //1. Trip in progress: in route to pickup or in route to drop off
@@ -1089,14 +1096,44 @@ class Home extends React.PureComponent {
           response.request_status !== null &&
           /riderDropoffConfirmation_left/i.test(response.request_status)
         ) {
-          globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
-          //User drop off confirmation
-          globalObject.props.App.request_status = response.request_status;
-          globalObject.props.App.isRideInProgress = true;
-          //Save the basic trip and driver details for drop off confirmation and rating
-          //Save and update the state once - only if the data are different (handled in the reducer)
-          globalObject.props.UpdateDropoffDataFor_driverRating(response);
+          //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+          if (
+            globalObject.props.App.sharedSimplifiedLink !== null &&
+            globalObject.props.App.sharedSimplifiedLink !== undefined
+          ) {
+            //Nullify the shared link
+            globalObject.props.App.sharedSimplifiedLink = null;
+            //Show the end modal
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'showStatus_gettingSharedTrip_details__doneTrip',
+              'any',
+            );
+          } else {
+            globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
+            //User drop off confirmation
+            globalObject.props.App.request_status = response.request_status;
+            globalObject.props.App.isRideInProgress = true;
+            //Save the basic trip and driver details for drop off confirmation and rating
+            //Save and update the state once - only if the data are different (handled in the reducer)
+            globalObject.props.UpdateDropoffDataFor_driverRating(response);
+          }
         } else if (response.request_status === 'no_rides') {
+          //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+          if (
+            globalObject.props.App.sharedSimplifiedLink !== null &&
+            globalObject.props.App.sharedSimplifiedLink !== undefined
+          ) {
+            //Nullify the shared link
+            globalObject.props.App.sharedSimplifiedLink = null;
+            //Show the end modal
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'showStatus_gettingSharedTrip_details__doneTrip',
+              'any',
+            );
+          }
+          //...
           if (globalObject.props.App.isRideInProgress) {
             //Reset props.App
             globalObject._RESET_STATE();
@@ -1117,6 +1154,22 @@ class Home extends React.PureComponent {
             }
             //...
             globalObject.props.App.request_status = response.request_status;
+          }
+        } //Show shared trip maybe done
+        else {
+          //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+          if (
+            globalObject.props.App.sharedSimplifiedLink !== null &&
+            globalObject.props.App.sharedSimplifiedLink !== undefined
+          ) {
+            //Nullify the shared link
+            globalObject.props.App.sharedSimplifiedLink = null;
+            //Show the end modal
+            globalObject.props.UpdateErrorModalLog(
+              true,
+              'showStatus_gettingSharedTrip_details__doneTrip',
+              'any',
+            );
           }
         }
       }
@@ -1878,7 +1931,7 @@ class Home extends React.PureComponent {
                       globalObject.props.App.latitude,
                     ],
                     zoomLevel: globalObject.props.App._NORMAL_MAP_ZOOM_LEVEL,
-                    animationDuration: 1000,
+                    animationDuration: 500,
                   });
                 });
               }
@@ -1912,7 +1965,7 @@ class Home extends React.PureComponent {
                   originPoint,
                   destinationPoint,
                   [100, 140, 40, 140],
-                  Platform.OS === 'android' ? 1500 : 1000,
+                  Platform.OS === 'android' ? 800 : 800,
                 );
               });
             }
@@ -2989,7 +3042,7 @@ class Home extends React.PureComponent {
                   this.props.App.bottomVitalsFlow.centerLocationButtonScale,
                   {
                     toValue: 1,
-                    duration: 150,
+                    duration: 100,
                     useNativeDriver: true,
                   },
                 ),

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Platform} from 'react-native';
+import {RFValue} from 'react-native-responsive-fontsize';
 
 class Notifiyer extends React.PureComponent {
   constructor(props) {
@@ -30,9 +31,9 @@ class Notifiyer extends React.PureComponent {
             style={{
               fontFamily:
                 Platform.OS === 'android'
-                  ? 'Allrounder-Grotesk-Book'
-                  : 'Allrounder Grotesk Book',
-              fontSize: 16.5,
+                  ? 'UberMoveTextRegular'
+                  : 'Uber Move Text',
+              fontSize: RFValue(16.5),
               color: '#fff',
             }}>
             {this.props.message}
@@ -45,4 +46,4 @@ class Notifiyer extends React.PureComponent {
   }
 }
 
-export default Notifiyer;
+export default React.memo(Notifiyer);

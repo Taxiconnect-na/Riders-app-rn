@@ -246,4 +246,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default connect(mapStateToProps)(EntryScreen);
+export default React.memo(connect(mapStateToProps)(EntryScreen));

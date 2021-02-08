@@ -102,7 +102,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(HeaderRideTypesSelector);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(HeaderRideTypesSelector),
+);

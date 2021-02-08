@@ -320,4 +320,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletTopUpEntry);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(WalletTopUpEntry),
+);

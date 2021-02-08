@@ -9,4 +9,4 @@ const DismissKeyboard = ({children}) => (
   </TouchableWithoutFeedback>
 );
 
-export default DismissKeyboard;
+export default React.memo(DismissKeyboard);

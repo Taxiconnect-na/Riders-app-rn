@@ -527,7 +527,6 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TransactionFinalReport);
+export default React.memo(
+  connect(mapStateToProps, mapDispatchToProps)(TransactionFinalReport),
+);
