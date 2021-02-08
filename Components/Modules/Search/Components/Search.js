@@ -481,11 +481,11 @@ class Search extends React.PureComponent {
               <Text
                 style={[
                   {
-                    fontSize: 16,
+                    fontSize: RFValue(16.5),
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'Allrounder-Grotesk-Medium'
-                        : 'Allrounder Grotesk Medium',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                   },
                 ]}>
                 Set to my current location
@@ -497,8 +497,8 @@ class Search extends React.PureComponent {
                     {
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'Allrounder-Grotesk-Book'
-                          : 'Allrounder Grotesk Book',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   {this.props.App.userCurrentLocationMetaData.street !==
@@ -551,7 +551,16 @@ class Search extends React.PureComponent {
                     )}
                   </View>
                   <View>
-                    <Text style={[systemWeights.semibold, {fontSize: 16.5}]}>
+                    <Text
+                      style={[
+                        {
+                          fontSize: RFValue(16.5),
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                        },
+                      ]}>
                       {place.name}
                     </Text>
                     <View style={{flexDirection: 'row', marginTop: 5}}>
@@ -560,11 +569,11 @@ class Search extends React.PureComponent {
                           <Text
                             style={[
                               {
-                                fontSize: 14,
+                                fontSize: RFValue(14),
                                 fontFamily:
                                   Platform.OS === 'android'
-                                    ? 'Allrounder-Grotesk-Book'
-                                    : 'Allrounder Grotesk Book',
+                                    ? 'UberMoveTextRegular'
+                                    : 'Uber Move Text',
                               },
                             ]}>
                             {place.location_infos.location_name !== false
@@ -591,8 +600,8 @@ class Search extends React.PureComponent {
                             {
                               fontFamily:
                                 Platform.OS === 'android'
-                                  ? 'Allrounder-Grotesk-Book'
-                                  : 'Allrounder Grotesk Book',
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
                             },
                           ]}>
                           Add a location.

@@ -5027,7 +5027,7 @@ internal-slot@^1.0.2:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.4:
+invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -7481,6 +7481,13 @@ react-native-modal@11.5.6:
   dependencies:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
+
+react-native-onesignal@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-4.0.3.tgz#a55f856ff8f7cac36cc0bcce33dd474707ad59eb"
+  integrity sha512-QdBKsYAWn52g7sOG8NsKAHVgnF7PZ6Kk9fB98f/0nyJElvjff/mUWGE4waKUuwM2uh4c/EOX4n3P7Q/Wmz5Bvg==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-otp-verify@^1.0.3:
   version "1.0.3"

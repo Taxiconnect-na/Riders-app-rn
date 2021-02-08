@@ -436,12 +436,12 @@ class RenderContentBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: 17.5,
+                fontSize: RFValue(17.5),
                 bottom: 25,
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Book'
-                    : 'Allrounder Grotesk Book',
+                    ? 'UberMoveTextRegular'
+                    : 'Uber Move Text',
               },
             ]}>
             {this.revealIdentifiedLocationOnReady()}

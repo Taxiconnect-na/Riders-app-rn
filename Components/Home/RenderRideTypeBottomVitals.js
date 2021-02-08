@@ -3541,7 +3541,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     />
                     <View
                       style={{
-                        width: 95,
+                        width: 115,
                         padding: 7,
                         borderRadius: 200,
                         backgroundColor: this.props.App
@@ -3554,11 +3554,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         style={[
                           {
                             color: '#fff',
-                            fontSize: 13,
+                            fontSize: RFValue(14),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'Allrounder-Grotesk-Regular'
-                                : 'Allrounder Grotesk',
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
                           },
                         ]}>
                         Normal Taxi
@@ -3620,7 +3620,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     />
                     <View
                       style={{
-                        width: 95,
+                        width: 115,
                         padding: 7,
                         borderRadius: 200,
                         backgroundColor: this.props.App
@@ -3631,8 +3631,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       }}>
                       <Text
                         style={[
-                          systemWeights.light,
-                          {color: '#fff', fontSize: 13},
+                          {
+                            color: '#fff',
+                            fontSize: RFValue(14),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                          },
                         ]}>
                         E-Bikes
                       </Text>

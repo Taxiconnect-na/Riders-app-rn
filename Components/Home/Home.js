@@ -2911,13 +2911,13 @@ class Home extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: 17.5,
+                  fontSize: RFValue(17.5),
                   color: '#fff',
                   lineHeight: 20,
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'Allrounder-Grotesk-Book'
-                      : 'Allrounder Grotesk Book',
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
                 },
               ]}>
               Your location services need to be enabled for a better experience.
@@ -2925,10 +2925,8 @@ class Home extends React.PureComponent {
             <Text
               style={{
                 fontFamily:
-                  Platform.OS === 'android'
-                    ? 'Allrounder-Grotesk-Medium'
-                    : 'Allrounder Grotesk Medium',
-                fontSize: 17,
+                  Platform.OS === 'android' ? 'MoveMedium' : 'Uber Move Medium',
+                fontSize: RFValue(17.5),
                 marginTop: 10,
                 color: '#fff',
               }}>

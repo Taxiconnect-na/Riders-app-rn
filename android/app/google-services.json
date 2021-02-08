@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "49470674823",
+    "project_id": "taxiconnect-a14ec",
+    "storage_bucket": "taxiconnect-a14ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49470674823:android:9435711df98402aeea6522",
+        "android_client_info": {
+          "package_name": "com.taxiconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49470674823-5fpj8a5m1gm1d94vdev6td5fs1nmd398.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS_9M49Wv1t3Q83NBFr6njPuwqC0M_04M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49470674823-5fpj8a5m1gm1d94vdev6td5fs1nmd398.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -99,6 +99,7 @@ const STATE = {
   user_fingerprint: null, //User fingerprint - default: null
 
   pushnotif_token: false, //Notification push notification - default: false
+  globalPushNotif_obj: null, //The full push notification token got on app start.
   userCurrentLocationMetaData: {}, //Metadata of the user's current location - directly geocoded and shallowly processed
   socket: SOCKET_CORE, //MAIN SOCKET CONNECTOR
   CONSIDER: true, //If it should request for data again;
