@@ -1923,7 +1923,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'UberMoveTextRegular'
-                                  : 'UberMoveText',
+                                  : 'Uber Move Text',
                               fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
@@ -1938,7 +1938,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'UberMoveText',
+                                : 'Uber Move Text',
                             fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
@@ -2156,7 +2156,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'UberMoveTextRegular'
-                                  : 'UberMoveText',
+                                  : 'Uber Move Text',
                               fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
@@ -2171,7 +2171,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'UberMoveText',
+                                : 'Uber Move Text',
                             fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
@@ -2344,7 +2344,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'UberMoveTextMedium'
-                                                    : ' Medium',
+                                                    : 'Uber Move Text Medium',
                                                 color: /^available$/i.test(
                                                   vehicle.availability,
                                                 )
@@ -2381,7 +2381,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'UberMoveTextRegular'
-                                  : 'UberMoveText',
+                                  : 'Uber Move Text',
                               fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
@@ -2396,7 +2396,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'UberMoveText',
+                                : 'Uber Move Text',
                             fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
@@ -2858,7 +2858,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'UberMoveTextRegular'
-                                  : 'UberMoveText',
+                                  : 'Uber Move Text',
                               fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
@@ -2873,7 +2873,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             ffontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'UberMoveText',
+                                : 'Uber Move Text',
                             fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',
@@ -3108,7 +3108,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'UberMoveTextRegular'
-                                  : 'UberMoveText',
+                                  : 'Uber Move Text',
                               fontSize: RFValue(17),
                               flex: 1,
                               alignItems: 'center',
@@ -3123,7 +3123,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'UberMoveText',
+                                : 'Uber Move Text',
                             fontSize: RFValue(17),
                             flex: 1,
                             alignItems: 'center',

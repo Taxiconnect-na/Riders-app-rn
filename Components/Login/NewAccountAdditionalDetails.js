@@ -11,6 +11,7 @@ import {
   TextInput,
   BackHandler,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -319,203 +320,211 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
   render() {
     return (
-      <DismissKeyboard>
-        <SafeAreaView style={styles.mainWindow}>
-          <GenericLoader active={this.state.loaderState} thickness={4} />
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-            ? this.renderError_modalView()
-            : null}
-          <View style={styles.presentationWindow}>
-            <TouchableOpacity
-              onPress={() =>
-                this.state.completingAccountProfile === false
-                  ? this.props.navigation.navigate('EntryScreen')
-                  : {}
-              }>
-              <IconAnt name="arrowleft" size={29} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                {
-                  fontSize: RFValue(22),
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextMedium'
-                      : 'Uber Move Medium',
-                  marginTop: 15,
-                  marginBottom: 35,
-                  textAlign: 'center',
-                },
-              ]}>
-              Welcome to TaxiConnect!
-            </Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex: 1}}>
+        <DismissKeyboard>
+          <SafeAreaView style={styles.mainWindow}>
+            <GenericLoader active={this.state.loaderState} thickness={4} />
+            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              ? this.renderError_modalView()
+              : null}
+            <View style={styles.presentationWindow}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.state.completingAccountProfile === false
+                    ? this.props.navigation.navigate('EntryScreen')
+                    : {}
+                }>
+                <IconAnt name="arrowleft" size={29} />
+              </TouchableOpacity>
+              <Text
+                style={[
+                  {
+                    fontSize: RFValue(22),
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Medium',
+                    marginTop: 15,
+                    marginBottom: 35,
+                    textAlign: 'center',
+                  },
+                ]}>
+                Welcome to TaxiConnect!
+              </Text>
 
-            <View>
-              <TextInput
-                placeholder="What's your name?"
-                onFocus={() => this.updateCurrentFocused_field('name')}
-                onBlur={() => this.updateCurrentFocused_field('none')}
-                autoFocus
-                onChangeText={(text) => this.setState({name: text})}
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextRegular'
-                      : 'Uber Move Text Regular',
-                  fontSize: RFValue(18.5),
-                  borderBottomWidth: /name/i.test(this.state.currentFocusName)
-                    ? 1.5
-                    : 1.5,
-                  borderBottomColor: /name/i.test(this.state.currentFocusName)
-                    ? '#0e8491'
-                    : '#000',
-                  paddingBottom: 20,
-                  paddingLeft: 0,
-                }}
-              />
-              {this.state.showErrorName ? (
-                <Text
-                  style={[
-                    {
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
-                      color: '#b22222',
-                      fontSize: RFValue(14),
-                      marginTop: 10,
-                    },
-                  ]}>
-                  Should be at least 2 characters long.
-                </Text>
-              ) : null}
-            </View>
-
-            <Text
-              style={{
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'UberMoveTextMedium'
-                    : 'Uber Move Text Medium',
-                marginTop: '10%',
-                marginBottom: 15,
-                fontSize: RFValue(14),
-                color: '#a5a5a5',
-              }}>
-              Gender
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.showModalGenderSelecter()}
-              style={{
-                borderBottomWidth: 1.5,
-                paddingBottom: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              {/^male$/i.test(this.props.App.gender_user) ? (
-                <IconFontisto name="male" size={18} color="#0e8491" />
-              ) : /^female$/i.test(this.props.App.gender_user) ? (
-                <IconFontisto name="female" size={18} color="#0e8491" />
-              ) : (
-                <IconEntypo name="block" size={18} color="#0e8491" />
-              )}
+              <View>
+                <TextInput
+                  placeholder="What's your name?"
+                  onFocus={() => this.updateCurrentFocused_field('name')}
+                  onBlur={() => this.updateCurrentFocused_field('none')}
+                  autoFocus
+                  onChangeText={(text) => this.setState({name: text})}
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(18.5),
+                    borderBottomWidth: /name/i.test(this.state.currentFocusName)
+                      ? 1.5
+                      : 1.5,
+                    borderBottomColor: /name/i.test(this.state.currentFocusName)
+                      ? '#0e8491'
+                      : '#000',
+                    paddingBottom: 20,
+                    paddingLeft: 0,
+                  }}
+                />
+                {this.state.showErrorName ? (
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        color: '#b22222',
+                        fontSize: RFValue(14),
+                        marginTop: 10,
+                      },
+                    ]}>
+                    Should be at least 2 characters long.
+                  </Text>
+                ) : null}
+              </View>
 
               <Text
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'UberMoveTextRegular'
-                      : 'Uber Move Text Regular',
-                  fontSize: RFValue(18.5),
-                  marginLeft: 5,
-                  flex: 1,
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
+                  marginTop: '10%',
+                  marginBottom: 15,
+                  fontSize: RFValue(14),
+                  color: '#a5a5a5',
+                }}>
+                Gender
+              </Text>
+              <TouchableOpacity
+                onPress={() => this.showModalGenderSelecter()}
+                style={{
+                  borderBottomWidth: 1.5,
+                  paddingBottom: 20,
+                  flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                {/^male$/i.test(this.props.App.gender_user)
-                  ? 'Male'
-                  : /^female$/i.test(this.props.App.gender_user)
-                  ? 'Female'
-                  : 'Rather not say'}
-              </Text>
-              <IconMaterialIcons
-                name="keyboard-arrow-down"
-                color={'#000'}
-                size={22}
-              />
-            </TouchableOpacity>
+                {/^male$/i.test(this.props.App.gender_user) ? (
+                  <IconFontisto name="male" size={18} color="#0e8491" />
+                ) : /^female$/i.test(this.props.App.gender_user) ? (
+                  <IconFontisto name="female" size={18} color="#0e8491" />
+                ) : (
+                  <IconEntypo name="block" size={18} color="#0e8491" />
+                )}
 
-            <View>
-              <TextInput
-                placeholder="Email"
-                onChangeText={(text) => this.setState({email: text})}
-                onFocus={() => this.updateCurrentFocused_field('email')}
-                onBlur={() => this.updateCurrentFocused_field('none')}
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextRegular'
-                      : 'Uber Move Text Regular',
-                  fontSize: RFValue(18.5),
-                  borderBottomWidth: /email/i.test(this.state.currentFocusName)
-                    ? 1.5
-                    : 1.5,
-                  borderBottomColor: /email/i.test(this.state.currentFocusName)
-                    ? '#0e8491'
-                    : '#000',
-                  paddingBottom: 20,
-                  paddingLeft: 0,
-                  marginTop: '11%',
-                  zIndex: 10,
-                }}
-              />
-              {this.state.showEmailError ? (
                 <Text
-                  style={[
-                    {
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
-                      color: '#b22222',
-                      fontSize: RFValue(14),
-                      marginTop: 10,
-                    },
-                  ]}>
-                  The email looks wrong.
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(18.5),
+                    marginLeft: 5,
+                    flex: 1,
+                    alignItems: 'center',
+                  }}>
+                  {/^male$/i.test(this.props.App.gender_user)
+                    ? 'Male'
+                    : /^female$/i.test(this.props.App.gender_user)
+                    ? 'Female'
+                    : 'Rather not say'}
                 </Text>
-              ) : null}
-            </View>
+                <IconMaterialIcons
+                  name="keyboard-arrow-down"
+                  color={'#000'}
+                  size={22}
+                />
+              </TouchableOpacity>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                position: 'absolute',
-                bottom: '10%',
-                left: 20,
-                right: 20,
-                width: '100%',
-              }}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <Text style={[{fontSize: 12, marginLeft: 6}]}></Text>
+              <View>
+                <TextInput
+                  placeholder="Email"
+                  onChangeText={(text) => this.setState({email: text})}
+                  onFocus={() => this.updateCurrentFocused_field('email')}
+                  onBlur={() => this.updateCurrentFocused_field('none')}
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(18.5),
+                    borderBottomWidth: /email/i.test(
+                      this.state.currentFocusName,
+                    )
+                      ? 1.5
+                      : 1.5,
+                    borderBottomColor: /email/i.test(
+                      this.state.currentFocusName,
+                    )
+                      ? '#0e8491'
+                      : '#000',
+                    paddingBottom: 20,
+                    paddingLeft: 0,
+                    marginTop: '11%',
+                    zIndex: 10,
+                  }}
+                />
+                {this.state.showEmailError ? (
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        color: '#b22222',
+                        fontSize: RFValue(14),
+                        marginTop: 10,
+                      },
+                    ]}>
+                    The email looks wrong.
+                  </Text>
+                ) : null}
               </View>
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
-                <TouchableOpacity
-                  onPress={() => this.validateAdditionalProfileInfos()}
-                  style={[
-                    styles.arrowCircledForwardBasic,
-                    styles.shadowButtonArrowCircledForward,
-                  ]}>
-                  <IconMaterialIcons
-                    name="arrow-forward-ios"
-                    size={30}
-                    color="#fff"
-                  />
-                </TouchableOpacity>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  position: 'absolute',
+                  bottom: '10%',
+                  left: 20,
+                  right: 20,
+                  width: '100%',
+                }}>
+                <View style={{flexDirection: 'row', flex: 1}}>
+                  <Text style={[{fontSize: 12, marginLeft: 6}]}></Text>
+                </View>
+                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                  <TouchableOpacity
+                    onPress={() => this.validateAdditionalProfileInfos()}
+                    style={[
+                      styles.arrowCircledForwardBasic,
+                      styles.shadowButtonArrowCircledForward,
+                    ]}>
+                    <IconMaterialIcons
+                      name="arrow-forward-ios"
+                      size={30}
+                      color="#fff"
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        </SafeAreaView>
-      </DismissKeyboard>
+          </SafeAreaView>
+        </DismissKeyboard>
+      </KeyboardAvoidingView>
     );
   }
 }

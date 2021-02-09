@@ -444,7 +444,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                     fontFamily:
                                       Platform.OS === 'android'
                                         ? 'UberMoveTextRegular'
-                                        : 'Uber Move Text Regular',
+                                        : 'Uber Move Text',
                                     fontSize: RFValue(14),
                                     top: 2,
                                   }}>
@@ -491,7 +491,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                     fontFamily:
                                       Platform.OS === 'android'
                                         ? 'UberMoveTextRegular'
-                                        : 'Uber Move Text Regular',
+                                        : 'Uber Move Text',
                                     fontSize: RFValue(14),
                                     top: 1,
                                   }}>

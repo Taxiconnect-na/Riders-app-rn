@@ -38,7 +38,9 @@ class HeaderRideTypesSelector extends React.PureComponent {
               color: '#E2E2E2',
               fontSize: RFValue(18),
             }}>
-            {this.props.App.shownRides_types}
+            {Platform.OS === 'android'
+              ? this.props.App.shownRides_types
+              : this.props.App.shownRides_types.substr(0, 4)}
           </Text>
           <IconMaterialIcons
             name="arrow-drop-down"

@@ -43,7 +43,6 @@ class SendFundsEntry extends React.PureComponent {
     this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
-        console.log('focused');
         globalObject.props.App.recipient_crucial_data = null; //! Clear the recipient
         globalObject.props.App.user_sender_nature = null; //! Clear the user nature
       },
@@ -134,7 +133,7 @@ class SendFundsEntry extends React.PureComponent {
                     </Text>
                     <Text
                       style={{
-                        flex: 1,
+                        flex: Platform.OS === 'android' ? 1 : 0,
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextLight'
@@ -191,7 +190,7 @@ class SendFundsEntry extends React.PureComponent {
                     </Text>
                     <Text
                       style={{
-                        flex: 1,
+                        flex: Platform.OS === 'android' ? 1 : 0,
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextLight'

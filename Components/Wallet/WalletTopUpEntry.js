@@ -152,7 +152,7 @@ class WalletTopUpEntry extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'Uber Move Text Regular',
+                                : 'Uber Move Text',
                           }}>
                           Credit card
                         </Text>
@@ -224,7 +224,7 @@ class WalletTopUpEntry extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'Uber Move Text Regular',
+                                : 'Uber Move Text',
                           }}>
                           Wallet
                         </Text>
@@ -269,7 +269,7 @@ class WalletTopUpEntry extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'Uber Move Text Regular',
+                                : 'Uber Move Text',
                           }}>
                           Cash
                         </Text>

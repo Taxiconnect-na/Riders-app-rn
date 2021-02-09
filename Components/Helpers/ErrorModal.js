@@ -499,7 +499,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextRegular'
-                      : 'Uber Move Text Regular',
+                      : 'Uber Move Text',
                   fontSize: RFValue(17),
                 }}>
                 Waiting for Internet connection
@@ -561,7 +561,7 @@ class ErrorModal extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextRegular'
-                      : 'Uber Move Text Regular',
+                      : 'Uber Move Text',
                   fontSize: RFValue(17),
                 }}>
                 Establishing connection.
@@ -1070,6 +1070,12 @@ class ErrorModal extends React.PureComponent {
         </View>
       );
     } else if (/show_modalMore_tripDetails/i.test(error_status)) {
+      try {
+        let essay = this.props.App.generalTRIP_details_driverDetails
+          .driverDetails.profile_picture;
+      } catch (error) {
+        return null;
+      }
       return (
         <SafeAreaView
           style={{
@@ -1116,7 +1122,11 @@ class ErrorModal extends React.PureComponent {
                 }
                 style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" color="#fff" size={22} />
+                  <IconAnt
+                    name="arrowleft"
+                    color={Platform.OS === 'android' ? '#fff' : '#000'}
+                    size={22}
+                  />
                 </View>
                 <Text
                   style={[
@@ -1127,7 +1137,7 @@ class ErrorModal extends React.PureComponent {
                           ? 'UberMoveTextRegular'
                           : 'Uber Move Text',
                       marginLeft: 5,
-                      color: '#fff',
+                      color: Platform.OS === 'android' ? '#fff' : '#000',
                     },
                   ]}>
                   Trip details
@@ -1934,10 +1944,7 @@ class ErrorModal extends React.PureComponent {
                                   .carDetails.taxi_number
                               : this.props.App.generalTRIP_details_driverDetails
                                   .carDetails.car_brand) +
-                            ' (Plate number: ' +
-                            this.props.App.generalTRIP_details_driverDetails
-                              .carDetails.plate_number +
-                            ') with the driver ' +
+                            ' with the driver ' +
                             this.props.App.generalTRIP_details_driverDetails
                               .driverDetails.name +
                             '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
@@ -2212,7 +2219,11 @@ class ErrorModal extends React.PureComponent {
                 }
                 style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{top: 0}}>
-                  <IconAnt name="arrowleft" color="#fff" size={22} />
+                  <IconAnt
+                    name="arrowleft"
+                    color={Platform.OS === 'android' ? '#fff' : '#000'}
+                    size={22}
+                  />
                 </View>
                 <Text
                   style={[
@@ -2223,7 +2234,7 @@ class ErrorModal extends React.PureComponent {
                           ? 'UberMoveTextRegular'
                           : 'Uber Move Text',
                       marginLeft: 5,
-                      color: '#fff',
+                      color: Platform.OS === 'android' ? '#fff' : '#000',
                     },
                   ]}>
                   Rating
@@ -3072,7 +3083,7 @@ class ErrorModal extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'Uber Move Text Regular',
+                                : 'Uber Move Text',
                           }}>
                           Wallet
                         </Text>
@@ -3117,7 +3128,7 @@ class ErrorModal extends React.PureComponent {
                             fontFamily:
                               Platform.OS === 'android'
                                 ? 'UberMoveTextRegular'
-                                : 'Uber Move Text Regular',
+                                : 'Uber Move Text',
                           }}>
                           Cash
                         </Text>
@@ -3534,7 +3545,7 @@ class ErrorModal extends React.PureComponent {
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextRegular'
-                        : 'Uber Move Text Regular',
+                        : 'Uber Move Text',
                     fontSize: RFValue(20),
                   }}>
                   Getting the trip shared with you
@@ -3565,7 +3576,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
+                          : 'Uber Move Text',
                       fontSize: RFValue(17),
                       marginTop: 10,
                       textAlign: 'center',
@@ -3619,7 +3630,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
+                          : 'Uber Move Text',
                       fontSize: RFValue(17),
                       marginTop: 10,
                       textAlign: 'center',
@@ -3673,7 +3684,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
+                          : 'Uber Move Text',
                       fontSize: RFValue(17),
                       marginTop: 10,
                       textAlign: 'center',
@@ -3727,7 +3738,7 @@ class ErrorModal extends React.PureComponent {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
+                          : 'Uber Move Text',
                       fontSize: RFValue(17),
                       marginTop: 10,
                       textAlign: 'center',

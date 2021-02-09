@@ -209,7 +209,7 @@ class SettingsEntryScreen extends React.Component {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextRegular'
-                            : 'Uber Move Text Regular',
+                            : 'Uber Move Text',
                       },
                     ]}>
                     {place.location_infos.location_name !== false
@@ -234,7 +234,7 @@ class SettingsEntryScreen extends React.Component {
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'UberMoveTextRegular'
-                          : 'Uber Move Text Regular',
+                          : 'Uber Move Text',
                     },
                   ]}>
                   Add a location.

@@ -19,6 +19,7 @@ import {
   Platform,
   SafeAreaView,
   Linking,
+  KeyboardAvoidingView,
 } from 'react-native';
 import bearing from '@turf/bearing';
 import {systemWeights} from 'react-native-typography';
@@ -57,6 +58,7 @@ import RenderMainMapView from './RenderMainMapView';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import SyncStorage from 'sync-storage';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+import {RFValue} from 'react-native-responsive-fontsize';
 //DEBUG
 //import {ROUTE} from './Route';
 const INIT_ZOOM_LEVEL = 0.384695086717085;
@@ -1936,8 +1938,8 @@ class Home extends React.PureComponent {
                             globalObject.props.App.latitude,
                           ]
                         : [
-                            globalObject.props.App.latitude,
                             globalObject.props.App.longitude,
+                            globalObject.props.App.latitude,
                           ],
                     zoomLevel: globalObject.props.App._NORMAL_MAP_ZOOM_LEVEL,
                     animationDuration: 500,
@@ -3217,7 +3219,17 @@ class Home extends React.PureComponent {
         ) : /(gettingRideProcessScreen)/i.test(
             this.props.App.bottomVitalsFlow.currentStep,
           ) !== true ? (
-          <RenderBottomVital parentNode={this} />
+          /(addMoreTripDetails|confirmFareAmountORCustomize)/i.test(
+            this.props.App.bottomVitalsFlow.currentStep,
+          ) ? (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={{flex: 1}}>
+              <RenderBottomVital parentNode={this} />
+            </KeyboardAvoidingView>
+          ) : (
+            <RenderBottomVital parentNode={this} />
+          )
         ) : null}
       </>
     );

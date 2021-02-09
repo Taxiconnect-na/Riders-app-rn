@@ -44,6 +44,7 @@ class CreateAccountEntry extends React.PureComponent {
       'hardwareBackPress',
       function () {
         if (globalObject.state.creatingAccount === false) {
+          console.log('go back pressed 0');
           globalObject.props.navigation.navigate('PhoneDetailsScreen');
         }
         return true;
@@ -120,7 +121,7 @@ class CreateAccountEntry extends React.PureComponent {
    *
    */
   goBackFUncPhoneInput() {
-    console.log('GO BACK TO DETAILS PHONE CREATE ACCOUNT SCREEN');
+    console.log('go back pressed');
     this.props.ResetGenericPhoneNumberInput();
     this.props.navigation.navigate('PhoneDetailsScreen');
   }
@@ -152,6 +153,7 @@ class CreateAccountEntry extends React.PureComponent {
    * Reponsible for going back to entry screen and auto erase the user fp
    */
   gobackFromAdditionalDetails() {
+    console.log('go back pressed 2');
     this.props.App.user_fingerprint = null; //Nullify user fingerprint
     this.props.navigation.navigate('PhoneDetailsScreen');
   }
@@ -161,46 +163,15 @@ class CreateAccountEntry extends React.PureComponent {
    * Responsible for rendering the modal view only once.
    */
   renderError_modalView() {
-    if (
-      this._shouldShow_errorModal &&
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal
-    ) {
-      //Show once, and lock
-      this._shouldShow_errorModal = false; //!LOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    } else if (
-      this.props.App.generalErrorModal_vars.showErrorGeneralModal === false
-    ) {
-      //Disable modal lock when modal off
-      this._shouldShow_errorModal = true; //!UNLOCK MODAL
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    } else {
-      return (
-        <ErrorModal
-          active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-          error_status={
-            this.props.App.generalErrorModal_vars.generalErrorModalType
-          }
-          parentNode={this}
-        />
-      );
-    }
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+        parentNode={this}
+      />
+    );
   }
 
   render() {

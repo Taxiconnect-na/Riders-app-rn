@@ -119,6 +119,7 @@ class Search extends React.PureComponent {
         this.props.App.search_passenger4DestinationInput = false;
       }
     }
+    this.forceUpdate();
     //--------------------------------------------------------------------------------
     this.search_time_requested = new Date();
     this.props.App.search_querySearch = query.trim();

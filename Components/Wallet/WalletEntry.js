@@ -77,7 +77,7 @@ class WalletEntry extends React.PureComponent {
       <>
         {this._isMounted ? (
           <DismissKeyboard>
-            <SafeAreaView style={styles.mainWindow}>
+            <View style={styles.mainWindow}>
               <StatusBar backgroundColor="#000" />
               <View style={styles.presentationWindow}>
                 <View
@@ -368,7 +368,7 @@ class WalletEntry extends React.PureComponent {
                   </View>
                 </View>
               </View>
-            </SafeAreaView>
+            </View>
           </DismissKeyboard>
         ) : null}
       </>

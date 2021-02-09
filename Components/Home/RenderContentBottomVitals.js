@@ -14,6 +14,7 @@ import {
   InteractionManager,
   Platform,
   SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
@@ -1648,7 +1649,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           Platform.OS === 'android'
                             ? 'UberMoveTextLight'
                             : 'Uber Move Text Light',
-                        height: 50,
+                        minHeight: 50,
                       },
                     ]}>
                     Send your packages from one place to another.
@@ -1736,7 +1737,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           Platform.OS === 'android'
                             ? 'UberMoveTextLight'
                             : 'Uber Move Text Light',
-                        height: 50,
+                        minHeight: 50,
                       },
                     ]}>
                     The easiest way to move around the city.
@@ -1937,7 +1938,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextRegular'
-                            : 'UberMoveText',
+                            : 'Uber Move Text',
                         color: this.props.App.bottomVitalsFlow
                           .rideOrDeliveryMetadata.isAllgoingToTheSamePlace
                           ? '#0D8691'
@@ -2367,7 +2368,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextRegular'
-                            : 'Uber Move Text Regular',
+                            : 'Uber Move Text',
                       },
                     ]}>
                     Private booking
@@ -2475,7 +2476,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextRegular'
-                            : 'Uber Move Text Regular',
+                            : 'Uber Move Text',
                       },
                     ]}>
                     Shared booking
