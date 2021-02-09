@@ -27,6 +27,7 @@ class WalletEntry extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._navigatorEvent = null;
   }
 
   componentWillUnmount() {
@@ -35,6 +36,11 @@ class WalletEntry extends React.PureComponent {
     if (this.backHander !== null) {
       this.backHander.remove();
     }
+    //...
+    iif(this._navigatorEvent!=null) {
+      this._navigatorEvent();
+      this._navigatorEvent = null;
+    }
   }
 
   componentDidMount() {
@@ -42,7 +48,7 @@ class WalletEntry extends React.PureComponent {
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    globalObject.props.navigation.addListener(
       'focus',
       () => {
         console.log('focused');
@@ -50,7 +56,7 @@ class WalletEntry extends React.PureComponent {
     );
 
     //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
+    this._navigatorEvent = this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
       e.preventDefault();
       globalObject.props.navigation.navigate('Home_drawer');

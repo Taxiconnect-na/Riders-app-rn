@@ -1699,6 +1699,18 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                   if (
                                     /^available$/.test(vehicle.availability)
                                   ) {
+                                    //! Fix attempt
+                                    this.handleChooseCarType(
+                                      vehicle.car_type,
+                                      vehicle.base_fare,
+                                      /normalTaxiEconomy/i.test(
+                                        vehicle.car_type,
+                                      )
+                                        ? this.props.App.carImageNormalRide
+                                        : this.props.App.carIconElectricRode,
+                                      vehicle.app_label,
+                                    );
+                                    /*
                                     //Update icon and app label name for this vehicle
                                     this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = /normalTaxiEconomy/i.test(
                                       vehicle.car_type,
@@ -1774,7 +1786,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                       this.props.App.scaleRideTypeElectricLuxuryTaxi = new AnimatedNative.Value(
                                         1,
                                       );
-                                    }
+                                    }*/
                                   }
                                 }
                                 return (

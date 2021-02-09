@@ -83,40 +83,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       }
     });
 
-    //connection
-    this.props.App.socket.on('connect', () => {
-      if (
-        globalObject.props.App.generalErrorModal_vars.showErrorGeneralModal !==
-        false
-      ) {
-        globalObject.props.UpdateErrorModalLog(false, false, 'any');
-      }
-    });
-    //Socket error handling
-    this.props.App.socket.on('error', (error) => {});
-    this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_error', () => {
-      //Ask for the OTP again
-      globalObject.props.UpdateErrorModalLog(
-        true,
-        'connection_no_network',
-        'any',
-      );
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
-    });
-
     /**
      * SOCKET.IO RESPONSES
      */

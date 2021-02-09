@@ -96,7 +96,7 @@ class ErrorModal extends React.PureComponent {
           //Received a response
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
           //Reset all the trips
-          globalObject.props.ResetStateProps(globalObject.props.parentNode);
+          //! fix attempt--- globalObject.props.ResetStateProps(globalObject.props.parentNode);
         } //error - close the modal
         else {
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
@@ -2967,7 +2967,14 @@ class ErrorModal extends React.PureComponent {
                         }}
                       />
                     </View>
-                    <View style={{flex: 1, marginLeft: 10}}>
+                    {/**Wallet header */}
+                    <View
+                      style={{
+                        flex: 1,
+                        marginLeft: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
                       <Text
                         style={[
                           {
@@ -2984,7 +2991,6 @@ class ErrorModal extends React.PureComponent {
                       <Text
                         style={{
                           fontSize: RFValue(20),
-                          marginTop: 5,
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'UberMoveTextMedium'

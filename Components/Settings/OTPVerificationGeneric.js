@@ -132,49 +132,6 @@ class OTPVerificationGeneric extends React.PureComponent {
       },
     );
 
-    //Network state checker
-    this.state.networkStateChecker = NetInfo.addEventListener((state) => {
-      if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
-          state.isConnected,
-          'connection_no_network',
-          state.type,
-        );
-      } //connected
-      else {
-        globalObject.props.UpdateErrorModalLog(false, false, state.type);
-      }
-    });
-
-    //connection
-    this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
-    });
-    //Socket error handling
-    this.props.App.socket.on('error', () => {});
-    this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_error', () => {
-      //Ask for the OTP again
-      globalObject.props.UpdateErrorModalLog(
-        true,
-        'service_unavailable',
-        'any',
-      );
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
-    });
-
     /**
      * SOCKET.IO RESPONSES
      */
@@ -399,22 +356,30 @@ class OTPVerificationGeneric extends React.PureComponent {
     }
   }
 
+  /**
+   * @func renderError_modalView
+   * Responsible for rendering the modal view only once.
+   */
+  renderError_modalView() {
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+        parentNode={this}
+      />
+    );
+  }
+
   render() {
     return (
       <DismissKeyboard>
         <SafeAreaView style={styles.mainWindow}>
           <GenericLoader active={this.state.loaderState} thickness={4} />
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal ? (
-            <ErrorModal
-              active={
-                this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              }
-              error_status={
-                this.props.App.generalErrorModal_vars.generalErrorModalType
-              }
-              parentNode={this}
-            />
-          ) : null}
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+            ? this.renderError_modalView()
+            : null}
           <View style={styles.presentationWindow}>
             <TouchableOpacity
               onPress={() => this.goBackFUnc()}
@@ -424,7 +389,7 @@ class OTPVerificationGeneric extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: RFValue(19),
+                  fontSize: RFValue(21),
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextMedium'

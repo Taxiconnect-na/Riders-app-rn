@@ -28,6 +28,7 @@ class PhoneDetailsScreen extends React.PureComponent {
     super(props);
 
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
+    this.backListener = null; //Responsible to hold the listener for the go back overwritter.
 
     this.state = {
       networkStateChecker: false,
@@ -37,7 +38,7 @@ class PhoneDetailsScreen extends React.PureComponent {
   componentDidMount() {
     let globalObject = this;
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this.backListener = globalObject.props.navigation.addListener(
       'focus',
       () => {
         globalObject.props.ResetGenericPhoneNumberInput();
@@ -88,6 +89,13 @@ class PhoneDetailsScreen extends React.PureComponent {
     this.props.App.socket.on('reconnect_failed', () => {
       globalObject.props.App.socket.connect();
     });
+  }
+
+  componentWillUnmount() {
+    if (this.backListener !== null) {
+      this.backListener();
+      this.backListener = null;
+    }
   }
 
   /**

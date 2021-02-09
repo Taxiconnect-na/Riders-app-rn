@@ -18,15 +18,20 @@ import {RFValue} from 'react-native-responsive-fontsize';
 class EntryScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.backListener = null; //Responsible to hold the listener for the go back overwritter.
   }
 
   async componentDidMount() {
     //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      return;
-    });
+    this.backListener = this.props.navigation.addListener(
+      'beforeRemove',
+      (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+        return;
+      },
+    );
     //--------------------------------------------------------
     //Check for the user_fp
     //Get persisted data and update the general state
@@ -116,6 +121,13 @@ class EntryScreen extends React.PureComponent {
       /full/i.test(this.props.App.accountCreation_state)
     ) {
       this.props.navigation.navigate('Home');
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.backListener !== null) {
+      this.backListener();
+      this.backListener = null;
     }
   }
 

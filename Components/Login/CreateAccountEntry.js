@@ -38,7 +38,6 @@ class CreateAccountEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log('CREATE NEW ACCOUNT SCREEN');
     let globalObject = this;
     this.state.creatingAccount = false; //? Reinitialize creating account state var to false.
     this.backHander = BackHandler.addEventListener(
@@ -103,7 +102,6 @@ class CreateAccountEntry extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    console.log('UNMMOUNTING CREATE ACCOUNT SCREEN');
     //Reset phone number
     this.props.ResetGenericPhoneNumberInput();
     if (this.state.networkStateChecker !== false) {

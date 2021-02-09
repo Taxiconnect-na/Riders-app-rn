@@ -25,6 +25,7 @@ import IconEntypo from 'react-native-vector-icons/Entypo';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
+import RenderRequestsList from './RenderRequestsList';
 
 class YourRidesEntry extends React.PureComponent {
   constructor(props) {
@@ -67,12 +68,15 @@ class YourRidesEntry extends React.PureComponent {
     );
     this._isMounted = true;
     //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      globalObject.props.navigation.navigate('Home_drawer');
-      return;
-    });
+    this._navigatorEvent = this.props.navigation.addListener(
+      'beforeRemove',
+      (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+        globalObject.props.navigation.navigate('Home_drawer');
+        return;
+      },
+    );
     //--------------------------------------------------------
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -97,35 +101,6 @@ class YourRidesEntry extends React.PureComponent {
       else {
         globalObject.props.UpdateErrorModalLog(false, false, state.type);
       }
-    });
-
-    //connection
-    this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
-    });
-    //Socket error handling
-    this.props.App.socket.on('error', (error) => {});
-    this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_error', () => {
-      //Ask for the OTP again
-      globalObject.props.UpdateErrorModalLog(
-        true,
-        'connection_no_network',
-        'any',
-      );
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
     });
 
     /**
@@ -189,15 +164,6 @@ class YourRidesEntry extends React.PureComponent {
 
     //Request for ride
     this.fetchRequestedRequests_history();
-
-    //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      globalObject.props.navigation.navigate('Home_drawer');
-      return;
-    });
-    //--------------------------------------------------------
   }
 
   componentWillUnmount() {
@@ -245,86 +211,6 @@ class YourRidesEntry extends React.PureComponent {
   }
 
   /**
-   * @func fillForEmptyRequests
-   * Responsible for filling the page with empty content based on the type of ride
-   */
-  fillForEmptyRequests() {
-    if (/past/i.test(this.props.App.shownRides_types)) {
-      //Past rides
-      return (
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            paddingTop: '35%',
-          }}>
-          <IconEntypo name="box" size={40} color="#757575" />
-          <Text
-            style={{
-              fontFamily:
-                Platform.OS === 'android'
-                  ? 'UberMoveTextRegular'
-                  : 'Uber Move Text',
-              fontSize: RFValue(18),
-              marginTop: 15,
-              color: '#757575',
-            }}>
-            No requests so far.
-          </Text>
-        </View>
-      );
-    } else if (/scheduled/i.test(this.props.App.shownRides_types)) {
-      //Scheduled rides
-      return (
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            paddingTop: '35%',
-          }}>
-          <IconFeather name="clock" size={40} color="#757575" />
-          <Text
-            style={{
-              fontFamily:
-                Platform.OS === 'android'
-                  ? 'UberMoveTextRegular'
-                  : 'Uber Move Text',
-              fontSize: RFValue(18),
-              marginTop: 15,
-              color: '#757575',
-            }}>
-            No pending scheduled requests so far.
-          </Text>
-        </View>
-      );
-    } else if (/business/i.test(this.props.App.shownRides_types)) {
-      //Business rides
-      return (
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            paddingTop: '35%',
-          }}>
-          <IconFeather name="briefcase" size={40} color="#757575" />
-          <Text
-            style={{
-              fontFamily:
-                Platform.OS === 'android'
-                  ? 'UberMoveTextRegular'
-                  : 'Uber Move Text',
-              fontSize: RFValue(18),
-              marginTop: 15,
-              color: '#757575',
-            }}>
-            No business requests made so far.
-          </Text>
-        </View>
-      );
-    }
-  }
-
-  /**
    * @func pullRefreshRequest
    * Responsible for launching a fresh loading of the details on pull of the screen
    */
@@ -361,43 +247,10 @@ class YourRidesEntry extends React.PureComponent {
               : null}
 
             {this.state.fetchingRides_Data === false ? (
-              this.props.App.rides_history_details_data.rides_history_data
-                .length > 0 ? (
-                <FlatList
-                  data={
-                    this.props.App.rides_history_details_data.rides_history_data
-                  }
-                  refreshControl={
-                    <RefreshControl
-                      onRefresh={() => this.pullRefreshRequest()}
-                      refreshing={this.state.pullRefreshing}
-                    />
-                  }
-                  initialNumToRender={15}
-                  keyboardShouldPersistTaps={'always'}
-                  maxToRenderPerBatch={35}
-                  windowSize={61}
-                  updateCellsBatchingPeriod={10}
-                  keyExtractor={(item, index) => String(index)}
-                  renderItem={(item) => (
-                    <RideLIstGenericElement
-                      requestLightData={item.item}
-                      parentNode={this}
-                    />
-                  )}
-                />
-              ) : (
-                <ScrollView
-                  style={styles.mainWindow}
-                  refreshControl={
-                    <RefreshControl
-                      onRefresh={() => this.pullRefreshRequest()}
-                      refreshing={this.state.pullRefreshing}
-                    />
-                  }>
-                  {this.fillForEmptyRequests()}
-                </ScrollView>
-              )
+              <RenderRequestsList
+                pullRefreshRequest={this.pullRefreshRequest}
+                pullRefreshing={this.state.pullRefreshing}
+              />
             ) : null}
           </View>
         ) : null}

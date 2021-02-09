@@ -39,12 +39,6 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     };
   }
 
-  componentWillUnmount() {
-    if (this.backHander !== null) {
-      this.backHander.remove();
-    }
-  }
-
   componentDidMount() {
     let globalObject = this;
     this.backHander = BackHandler.addEventListener(
@@ -62,7 +56,6 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
-        console.log(response);
         if (
           response !== undefined &&
           response !== null &&
@@ -143,6 +136,12 @@ class PersonalinfosEntryScreen extends React.PureComponent {
         }
       },
     );
+  }
+
+  componentWillUnmount() {
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
   }
 
   /**

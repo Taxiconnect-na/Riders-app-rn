@@ -31,6 +31,7 @@ class SettingsEntryScreen extends React.Component {
 
     this._isMounted = true; //! RESPONSIBLE TO LOCK PROCESSES IN THE MAIN SCREEN WHEN UNMOUNTED.
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
+    this.backListener = null; //Responsible to hold the listener for the go back overwritter.
 
     //Handlers
     this.backHander = null;
@@ -44,25 +45,20 @@ class SettingsEntryScreen extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    this._isMounted = false; //! MARK AS UNMOUNTED
-    //...
-    if (this.backHander !== null) {
-      this.backHander.remove();
-    }
-  }
-
   componentDidMount() {
     let globalObject = this;
     this._isMounted = true;
 
     //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      globalObject.props.navigation.navigate('Home_drawer');
-      return;
-    });
+    this.backListener = this.props.navigation.addListener(
+      'beforeRemove',
+      (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+        globalObject.props.navigation.navigate('Home_drawer');
+        return;
+      },
+    );
     //--------------------------------------------------------
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
@@ -131,6 +127,19 @@ class SettingsEntryScreen extends React.Component {
         }
       },
     );
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false; //! MARK AS UNMOUNTED
+    //...
+    if (this.backHander !== null) {
+      this.backHander.remove();
+    }
+    //...
+    if (this.backListener !== null) {
+      this.backListener();
+      this.backListener = null;
+    }
   }
 
   /**

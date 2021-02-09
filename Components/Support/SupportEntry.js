@@ -21,6 +21,7 @@ class SupportEntry extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this.backListener = null; //Responsible to hold the listener for the go back overwritter.
   }
 
   componentWillUnmount() {
@@ -29,13 +30,18 @@ class SupportEntry extends React.PureComponent {
     if (this.backHander !== null) {
       this.backHander.remove();
     }
+    //...
+    if(this.backListener!==null) {
+      this.backListener();
+      this.backListener = null;
+    }
   }
 
   componentDidMount() {
     let globalObject = this;
     this._isMounted = true;
 
-    this.backHander = BackHandler.addEventListener(
+    this.backListener = this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
         globalObject.props.navigation.navigate('Home_drawer');
