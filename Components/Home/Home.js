@@ -108,7 +108,6 @@ class Home extends React.PureComponent {
         if (checkGPRS) {
           //Permission already granted
           //Unlock the platform if was locked
-
           if (true) {
             const requestLocationPermission = await PermissionsAndroid.request(
               PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -148,20 +147,16 @@ class Home extends React.PureComponent {
                     newStateVars.didAskForGprs = true;
                     globalObject.props.UpdateGrantedGRPS(newStateVars);
                     //Launch recalibration
-                    InteractionManager.runAfterInteractions(() => {
-                      globalObject.recalibrateMap();
-                    });
+                    globalObject.recalibrateMap();
                   },
                   () => {
                     // See error code charts below.
                     //Launch recalibration
-                    InteractionManager.runAfterInteractions(() => {
-                      globalObject.recalibrateMap();
-                    });
+                    globalObject.recalibrateMap();
                   },
                   {
                     enableHighAccuracy: true,
-                    timeout: 200000,
+                    timeout: 7000,
                     maximumAge: 1000,
                     distanceFilter: 3,
                   },
@@ -195,7 +190,7 @@ class Home extends React.PureComponent {
                   },
                   {
                     enableHighAccuracy: true,
-                    timeout: 200000,
+                    timeout: 5000,
                     maximumAge: 10000,
                     distanceFilter: 3,
                   },
@@ -265,20 +260,16 @@ class Home extends React.PureComponent {
                   newStateVars.didAskForGprs = true;
                   globalObject.props.UpdateGrantedGRPS(newStateVars);
                   //Launch recalibration
-                  InteractionManager.runAfterInteractions(() => {
-                    globalObject.recalibrateMap();
-                  });
+                  globalObject.recalibrateMap();
                 },
                 () => {
                   // See error code charts below.
                   //Launch recalibration
-                  InteractionManager.runAfterInteractions(() => {
-                    globalObject.recalibrateMap();
-                  });
+                  globalObject.recalibrateMap();
                 },
                 {
                   enableHighAccuracy: true,
-                  timeout: 2000,
+                  timeout: 5000,
                   maximumAge: 1000,
                   distanceFilter: 3,
                 },
@@ -351,9 +342,9 @@ class Home extends React.PureComponent {
                   GeolocationP.getCurrentPosition(
                     (position) => {
                       globalObject.props.App.latitude =
-                        position.coords.latitude;
-                      globalObject.props.App.longitude =
                         position.coords.longitude;
+                      globalObject.props.App.longitude =
+                        position.coords.latitude;
                       //Update GPRS permission global var
                       let newStateVars = {};
                       newStateVars.hasGPRSPermissions = true;
@@ -373,7 +364,7 @@ class Home extends React.PureComponent {
                     },
                     {
                       enableHighAccuracy: true,
-                      timeout: 200000,
+                      timeout: 5000,
                       maximumAge: 1000,
                       distanceFilter: 3,
                     },
@@ -384,9 +375,9 @@ class Home extends React.PureComponent {
                   GeolocationP.getCurrentPosition(
                     (position) => {
                       globalObject.props.App.latitude =
-                        position.coords.latitude;
-                      globalObject.props.App.longitude =
                         position.coords.longitude;
+                      globalObject.props.App.longitude =
+                        position.coords.latitude;
                       //Get user location
                       globalObject.props.App.socket.emit('geocode-this-point', {
                         latitude: globalObject.props.App.latitude,
@@ -409,7 +400,7 @@ class Home extends React.PureComponent {
                     },
                     {
                       enableHighAccuracy: true,
-                      timeout: 200000,
+                      timeout: 5000,
                       maximumAge: 10000,
                       distanceFilter: 3,
                     },
@@ -472,7 +463,7 @@ class Home extends React.PureComponent {
                     },
                     {
                       enableHighAccuracy: true,
-                      timeout: 200000,
+                      timeout: 5000,
                       maximumAge: 1000,
                       distanceFilter: 3,
                     },
@@ -508,7 +499,7 @@ class Home extends React.PureComponent {
                     },
                     {
                       enableHighAccuracy: true,
-                      timeout: 200000,
+                      timeout: 5000,
                       maximumAge: 10000,
                       distanceFilter: 3,
                     },
@@ -543,7 +534,14 @@ class Home extends React.PureComponent {
             }
           })
           .catch((error) => {
+            console.log(error);
             // …
+            //Permission denied, update gprs global vars and lock the platform
+            newStateVars.hasGPRSPermissions = false;
+            newStateVars.didAskForGprs = true;
+            this.props.UpdateGrantedGRPS(newStateVars);
+            //Close loading animation
+            this.resetAnimationLoader();
           });
       } //Location permission explicitly requested
       else {
@@ -1749,7 +1747,7 @@ class Home extends React.PureComponent {
         },
         {
           enableHighAccuracy: true,
-          timeout: 2000,
+          timeout: 5000,
           maximumAge: 1000,
           distanceFilter: 3,
         },
@@ -1931,10 +1929,16 @@ class Home extends React.PureComponent {
                 //...
                 InteractionManager.runAfterInteractions(() => {
                   globalObject.camera.setCamera({
-                    centerCoordinate: [
-                      globalObject.props.App.longitude,
-                      globalObject.props.App.latitude,
-                    ],
+                    centerCoordinate:
+                      Platform.OS === 'android'
+                        ? [
+                            globalObject.props.App.longitude,
+                            globalObject.props.App.latitude,
+                          ]
+                        : [
+                            globalObject.props.App.latitude,
+                            globalObject.props.App.longitude,
+                          ],
                     zoomLevel: globalObject.props.App._NORMAL_MAP_ZOOM_LEVEL,
                     animationDuration: 500,
                   });

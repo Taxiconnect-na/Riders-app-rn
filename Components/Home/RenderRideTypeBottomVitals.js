@@ -30,6 +30,7 @@ import {
   UpdateRideTypesOnScrollCategories,
   UpdateRideTypesScales,
   UpdateErrorModalLog,
+  UpdatePreferredPayment_method,
 } from '../Redux/HomeActionsCreators';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -71,7 +72,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
    * titleSelectRidePosition: new AnimatedNative.Value(0), //Left offset position of the header when select ride is active - default : 10
    * selectRideContentOpacity: new AnimatedNative.Value(1), //Opacity of the content holder when select ride is active - default 0
    * selectRideContentPosition: new AnimatedNative.Value(0), //Top offset position of the content holder when select ride is active - default 20
-   * //---
+   * ---
    * titleSchedulerSelectRideOpacity: new AnimatedNative.Value(0), //Opacity of the header when schedule ride is active - default: 0
    * titleSchedulerSelectRidePostion: new AnimatedNative.Value(10), //Left offset position of the header when schedule is active - default : 10
    * scheduleRideContentOpacity: new AnimatedNative.Value(0), //Opacity of the content holder when schedule ride is active - default 0
@@ -281,6 +282,34 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
     carName = false,
   ) {
     let globalObject = this;
+
+    //?AUTO SELECT THE PAYMENT METHOD BASED ON THE FARE
+    if (
+      !/Unavailable/i.test(fare) &&
+      this.props.App.wallet_state_vars.totalWallet_amount !== undefined &&
+      this.props.App.wallet_state_vars.totalWallet_amount !== null
+    ) {
+      //Received some fares
+      try {
+        let fareTmp = parseFloat(fare);
+        let walletTmp = parseFloat(
+          this.props.App.wallet_state_vars.totalWallet_amount,
+        );
+        //...
+        if (walletTmp >= fareTmp) {
+          //Has enough funds in the wallet - select the wallet
+          this.props.UpdatePreferredPayment_method('wallet');
+        } //Not enough funds in the wallet - select cash
+        else {
+          this.props.UpdatePreferredPayment_method('cash');
+        }
+      } catch (error) {
+        console.log(error);
+        //? Auto select cash then
+        this.props.UpdatePreferredPayment_method('cash');
+      }
+    }
+
     //InteractionManager.runAfterInteractions(() => {
     if (carIcon !== false && carName !== false) {
       //Update icon and car name only when provided
@@ -1699,7 +1728,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                   if (
                                     /^available$/.test(vehicle.availability)
                                   ) {
-                                    //! Fix attempt
+                                    //?Auto choose the first car
                                     this.handleChooseCarType(
                                       vehicle.car_type,
                                       vehicle.base_fare,
@@ -1710,83 +1739,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         : this.props.App.carIconElectricRode,
                                       vehicle.app_label,
                                     );
-                                    /*
-                                    //Update icon and app label name for this vehicle
-                                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = /normalTaxiEconomy/i.test(
-                                      vehicle.car_type,
-                                    )
-                                      ? this.props.App.carImageNormalRide
-                                      : this.props.App.carIconElectricRode; //update car icon
-                                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.nameCarSelected =
-                                      vehicle.app_label; //Update car name label
-                                    //Pick this one
-                                    this.props.App.carTypeSelected =
-                                      vehicle.car_type;
-                                    //VERY IMPORTANT - UPDATE THE FARE
-                                    this.props.App.fareTripSelected =
-                                      vehicle.base_fare;
-                                    if (
-                                      vehicle.car_type === 'normalTaxiEconomy'
-                                    ) {
-                                      this.props.App.colorCircleNormalTaxi =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeNormalTaxi =
-                                        '#000';
-                                      //Update the scales
-                                      this.props.App.scaleRideTypeNormalTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    } else if (
-                                      vehicle.car_type === 'electricEconomy'
-                                    ) {
-                                      this.props.App.colorCircleElectricCar =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeElectricCar =
-                                        '#000';
-                                      this.props.App.scaleRideTypeElectricTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    } else if (
-                                      vehicle.car_type === 'comfortNormalRide'
-                                    ) {
-                                      this.props.App.colorCircleComfortTaxi =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeComfortTaxi =
-                                        '#000';
-                                      this.props.App.scaleRideTypeComfortTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    } else if (
-                                      vehicle.car_type === 'comfortElectricRide'
-                                    ) {
-                                      this.props.App.colorCircleElectricComfortCar =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeElectricComfortCar =
-                                        '#000';
-                                      this.props.App.scaleRideTypeElectricComfortTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    } else if (
-                                      vehicle.car_type === 'luxuryNormalRide'
-                                    ) {
-                                      this.props.App.colorCircleLuxuryTaxi =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeLuxuryTaxi =
-                                        '#000';
-                                      this.props.App.scaleRideTypeLuxuryTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    } else if (
-                                      vehicle.car_type === 'luxuryElectricRide'
-                                    ) {
-                                      this.props.App.colorCircleElectricLuxuryCar =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeElectricLuxuryCar =
-                                        '#000';
-                                      this.props.App.scaleRideTypeElectricLuxuryTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    }*/
                                   }
                                 }
                                 return (
@@ -2675,8 +2627,17 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                   if (
                                     /^available$/.test(vehicle.availability)
                                   ) {
+                                    //?Auto choose the first car
+                                    this.handleChooseCarType(
+                                      vehicle.car_type,
+                                      vehicle.base_fare,
+                                      /electricBikes/i.test(vehicle.car_type)
+                                        ? this.props.App.bikesdeliveryElectric
+                                        : this.props.App.bikesdeliveryNormal,
+                                      vehicle.app_label,
+                                    );
                                     //Update icon and app label name for this vehicle
-                                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = /electricBikes/i.test(
+                                    /*this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = /electricBikes/i.test(
                                       vehicle.car_type,
                                     )
                                       ? this.props.App.bikesdeliveryElectric
@@ -2706,7 +2667,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                       this.props.App.scaleRideTypeElectricTaxi = new AnimatedNative.Value(
                                         1,
                                       );
-                                    }
+                                    }*/
                                   }
                                 }
                                 return (
@@ -3800,6 +3761,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateRideTypesOnScrollCategories,
       UpdateRideTypesScales,
       UpdateErrorModalLog,
+      UpdatePreferredPayment_method,
     },
     dispatch,
   );

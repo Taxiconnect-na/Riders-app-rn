@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   Text,
   View,
@@ -31,7 +32,7 @@ class SupportEntry extends React.PureComponent {
       this.backHander.remove();
     }
     //...
-    if(this.backListener!==null) {
+    if (this.backListener !== null) {
       this.backListener();
       this.backListener = null;
     }
@@ -73,7 +74,7 @@ class SupportEntry extends React.PureComponent {
                 }}>
                 <View style={{width: '100%', height: 230}}>
                   <Image
-                    source={require('../../Media_assets/Images/faq.jpg')}
+                    source={this.props.App.supportMainImage}
                     style={{width: '100%', height: '100%', resizeMode: 'cover'}}
                   />
                 </View>
@@ -211,4 +212,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(SupportEntry);
+const mapStateToProps = (state) => {
+  const {App} = state;
+  return {App};
+};
+
+export default React.memo(connect(mapStateToProps)(SupportEntry));

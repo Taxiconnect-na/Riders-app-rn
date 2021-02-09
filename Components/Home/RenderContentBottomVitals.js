@@ -58,6 +58,10 @@ import LinearGradient from 'react-native-linear-gradient';
 class RenderContentBottomVitals extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      pickupNote: '', //To hold the additional ride/delivery note
+    };
   }
 
   /**
@@ -1175,6 +1179,8 @@ class RenderContentBottomVitals extends React.PureComponent {
    * Change Skip button to next if text entered.
    */
   _updatePickupNoteVars(text) {
+    //? Update the note state
+    this.setState({pickupNote: text});
     //Only if text detected.
     this.props.UpdateAdditionalPickupNote(text);
   }
@@ -2127,11 +2133,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     textAlignVertical={'top'}
                     maxLength={70}
                     onChangeText={(text) => this._updatePickupNoteVars(text)}
-                    value={
-                      this.props.App.additionalNote_inputText === false
-                        ? ''
-                        : this.props.App.additionalNote_inputText
-                    }
+                    value={this.state.pickupNote}
                     style={[
                       {
                         borderColor: '#EEEEEE',
@@ -2506,7 +2508,7 @@ class RenderContentBottomVitals extends React.PureComponent {
         this.props.App.pricingVariables.didPricingReceivedFromServer !== false
       ) {
         this.props.parentNode.resetAnimationLoader();
-      } //! Fix atttempt
+      } //? Only call if the prices where not received yet
       else {
         this.props.parentNode.getFareEstimation();
       }

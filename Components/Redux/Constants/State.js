@@ -7,6 +7,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 //Default no GPRS background image
 const backgroundVirgin = require('../../../Media_assets/Images/background.jpg');
+const supportMainImage = require('../../../Media_assets/Images/faq.jpg');
 //Images res
 const packageIco = require('../../../Media_assets/Images/box_delivery.png');
 const carChooseIco = require('../../../Media_assets/Images/car_selection_img.png');
@@ -67,6 +68,7 @@ const STATE = {
   windowWidth: windowWidth,
   windowHeight: windowHeight,
   backgroundVirgin: backgroundVirgin,
+  supportMainImage: supportMainImage,
   //On map assets
   carIcon: carIcon,
   carIcon_black: carIcon_black,

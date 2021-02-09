@@ -331,7 +331,7 @@ class ErrorModal extends React.PureComponent {
             //Do nothing
           }
         } else if (/^gender$/i.test(infoToUpdate)) {
-          //Name or surname
+          //gender
           this.setState({isErrorThrown: false, isLoading_something: true});
           this.props.App.socket.emit(
             'updateRiders_profileInfos_io',
@@ -376,6 +376,12 @@ class ErrorModal extends React.PureComponent {
       if (/^(name|surname|gender|email)$/i.test(dataType)) {
         //name
         this.setState({tmpString: data, isErrorThrown: false});
+        //? Auto update for gender ONLY
+        if (/gender/i.test(dataType)) {
+          this.updatePersonalInfos(data, 'gender');
+          //Close the modal
+          this.props.UpdateErrorModalLog(false, false, 'any');
+        }
       }
     }
   }
@@ -3115,11 +3121,10 @@ class ErrorModal extends React.PureComponent {
                           }}>
                           Cash
                         </Text>
-                        {this.props.App.wallet_state_vars.totalWallet_amount !==
-                        0 ? null : /cash/i.test(
-                            this.props.App.wallet_state_vars
-                              .selectedPayment_method,
-                          ) ? (
+                        {/cash/i.test(
+                          this.props.App.wallet_state_vars
+                            .selectedPayment_method,
+                        ) ? (
                           <IconCommunity
                             name="check-circle"
                             size={25}
