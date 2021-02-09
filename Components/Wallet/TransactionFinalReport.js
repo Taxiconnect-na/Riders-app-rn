@@ -23,6 +23,7 @@ class TransactionFinalReport extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._navigatorEvent = null;
 
     this.state = {
       isWorking: false, //TO know whether the transaction is still loading or not
@@ -45,7 +46,7 @@ class TransactionFinalReport extends React.PureComponent {
     let globalObject = this;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         console.log('focused');

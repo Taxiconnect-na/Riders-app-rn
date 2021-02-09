@@ -25,6 +25,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._navigatorEvent = null;
 
     this.state = {
       isCheckingDetails: true, //TO know whether the checking process is still running (determines the state of the loader) - default: false
@@ -47,7 +48,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     let globalObject = this;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         console.log('focused');

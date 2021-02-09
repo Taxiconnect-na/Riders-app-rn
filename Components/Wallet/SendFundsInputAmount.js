@@ -22,6 +22,7 @@ class SendFundsInputAmount extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._navigatorEvent = null;
 
     this.state = {
       amountInputed: null, //Will hold the amount inserted by the user - default: null
@@ -33,6 +34,11 @@ class SendFundsInputAmount extends React.PureComponent {
   componentWillUnmount() {
     if (this.backHander !== null) {
       this.backHander.remove();
+    }
+    //...
+    if (this._navigatorEvent !== null) {
+      this._navigatorEvent();
+      this._navigatorEvent = null;
     }
   }
 
@@ -48,7 +54,7 @@ class SendFundsInputAmount extends React.PureComponent {
     );
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         if (

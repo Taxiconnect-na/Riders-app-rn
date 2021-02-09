@@ -49,6 +49,8 @@ class TopUpWalletScreen extends React.PureComponent {
       internetConnectionType: 'Cellular',
     };
 
+    this._navigatorEvent = null;
+
     this._onChange = this._onChange.bind(this);
   }
 
@@ -56,7 +58,7 @@ class TopUpWalletScreen extends React.PureComponent {
     var globalObject = this;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         //? Reset generic infos
@@ -178,6 +180,11 @@ class TopUpWalletScreen extends React.PureComponent {
     this.eventNetworkSwitch();
     if (this.backHander !== null) {
       this.backHander.remove();
+    }
+    //.
+    if (this._navigatorEvent !== null) {
+      this._navigatorEvent();
+      this._navigatorEvent = null;
     }
   }
 

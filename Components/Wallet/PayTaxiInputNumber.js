@@ -62,6 +62,7 @@ class PayTaxiInputNumber extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._navigatorEvent = null;
 
     this.state = {
       paymentNumber: '', //The value of the taxi number or payment number - default: ''
@@ -75,13 +76,18 @@ class PayTaxiInputNumber extends React.PureComponent {
     if (this.backHander !== null) {
       this.backHander.remove();
     }
+    //...
+    if (this._navigatorEvent !== null) {
+      this._navigatorEvent();
+      this._navigatorEvent = null;
+    }
   }
 
   componentDidMount() {
     let globalObject = this;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         globalObject.props.App.paymentNumberOrTaxiNumber = null; //! CLEAR THE GLOBAL PAYMENT NUMBER VARIABLE.

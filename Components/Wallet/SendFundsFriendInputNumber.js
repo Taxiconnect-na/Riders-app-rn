@@ -27,6 +27,7 @@ class SendFundsFriendInputNumber extends React.PureComponent {
     super(props);
 
     this._isMounted = true;
+    this._navigatorEvent = null;
 
     this.state = {
       networkStateChecker: false,
@@ -37,7 +38,7 @@ class SendFundsFriendInputNumber extends React.PureComponent {
     this._isMounted = true;
     let globalObject = this;
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         globalObject.props.ResetGenericPhoneNumberInput();
@@ -105,6 +106,10 @@ class SendFundsFriendInputNumber extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false;
+    if (this._navigatorEvent !== null) {
+      this._navigatorEvent();
+      this._navigatorEvent = null;
+    }
   }
 
   render() {

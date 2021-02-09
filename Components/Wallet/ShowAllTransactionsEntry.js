@@ -21,6 +21,7 @@ class ShowAllTransactionsEntry extends React.PureComponent {
 
     //Handlers
     this.backHander = null;
+    this._navigatorEvent = null;
   }
 
   componentWillUnmount() {
@@ -29,6 +30,11 @@ class ShowAllTransactionsEntry extends React.PureComponent {
     if (this.backHander !== null) {
       this.backHander.remove();
     }
+    //...
+    if (this._navigatorEvent !== null) {
+      this._navigatorEvent();
+      this._navigatorEvent = null;
+    }
   }
 
   componentDidMount() {
@@ -36,7 +42,7 @@ class ShowAllTransactionsEntry extends React.PureComponent {
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         console.log('focused');

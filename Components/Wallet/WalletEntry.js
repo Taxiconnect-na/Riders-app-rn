@@ -37,7 +37,7 @@ class WalletEntry extends React.PureComponent {
       this.backHander.remove();
     }
     //...
-    iif(this._navigatorEvent!=null) {
+    if (this._navigatorEvent != null) {
       this._navigatorEvent();
       this._navigatorEvent = null;
     }
@@ -48,20 +48,20 @@ class WalletEntry extends React.PureComponent {
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
-    globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        console.log('focused');
-      },
-    );
+    globalObject.props.navigation.addListener('focus', () => {
+      console.log('focused');
+    });
 
     //Add home going back handler-----------------------------
-    this._navigatorEvent = this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      globalObject.props.navigation.navigate('Home_drawer');
-      return;
-    });
+    this._navigatorEvent = this.props.navigation.addListener(
+      'beforeRemove',
+      (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+        globalObject.props.navigation.navigate('Home_drawer');
+        return;
+      },
+    );
     //--------------------------------------------------------
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
