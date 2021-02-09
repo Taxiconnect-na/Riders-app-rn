@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import examples from 'libphonenumber-js/examples.mobile.json';
 import {getExampleNumber, AsYouType} from 'libphonenumber-js';
-import {systemWeights} from 'react-native-typography';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
 import flagsIco from './Assets/FlagImagesRessources';
@@ -296,7 +295,12 @@ class PhoneNumberInput extends React.PureComponent {
           </View>
           <View>
             <SectionList
-              sections={this.props.App.countriesDialDataState}
+              sections={
+                this.props.App.countriesDialDataState !== undefined &&
+                this.props.App.countriesDialDataState !== null
+                  ? this.props.App.countriesDialDataState
+                  : countriesDialData
+              }
               initialNumToRender={15}
               keyboardShouldPersistTaps={'always'}
               maxToRenderPerBatch={35}
@@ -405,9 +409,7 @@ class PhoneNumberInput extends React.PureComponent {
         easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
         useNativeDriver: true,
       }),
-    ]).start(() => {
-      globalObject.forceUpdate();
-    });
+    ]).start();
   }
 
   /**

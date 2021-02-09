@@ -586,7 +586,7 @@ class RenderMainMapView extends React.PureComponent {
             coordinate={this.props.App.pickupLocation_metadata.coordinates.map(
               parseFloat,
             )}>
-            <AnnotationPickup title={'Pickup'} />
+            <AnnotationPickup title={'Your pickup'} />
           </MarkerView>
         </View>
       );

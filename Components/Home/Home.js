@@ -867,7 +867,10 @@ class Home extends React.PureComponent {
         /no_rides/i.test(response.request_status) === false
       ) {
         //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
-        if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
+        if (
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
+          globalObject.props.App.isRideInProgress === false
+        ) {
           console.log('Resetted');
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
           //Reset
@@ -1260,6 +1263,7 @@ class Home extends React.PureComponent {
           if (typeof response === String) {
             try {
               response = JSON.parse(response);
+              globalObject.props.App.pricingVariables.didPricingReceivedFromServer = true; //!Stop the estimates fetcher
             } catch (error) {
               response = response;
             }
@@ -1320,7 +1324,8 @@ class Home extends React.PureComponent {
           });
         } //! No valid estimates due to a problem, try again
         else {
-          //Interval persister will try again after the specified timeout of the interval.
+          //? Force the estimates try again.
+          globalObject.getFareEstimation();
         }
       },
     );
@@ -2395,7 +2400,10 @@ class Home extends React.PureComponent {
     if (
       this.props.App.pricingVariables.didPricingReceivedFromServer === false
     ) {
-      this.fire_search_animation();
+      if (this.props.App.showLocationSearch_loader === false) {
+        //? Launch the loader only if not yet initialized yet
+        this.fire_search_animation();
+      }
       //Check if a custom pickup location was specified
       //Point to current location by default
       let org_latitude = this.props.App.latitude;

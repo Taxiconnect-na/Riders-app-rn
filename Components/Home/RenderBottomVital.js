@@ -1017,7 +1017,7 @@ class RenderBottomVital extends React.PureComponent {
                         : 'Uber Move Text Medium',
                     fontSize: RFValue(18.5),
                   }}>
-                  Finding you a Ride
+                  Finding you a ride
                 </Text>
               </View>
               <TouchableOpacity

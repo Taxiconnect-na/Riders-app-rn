@@ -32,14 +32,18 @@ import {
 } from '../../../Redux/HomeActionsCreators';
 import SyncStorage from 'sync-storage';
 import {RFValue} from 'react-native-responsive-fontsize';
+import GenericLoader from '../../GenericLoader/GenericLoader';
 
 class Search extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.fire_search_animation = this.fire_search_animation.bind(this);
     this._onDestinationSelect = this._onDestinationSelect.bind(this);
     this.dismissBackSearchNodeMain = this.dismissBackSearchNodeMain.bind(this);
+
+    this.state = {
+      loaderState: false, //Whether to show the loader state or not - default: false
+    };
   }
 
   componentDidMount() {
@@ -49,43 +53,27 @@ class Search extends React.PureComponent {
       globalObj.invoke_searchNode();
     });
 
-    this.props.App.socket.on('connect', () => {
-      //Auto cancel anything
-      //objectApp.socket.emit('cancelCurrentRide-response', {response:'internal'});
-    });
-    this.props.App.socket.on('error', (error) => {});
-    this.props.App.socket.on('disconnect', () => {});
-    this.props.App.socket.on('connect_error', () => {});
-    this.props.App.socket.on('connect_timeout', () => {});
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {});
-    this.props.App.socket.on('reconnect_failed', () => {});
     this.props.App.socket.on('getLocations-response', function (response) {
-      InteractionManager.runAfterInteractions(() => {
-        if (globalObj.props.App.search_time_requested == null) {
-          globalObj.props.App.search_time_requested = new Date();
-        }
-        //...
-        if (response !== false) {
-          if (globalObj.props.App.search_querySearch.length !== 0) {
-            globalObj.props.UpdateSearchMetadataLoaderState({
-              search_metadataResponse: response.result.result,
-              search_showLocationSearch_loader: false,
-            });
-          } //No queries to be processed
-          else {
-            globalObj.props.UpdateSearchMetadataLoaderState({
-              search_metadataResponse: [],
-              search_showLocationSearch_loader: false,
-            });
-          }
-        } else {
-          //If the search results contained previous results, leave that
+      globalObj.setState({loaderState: false}); //? Stop the animation loader
+
+      if (globalObj.props.App.search_time_requested == null) {
+        globalObj.props.App.search_time_requested = new Date();
+      }
+      //...
+      if (response !== false) {
+        if (globalObj.props.App.search_querySearch.length !== 0) {
           globalObj.props.UpdateSearchMetadataLoaderState({
-            search_showLocationSearch_loader: false,
+            search_metadataResponse: response.result.result,
+          });
+        } //No queries to be processed
+        else {
+          globalObj.props.UpdateSearchMetadataLoaderState({
+            search_metadataResponse: [],
           });
         }
-      });
+      } else {
+        //If the search results contained previous results, leave that
+      }
     });
   }
 
@@ -150,22 +138,20 @@ class Search extends React.PureComponent {
             ? this.props.App.userCurrentLocationMetaData.country
             : 'Namibia'; //Default country to Namibia
         //Submit to API
-        this.props.UpdateSearchMetadataLoaderState({
-          search_showLocationSearch_loader: true,
-        });
+        this.setState({loaderState: true});
         this.props.App.socket.emit('getLocations', requestPackage);
       } //NO queries to process
       else {
+        this.setState({loaderState: false});
         this.props.UpdateSearchMetadataLoaderState({
           search_metadataResponse: [],
-          search_showLocationSearch_loader: false,
         });
       }
     } //Empty search
     else {
+      this.setState({loaderState: false});
       this.props.UpdateSearchMetadataLoaderState({
         search_metadataResponse: [],
-        search_showLocationSearch_loader: false,
       });
     }
   }
@@ -397,52 +383,23 @@ class Search extends React.PureComponent {
   }
 
   /**
-   * @func fire_search_animation()
-   * Responsible for launching the animation of the line loader on query processing.
-   */
-  fire_search_animation() {
-    let globalObject = this;
-    InteractionManager.runAfterInteractions(() => {
-      if (this.props.App.search_showLocationSearch_loader) {
-        Animated.timing(this.props.App.search_loaderPosition, {
-          toValue: this.props.App.windowWidth,
-          duration: 500,
-          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-          useNativeDriver: true,
-        }).start(() => {
-          Animated.timing(this.props.App.search_loaderPosition, {
-            toValue: 0,
-            duration: 500,
-            useNativeDriver: true,
-          }).start(() => {
-            setTimeout(function () {
-              globalObject.fire_search_animation();
-            }, 300);
-          });
-        });
-      }
-    });
-  }
-
-  /**
    * @func invoke_searchNode()
    * Responsible for the animation for the seach window components: header and footer, closing gate kind of animation.
    */
   invoke_searchNode() {
     if (this.props.App.search_showSearchNodeMain) {
-      let globalObj = this;
       Animated.parallel([
         Animated.timing(this.props.App.search_headerSearchNodePosition, {
           toValue: 0,
           duration: 150,
           useNativeDriver: true,
         }),
-        Animated.timing(globalObj.props.App.search_resultsSearchNodeOpacity, {
+        Animated.timing(this.props.App.search_resultsSearchNodeOpacity, {
           toValue: 1,
           duration: 150,
           useNativeDriver: true,
         }),
-        Animated.timing(globalObj.props.App.search_resultSearchNodePosition, {
+        Animated.timing(this.props.App.search_resultSearchNodePosition, {
           toValue: 0,
           duration: 150,
           useNativeDriver: true,
@@ -919,20 +876,7 @@ class Search extends React.PureComponent {
                 ],
               },
             ]}>
-            <Animated.View
-              style={[
-                styles.loader,
-                {
-                  borderTopColor: this.props.App
-                    .search_showLocationSearch_loader
-                    ? '#000'
-                    : '#fff',
-                  transform: [
-                    {translateX: this.props.App.search_loaderPosition},
-                  ],
-                },
-              ]}
-            />
+            <GenericLoader active={this.state.loaderState} thickness={2} />
           </Animated.View>
 
           {this.renderSearch()}
@@ -1197,7 +1141,6 @@ class Search extends React.PureComponent {
   }
 
   render() {
-    this.fire_search_animation();
     return (
       <View style={styles.window}>
         <SafeAreaView style={{flex: 1}}>{this.renderRouter()}</SafeAreaView>
@@ -1311,7 +1254,7 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     marginTop: 20,
     marginBottom: 25,
-    fontSize: RFValue(16),
+    fontSize: RFValue(17),
     backgroundColor: '#E2E2E2',
     fontFamily:
       Platform.OS === 'android' ? 'UberMoveTextRegular' : 'Uber Move Text',

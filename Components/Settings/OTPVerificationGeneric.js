@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 38,
     marginRight: 20,
-    fontSize: 25,
+    fontSize: RFValue(25),
     borderBottomWidth: 2,
     borderColor: '#00000030',
     textAlign: 'center',

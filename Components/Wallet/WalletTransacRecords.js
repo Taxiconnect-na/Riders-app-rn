@@ -11,7 +11,7 @@ class WalletTransacRecords extends React.PureComponent {
 
   render() {
     return (
-      <TouchableOpacity style={styles.mainRecord}>
+      <View style={styles.mainRecord}>
         <View>
           <IconCommunity
             name="square"
@@ -110,7 +110,7 @@ class WalletTransacRecords extends React.PureComponent {
             {`N$${this.props.transactionDetails.amount}`}
           </Text>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }

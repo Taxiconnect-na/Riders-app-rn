@@ -429,7 +429,7 @@ class ErrorModal extends React.PureComponent {
       globalObject.props.App.accountCreation_state = null;
       //Log out
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
-      globalObject.props.parentNode.props.navigation.navigate('EntryScreen');
+      globalObject.props.parentNode.props.navigation.push('EntryScreen');
     }, 1000);
   }
 
@@ -2957,24 +2957,23 @@ class ErrorModal extends React.PureComponent {
                       padding: 20,
                       paddingTop: 20,
                     }}>
-                    <View style={{width: 20, height: 20}}>
-                      <Image
-                        source={require('../../Media_assets/Images/wallet.png')}
-                        style={{
-                          resizeMode: 'contain',
-                          width: '100%',
-                          height: '100%',
-                        }}
-                      />
-                    </View>
                     {/**Wallet header */}
                     <View
                       style={{
                         flex: 1,
-                        marginLeft: 10,
                         flexDirection: 'row',
                         alignItems: 'center',
                       }}>
+                      <View style={{width: 20, height: 20, marginRight: 10}}>
+                        <Image
+                          source={require('../../Media_assets/Images/wallet.png')}
+                          style={{
+                            resizeMode: 'contain',
+                            width: '100%',
+                            height: '100%',
+                          }}
+                        />
+                      </View>
                       <Text
                         style={[
                           {

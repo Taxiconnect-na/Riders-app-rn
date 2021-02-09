@@ -1,16 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-  StatusBar,
-  BackHandler,
-  Platform,
-} from 'react-native';
+import {View, StyleSheet, StatusBar, BackHandler, Platform} from 'react-native';
 import {
   UpdateErrorModalLog,
   UpdateType_rideShown_YourRides_screen,
@@ -20,11 +11,6 @@ import {
 import ErrorModal from '../Helpers/ErrorModal';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import NetInfo from '@react-native-community/netinfo';
-import RideLIstGenericElement from './RideLIstGenericElement';
-import IconEntypo from 'react-native-vector-icons/Entypo';
-import IconFeather from 'react-native-vector-icons/Feather';
-import {ScrollView} from 'react-native-gesture-handler';
-import {RFValue} from 'react-native-responsive-fontsize';
 import RenderRequestsList from './RenderRequestsList';
 
 class YourRidesEntry extends React.PureComponent {
@@ -250,6 +236,7 @@ class YourRidesEntry extends React.PureComponent {
               <RenderRequestsList
                 pullRefreshRequest={this.pullRefreshRequest}
                 pullRefreshing={this.state.pullRefreshing}
+                parentNode={this}
               />
             ) : null}
           </View>

@@ -90,6 +90,7 @@ class OTPVerificationEntry extends React.PureComponent {
     super(props);
 
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
+    this._navigatorEvent = null;
 
     this.state = {
       loaderState: true,
@@ -123,7 +124,7 @@ class OTPVerificationEntry extends React.PureComponent {
       : globalObject.requestForOTP();
 
     //Add navigator listener
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+    this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
         globalObject.setState({
@@ -332,8 +333,9 @@ class OTPVerificationEntry extends React.PureComponent {
 
   componentWillUnmount() {
     //Remove navigation event listener
-    if (this._navigatorEvent !== false && this._navigatorEvent !== undefined) {
+    if (this._navigatorEvent !== false && this._navigatorEvent !== null) {
       this._navigatorEvent();
+      this._navigatorEvent = null;
     }
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
@@ -480,7 +482,6 @@ class OTPVerificationEntry extends React.PureComponent {
       this.state.otpValue.trim().length >= 5 &&
       this.state.didCheckOTP === false
     ) {
-      console.log('AUTOCHECK', 'color:red');
       //Autocheck
       this.moveForwardCheck();
     }
@@ -648,7 +649,7 @@ const styles = StyleSheet.create({
     height: 40,
     lineHeight: 38,
     marginRight: 20,
-    fontSize: 25,
+    fontSize: RFValue(25),
     borderBottomWidth: 2,
     borderColor: '#00000030',
     textAlign: 'center',

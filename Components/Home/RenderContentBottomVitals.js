@@ -237,7 +237,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               <View style={[styles.borderIconLocationType]}>
                 <Image
                   source={this.props.App.privateLocationIco}
-                  style={{resizeMode: 'contain', width: '80%', height: '80%'}}
+                  style={{resizeMode: 'contain', width: '60%', height: '60%'}}
                 />
               </View>
               <View

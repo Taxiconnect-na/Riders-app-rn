@@ -121,7 +121,7 @@ class RenderRequestsList extends React.PureComponent {
             renderItem={(item) => (
               <RideLIstGenericElement
                 requestLightData={item.item}
-                parentNode={this}
+                parentNode={this.props.parentNode}
               />
             )}
           />

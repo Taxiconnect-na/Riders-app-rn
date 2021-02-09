@@ -47,8 +47,8 @@ class RideLIstGenericElement extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'UberMoveTextRegular'
-                      : 'Uber Move Text',
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
                   fontSize: RFValue(17),
                   marginBottom: 5,
                   flex: 1,
@@ -76,8 +76,8 @@ class RideLIstGenericElement extends React.PureComponent {
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'UberMoveTextLight'
-                      : 'Uber Move Text Light',
+                      ? 'UberMoveTextRegular'
+                      : 'Uber Move Text',
                   fontSize: RFValue(16),
                   color: '#0e8491',
                 }}>
