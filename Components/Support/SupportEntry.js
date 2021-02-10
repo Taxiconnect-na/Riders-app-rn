@@ -33,7 +33,7 @@ class SupportEntry extends React.PureComponent {
     }
     //...
     if (this.backListener !== null) {
-      this.backListener();
+      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }
@@ -65,17 +65,28 @@ class SupportEntry extends React.PureComponent {
         {this._isMounted ? (
           <ScrollView style={styles.mainContainer}>
             <View
-              style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingBottom: 50,
+              }}>
               <View
                 style={{
                   width: '100%',
                   alignItems: 'center',
                   marginBottom: '5%',
                 }}>
-                <View style={{width: '100%', height: 230}}>
+                <View
+                  style={{
+                    width: '100%',
+                    height: 120,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
                   <Image
                     source={this.props.App.supportMainImage}
-                    style={{width: '100%', height: '100%', resizeMode: 'cover'}}
+                    style={{width: '60%', height: '100%', resizeMode: 'cover'}}
                   />
                 </View>
                 <Text

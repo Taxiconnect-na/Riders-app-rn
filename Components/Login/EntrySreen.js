@@ -106,8 +106,13 @@ class EntryScreen extends React.PureComponent {
     //..
     try {
       userLocationPoint = JSON.parse(userLocationPoint);
-      this.props.App.latitude = userLocationPoint.latitude;
-      this.props.App.longitude = userLocationPoint.longitude;
+      if (Platform.OS === 'android') {
+        this.props.App.latitude = userLocationPoint.latitude;
+        this.props.App.longitude = userLocationPoint.longitude;
+      } else {
+        this.props.App.latitude = userLocationPoint.longitude;
+        this.props.App.longitude = userLocationPoint.latitude;
+      }
     } catch (error) {
       this.props.App.latitude = 0;
       this.props.App.longitude = 0;
@@ -126,7 +131,7 @@ class EntryScreen extends React.PureComponent {
 
   componentWillUnmount() {
     if (this.backListener !== null) {
-      this.backListener();
+      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }
@@ -175,17 +180,22 @@ class EntryScreen extends React.PureComponent {
                   }}
                 />
               </View>
-              <View style={{flex: 1, width: '100%'}}>
+              <View style={{flex: 3, width: '100%'}}>
                 <Image
                   source={require('../../Media_assets/Images/entryImage0.png')}
                   style={{resizeMode: 'contain', width: '105%', height: '105%'}}
                 />
               </View>
-              <View style={{height: '15%'}}>
+              <View
+                style={{
+                  height: '15%',
+                  flex: 1,
+                  width: '80%',
+                }}>
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(30),
+                      fontSize: RFValue(28),
                       fontFamily:
                         Platform.OS === 'android'
                           ? 'MoveBold'
@@ -221,7 +231,7 @@ class EntryScreen extends React.PureComponent {
                       Platform.OS === 'android'
                         ? 'UberMoveTextRegular'
                         : 'Uber Move Text',
-                    fontSize: RFValue(19),
+                    fontSize: RFValue(17),
                     flex: 1,
                   },
                 ]}>

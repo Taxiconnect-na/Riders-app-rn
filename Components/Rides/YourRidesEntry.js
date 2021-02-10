@@ -31,6 +31,9 @@ class YourRidesEntry extends React.PureComponent {
       pullRefreshing: false, //To activate of not the pull refresh icon - default: false
       networkStateChecker: false,
     };
+
+    //...
+    this.pullRefreshRequest = this.pullRefreshRequest.bind(this);
   }
 
   /**

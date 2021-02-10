@@ -7,8 +7,7 @@ const socket = io(nodeURL, {
   reconnection: true,
   reconnectionAttempts: Infinity,
   reconnectionDelay: 100,
-  reconnectionDelayMax: 200,
-  autoConnect: true,
+  reconnectionDelayMax: 900,
 });
 
 export default socket;

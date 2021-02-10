@@ -693,6 +693,24 @@ class RenderMainMapView extends React.PureComponent {
   }
 
   customRenderOrderer() {
+    //! Coordinates order fix - major bug fix for ocean bug
+    if (
+      this.props.App.latitude !== undefined &&
+      this.props.App.latitude !== null &&
+      this.props.App.latitude !== 0 &&
+      this.props.App.longitude !== undefined &&
+      this.props.App.longitude !== null &&
+      this.props.App.longitude !== 0
+    ) {
+      //? Switch latitude and longitude - check the negative sign
+      if (parseFloat(this.props.App.longitude) < 0) {
+        //Negative - switch
+        let latitudeTmp = this.props.App.latitude;
+        this.props.App.latitude = this.props.App.longitude;
+        this.props.App.longitude = latitudeTmp;
+      }
+    }
+    //!--------- Ocean bug fix
     //...
     if (this.props.App.gprsGlobals.hasGPRSPermissions) {
       return (

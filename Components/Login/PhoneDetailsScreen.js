@@ -93,7 +93,7 @@ class PhoneDetailsScreen extends React.PureComponent {
 
   componentWillUnmount() {
     if (this.backListener !== null) {
-      this.backListener();
+      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }

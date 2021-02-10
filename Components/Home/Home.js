@@ -19,6 +19,7 @@ import {
   Platform,
   SafeAreaView,
   Linking,
+  Keyboard,
   KeyboardAvoidingView,
 } from 'react-native';
 import bearing from '@turf/bearing';
@@ -52,6 +53,7 @@ import {
   UpdateErrorModalLog,
   UpdateDropoffDataFor_driverRating,
   UpdateTotalWalletAmount,
+  UpdateKeyboardStateGlobal,
 } from '../Redux/HomeActionsCreators';
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
@@ -165,6 +167,11 @@ class Home extends React.PureComponent {
                 );
                 this.props.App.isMapPermitted = true;
               } else {
+                if (/off the map/i.test(this.props.App.hello2Text)) {
+                  globalObject.replaceHello2_text(
+                    `Hi ${this.props.App.username}`,
+                  );
+                }
                 globalObject.updateDriver_realTimeMap();
                 GeolocationP.getCurrentPosition(
                   (position) => {
@@ -373,6 +380,11 @@ class Home extends React.PureComponent {
                   );
                   this.props.App.isMapPermitted = true;
                 } else {
+                  if (/off the map/i.test(this.props.App.hello2Text)) {
+                    globalObject.replaceHello2_text(
+                      `Hi ${this.props.App.username}`,
+                    );
+                  }
                   globalObject.updateDriver_realTimeMap();
                   GeolocationP.getCurrentPosition(
                     (position) => {
@@ -424,6 +436,24 @@ class Home extends React.PureComponent {
                 }
                 break;
               case RESULTS.GRANTED:
+                //! Coordinates order fix - major bug fix for ocean bug
+                if (
+                  this.props.App.latitude !== undefined &&
+                  this.props.App.latitude !== null &&
+                  this.props.App.latitude !== 0 &&
+                  this.props.App.longitude !== undefined &&
+                  this.props.App.longitude !== null &&
+                  this.props.App.longitude !== 0
+                ) {
+                  //? Switch latitude and longitude - check the negative sign
+                  if (parseFloat(this.props.App.longitude) < 0) {
+                    //Negative - switch
+                    let latitudeTmp = this.props.App.latitude;
+                    this.props.App.latitude = this.props.App.longitude;
+                    this.props.App.longitude = latitudeTmp;
+                  }
+                }
+                //!--------- Ocean bug fix
                 if (
                   this.props.App.gprsGlobals.hasGPRSPermissions === false ||
                   this.props.App.gprsGlobals.didAskForGprs === false ||
@@ -446,6 +476,7 @@ class Home extends React.PureComponent {
                         position.coords.longitude;
                       globalObject.props.App.longitude =
                         position.coords.latitude;
+
                       //Update GPRS permission global var
                       let newStateVars = {};
                       newStateVars.hasGPRSPermissions = true;
@@ -472,6 +503,11 @@ class Home extends React.PureComponent {
                   );
                   this.props.App.isMapPermitted = true;
                 } else {
+                  if (/off the map/i.test(this.props.App.hello2Text)) {
+                    globalObject.replaceHello2_text(
+                      `Hi ${this.props.App.username}`,
+                    );
+                  }
                   globalObject.updateDriver_realTimeMap();
                   GeolocationP.getCurrentPosition(
                     (position) => {
@@ -479,6 +515,7 @@ class Home extends React.PureComponent {
                         position.coords.longitude;
                       globalObject.props.App.longitude =
                         position.coords.latitude;
+
                       //Get user location
                       globalObject.props.App.socket.emit('geocode-this-point', {
                         latitude: globalObject.props.App.latitude,
@@ -564,6 +601,15 @@ class Home extends React.PureComponent {
       InteractionManager.runAfterInteractions(() => {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
+            if (globalObject.props.App.socket.connected !== true) {
+              globalObject.props.App.socket.connect();
+              globalObject.props.App.isSocketConnected =
+                globalObject.props.App.socket.connected;
+            } //Connected
+            else {
+              //? Update the global var for socket connection.
+              globalObject.props.App.isSocketConnected = true;
+            }
             //...
             if (globalObject.props.App.intervalProgressLoop === false) {
               InteractionManager.runAfterInteractions(() => {
@@ -611,12 +657,24 @@ class Home extends React.PureComponent {
   }
 
   /**
+   * @func keyboardStateUpdater
+   * Responsible for updating the state of the keyboard in the global state.
+   */
+  keyboardStateUpdater(state) {
+    this.props.UpdateKeyboardStateGlobal(state);
+  }
+
+  /**
    * @func componentDidMount
    * Main mounting point of the app
    */
 
   async componentDidMount() {
     let globalObject = this;
+    //Add keyboard listeners
+    Keyboard.addListener('keyboardDidShow', this.keyboardStateUpdater(true));
+    Keyboard.addListener('keyboardDidHide', this.keyboardStateUpdater(false));
+
     //Add home going back handler-----------------------------
     this.props.navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
@@ -721,11 +779,16 @@ class Home extends React.PureComponent {
       }
     });
 
-    this.props.App.socket.on('error', () => {});
+    this.props.App.socket.on('error', () => {
+      console.log('error');
+      globalObject.props.App.socket.connect();
+    });
     this.props.App.socket.on('disconnect', () => {
+      console.log('disconnect');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
+      console.log('connect error');
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
@@ -740,13 +803,18 @@ class Home extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
+      console.log('timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect', () => {
+      console.log('reconnect');
+    });
     this.props.App.socket.on('reconnect_error', () => {
+      console.log('recconnect error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
+      console.log('reconnect failed');
       globalObject.props.App.socket.connect();
     });
 
@@ -1476,6 +1544,13 @@ class Home extends React.PureComponent {
     //Clear the location watcher
     GeolocationP.clearWatch(this.props.App._MAIN_LOCATION_WATCHER);
     this.props.App._MAIN_LOCATION_WATCHER = null;
+    //.
+    //Remove keyboard listeners
+    Keyboard.removeListener('keyboardDidShow', this.keyboardStateUpdater(true));
+    Keyboard.removeListener(
+      'keyboardDidHide',
+      this.keyboardStateUpdater(false),
+    );
   }
 
   /**
@@ -1861,6 +1936,25 @@ class Home extends React.PureComponent {
    */
   recalibrateMap(fromRecenterButton = false) {
     let globalObject = this;
+    //! Coordinates order fix - major bug fix for ocean bug
+    if (
+      this.props.App.latitude !== undefined &&
+      this.props.App.latitude !== null &&
+      this.props.App.latitude !== 0 &&
+      this.props.App.longitude !== undefined &&
+      this.props.App.longitude !== null &&
+      this.props.App.longitude !== 0
+    ) {
+      //? Switch latitude and longitude - check the negative sign
+      if (parseFloat(this.props.App.longitude) < 0) {
+        //Negative - switch
+        let latitudeTmp = this.props.App.latitude;
+        this.props.App.latitude = this.props.App.longitude;
+        this.props.App.longitude = latitudeTmp;
+      }
+    }
+    //!--------- Ocean bug fix
+
     if (this.props.App.gprsGlobals.hasGPRSPermissions) {
       //Avoid updating map when entering receiver's details and package size (DELIVERY)
       if (
@@ -1931,16 +2025,10 @@ class Home extends React.PureComponent {
                 //...
                 InteractionManager.runAfterInteractions(() => {
                   globalObject.camera.setCamera({
-                    centerCoordinate:
-                      Platform.OS === 'android'
-                        ? [
-                            globalObject.props.App.longitude,
-                            globalObject.props.App.latitude,
-                          ]
-                        : [
-                            globalObject.props.App.longitude,
-                            globalObject.props.App.latitude,
-                          ],
+                    centerCoordinate: [
+                      globalObject.props.App.longitude,
+                      globalObject.props.App.latitude,
+                    ],
                     zoomLevel: globalObject.props.App._NORMAL_MAP_ZOOM_LEVEL,
                     animationDuration: 500,
                   });
@@ -2323,6 +2411,8 @@ class Home extends React.PureComponent {
           ),
         ]).start(() => {
           globalObject.resetAnimationLoader();
+          //Recalibrate the map
+          globalObject.recalibrateMap();
         });
       });
     });
@@ -3101,7 +3191,7 @@ class Home extends React.PureComponent {
                     {fontSize: 20, color: '#fff', marginBottom: 40},
                   ]}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
-                    ? 'Getting a Taxi for you'
+                    ? 'Getting you a ride'
                     : 'Requesting for your delivery'}
                 </Text>
                 <View style={{width: '100%'}}>
@@ -3222,11 +3312,17 @@ class Home extends React.PureComponent {
           /(addMoreTripDetails|confirmFareAmountORCustomize)/i.test(
             this.props.App.bottomVitalsFlow.currentStep,
           ) ? (
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={{flex: 1}}>
-              <RenderBottomVital parentNode={this} />
-            </KeyboardAvoidingView>
+            this.props.App.isKeyboardShown ? (
+              <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <RenderBottomVital parentNode={this} />
+              </KeyboardAvoidingView>
+            ) : (
+              <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <RenderBottomVital parentNode={this} />
+              </KeyboardAvoidingView>
+            )
           ) : (
             <RenderBottomVital parentNode={this} />
           )
@@ -3402,6 +3498,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateErrorModalLog,
       UpdateDropoffDataFor_driverRating,
       UpdateTotalWalletAmount,
+      UpdateKeyboardStateGlobal,
     },
     dispatch,
   );

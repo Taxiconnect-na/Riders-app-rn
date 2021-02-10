@@ -188,6 +188,7 @@ class SendFundsInputAmount extends React.PureComponent {
                 N$
               </Text>
               <TextInput
+                placeholderTextColor="#AFAFAF"
                 style={{
                   fontSize: RFValue(20),
                   fontFamily:

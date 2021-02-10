@@ -28,7 +28,6 @@ import {
   ResetGenericPhoneNumberInput,
   UpdateErrorModalLog,
 } from '../Redux/HomeActionsCreators';
-import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import SyncStorage from 'sync-storage';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -103,6 +102,7 @@ class OTPVerificationGeneric extends React.PureComponent {
       smsHashLinker: '####', //Has to link to the sms for the auto-completion
     };
     this.otpHandler = this.otpHandler.bind(this);
+    Platform.OS === 'ios' && this.requestForOTP();
   }
 
   /**
@@ -131,7 +131,7 @@ class OTPVerificationGeneric extends React.PureComponent {
         globalObject.state.smsHashLinker = result[0];
       } catch (error) {}
     });
-    this.initOTPListener();
+    Platform.OS === 'android' && this.initOTPListener();
 
     //Add navigator listener
     globalObject._navigatorEvent = globalObject.props.navigation.addListener(
@@ -209,7 +209,7 @@ class OTPVerificationGeneric extends React.PureComponent {
       this.state.networkStateChecker();
     }
     //Remove the auto otp seeker
-    RNOtpVerify.removeListener();
+    Platform.OS === 'android' && RNOtpVerify.removeListener();
     //...
     if (this.backHander !== null) {
       this.backHander.remove();
@@ -223,29 +223,34 @@ class OTPVerificationGeneric extends React.PureComponent {
    */
   async initOTPListener() {
     let globalObject = this;
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_SMS,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        //Request for otp
-        globalObject.requestForOTP();
-        //...
-        RNOtpVerify.getOtp()
-          .then(() => {
-            RNOtpVerify.addListener(this.otpHandler);
-          })
-          .catch((p) => {});
-      } else {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_SMS,
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          //Request for otp
+          globalObject.requestForOTP();
+          //...
+          RNOtpVerify.getOtp()
+            .then(() => {
+              RNOtpVerify.addListener(this.otpHandler);
+            })
+            .catch((p) => {});
+        } else {
+          //Request for otp
+          globalObject.requestForOTP();
+          //...
+        }
+      } catch (err) {
+        console.warn(err);
         //Request for otp
         globalObject.requestForOTP();
         //...
       }
-    } catch (err) {
-      console.warn(err);
-      //Request for otp
+    } //iOS
+    else {
       globalObject.requestForOTP();
-      //...
     }
   }
 
@@ -300,6 +305,9 @@ class OTPVerificationGeneric extends React.PureComponent {
       this.setState({loaderState: true});
       if (this.state.SMS_LIMITER === false) {
         //Limit the sms
+        if (Platform.OS === 'ios') {
+          this.state.loaderState = false;
+        }
         //this.state.SMS_LIMITER = true;
         this.setState({
           SMS_LIMITER: true,
@@ -395,7 +403,7 @@ class OTPVerificationGeneric extends React.PureComponent {
             : null}
           <View style={styles.presentationWindow}>
             <TouchableOpacity
-              onPress={() => this.goBackFUnc()}
+              onPress={() => this.props.navigation.goBack()}
               style={{width: '30%'}}>
               <IconAnt name="arrowleft" size={29} />
             </TouchableOpacity>

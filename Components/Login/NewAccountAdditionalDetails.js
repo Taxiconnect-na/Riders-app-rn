@@ -320,16 +320,14 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
   render() {
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{flex: 1}}>
-        <DismissKeyboard>
-          <SafeAreaView style={styles.mainWindow}>
-            <GenericLoader active={this.state.loaderState} thickness={4} />
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              ? this.renderError_modalView()
-              : null}
-            <View style={styles.presentationWindow}>
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <GenericLoader active={this.state.loaderState} thickness={4} />
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+            ? this.renderError_modalView()
+            : null}
+          <View style={styles.presentationWindow}>
+            <KeyboardAvoidingView behavior={'padding'} style={{flex: 1}}>
               <TouchableOpacity
                 onPress={() =>
                   this.state.completingAccountProfile === false
@@ -356,6 +354,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
               <View>
                 <TextInput
+                  placeholderTextColor="#AFAFAF"
                   placeholder="What's your name?"
                   onFocus={() => this.updateCurrentFocused_field('name')}
                   onBlur={() => this.updateCurrentFocused_field('none')}
@@ -450,6 +449,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
 
               <View>
                 <TextInput
+                  placeholderTextColor="#AFAFAF"
                   placeholder="Email"
                   onChangeText={(text) => this.setState({email: text})}
                   onFocus={() => this.updateCurrentFocused_field('email')}
@@ -493,38 +493,37 @@ class NewAccountAdditionalDetails extends React.PureComponent {
                   </Text>
                 ) : null}
               </View>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  bottom: '10%',
-                  left: 20,
-                  right: 20,
-                  width: '100%',
-                }}>
-                <View style={{flexDirection: 'row', flex: 1}}>
-                  <Text style={[{fontSize: 12, marginLeft: 6}]}></Text>
-                </View>
-                <View style={{flex: 1, alignItems: 'flex-end'}}>
-                  <TouchableOpacity
-                    onPress={() => this.validateAdditionalProfileInfos()}
-                    style={[
-                      styles.arrowCircledForwardBasic,
-                      styles.shadowButtonArrowCircledForward,
-                    ]}>
-                    <IconMaterialIcons
-                      name="arrow-forward-ios"
-                      size={30}
-                      color="#fff"
-                    />
-                  </TouchableOpacity>
-                </View>
+            </KeyboardAvoidingView>
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: '10%',
+                left: 20,
+                right: 20,
+                width: '100%',
+              }}>
+              <View style={{flexDirection: 'row', flex: 1}}>
+                <Text style={[{fontSize: 12, marginLeft: 6}]}></Text>
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <TouchableOpacity
+                  onPress={() => this.validateAdditionalProfileInfos()}
+                  style={[
+                    styles.arrowCircledForwardBasic,
+                    styles.shadowButtonArrowCircledForward,
+                  ]}>
+                  <IconMaterialIcons
+                    name="arrow-forward-ios"
+                    size={30}
+                    color="#fff"
+                  />
+                </TouchableOpacity>
               </View>
             </View>
-          </SafeAreaView>
-        </DismissKeyboard>
-      </KeyboardAvoidingView>
+          </View>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

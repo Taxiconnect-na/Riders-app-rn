@@ -2129,6 +2129,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     top: 20,
                   }}>
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     placeholder={'Add a note to the driver?'}
                     multiline={true}
                     textAlignVertical={'top'}
@@ -2656,6 +2657,7 @@ class RenderContentBottomVitals extends React.PureComponent {
             </Text>
             <View style={{marginBottom: '13%'}}>
               <TextInput
+                placeholderTextColor="#AFAFAF"
                 autoFocus
                 placeholder={'Name'}
                 autoCorrect={false}
@@ -3138,7 +3140,6 @@ class RenderContentBottomVitals extends React.PureComponent {
       this.props.App.bottomVitalsFlow.currentStep ===
       'selectCarTypeAndPaymentMethodDelivery'
     ) {
-      //! -- fix attempt -- this.props.parentNode.resetAnimationLoader();
       return (
         <AnimatedNative.View
           style={{

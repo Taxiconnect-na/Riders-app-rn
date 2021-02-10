@@ -3356,6 +3356,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 marginTop: '10%',
               }}>
               <TextInput
+                placeholderTextColor="#AFAFAF"
                 placeholder="Enter your Fare (N$)"
                 keyboardType={'number-pad'}
                 maxLength={3}

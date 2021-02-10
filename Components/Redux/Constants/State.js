@@ -447,6 +447,12 @@ const STATE = {
     },
   ],
 
+  //KEYBOARD GLOBAL STATE VAR
+  isKeyboardShown: false, //To know whether the keyboard is shown or not globally
+
+  //SOCKET CONNECTOR STATE
+  isSocketConnected: false, //To know whether the socket is connected or not
+
   //WALLET VARS
   user_sender_nature: null, //? TO know which category of users the transaction - friend/driver - default:null
   paymentNumberOrTaxiNumber: null, //?The taxi number or payment number

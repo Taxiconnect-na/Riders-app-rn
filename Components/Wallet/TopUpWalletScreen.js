@@ -308,7 +308,7 @@ class TopUpWalletScreen extends React.PureComponent {
                 color: '#fff',
               },
             ]}>
-            {`Top-up wallet - N${this.props.App.top_up_wallet_crucialData.amount}`}
+            {`Top-up wallet - N$${this.props.App.top_up_wallet_crucialData.amount}`}
           </Text>
         </>
       );

@@ -117,33 +117,37 @@ class SendFundsEntry extends React.PureComponent {
                     />
                   </View>
                   <View style={{flex: 1}}>
-                    <Text
-                      style={[
-                        {
-                          fontSize: RFValue(19),
+                    <View style={{height: 35}}>
+                      <Text
+                        style={[
+                          {
+                            fontSize: RFValue(19),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            color: '#0e8491',
+                            flex: 1,
+                          },
+                        ]}>
+                        Send to friends
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          flex: Platform.OS === 'android' ? 1 : 0,
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'UberMoveTextMedium'
-                              : 'Uber Move Text Medium',
-                          color: '#0e8491',
-                          flex: 1,
-                        },
-                      ]}>
-                      Send to friends
-                    </Text>
-                    <Text
-                      style={{
-                        flex: Platform.OS === 'android' ? 1 : 0,
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextLight'
-                            : 'Uber Move Text Light',
-                        lineHeight: RFValue(17),
-                        paddingRight: 10,
-                      }}>
-                      Send rides or delivery credits to your friends and family
-                      instantly and hustle free.
-                    </Text>
+                              ? 'UberMoveTextLight'
+                              : 'Uber Move Text Light',
+                          lineHeight: RFValue(17),
+                          paddingRight: 10,
+                        }}>
+                        Send rides or delivery credits to your friends and
+                        family instantly and hustle free.
+                      </Text>
+                    </View>
                   </View>
                 </View>
                 <View style={{height: '100%', paddingTop: 5}}>
@@ -174,32 +178,36 @@ class SendFundsEntry extends React.PureComponent {
                     />
                   </View>
                   <View style={{flex: 1}}>
-                    <Text
-                      style={[
-                        {
-                          fontSize: RFValue(19),
+                    <View style={{height: 35}}>
+                      <Text
+                        style={[
+                          {
+                            fontSize: RFValue(19),
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            color: '#0e8491',
+                            flex: 1,
+                          },
+                        ]}>
+                        Pay a driver
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          flex: Platform.OS === 'android' ? 1 : 0,
                           fontFamily:
                             Platform.OS === 'android'
-                              ? 'UberMoveTextMedium'
-                              : 'Uber Move Text Medium',
-                          color: '#0e8491',
-                          flex: 1,
-                        },
-                      ]}>
-                      Pay a driver
-                    </Text>
-                    <Text
-                      style={{
-                        flex: Platform.OS === 'android' ? 1 : 0,
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextLight'
-                            : 'Uber Move Text Light',
-                        lineHeight: RFValue(17),
-                        paddingRight: 10,
-                      }}>
-                      Directly send payments to your driver seamlessly.
-                    </Text>
+                              ? 'UberMoveTextLight'
+                              : 'Uber Move Text Light',
+                          lineHeight: RFValue(17),
+                          paddingRight: 10,
+                        }}>
+                        Directly send payments to your driver seamlessly.
+                      </Text>
+                    </View>
                   </View>
                 </View>
                 <View style={{height: '100%', paddingTop: 5}}>

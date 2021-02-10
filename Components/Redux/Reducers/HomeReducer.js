@@ -1951,12 +1951,12 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'VALIDATE_RECEIVER_INFOS_FOR_DELIVERY':
       //Validate or return error on error,...auto move next if correct
-      //Check the name (4 chars min)
+      //Check the name (3 chars min)
       if (
         newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName !==
           false &&
         newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName.trim()
-          .length >= 4
+          .length >= 3
       ) {
         newState.errorReceiverNameShow = false; //Hide corresponding error text
         newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName = newState.bottomVitalsFlow.rideOrDeliveryMetadata.receiverName.trim();
@@ -2019,7 +2019,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       } //Error invalid name format - too short
       else {
         newState.errorReceiverNameText =
-          'The name should be at least 4 letters long';
+          'The name should be at least 3 letters long';
         newState.errorReceiverNameShow = true;
       }
 
@@ -2270,6 +2270,16 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     default:
       return state;
+
+    case 'UPDATE_STATE_OF_KEYBOARD_GLOBALLY':
+      if (action.payload !== newState.isKeyboardShown) {
+        //New state - update
+        newState.isKeyboardShown = action.payload;
+        return {...state, ...newState};
+      } //No state change
+      else {
+        return state;
+      }
   }
 };
 

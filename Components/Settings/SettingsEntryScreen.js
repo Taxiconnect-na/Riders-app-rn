@@ -75,7 +75,10 @@ class SettingsEntryScreen extends React.Component {
     this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
-        globalObject.setState({isLoading_something: false});
+        globalObject.setState({
+          isLoading_something: false,
+          isChangingProfile_pic: false,
+        });
         if (
           response !== undefined &&
           response !== null &&
@@ -137,7 +140,7 @@ class SettingsEntryScreen extends React.Component {
     }
     //...
     if (this.backListener !== null) {
-      this.backListener();
+      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }
@@ -264,7 +267,7 @@ class SettingsEntryScreen extends React.Component {
       dataToUpdate: base64String,
       infoToUpdate: 'picture',
     };
-    this.setState({isLoading_something: true});
+    this.setState({isLoading_something: true, isChangingProfile_pic: true});
     this.props.App.socket.emit('updateRiders_profileInfos_io', bundleData);
   }
 

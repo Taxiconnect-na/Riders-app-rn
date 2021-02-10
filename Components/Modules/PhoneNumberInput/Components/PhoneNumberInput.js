@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Platform,
   Keyboard,
+  BackHandler,
 } from 'react-native';
 import examples from 'libphonenumber-js/examples.mobile.json';
 import {getExampleNumber, AsYouType} from 'libphonenumber-js';
@@ -154,6 +155,7 @@ class PhoneNumberInput extends React.PureComponent {
           </TouchableOpacity>
           <View style={{flex: 1}}>
             <TextInput
+              placeholderTextColor="#AFAFAF"
               placeholder="Search your country"
               placeholderTextColor="#a2a2a2"
               autoCorrect={false}
@@ -341,6 +343,16 @@ class PhoneNumberInput extends React.PureComponent {
     }
   }
 
+  componentDidMount() {
+    let globalObject = this;
+    this.backHander = BackHandler.addEventListener(
+      'hardwareBackPress',
+      function () {
+        globalObject.dismissCountrySearcher();
+      },
+    );
+  }
+
   UNSAFE_componentWillMount() {
     this.updateCountryFormat();
   }
@@ -476,6 +488,7 @@ class PhoneNumberInput extends React.PureComponent {
           </TouchableOpacity>
           <View style={{flex: 1}}>
             <TextInput
+              placeholderTextColor="#AFAFAF"
               placeholder={this.props.App.phoneNumberPlaceholder}
               /*selection={this.state.selection}
               onSelectionChange={this.handleSelectionChange}*/

@@ -323,6 +323,9 @@ class ErrorModal extends React.PureComponent {
             //Good number - save in the global
             this.props.App.last_dataPersoUpdated = this.props.App.finalPhoneNumber;
             //....
+            //? close the modal as well
+            this.props.UpdateErrorModalLog(false, false, 'any');
+            //...
             this.props.parentNode.props.navigation.navigate(
               'OTPVerificationGeneric',
             );
@@ -2706,6 +2709,7 @@ class ErrorModal extends React.PureComponent {
                     backgroundColor: '#EEEEEE',
                   }}>
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     placeholder="Add a personal note"
                     editable={
                       this.state.isLoading_something === false ? true : false
@@ -3241,6 +3245,7 @@ class ErrorModal extends React.PureComponent {
               <View style={{padding: 20, flex: 1}}>
                 {/^name$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
                     placeholder="What's your name?"
                     value={
@@ -3268,6 +3273,7 @@ class ErrorModal extends React.PureComponent {
                   />
                 ) : /^surname$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
                     placeholder="What's your surname?"
                     value={
@@ -3295,6 +3301,7 @@ class ErrorModal extends React.PureComponent {
                   />
                 ) : /^gender$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
                     placeholder="What's your gender?"
                     value={
@@ -3324,6 +3331,7 @@ class ErrorModal extends React.PureComponent {
                   <PhoneNumberInput autoFocus={true} />
                 ) : /^email$/i.test(this.props.detailToModify) ? (
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
                     placeholder="What's your email?"
                     value={
@@ -3350,7 +3358,7 @@ class ErrorModal extends React.PureComponent {
                     }}
                   />
                 ) : (
-                  <TextInput placeholder="" />
+                  <TextInput placeholderTextColor="#AFAFAF" placeholder="" />
                 )}
                 {this.state.isErrorThrown ? (
                   <Text

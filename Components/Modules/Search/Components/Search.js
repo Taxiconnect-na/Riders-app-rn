@@ -817,6 +817,7 @@ class Search extends React.PureComponent {
                 {this.props.showSimplified !== undefined &&
                 this.props.showSimplified ? null : (
                   <TextInput
+                    placeholderTextColor="#AFAFAF"
                     style={[
                       {
                         fontSize: RFValue(16),
@@ -907,6 +908,7 @@ class Search extends React.PureComponent {
       //Only one destination
       return (
         <TextInput
+          placeholderTextColor="#AFAFAF"
           autoFocus={true}
           style={[styles.mainSearchBar, {marginBottom: 15}]}
           placeholder="Where are you going?"
@@ -933,6 +935,7 @@ class Search extends React.PureComponent {
       ) {
         return (
           <TextInput
+            placeholderTextColor="#AFAFAF"
             autoFocus={true}
             style={[styles.mainSearchBar, {marginBottom: 15}]}
             placeholder={
@@ -964,6 +967,7 @@ class Search extends React.PureComponent {
         return (
           <>
             <TextInput
+              placeholderTextColor="#AFAFAF"
               autoFocus={true}
               style={[styles.mainSearchBar, {marginBottom: 10}]}
               placeholder="Passenger's 1 destination"
@@ -982,6 +986,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
+              placeholderTextColor="#AFAFAF"
               style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 2 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 2)}
@@ -1007,6 +1012,7 @@ class Search extends React.PureComponent {
         return (
           <>
             <TextInput
+              placeholderTextColor="#AFAFAF"
               autoFocus={true}
               style={[styles.mainSearchBar, {marginBottom: 10}]}
               placeholder="Passenger's 1 destination"
@@ -1025,6 +1031,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
+              placeholderTextColor="#AFAFAF"
               style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 2 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 2)}
@@ -1042,6 +1049,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
+              placeholderTextColor="#AFAFAF"
               style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 3 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 3)}
@@ -1067,6 +1075,7 @@ class Search extends React.PureComponent {
         return (
           <>
             <TextInput
+              placeholderTextColor="#AFAFAF"
               autoFocus={true}
               style={[styles.mainSearchBar, {marginBottom: 10}]}
               placeholder="Passenger's 1 destination"
@@ -1085,6 +1094,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
+              placeholderTextColor="#AFAFAF"
               style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 2 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 2)}
@@ -1102,6 +1112,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
+              placeholderTextColor="#AFAFAF"
               style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 10}]}
               placeholder="Passenger's 3 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 3)}
@@ -1119,6 +1130,7 @@ class Search extends React.PureComponent {
               autoCorrect={false}
             />
             <TextInput
+              placeholderTextColor="#AFAFAF"
               style={[styles.mainSearchBar, {marginTop: 0, marginBottom: 15}]}
               placeholder="Passenger's 4 destination"
               onChangeText={(text) => this._searchForThisQuery(text, 4)}

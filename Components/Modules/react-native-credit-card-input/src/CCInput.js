@@ -102,6 +102,7 @@ export default class CCInput extends Component {
           ) : null}
           {!!label && <Text style={[labelStyle]}>{label}</Text>}
           <TextInput
+            placeholderTextColor="#AFAFAF"
             ref="input"
             keyboardType={keyboardType}
             autoCapitalise="words"

@@ -367,3 +367,13 @@ export const UpdatePreferredPayment_method = (paymentMethod) => ({
   type: 'UPDATE_PREFERRED_PAYMENT_METHOD',
   payload: paymentMethod,
 });
+
+/**
+ * 46. Update the keyboard state in the global state.
+ * Responsible for updating the state of the keyboard either to true (shown) or false (hidden)
+ * @param state: the current state of the keyboard.
+ */
+export const UpdateKeyboardStateGlobal = (state) => ({
+  type: 'UPDATE_STATE_OF_KEYBOARD_GLOBALLY',
+  payload: state,
+});

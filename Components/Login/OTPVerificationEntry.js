@@ -151,11 +151,15 @@ class OTPVerificationEntry extends React.PureComponent {
 
     //connection
     this.props.App.socket.on('connect', () => {
+      console.log('connect');
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
-    this.props.App.socket.on('error', () => {});
+    this.props.App.socket.on('error', () => {
+      console.log('error');
+    });
     this.props.App.socket.on('disconnect', () => {
+      console.log('disconnect');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
@@ -168,13 +172,18 @@ class OTPVerificationEntry extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
+      console.log('timeout');
       globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect', () => {
+      console.log('reconnect');
+    });
     this.props.App.socket.on('reconnect_error', () => {
+      console.log('reconnect error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
+      console.log('reconnect failed');
       globalObject.props.App.socket.connect();
     });
 
@@ -334,7 +343,7 @@ class OTPVerificationEntry extends React.PureComponent {
   componentWillUnmount() {
     //Remove navigation event listener
     if (this._navigatorEvent !== false && this._navigatorEvent !== null) {
-      this._navigatorEvent();
+      //this._navigatorEvent();
       this._navigatorEvent = null;
     }
     //Remove the network state listener
