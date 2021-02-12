@@ -2092,6 +2092,7 @@ class Home extends React.PureComponent {
           latitude: this.props.App.latitude,
           longitude: this.props.App.longitude,
           user_fingerprint: this.props.App.user_fingerprint,
+          user_nature: 'rider',
           pushnotif_token: this.props.App.pushnotif_token,
         };
         this.props.App.socket.emit('update-passenger-location', bundle);
