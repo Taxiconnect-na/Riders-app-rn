@@ -93,7 +93,7 @@ class SendFundsEntry extends React.PureComponent {
                   padding: 20,
                 },
               ]}>
-              Easily transfer funds to anyone.
+              Easily send cab fares to anyone.
             </Text>
             <View>
               <TouchableOpacity
@@ -133,7 +133,7 @@ class SendFundsEntry extends React.PureComponent {
                         Send to friends
                       </Text>
                     </View>
-                    <View>
+                    <View style={{flex: 1}}>
                       <Text
                         style={{
                           flex: Platform.OS === 'android' ? 1 : 0,
@@ -194,7 +194,7 @@ class SendFundsEntry extends React.PureComponent {
                         Pay a driver
                       </Text>
                     </View>
-                    <View>
+                    <View style={{flex: 1}}>
                       <Text
                         style={{
                           flex: Platform.OS === 'android' ? 1 : 0,

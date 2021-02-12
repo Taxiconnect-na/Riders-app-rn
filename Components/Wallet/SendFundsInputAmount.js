@@ -290,7 +290,7 @@ class SendFundsInputAmount extends React.PureComponent {
                           : 'Uber Move Text',
                     },
                   ]}>
-                  Visit to the <Text style={{fontWeight: 'bold'}}>Support</Text>{' '}
+                  Visit the <Text style={{fontWeight: 'bold'}}>Support</Text>{' '}
                   tab for any queries.
                 </Text>
               </View>

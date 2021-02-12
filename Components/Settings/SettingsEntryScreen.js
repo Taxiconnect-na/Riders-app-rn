@@ -19,7 +19,6 @@ import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import ImagePicker from 'react-native-image-crop-picker';
-import ErrorModal from '../Helpers/ErrorModal';
 import Notifiyer from '../Helpers/Notifiyer';
 import SyncStorage from 'sync-storage';
 import FastImage from 'react-native-fast-image';
@@ -140,7 +139,6 @@ class SettingsEntryScreen extends React.Component {
     }
     //...
     if (this.backListener !== null) {
-      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }
@@ -157,6 +155,7 @@ class SettingsEntryScreen extends React.Component {
           onPress={() => {
             //Update the favorite place label
             this.state.favoritePlace_label = place.name;
+            this.props.App.favoritePlace_label = place.name; //! Update the global state var.
             this.props.App.search_showSearchNodeMain = true;
             this.props.UpdateErrorModalLog(
               true,
@@ -271,23 +270,6 @@ class SettingsEntryScreen extends React.Component {
     this.props.App.socket.emit('updateRiders_profileInfos_io', bundleData);
   }
 
-  /**
-   * @func renderError_modalView
-   * Responsible for rendering the modal view only once.
-   */
-  renderError_modalView() {
-    return (
-      <ErrorModal
-        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-        error_status={
-          this.props.App.generalErrorModal_vars.generalErrorModalType
-        }
-        parentNode={this}
-        favoritePlace_label={this.state.favoritePlace_label}
-      />
-    );
-  }
-
   render() {
     return (
       <>
@@ -300,9 +282,7 @@ class SettingsEntryScreen extends React.Component {
                 message={this.state.notifiyerMessage}
               />
             ) : null}
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              ? this.renderError_modalView()
-              : null}
+
             <ScrollView style={styles.presentationWindow}>
               {/**Picture section/edit */}
               <View

@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
-import io from 'socket.io-client';
-const nodeURL = 'http://taxiconnectna.com:9097/';
+const io = require('socket.io-client');
+const nodeURL = 'http://192.168.43.44:9097';
 //...
 const socket = io(nodeURL, {
   transports: ['websocket', 'polling'],
   reconnection: true,
   reconnectionAttempts: Infinity,
-  reconnectionDelay: 100,
-  reconnectionDelayMax: 900,
+  reconnectionDelay: 900,
+  reconnectionDelayMax: 100,
+  'force new connection': true,
 });
 
 export default socket;

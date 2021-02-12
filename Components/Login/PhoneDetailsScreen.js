@@ -70,7 +70,6 @@ class PhoneDetailsScreen extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
@@ -93,7 +92,7 @@ class PhoneDetailsScreen extends React.PureComponent {
 
   componentWillUnmount() {
     if (this.backListener !== null) {
-      Platform.OS === 'android' && this.backListener.remove();
+      //
       this.backListener = null;
     }
   }
@@ -122,7 +121,7 @@ class PhoneDetailsScreen extends React.PureComponent {
         error_status={
           this.props.App.generalErrorModal_vars.generalErrorModalType
         }
-        parentNode={this}
+        parentNode={null}
       />
     );
   }

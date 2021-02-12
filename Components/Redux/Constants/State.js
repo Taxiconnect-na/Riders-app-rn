@@ -46,6 +46,14 @@ const greatNavigation = require('../../../Media_assets/Images/Compliments/naviga
 const greatConversation = require('../../../Media_assets/Images/Compliments/chat.png');
 
 const STATE = {
+  //? CRUCIAL FUNCTIONS
+  fetchRequestedRequests_history: null, //From Your rides - responsible for updating the ride history list.
+  //? ---------------
+  //? CRUCIAL VARIABLES
+  //! Used for performance updates to avoid instanciating the ErrorModal everywhere unneccesarily.
+  favoritePlace_label: 'work', //To hold the favorite location selectedd by the user for modification. - default: work
+  detailToModify: 'name', //To hold the selected detail that the user want to modify - default: name
+  //!---
   _TOP_STACK_NAVIGATION: false, //TOP STACK NAVIGATION of the all, save on the entry screen
   //PERSISTANT INTERVAL VARIABLES
   //Will contain temporary variables that will be responsible for perisisting requests when the desired answer is

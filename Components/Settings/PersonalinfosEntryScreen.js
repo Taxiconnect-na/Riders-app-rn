@@ -150,6 +150,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
    * @param infoToUpdate: the type of information to update (name,surname,etc...)
    */
   showModalChange_updater(infoToUpdate) {
+    this.props.App.detailToModify = infoToUpdate; //! Update the global state var.
     if (!/gender/i.test(infoToUpdate)) {
       //Everything but the gender
       this.state.detailToModify = infoToUpdate;
@@ -165,23 +166,6 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     }
   }
 
-  /**
-   * @func renderError_modalView
-   * Responsible for rendering the modal view only once.
-   */
-  renderError_modalView() {
-    return (
-      <ErrorModal
-        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-        error_status={
-          this.props.App.generalErrorModal_vars.generalErrorModalType
-        }
-        detailToModify={this.state.detailToModify}
-        parentNode={this}
-      />
-    );
-  }
-
   render() {
     return (
       <SafeAreaView style={styles.mainWindow}>
@@ -192,9 +176,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
             message={this.state.notifiyerMessage}
           />
         ) : null}
-        {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-          ? this.renderError_modalView()
-          : null}
+
         <ScrollView style={styles.presentationWindow}>
           {/**Name */}
           <TouchableOpacity

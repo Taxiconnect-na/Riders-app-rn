@@ -20,7 +20,6 @@ import IconAnt from 'react-native-vector-icons/AntDesign';
 import PhoneNumberInput from '../Modules/PhoneNumberInput/Components/PhoneNumberInput';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
-import NetInfo from '@react-native-community/netinfo';
 
 class SendFundsFriendInputNumber extends React.PureComponent {
   constructor(props) {
@@ -46,49 +45,6 @@ class SendFundsFriendInputNumber extends React.PureComponent {
     );
     //Auto reset phone number validity to false
     this.props.App.isPhoneNumberValid = false;
-    //Network state checker
-    this.state.networkStateChecker = NetInfo.addEventListener((state) => {
-      if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
-          state.isConnected,
-          'connection_no_network',
-          state.type,
-        );
-      } //connected
-      else {
-        globalObject.props.UpdateErrorModalLog(false, false, state.type);
-      }
-    });
-
-    //connection
-    this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
-    });
-    //Socket error handling
-    this.props.App.socket.on('error', (error) => {});
-    this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_error', () => {
-      console.log('connect_error');
-      //Ask for the OTP again
-      globalObject.props.UpdateErrorModalLog(
-        true,
-        'service_unavailable',
-        'any',
-      );
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
-    });
   }
   /**
    * @func automoveForward

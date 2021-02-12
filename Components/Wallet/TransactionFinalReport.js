@@ -318,7 +318,7 @@ class TransactionFinalReport extends React.PureComponent {
                           textAlign: 'left',
                           color: '#09864A',
                         }}>
-                        Your transaction has been done successfully.
+                        Your transaction was successful.
                       </Text>
                     </View>
                   </View>

@@ -131,7 +131,6 @@ class EntryScreen extends React.PureComponent {
 
   componentWillUnmount() {
     if (this.backListener !== null) {
-      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }
@@ -191,6 +190,7 @@ class EntryScreen extends React.PureComponent {
                   height: '15%',
                   flex: 1,
                   width: '80%',
+                  alignItems: 'center',
                 }}>
                 <Text
                   style={[
@@ -231,7 +231,7 @@ class EntryScreen extends React.PureComponent {
                       Platform.OS === 'android'
                         ? 'UberMoveTextRegular'
                         : 'Uber Move Text',
-                    fontSize: RFValue(17),
+                    fontSize: RFValue(19),
                     flex: 1,
                   },
                 ]}>

@@ -256,11 +256,11 @@ class ErrorModal extends React.PureComponent {
    * @param type: Past, Scheduled or Business
    * Responsible for updating the type of ride shown in the "Your rides" tab.
    */
-  updateYourRidesSHownOnes(type, parentNode) {
+  updateYourRidesSHownOnes(type) {
     this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
     this.props.UpdateType_rideShown_YourRides_screen(type);
     //Update the list of requests from the server
-    parentNode.fetchRequestedRequests_history(type);
+    this.props.App.fetchRequestedRequests_history(type);
   }
 
   /**
@@ -779,7 +779,7 @@ class ErrorModal extends React.PureComponent {
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() =>
-                this.props.detailToModify === undefined
+                this.props.App.detailToModify === undefined
                   ? this.props.UpdateUserGenderState('male')
                   : this.updateLocalStateNewPersonal_infos('gender', 'male')
               }
@@ -801,7 +801,7 @@ class ErrorModal extends React.PureComponent {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                this.props.detailToModify === undefined
+                this.props.App.detailToModify === undefined
                   ? this.props.UpdateUserGenderState('female')
                   : this.updateLocalStateNewPersonal_infos('gender', 'female')
               }
@@ -831,7 +831,7 @@ class ErrorModal extends React.PureComponent {
                 },
               ]}
               onPress={() =>
-                this.props.detailToModify === undefined
+                this.props.App.detailToModify === undefined
                   ? this.props.UpdateUserGenderState('unknown')
                   : this.updateLocalStateNewPersonal_infos('gender', 'unknown')
               }>
@@ -943,9 +943,7 @@ class ErrorModal extends React.PureComponent {
           </View>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
-              onPress={() =>
-                this.updateYourRidesSHownOnes('Past', this.props.parentNode)
-              }
+              onPress={() => this.updateYourRidesSHownOnes('Past')}
               style={[
                 styles.bttnGenericTc,
                 {
@@ -986,12 +984,7 @@ class ErrorModal extends React.PureComponent {
               ) : null}
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                this.updateYourRidesSHownOnes(
-                  'Scheduled',
-                  this.props.parentNode,
-                )
-              }
+              onPress={() => this.updateYourRidesSHownOnes('Scheduled')}
               style={[
                 styles.bttnGenericTc,
                 {
@@ -3229,21 +3222,21 @@ class ErrorModal extends React.PureComponent {
                       marginTop: 15,
                     },
                   ]}>
-                  {/^name$/i.test(this.props.detailToModify)
+                  {/^name$/i.test(this.props.App.detailToModify)
                     ? 'Change your name'
-                    : /^surname$/i.test(this.props.detailToModify)
+                    : /^surname$/i.test(this.props.App.detailToModify)
                     ? 'Change your surname'
-                    : /^gender$/i.test(this.props.detailToModify)
+                    : /^gender$/i.test(this.props.App.detailToModify)
                     ? 'Modify the gender'
-                    : /^phone$/i.test(this.props.detailToModify)
+                    : /^phone$/i.test(this.props.App.detailToModify)
                     ? 'Change your phone number'
-                    : /^email$/i.test(this.props.detailToModify)
+                    : /^email$/i.test(this.props.App.detailToModify)
                     ? 'Change your email'
                     : 'Oups try restarting the app.'}
                 </Text>
               </View>
               <View style={{padding: 20, flex: 1}}>
-                {/^name$/i.test(this.props.detailToModify) ? (
+                {/^name$/i.test(this.props.App.detailToModify) ? (
                   <TextInput
                     placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
@@ -3256,7 +3249,7 @@ class ErrorModal extends React.PureComponent {
                     }
                     onChangeText={(text) =>
                       this.updateLocalStateNewPersonal_infos(
-                        this.props.detailToModify,
+                        this.props.App.detailToModify,
                         text,
                       )
                     }
@@ -3271,7 +3264,7 @@ class ErrorModal extends React.PureComponent {
                       paddingBottom: 15,
                     }}
                   />
-                ) : /^surname$/i.test(this.props.detailToModify) ? (
+                ) : /^surname$/i.test(this.props.App.detailToModify) ? (
                   <TextInput
                     placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
@@ -3284,7 +3277,7 @@ class ErrorModal extends React.PureComponent {
                     }
                     onChangeText={(text) =>
                       this.updateLocalStateNewPersonal_infos(
-                        this.props.detailToModify,
+                        this.props.App.detailToModify,
                         text,
                       )
                     }
@@ -3299,7 +3292,7 @@ class ErrorModal extends React.PureComponent {
                       paddingBottom: 15,
                     }}
                   />
-                ) : /^gender$/i.test(this.props.detailToModify) ? (
+                ) : /^gender$/i.test(this.props.App.detailToModify) ? (
                   <TextInput
                     placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
@@ -3312,7 +3305,7 @@ class ErrorModal extends React.PureComponent {
                     }
                     onChangeText={(text) =>
                       this.updateLocalStateNewPersonal_infos(
-                        this.props.detailToModify,
+                        this.props.App.detailToModify,
                         text,
                       )
                     }
@@ -3327,9 +3320,9 @@ class ErrorModal extends React.PureComponent {
                       paddingBottom: 15,
                     }}
                   />
-                ) : /^phone$/i.test(this.props.detailToModify) ? (
+                ) : /^phone$/i.test(this.props.App.detailToModify) ? (
                   <PhoneNumberInput autoFocus={true} />
-                ) : /^email$/i.test(this.props.detailToModify) ? (
+                ) : /^email$/i.test(this.props.App.detailToModify) ? (
                   <TextInput
                     placeholderTextColor="#AFAFAF"
                     editable={!this.state.isLoading_something}
@@ -3342,7 +3335,7 @@ class ErrorModal extends React.PureComponent {
                     }
                     onChangeText={(text) =>
                       this.updateLocalStateNewPersonal_infos(
-                        this.props.detailToModify,
+                        this.props.App.detailToModify,
                         text,
                       )
                     }
@@ -3391,7 +3384,7 @@ class ErrorModal extends React.PureComponent {
                           ? {}
                           : this.updatePersonalInfos(
                               this.state.tmpString,
-                              this.props.detailToModify,
+                              this.props.App.detailToModify,
                             )
                       }
                       style={{
@@ -3519,7 +3512,7 @@ class ErrorModal extends React.PureComponent {
           }}>
           <Search
             showSimplified={true}
-            favoritePlace_label={this.props.favoritePlace_label}
+            favoritePlace_label={this.props.App.favoritePlace_label}
           />
         </SafeAreaView>
       );

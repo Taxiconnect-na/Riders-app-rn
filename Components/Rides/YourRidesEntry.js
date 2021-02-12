@@ -34,6 +34,12 @@ class YourRidesEntry extends React.PureComponent {
 
     //...
     this.pullRefreshRequest = this.pullRefreshRequest.bind(this);
+    this.fetchRequestedRequests_history = this.fetchRequestedRequests_history.bind(
+      this,
+    );
+    //? Save crucial functions to the global state for general access
+    this.props.App.fetchRequestedRequests_history = this.fetchRequestedRequests_history;
+    //?----
   }
 
   /**
@@ -231,9 +237,6 @@ class YourRidesEntry extends React.PureComponent {
           <View style={styles.mainWindow}>
             <StatusBar backgroundColor="#000" />
             <GenericLoader active={this.state.loaderState} thickness={4} />
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              ? this.renderError_modalView()
-              : null}
 
             {this.state.fetchingRides_Data === false ? (
               <RenderRequestsList

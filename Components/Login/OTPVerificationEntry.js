@@ -91,6 +91,7 @@ class OTPVerificationEntry extends React.PureComponent {
 
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
     this._navigatorEvent = null;
+    this._shoudAct = true; //Responsible for autolocking aut closing for the drawer navigator
 
     this.state = {
       loaderState: true,
@@ -107,6 +108,10 @@ class OTPVerificationEntry extends React.PureComponent {
       userAccountDetails: null, //Will hold the user details if already registered and assign them to the globals when the OTP is checked.
     };
     this.otpHandler = this.otpHandler.bind(this);
+
+    if (Platform.OS === 'ios') {
+      this.requestForOTP();
+    }
   }
 
   componentDidMount() {
@@ -119,9 +124,10 @@ class OTPVerificationEntry extends React.PureComponent {
           globalObject.state.smsHashLinker = result[0];
         } catch (error) {}
       });
-    Platform.OS === 'android'
-      ? this.initOTPListener()
-      : globalObject.requestForOTP();
+
+    if (Platform.OS === 'android') {
+      this.initOTPListener();
+    }
 
     //Add navigator listener
     this._navigatorEvent = globalObject.props.navigation.addListener(
@@ -252,18 +258,15 @@ class OTPVerificationEntry extends React.PureComponent {
      * CHECK OTP
      */
     this.props.App.socket.on('checkThisOTP_SMS-response', function (response) {
-      console.log(response);
       //! Reset otp value - to avoid loop hell
       globalObject.setState({otpValue: '', loaderState: false}); //Disable the loader
       //----
       if (response.response !== undefined) {
         if (response.response === true) {
-          console.log(/new_user/i.test(globalObject.state.userStatus));
           //true
           //Correct
           //Check the net navigation
           if (/new_user/i.test(globalObject.state.userStatus)) {
-            console.log('go to new screen');
             //Create new account
             globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home
@@ -296,7 +299,10 @@ class OTPVerificationEntry extends React.PureComponent {
               //....
               globalObject.state.accountCreation_state = 'full';
               //? Check the state of the account creation
-              globalObject.props.navigation.navigate('Home');
+              if (globalObject._shoudAct) {
+                globalObject._shoudAct = false;
+                globalObject.props.navigation.navigate('Home');
+              }
             } //Minimal account - go to complete details
             else {
               console.log(response);
@@ -341,6 +347,7 @@ class OTPVerificationEntry extends React.PureComponent {
   }
 
   componentWillUnmount() {
+    this._shoudAct = false;
     //Remove navigation event listener
     if (this._navigatorEvent !== false && this._navigatorEvent !== null) {
       //this._navigatorEvent();
@@ -450,6 +457,8 @@ class OTPVerificationEntry extends React.PureComponent {
           globalObject.setState({showSendAgain: true});
         }, 30000);
 
+        //Unlock the auto acter
+        this._shoudAct = true;
         //Has a final number
         this.props.App.socket.emit('sendOtpAndCheckerUserStatusTc', {
           phone_number: phoneNumber,
@@ -507,7 +516,7 @@ class OTPVerificationEntry extends React.PureComponent {
         error_status={
           this.props.App.generalErrorModal_vars.generalErrorModalType
         }
-        parentNode={this}
+        parentNode={null}
       />
     );
   }

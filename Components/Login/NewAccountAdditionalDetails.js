@@ -240,12 +240,6 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       //Good
       //Check the email
       if (EmailValidator(this.state.email)) {
-        console.log({
-          name: this.state.name,
-          email: this.state.email,
-          gender: this.props.App.gender_user,
-          user_fingerprint: this.props.App.user_fingerprint,
-        });
         //Good
         let user_fingerprint = this.props.App.user_fingerprint;
         if (user_fingerprint !== undefined && user_fingerprint !== null) {

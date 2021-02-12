@@ -726,7 +726,7 @@ class TopUpWalletScreen extends React.PureComponent {
 
                         color: '#333333',
                       }}>
-                      A VAT of 3.5% applies.
+                      A handling fee of 3.5% applies.
                     </Text>
                   </View>
                 </View>

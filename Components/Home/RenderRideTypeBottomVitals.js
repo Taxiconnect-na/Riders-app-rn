@@ -2636,38 +2636,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                         : this.props.App.bikesdeliveryNormal,
                                       vehicle.app_label,
                                     );
-                                    //Update icon and app label name for this vehicle
-                                    /*this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.iconCarSelected = /electricBikes/i.test(
-                                      vehicle.car_type,
-                                    )
-                                      ? this.props.App.bikesdeliveryElectric
-                                      : this.props.App.bikesdeliveryNormal; //update car icon
-                                    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.nameCarSelected =
-                                      vehicle.app_label; //Update car name label
-                                    //Pick this one
-                                    this.props.App.carTypeSelected =
-                                      vehicle.car_type;
-                                    //VERY IMPORTANT - UPDATE THE FARE
-                                    this.props.App.fareTripSelected =
-                                      vehicle.base_fare;
-                                    if (vehicle.car_type === 'electricBikes') {
-                                      this.props.App.colorCircleNormalTaxi =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeNormalTaxi =
-                                        '#000';
-                                      //Update the scales
-                                      this.props.App.scaleRideTypeNormalTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    } else if (vehicle.car_type === 'bikes') {
-                                      this.props.App.colorCircleElectricCar =
-                                        '#0D8691';
-                                      this.props.App.colorBannerRideTypeElectricCar =
-                                        '#000';
-                                      this.props.App.scaleRideTypeElectricTaxi = new AnimatedNative.Value(
-                                        1,
-                                      );
-                                    }*/
                                   }
                                 }
                                 return (

@@ -62,6 +62,7 @@ class RenderContentBottomVitals extends React.PureComponent {
 
     this.state = {
       pickupNote: '', //To hold the additional ride/delivery note
+      receiverName: '', //To hold the receiver's name information.
     };
   }
 
@@ -2668,16 +2669,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                     state: false,
                   })
                 }
-                onChangeText={(text) =>
-                  this.props.UpdateReceiverNameOnType(text)
-                }
-                value={
-                  this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                    .receiverName === false
-                    ? ''
-                    : this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                        .receiverName
-                }
+                onChangeText={(text) => {
+                  this.setState({receiverName: text});
+                  this.props.UpdateReceiverNameOnType(text);
+                }}
+                value={this.state.receiverName}
                 style={[
                   {
                     borderBottomWidth: 1.5,
@@ -2730,7 +2726,8 @@ class RenderContentBottomVitals extends React.PureComponent {
                           : 'Uber Move Text',
                     },
                   ]}>
-                  The receiver track in real-time the delivery of the package.
+                  The receiver can track the delivery of the package in
+                  real-time.
                 </Text>
               </View>
               {this.props.App.renderCountryCodeSeacher === false ? (

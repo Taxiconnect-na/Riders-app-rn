@@ -58,7 +58,7 @@ class PayDriverConfirmation extends React.PureComponent {
                   marginBottom: 20,
                 },
               ]}>
-              You are about to send money to a friend or family.
+              You are about to send cab fare.
             </Text>
 
             <View style={{flex: 1}}>
@@ -180,8 +180,7 @@ class PayDriverConfirmation extends React.PureComponent {
                     flex: 1,
                   },
                 ]}>
-                There will be no VAT or operational charges deducted, every
-                transaction is free.
+                There will be no handling charges deducted.
               </Text>
             </View>
 

@@ -33,7 +33,6 @@ class SupportEntry extends React.PureComponent {
     }
     //...
     if (this.backListener !== null) {
-      Platform.OS === 'android' && this.backListener.remove();
       this.backListener = null;
     }
   }

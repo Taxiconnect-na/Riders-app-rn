@@ -61,6 +61,7 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 import SyncStorage from 'sync-storage';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
+const io = require('socket.io-client');
 //DEBUG
 //import {ROUTE} from './Route';
 const INIT_ZOOM_LEVEL = 0.384695086717085;
@@ -160,7 +161,7 @@ class Home extends React.PureComponent {
                   },
                   {
                     enableHighAccuracy: true,
-                    timeout: 7000,
+                    timeout: 2000,
                     maximumAge: 1000,
                     distanceFilter: 3,
                   },
@@ -199,7 +200,7 @@ class Home extends React.PureComponent {
                   },
                   {
                     enableHighAccuracy: true,
-                    timeout: 5000,
+                    timeout: 2000,
                     maximumAge: 10000,
                     distanceFilter: 3,
                   },
@@ -460,9 +461,6 @@ class Home extends React.PureComponent {
                   this.props.App.latitude === 0 ||
                   this.props.App.longitude === 0
                 ) {
-                  console.log(
-                    `at ZERO with -> lat: ${globalObject.props.App.latitude}, lng: ${globalObject.props.App.longitude}`,
-                  );
                   if (/off the map/i.test(this.props.App.hello2Text)) {
                     globalObject.replaceHello2_text(
                       `Hi ${this.props.App.username}`,
@@ -552,9 +550,6 @@ class Home extends React.PureComponent {
                     ) {
                       if (mapZoom > 18) {
                         InteractionManager.runAfterInteractions(() => {
-                          console.log(
-                            `Recalibrate with -> lat: ${globalObject.props.App.latitude}, lng: ${globalObject.props.App.longitude}`,
-                          );
                           globalObject.recalibrateMap();
                         });
                       }
@@ -573,7 +568,6 @@ class Home extends React.PureComponent {
             }
           })
           .catch((error) => {
-            console.log(error);
             // …
             //Permission denied, update gprs global vars and lock the platform
             newStateVars.hasGPRSPermissions = false;
@@ -602,6 +596,17 @@ class Home extends React.PureComponent {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
             if (globalObject.props.App.socket.connected !== true) {
+              let nodeURL = 'http://192.168.43.44:9097';
+              //...
+              let socket = io(nodeURL, {
+                transports: ['websocket', 'polling'],
+                reconnection: true,
+                reconnectionAttempts: Infinity,
+                reconnectionDelay: 900,
+                reconnectionDelayMax: 100,
+                'force new connection': true,
+              });
+              globalObject.props.App.socket = socket;
               globalObject.props.App.socket.connect();
               globalObject.props.App.isSocketConnected =
                 globalObject.props.App.socket.connected;
@@ -779,16 +784,9 @@ class Home extends React.PureComponent {
       }
     });
 
-    this.props.App.socket.on('error', () => {
-      console.log('error');
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('disconnect', () => {
-      console.log('disconnect');
-      globalObject.props.App.socket.connect();
-    });
+    this.props.App.socket.on('error', () => {});
+    this.props.App.socket.on('disconnect', () => {});
     this.props.App.socket.on('connect_error', () => {
-      console.log('connect error');
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
@@ -800,23 +798,11 @@ class Home extends React.PureComponent {
           'any',
         );
       }
-      globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('connect_timeout', () => {
-      console.log('timeout');
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect', () => {
-      console.log('reconnect');
-    });
-    this.props.App.socket.on('reconnect_error', () => {
-      console.log('recconnect error');
-      globalObject.props.App.socket.connect();
-    });
-    this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect failed');
-      globalObject.props.App.socket.connect();
-    });
+    this.props.App.socket.on('connect_timeout', () => {});
+    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect_error', () => {});
+    this.props.App.socket.on('reconnect_failed', () => {});
 
     //Bind the requests interval persister
     this.bindRequest_findFetcher();
@@ -939,7 +925,6 @@ class Home extends React.PureComponent {
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
           globalObject.props.App.isRideInProgress === false
         ) {
-          console.log('Resetted');
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
           //Reset
           globalObject._RESET_STATE();
@@ -1220,7 +1205,6 @@ class Home extends React.PureComponent {
           let testReg = new RegExp(response.request_status, 'i');
           if (testReg.test(globalObject.props.App.request_status) === false) {
             if (globalObject.props.App.request_status !== null) {
-              console.log('LEAK!');
               globalObject._RESET_STATE();
             }
             //...
@@ -3313,13 +3297,11 @@ class Home extends React.PureComponent {
             this.props.App.bottomVitalsFlow.currentStep,
           ) ? (
             this.props.App.isKeyboardShown ? (
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+              <KeyboardAvoidingView behavior={'padding'}>
                 <RenderBottomVital parentNode={this} />
               </KeyboardAvoidingView>
             ) : (
-              <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+              <KeyboardAvoidingView behavior={'padding'}>
                 <RenderBottomVital parentNode={this} />
               </KeyboardAvoidingView>
             )
