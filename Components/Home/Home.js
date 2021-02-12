@@ -596,7 +596,7 @@ class Home extends React.PureComponent {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
             if (globalObject.props.App.socket.connected !== true) {
-              let nodeURL = 'http://192.168.43.44:9097';
+              let nodeURL = 'http://taxiconnectna.com:9097';
               //...
               let socket = io(nodeURL, {
                 transports: ['websocket', 'polling'],

@@ -16,9 +16,7 @@ import {
   UpdateErrorModalLog,
   UpdateRides_history_YourRides_tab,
 } from '../Redux/HomeActionsCreators';
-import ErrorModal from '../Helpers/ErrorModal';
 import GenericLoader from '../Modules/GenericLoader/GenericLoader';
-import NetInfo from '@react-native-community/netinfo';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFeather from 'react-native-vector-icons/Feather';
@@ -62,26 +60,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     ) {
       this.props.navigation.navigate('YourRidesEntry');
     }
-
-    //Network state checker
-    this.state.networkStateChecker = NetInfo.addEventListener((state) => {
-      if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
-          state.isConnected,
-          'connection_no_network',
-          state.type,
-        );
-        globalObject.setState({loaderState: false});
-      } //connected
-      else {
-        if (
-          globalObject.props.App.generalErrorModal_vars
-            .showErrorGeneralModal !== false
-        ) {
-          globalObject.props.UpdateErrorModalLog(false, false, state.type);
-        }
-      }
-    });
 
     /**
      * SOCKET.IO RESPONSES
@@ -267,22 +245,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     this.fetchRequestedRequests_history();
   }
 
-  /**
-   * @func renderError_modalView
-   * Responsible for rendering the modal view only once.
-   */
-  renderError_modalView() {
-    return (
-      <ErrorModal
-        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
-        error_status={
-          this.props.App.generalErrorModal_vars.generalErrorModalType
-        }
-        parentNode={this}
-      />
-    );
-  }
-
   render() {
     if (this.state.detailed_requestData.driver_details === undefined) {
       <ScrollView
@@ -313,10 +275,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
         {this.state.loaderState ? (
           <GenericLoader active={this.state.loaderState} thickness={4} />
         ) : null}
-
-        {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-          ? this.renderError_modalView()
-          : null}
 
         {this.state.fetchingRides_Data === false ? (
           this.state.areResultsEmpty === false &&
@@ -706,8 +664,8 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'UberMoveTextRegular'
-                            : 'Uber Move Text',
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
                         fontSize: RFValue(20),
                         color: '#09864A',
                         flex: 1,

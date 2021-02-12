@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {View, Text, StyleSheet, Image, Platform} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import FastImage from 'react-native-fast-image';
 
 class HeaderDrawerContent extends React.PureComponent {
   constructor(props) {
@@ -29,43 +30,32 @@ class HeaderDrawerContent extends React.PureComponent {
 
             elevation: 10,
           }}>
-          <Image
-            source={
-              this.props.App.user_profile_pic !== undefined &&
-              this.props.App.user_profile_pic !== null
-                ? {
-                    uri: this.props.App.user_profile_pic,
-                    cache: 'reload',
-                  }
-                : require('../Media_assets/Images/user.png')
-            }
-            style={{
-              resizeMode:
-                this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null &&
-                !/user\.png/i.test(this.props.App.user_profile_pic)
-                  ? 'cover'
-                  : 'contain',
-              width:
-                this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null &&
-                !/user\.png/i.test(this.props.App.user_profile_pic)
-                  ? '100%'
-                  : '60%',
-              height:
-                this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null &&
-                !/user\.png/i.test(this.props.App.user_profile_pic)
-                  ? '100%'
-                  : '80%',
-              borderRadius:
-                this.props.App.user_profile_pic !== undefined &&
-                this.props.App.user_profile_pic !== null &&
-                !/user\.png/i.test(this.props.App.user_profile_pic)
-                  ? 200
-                  : 0,
-            }}
-          />
+          {this.props.App.user_profile_pic !== undefined &&
+          this.props.App.user_profile_pic !== null &&
+          !/user\.png/i.test(this.props.App.user_profile_pic) ? (
+            <FastImage
+              source={{
+                uri: this.props.App.user_profile_pic,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.cover}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 150,
+              }}
+            />
+          ) : (
+            <Image
+              source={require('../Media_assets/Images/user.png')}
+              style={{
+                resizeMode: 'contain',
+                width: '60%',
+                height: '80%',
+                borderRadius: 0,
+              }}
+            />
+          )}
         </View>
         <View style={{flex: 1}}>
           <Text

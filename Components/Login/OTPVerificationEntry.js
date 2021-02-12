@@ -91,7 +91,6 @@ class OTPVerificationEntry extends React.PureComponent {
 
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
     this._navigatorEvent = null;
-    this._shoudAct = true; //Responsible for autolocking aut closing for the drawer navigator
 
     this.state = {
       loaderState: true,
@@ -299,10 +298,7 @@ class OTPVerificationEntry extends React.PureComponent {
               //....
               globalObject.state.accountCreation_state = 'full';
               //? Check the state of the account creation
-              if (globalObject._shoudAct) {
-                globalObject._shoudAct = false;
-                globalObject.props.navigation.navigate('Home');
-              }
+              globalObject.props.navigation.navigate('Home');
             } //Minimal account - go to complete details
             else {
               console.log(response);
@@ -347,7 +343,6 @@ class OTPVerificationEntry extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this._shoudAct = false;
     //Remove navigation event listener
     if (this._navigatorEvent !== false && this._navigatorEvent !== null) {
       //this._navigatorEvent();
@@ -457,8 +452,6 @@ class OTPVerificationEntry extends React.PureComponent {
           globalObject.setState({showSendAgain: true});
         }, 30000);
 
-        //Unlock the auto acter
-        this._shoudAct = true;
         //Has a final number
         this.props.App.socket.emit('sendOtpAndCheckerUserStatusTc', {
           phone_number: phoneNumber,
