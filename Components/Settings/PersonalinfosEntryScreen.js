@@ -192,7 +192,8 @@ class PersonalinfosEntryScreen extends React.PureComponent {
           />
         ) : null}
 
-        {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+        {Platform.OS === 'ios' &&
+        this.props.App.generalErrorModal_vars.showErrorGeneralModal
           ? this.renderError_modalView()
           : null}
 

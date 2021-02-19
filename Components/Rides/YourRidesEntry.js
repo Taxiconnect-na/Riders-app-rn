@@ -235,7 +235,8 @@ class YourRidesEntry extends React.PureComponent {
       <>
         {this._isMounted ? (
           <View style={styles.mainWindow}>
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+            {Platform.OS === 'ios' &&
+            this.props.App.generalErrorModal_vars.showErrorGeneralModal
               ? this.renderError_modalView()
               : null}
             <StatusBar backgroundColor="#000" />

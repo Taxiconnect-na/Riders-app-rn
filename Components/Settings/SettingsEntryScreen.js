@@ -291,7 +291,8 @@ class SettingsEntryScreen extends React.Component {
       <>
         {this._isMounted ? (
           <SafeAreaView style={styles.mainWindow}>
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+            {Platform.OS === 'ios' &&
+            this.props.App.generalErrorModal_vars.showErrorGeneralModal
               ? this.renderError_modalView()
               : null}
             {this.state.showNotifiyer ? (
