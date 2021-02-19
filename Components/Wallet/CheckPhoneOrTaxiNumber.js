@@ -385,7 +385,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                               lineHeight: 23,
                             }}>
                             Sorry it looks like you are trying to make this
-                            transaction to yourslef, you cannot perform this
+                            transaction to yourself, you cannot perform this
                             kind of action, please visit the{' '}
                             <Text style={{fontWeight: 'bold'}}>
                               Support Tab

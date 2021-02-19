@@ -144,8 +144,8 @@ class SendFundsEntry extends React.PureComponent {
                           lineHeight: RFValue(17),
                           paddingRight: 10,
                         }}>
-                        Send rides or delivery credits to your friends and
-                        family instantly and hustle free.
+                        Send rides or delivery fare to your friends and family
+                        instantly and hustle free.
                       </Text>
                     </View>
                   </View>
