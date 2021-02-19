@@ -34,12 +34,12 @@ class TransactionFinalReport extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
     }
     if (this._navigatorEvent !== undefined && this._navigatorEvent !== null) {
       this._navigatorEvent();
-    }
+    }*/
   }
 
   componentDidMount() {
@@ -245,7 +245,7 @@ class TransactionFinalReport extends React.PureComponent {
                           ? 'UberMoveTextLight'
                           : 'Uber Move Text Light',
                     }}>
-                    All transactions are instantly and VAT free.
+                    All transactions are instantly and free of charge.
                   </Text>
                 </View>
               ) : this.state.hasFoundSomeErrors === false ? (

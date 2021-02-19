@@ -26,14 +26,14 @@ class SendFundsEntry extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
     }
     //..
     if (this._navigatorEvent !== null) {
       this._navigatorEvent();
       this._navigatorEvent = null;
-    }
+    }*/
   }
 
   componentDidMount() {

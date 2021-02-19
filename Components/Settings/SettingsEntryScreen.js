@@ -23,6 +23,7 @@ import Notifiyer from '../Helpers/Notifiyer';
 import SyncStorage from 'sync-storage';
 import FastImage from 'react-native-fast-image';
 import {RFValue} from 'react-native-responsive-fontsize';
+import ErrorModal from '../Helpers/ErrorModal';
 
 class SettingsEntryScreen extends React.Component {
   constructor(props) {
@@ -134,13 +135,13 @@ class SettingsEntryScreen extends React.Component {
   componentWillUnmount() {
     this._isMounted = false; //! MARK AS UNMOUNTED
     //...
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
     }
     //...
     if (this.backListener !== null) {
       this.backListener = null;
-    }
+    }*/
   }
 
   /**
@@ -270,11 +271,29 @@ class SettingsEntryScreen extends React.Component {
     this.props.App.socket.emit('updateRiders_profileInfos_io', bundleData);
   }
 
+  /**
+   * @func renderError_modalView
+   * Responsible for rendering the modal view only once.
+   */
+  renderError_modalView() {
+    return (
+      <ErrorModal
+        active={this.props.App.generalErrorModal_vars.showErrorGeneralModal}
+        error_status={
+          this.props.App.generalErrorModal_vars.generalErrorModalType
+        }
+      />
+    );
+  }
+
   render() {
     return (
       <>
         {this._isMounted ? (
           <SafeAreaView style={styles.mainWindow}>
+            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+              ? this.renderError_modalView()
+              : null}
             {this.state.showNotifiyer ? (
               <Notifiyer
                 active={this.state.showNotifiyer}

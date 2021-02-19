@@ -1480,7 +1480,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_RIDE_TYPES_SCALES':
       //check the ride category
-      if (action.payload.rideType === 'normalTaxiEconomy') {
+      if (
+        action.payload.rideType === 'normalTaxiEconomy' ||
+        action.payload.rideType === 'electricBikes'
+      ) {
         newState.carTypeSelected = action.payload.rideType;
         newState.colorCircleNormalTaxi = '#0D8691';
         newState.colorBannerRideTypeNormalTaxi = '#000';
@@ -1507,7 +1510,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.scaleRideTypeElectricLuxuryTaxi = new Animated.Value(0.9);
         //VERY IMPORTANT - UPDATE THE FARE
         newState.fareTripSelected = action.payload.fare;
-      } else if (action.payload.rideType === 'electricEconomy') {
+      } else if (
+        action.payload.rideType === 'electricEconomy' ||
+        action.payload.rideType === 'bikes'
+      ) {
         newState.carTypeSelected = action.payload.rideType;
         newState.colorCircleNormalTaxi = '#a2a2a2';
         newState.colorBannerRideTypeNormalTaxi = '#a2a2a2';
@@ -1534,7 +1540,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.scaleRideTypeElectricLuxuryTaxi = new Animated.Value(0.9);
         //VERY IMPORTANT - UPDATE THE FARE
         newState.fareTripSelected = action.payload.fare;
-      } else if (action.payload.rideType === 'comfortNormalRide') {
+      } else if (
+        action.payload.rideType === 'comfortNormalRide' ||
+        action.payload.rideType === 'carDelivery'
+      ) {
         newState.carTypeSelected = action.payload.rideType;
         newState.colorCircleNormalTaxi = '#a2a2a2';
         newState.colorBannerRideTypeNormalTaxi = '#a2a2a2';
@@ -1561,7 +1570,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.scaleRideTypeElectricLuxuryTaxi = new Animated.Value(0.9);
         //VERY IMPORTANT - UPDATE THE FARE
         newState.fareTripSelected = action.payload.fare;
-      } else if (action.payload.rideType === 'comfortElectricRide') {
+      } else if (
+        action.payload.rideType === 'comfortElectricRide' ||
+        action.payload.rideType === 'vanDelivery'
+      ) {
         newState.carTypeSelected = action.payload.rideType;
         newState.colorCircleNormalTaxi = '#a2a2a2';
         newState.colorBannerRideTypeNormalTaxi = '#a2a2a2';

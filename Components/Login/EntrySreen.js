@@ -130,9 +130,9 @@ class EntryScreen extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.backListener !== null) {
+    /*if (this.backListener !== null) {
       this.backListener = null;
-    }
+    }*/
   }
 
   render() {

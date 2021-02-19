@@ -344,10 +344,10 @@ class OTPVerificationEntry extends React.PureComponent {
 
   componentWillUnmount() {
     //Remove navigation event listener
-    if (this._navigatorEvent !== false && this._navigatorEvent !== null) {
+    /*if (this._navigatorEvent !== false && this._navigatorEvent !== null) {
       //this._navigatorEvent();
       this._navigatorEvent = null;
-    }
+    }*/
     //Remove the network state listener
     if (this.state.networkStateChecker !== false) {
       this.state.networkStateChecker();

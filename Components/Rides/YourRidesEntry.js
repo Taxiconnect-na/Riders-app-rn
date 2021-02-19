@@ -172,9 +172,9 @@ class YourRidesEntry extends React.PureComponent {
       this._navigatorEvent();
     }
     //...
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
-    }
+    }*/
   }
 
   /**

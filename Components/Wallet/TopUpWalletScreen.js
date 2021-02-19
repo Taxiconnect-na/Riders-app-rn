@@ -178,14 +178,14 @@ class TopUpWalletScreen extends React.PureComponent {
   componentWillUnmount() {
     //Kill network's event listener
     this.eventNetworkSwitch();
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
     }
     //.
     if (this._navigatorEvent !== null) {
       this._navigatorEvent();
       this._navigatorEvent = null;
-    }
+    }*/
   }
 
   /**

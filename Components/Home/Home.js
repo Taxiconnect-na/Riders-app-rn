@@ -1522,9 +1522,9 @@ class Home extends React.PureComponent {
       this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
     }
     //...
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
-    }
+    }*/
     //Clear the location watcher
     GeolocationP.clearWatch(this.props.App._MAIN_LOCATION_WATCHER);
     this.props.App._MAIN_LOCATION_WATCHER = null;

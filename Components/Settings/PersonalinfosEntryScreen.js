@@ -139,9 +139,9 @@ class PersonalinfosEntryScreen extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
-    }
+    }*/
   }
 
   /**

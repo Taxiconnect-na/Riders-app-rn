@@ -62,10 +62,10 @@ class SendFundsFriendInputNumber extends React.PureComponent {
 
   componentWillUnmount() {
     this._isMounted = false;
-    if (this._navigatorEvent !== null) {
+    /*if (this._navigatorEvent !== null) {
       this._navigatorEvent();
       this._navigatorEvent = null;
-    }
+    }*/
   }
 
   render() {

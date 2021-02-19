@@ -33,14 +33,14 @@ class WalletEntry extends React.PureComponent {
   componentWillUnmount() {
     this._isMounted = false; //! MARK AS UNMOUNTED
     //...
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
     }
     //...
     if (this._navigatorEvent != null) {
       this._navigatorEvent();
       this._navigatorEvent = null;
-    }
+    }*/
   }
 
   componentDidMount() {

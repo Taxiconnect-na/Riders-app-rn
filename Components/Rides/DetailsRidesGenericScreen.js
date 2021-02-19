@@ -126,9 +126,9 @@ class DetailsRidesGenericScreen extends React.PureComponent {
       this.state.networkStateChecker();
     }
     //...
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
-    }
+    }*/
   }
 
   /**

@@ -28,13 +28,13 @@ class SupportEntry extends React.PureComponent {
   componentWillUnmount() {
     this._isMounted = false; //! MARK AS UNMMOUNTED
     //...
-    if (this.backHander !== null) {
+    /*if (this.backHander !== null) {
       this.backHander.remove();
     }
     //...
     if (this.backListener !== null) {
       this.backListener = null;
-    }
+    }*/
   }
 
   componentDidMount() {

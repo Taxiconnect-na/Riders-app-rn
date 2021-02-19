@@ -339,6 +339,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
       //Electric
       this.props.App.colorCircleElectricLuxuryCar = '#a2a2a2';
       this.props.App.colorBannerRideTypeElectricLuxuryCar = '#a2a2a2';
+
       //...
       //VERY IMPORTANT - UPDATE THE FARE
       this.props.App.fareTripSelected = fare;
