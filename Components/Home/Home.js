@@ -3209,7 +3209,7 @@ class Home extends React.PureComponent {
             style={{
               position: 'absolute',
               width: 100,
-              top: 20,
+              top: Platform.OS === 'android' ? 20 : 40,
               left: 20,
             }}>
             <TouchableOpacity
@@ -3243,7 +3243,7 @@ class Home extends React.PureComponent {
             width: 100,
             flexDirection: 'row',
             alignItems: 'center',
-            top: 20,
+            top: Platform.OS === 'android' ? 20 : 40,
             left: 20,
           }}>
           {this.props.App.bottomVitalsFlow.canGoBack &&
