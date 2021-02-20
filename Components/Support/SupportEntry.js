@@ -41,20 +41,26 @@ class SupportEntry extends React.PureComponent {
     let globalObject = this;
     this._isMounted = true;
 
-    this.backListener = this.backHander = BackHandler.addEventListener(
-      'hardwareBackPress',
-      function () {
-        globalObject.props.navigation.navigate('Home_drawer');
-        return true;
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = this.props.navigation.addListener(
+      'focus',
+      () => {
+        globalObject.backListener = globalObject.backHander = BackHandler.addEventListener(
+          'hardwareBackPress',
+          function () {
+            globalObject.props.navigation.navigate('Home_drawer');
+            return true;
+          },
+        );
+        //Add home going back handler-----------------------------
+        globalObject.props.navigation.addListener('beforeRemove', (e) => {
+          // Prevent default behavior of leaving the screen
+          e.preventDefault();
+          globalObject.props.navigation.navigate('Home_drawer');
+          return;
+        });
       },
     );
-    //Add home going back handler-----------------------------
-    this.props.navigation.addListener('beforeRemove', (e) => {
-      // Prevent default behavior of leaving the screen
-      e.preventDefault();
-      globalObject.props.navigation.navigate('Home_drawer');
-      return;
-    });
     //--------------------------------------------------------
   }
 

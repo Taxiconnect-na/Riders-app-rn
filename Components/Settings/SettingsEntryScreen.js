@@ -49,22 +49,28 @@ class SettingsEntryScreen extends React.Component {
     let globalObject = this;
     this._isMounted = true;
 
-    //Add home going back handler-----------------------------
-    this.backListener = this.props.navigation.addListener(
-      'beforeRemove',
-      (e) => {
-        // Prevent default behavior of leaving the screen
-        e.preventDefault();
-        globalObject.props.navigation.navigate('Home_drawer');
-        return;
-      },
-    );
-    //--------------------------------------------------------
-    this.backHander = BackHandler.addEventListener(
-      'hardwareBackPress',
-      function () {
-        globalObject.props.navigation.navigate('Home_drawer');
-        return true;
+    //? Add navigator listener - auto clean on focus
+    globalObject._navigatorEvent = this.props.navigation.addListener(
+      'focus',
+      () => {
+        //Add home going back handler-----------------------------
+        globalObject.backListener = globalObject.props.navigation.addListener(
+          'beforeRemove',
+          (e) => {
+            // Prevent default behavior of leaving the screen
+            e.preventDefault();
+            globalObject.props.navigation.navigate('Home_drawer');
+            return;
+          },
+        );
+        //--------------------------------------------------------
+        globalObject.backHander = BackHandler.addEventListener(
+          'hardwareBackPress',
+          function () {
+            globalObject.props.navigation.navigate('Home_drawer');
+            return true;
+          },
+        );
       },
     );
 
