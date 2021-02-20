@@ -2144,6 +2144,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         width: '100%',
                         height: '100%',
                         padding: 15,
+                        paddingTop: Platform.OS === 'android' ? 15 : 20,
                         fontSize: RFValue(17),
                         backgroundColor: '#EEEEEE',
                         fontFamily:
@@ -2625,6 +2626,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               backgroundColor: '#fff',
               flex: 1,
               padding: 20,
+              paddingTop: Platform.OS === 'android' ? 20 : '10%',
               opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
               transform: [
                 {
@@ -2679,6 +2681,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                     borderBottomWidth: 1.5,
                     fontSize: RFValue(19),
                     paddingLeft: 0,
+                    paddingBottom: 5,
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextRegular'
@@ -2719,15 +2722,15 @@ class RenderContentBottomVitals extends React.PureComponent {
                   style={[
                     {
                       fontSize: RFValue(13),
-                      marginLeft: 6,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextLight'
+                          ? 'UberMoveTextRegular'
                           : 'Uber Move Text',
                     },
                   ]}>
-                  The receiver can track the delivery of the package in
-                  real-time.
+                  The <Text style={{color: '#0e8491'}}>receiver can track</Text>{' '}
+                  the delivery of the package{' '}
+                  <Text style={{color: '#0e8491'}}>in real-time</Text>.
                 </Text>
               </View>
               {this.props.App.renderCountryCodeSeacher === false ? (
@@ -2763,6 +2766,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               backgroundColor: '#fff',
               flex: 1,
               padding: 20,
+              paddingTop: Platform.OS === 'android' ? 20 : '10%',
               opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
               transform: [
                 {
@@ -2849,11 +2853,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(18),
+                        fontSize: RFValue(17),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
                             : 'Uber Move Text Medium',
+                        color: /envelope/i.test(
+                          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                            .selectedPackageSize,
+                        )
+                          ? '#0D8691'
+                          : '#000',
                       },
                     ]}>
                     Small package
@@ -2946,11 +2956,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(18),
+                        fontSize: RFValue(17),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
                             : 'Uber Move Text Medium',
+                        color: /small/i.test(
+                          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                            .selectedPackageSize,
+                        )
+                          ? '#0D8691'
+                          : '#000',
                       },
                     ]}>
                     Medium package
@@ -3043,11 +3059,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                   <Text
                     style={[
                       {
-                        fontSize: RFValue(18),
+                        fontSize: RFValue(17),
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
                             : 'Uber Move Text Medium',
+                        color: /large/i.test(
+                          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                            .selectedPackageSize,
+                        )
+                          ? '#0D8691'
+                          : '#000',
                       },
                     ]}>
                     Large package
@@ -3099,15 +3121,17 @@ class RenderContentBottomVitals extends React.PureComponent {
                 style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                 <Text
                   style={{
-                    fontSize: RFValue(14),
-                    marginLeft: 6,
+                    fontSize: RFValue(13),
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextRegular'
                         : 'Uber Move Text',
                   }}>
-                  Select the right package size for a better delivery handling
-                  experience.
+                  Select the right package size for a{' '}
+                  <Text style={{color: '#0e8491'}}>
+                    better delivery handling experience
+                  </Text>
+                  .
                 </Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}>

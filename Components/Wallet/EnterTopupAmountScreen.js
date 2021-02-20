@@ -289,8 +289,7 @@ class SendFundsInputAmount extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(14),
-                      marginLeft: 6,
+                      fontSize: RFValue(13),
                       lineHeight: 18,
                       color: '#141414',
                       fontFamily:
@@ -300,7 +299,9 @@ class SendFundsInputAmount extends React.PureComponent {
                     },
                   ]}>
                   Your{' '}
-                  <Text style={{fontWeight: 'bold'}}>purchased voucher</Text>{' '}
+                  <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
+                    purchased voucher
+                  </Text>{' '}
                   will be automatically toped-up.
                 </Text>
               </View>

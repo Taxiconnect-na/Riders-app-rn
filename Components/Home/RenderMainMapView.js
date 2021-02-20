@@ -57,6 +57,7 @@ const AnnotationPickup = ({title}) => (
         style={{
           flexDirection: 'row',
           alignItems: 'center',
+          justifyContent: 'center',
           paddingLeft: 5,
           paddingRight: 5,
           flex: 1,
@@ -145,14 +146,13 @@ const AnnotationDestination = ({title, etaInfos, showSuffix}) => (
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            paddingLeft: 5,
             paddingRight: 5,
             flex: 1,
           }}>
           <Text
             style={[
               {
-                fontSize: RFValue(13),
+                fontSize: RFValue(12),
                 fontFamily:
                   Platform.OS === 'android'
                     ? 'UberMoveTextRegular'
@@ -226,15 +226,27 @@ class RenderMainMapView extends React.PureComponent {
           if (toNEDistance > toSWDistance) {
             //The point is closer to the SW bound
             if (label === 'destination') {
-              this.props.App.previewDestinationData.destinationAnchor = {
-                x: 1,
-                y: 0.4,
-              };
+              this.props.App.previewDestinationData.destinationAnchor =
+                Platform.OS === 'android'
+                  ? {
+                      x: 1,
+                      y: 0.4,
+                    }
+                  : {
+                      x: 0,
+                      y: 0.4,
+                    };
             } else {
-              this.props.App.previewDestinationData.originAnchor = {
-                x: 1,
-                y: 0.4,
-              };
+              this.props.App.previewDestinationData.originAnchor =
+                Platform.OS === 'android'
+                  ? {
+                      x: 1,
+                      y: 0.4,
+                    }
+                  : {
+                      x: 1.5,
+                      y: 0.4,
+                    };
             }
           } //The point is closer to the NE bound
           else {

@@ -1195,6 +1195,7 @@ const styles = StyleSheet.create({
   mainWindow: {
     flex: 1,
     backgroundColor: 'transparent',
+    paddingTop: Platform.OS === 'android' ? 0 : '10%',
   },
   backArrowHeaderSearch: {
     width: 50,
@@ -1215,7 +1216,7 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 15,
     paddingBottom: 0,
-    borderBottomColor: '#fff',
+    borderBottomColor: Platform.OS === 'android' ? '#fff' : '#d0d0d0',
     backgroundColor: '#fff',
     shadowColor: '#707070',
     shadowOffset: {

@@ -575,7 +575,7 @@ class TopUpWalletScreen extends React.PureComponent {
             style={{
               flex: 1,
               padding: 20,
-              paddingTop: 10,
+              paddingTop: Platform.OS === 'android' ? 10 : '10%',
               paddingLeft: 0,
               paddingRight: 0,
             }}>
@@ -726,7 +726,7 @@ class TopUpWalletScreen extends React.PureComponent {
 
                         color: '#333333',
                       }}>
-                      A handling fee of 3.5% applies.
+                      A handling fee of 3.5% applies
                     </Text>
                   </View>
                 </View>

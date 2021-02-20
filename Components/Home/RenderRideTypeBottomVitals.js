@@ -1188,12 +1188,16 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               top: /RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
                 ? 0
                 : 6,
-              borderTopLeftRadius: 169,
+              borderTopLeftRadius: Platform.OS === 'android' ? 169 : 200,
               borderBottomLeftRadius: /^bikes$/i.test(
                 this.props.App.carTypeSelected,
               )
-                ? 90
-                : 170,
+                ? Platform.OS === 'android'
+                  ? 90
+                  : 200
+                : Platform.OS === 'android'
+                ? 170
+                : 200,
               resizeMode: 'contain',
             }}
           />
@@ -2060,13 +2064,21 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             borderTopLeftRadius: /comfortNormalRide/i.test(
                                               vehicle.car_type,
                                             )
-                                              ? 169
-                                              : 179,
+                                              ? Platform.OS === 'android'
+                                                ? 169
+                                                : 200
+                                              : Platform.OS === 'android'
+                                              ? 179
+                                              : 200,
                                             borderBottomLeftRadius: /comfortNormalRide/i.test(
                                               vehicle.car_type,
                                             )
-                                              ? 170
-                                              : 175,
+                                              ? Platform.OS === 'android'
+                                                ? 170
+                                                : 200
+                                              : Platform.OS === 'android'
+                                              ? 175
+                                              : 195,
                                             resizeMode: 'contain',
                                           }}
                                         />
@@ -2736,6 +2748,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             )
                                               ? 150
                                               : 40,
+                                            borderBottomLeftRadius: /electricBikes/i.test(
+                                              vehicle.car_type,
+                                            )
+                                              ? 150
+                                              : Platform.OS === 'android'
+                                              ? 40
+                                              : 10,
                                             top: 5,
                                             resizeMode: 'contain',
                                           }}
@@ -2980,12 +2999,16 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                             borderTopLeftRadius: /carDelivery/i.test(
                                               vehicle.car_type,
                                             )
-                                              ? 169
+                                              ? Platform.OS === 'android'
+                                                ? 169
+                                                : 210
                                               : 179,
                                             borderBottomLeftRadius: /carDelivery/i.test(
                                               vehicle.car_type,
                                             )
-                                              ? 170
+                                              ? Platform.OS === 'android'
+                                                ? 170
+                                                : 210
                                               : 175,
                                             resizeMode: 'contain',
                                           }}
@@ -3340,6 +3363,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     fontSize: RFValue(19),
                     padding: 15,
                     paddingLeft: 0,
+                    paddingTop: 0,
+                    paddingBottom: 5,
                     height: 50,
                     fontFamily:
                       Platform.OS === 'android'

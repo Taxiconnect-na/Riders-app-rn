@@ -264,8 +264,8 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
                             fontSize: RFValue(22),
                             fontFamily:
                               Platform.OS === 'android'
-                                ? 'MoveMedium'
-                                : 'Uber Move Medium',
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
                           }}>
                           Good to go!
                         </Text>

@@ -133,10 +133,14 @@ class SendFundsEntry extends React.PureComponent {
                         Send to friends
                       </Text>
                     </View>
-                    <View style={{flex: 1}}>
+                    <View
+                      style={{
+                        flex: Platform.OS === 'android' ? 1 : 0,
+                      }}>
                       <Text
                         style={{
                           flex: Platform.OS === 'android' ? 1 : 0,
+                          fontSize: RFValue(13),
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'UberMoveTextLight'
@@ -194,10 +198,11 @@ class SendFundsEntry extends React.PureComponent {
                         Pay a driver
                       </Text>
                     </View>
-                    <View style={{flex: 1}}>
+                    <View style={{flex: Platform.OS === 'android' ? 1 : 0}}>
                       <Text
                         style={{
                           flex: Platform.OS === 'android' ? 1 : 0,
+                          fontSize: RFValue(13),
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'UberMoveTextLight'

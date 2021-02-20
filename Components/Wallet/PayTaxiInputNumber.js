@@ -178,7 +178,7 @@ class PayTaxiInputNumber extends React.PureComponent {
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextMedium'
-                      : 'Uber Move Text',
+                      : 'Uber Move Text Medium',
                   marginBottom: 35,
                   marginTop: 15,
                 },
@@ -238,8 +238,7 @@ class PayTaxiInputNumber extends React.PureComponent {
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(14),
-                      marginLeft: 6,
+                      fontSize: RFValue(13),
                       lineHeight: 18,
                       color: '#141414',
                       fontFamily:
@@ -285,6 +284,7 @@ const styles = StyleSheet.create({
   presentationWindow: {
     flex: 1,
     padding: 20,
+    paddingTop: Platform.OS === 'android' ? 20 : '10%',
   },
   arrowCircledForwardBasic: {
     backgroundColor: '#0e8491',
