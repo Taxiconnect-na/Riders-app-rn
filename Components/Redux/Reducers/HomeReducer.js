@@ -567,6 +567,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 )
               ] === 'identifyLocation'
             ) {
+              newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               if (newState.bottomVitalsFlow.locationTypeIdentified !== false) {
                 clearInterval(newState._TMP_INTERVAL_PERSISTER);
                 newState._TMP_INTERVAL_PERSISTER = null;
@@ -818,6 +819,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 clearInterval(newState._TMP_INTERVAL_PERSISTER);
               }
               newState._TMP_INTERVAL_PERSISTER = null;
+              newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               //Reset the map usability
               //Enable all usages
               newState.bottomVitalsFlow.zoomEnabled = true;
@@ -975,6 +977,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) + 1
               ] === 'selectPackageSize'
             ) {
+              newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               if (newState._MAIN_PARENT !== null) {
                 Animated.timing(
                   newState.bottomVitalsFlow.bottomVitalChildHeight,
@@ -1237,6 +1240,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 1 ===
               'addMoreTripDetails'
             ) {
+              newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               newState.wasRideChoosedByDefault = true; //automatically turn off the scheduler
             }
 
@@ -1269,6 +1273,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) - 1
               ] === 'selectDestination'
             ) {
+              newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               Animated.timing(
                 newState.bottomVitalsFlow.bottomVitalChildHeight,
                 {

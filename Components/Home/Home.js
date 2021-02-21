@@ -1319,6 +1319,14 @@ class Home extends React.PureComponent {
             } catch (error) {
               response = response;
             }
+          } //Try to parse
+          else {
+            try {
+              response = JSON.parse(response);
+              globalObject.props.App.pricingVariables.didPricingReceivedFromServer = true; //!Stop the estimates fetcher
+            } catch (error) {
+              response = response;
+            }
           }
           //...
           InteractionManager.runAfterInteractions(() => {

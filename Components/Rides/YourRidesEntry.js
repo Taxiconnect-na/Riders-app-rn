@@ -232,26 +232,22 @@ class YourRidesEntry extends React.PureComponent {
 
   render() {
     return (
-      <>
-        {this._isMounted ? (
-          <View style={styles.mainWindow}>
-            {Platform.OS === 'ios' &&
-            this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              ? this.renderError_modalView()
-              : null}
-            <StatusBar backgroundColor="#000" />
-            <GenericLoader active={this.state.loaderState} thickness={4} />
+      <View style={styles.mainWindow}>
+        {Platform.OS === 'ios' &&
+        this.props.App.generalErrorModal_vars.showErrorGeneralModal
+          ? this.renderError_modalView()
+          : null}
+        <StatusBar backgroundColor="#000" />
+        <GenericLoader active={this.state.loaderState} thickness={4} />
 
-            {this.state.fetchingRides_Data === false ? (
-              <RenderRequestsList
-                pullRefreshRequest={this.pullRefreshRequest}
-                pullRefreshing={this.state.pullRefreshing}
-                parentNode={this}
-              />
-            ) : null}
-          </View>
+        {this.state.fetchingRides_Data === false ? (
+          <RenderRequestsList
+            pullRefreshRequest={this.pullRefreshRequest}
+            pullRefreshing={this.state.pullRefreshing}
+            parentNode={this}
+          />
         ) : null}
-      </>
+      </View>
     );
   }
 }

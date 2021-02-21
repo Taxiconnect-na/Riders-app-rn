@@ -19,7 +19,7 @@ target 'Taxiconnect' do
   pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
   pod 'CocoaLibEvent'
-  pod 'Firebase/Analytics'
+  pod 'Firebase/Analytics', '7.3.0'
 
   use_react_native!(:path => config["reactNativePath"])
 
