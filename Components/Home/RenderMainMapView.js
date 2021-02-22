@@ -144,6 +144,7 @@ const AnnotationDestination = ({title, etaInfos, showSuffix}) => (
       {showSuffix ? (
         <View
           style={{
+            flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
             paddingRight: 5,
@@ -158,7 +159,6 @@ const AnnotationDestination = ({title, etaInfos, showSuffix}) => (
                     ? 'UberMoveTextRegular'
                     : 'Uber Move Text',
                 flex: 1,
-                top: 2,
               },
             ]}>
             {title.length > 17 ? title.substring(0, 17) + '.' : title}

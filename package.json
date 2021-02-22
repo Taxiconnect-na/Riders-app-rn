@@ -16,7 +16,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.9",
     "@react-native-mapbox-gl/maps": "^8.1.0-rc10",
-    "@react-navigation/drawer": "^5.9.4",
+    "@react-navigation/drawer": "^5.12.3",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "@turf/distance": "^6.0.1",
