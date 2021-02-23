@@ -1195,7 +1195,7 @@ const styles = StyleSheet.create({
   mainWindow: {
     flex: 1,
     backgroundColor: 'transparent',
-    paddingTop: Platform.OS === 'android' ? 0 : '0%',
+    paddingTop: Platform.OS === 'android' ? 0 : '10%',
   },
   backArrowHeaderSearch: {
     width: 50,

@@ -596,7 +596,7 @@ class Home extends React.PureComponent {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
             if (globalObject.props.App.socket.connected !== true) {
-              let nodeURL = 'http://taxiconnectna.com:9097';
+              let nodeURL = 'http://192.168.0.182:9097';
               //...
               let socket = io(nodeURL, {
                 transports: ['websocket', 'polling'],
@@ -1074,13 +1074,13 @@ class Home extends React.PureComponent {
             );
           } //Animate
           else {
-            new Promise((resolve2) => {
+            new Promise((resolve1) => {
               globalObject.animateRoute(
                 response,
-                currentPointRm,
+                currentPoint,
                 currentPointRm,
                 paddingFit,
-                resolve2,
+                resolve1,
               );
             }).then(
               () => {},
@@ -1089,6 +1089,16 @@ class Home extends React.PureComponent {
           }
           //...
         } else if (/pending/i.test(response.request_status)) {
+          //! Reset navigation data if an existing previous scenario was set
+          if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
+            //Clean it up
+            globalObject._RESET_STATE();
+            //Recalibrate the map
+            globalObject.recalibrateMap();
+            //save pending scenario
+            globalObject.props.App.request_status = response.request_status;
+          }
+
           globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
           //Save the main object
           globalObject.props.App.generalTRIP_details_driverDetails = response;
@@ -1193,6 +1203,8 @@ class Home extends React.PureComponent {
           if (globalObject.props.App.isRideInProgress) {
             //Reset props.App
             globalObject._RESET_STATE();
+            //Recalibrate the map
+            globalObject.recalibrateMap();
           }
         }
       } //No rides
@@ -1206,6 +1218,8 @@ class Home extends React.PureComponent {
           if (testReg.test(globalObject.props.App.request_status) === false) {
             if (globalObject.props.App.request_status !== null) {
               globalObject._RESET_STATE();
+              //Recalibrate the map
+              globalObject.recalibrateMap();
             }
             //...
             globalObject.props.App.request_status = response.request_status;
@@ -1549,7 +1563,13 @@ class Home extends React.PureComponent {
    * @func animateRoute()
    * Responsible for animating the route basically
    */
-  animateRoute(response, currentPoint, currentPointRm, paddingFit, resolve) {
+  animateRoute(
+    response,
+    currentPoint,
+    currentPointRm,
+    paddingFit,
+    resolve = false,
+  ) {
     let globalObject = this;
 
     let carBearing = bearing(
@@ -1560,7 +1580,7 @@ class Home extends React.PureComponent {
       point([currentPoint[0], currentPoint[1]]),
     );
 
-    let timingRoute = 2100;
+    let timingRoute = 1000;
 
     //1. ROUTE TO PICKUP-----------------------------------------------------
     if (globalObject.props.App.isInRouteToDestination === false) {
@@ -1602,14 +1622,14 @@ class Home extends React.PureComponent {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
-                [90, 90, 200, 90],
+                [90, 90, 250, 90],
                 1000,
               );
             } catch (error) {
               globalObject.camera.fitBounds(
                 globalObject.props.App.pickupPoint,
                 [currentPoint[0], currentPoint[1]],
-                [90, 90, 200, 90],
+                [90, 90, 250, 90],
                 1000,
               );
             }
@@ -1669,7 +1689,7 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[1],
                 ],
                 [currentPoint[0], currentPoint[1]],
-                [90, 90, 200, 90],
+                [90, 90, 250, 90],
                 1000,
               );
             } catch (error) {
@@ -1679,13 +1699,15 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[1],
                 ],
                 [currentPoint[0], currentPoint[1]],
-                [90, 90, 200, 90],
+                [90, 90, 250, 90],
                 1000,
               );
             }
           }
         });
       //...
+      resolve(true);
+    } else {
       resolve(true);
     }
   }
@@ -3180,8 +3202,15 @@ class Home extends React.PureComponent {
               <View style={{width: '100%', alignItems: 'center'}}>
                 <Text
                   style={[
-                    systemWeights.light,
-                    {fontSize: 20, color: '#fff', marginBottom: 40},
+                    {
+                      color: '#fff',
+                      marginBottom: 40,
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(20),
+                    },
                   ]}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
                     ? 'Getting you a ride'
