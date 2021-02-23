@@ -596,7 +596,7 @@ class Home extends React.PureComponent {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
             if (globalObject.props.App.socket.connected !== true) {
-              let nodeURL = 'http://192.168.0.182:9097';
+              /*let nodeURL = 'http://192.168.0.182:9097';
               //...
               let socket = io(nodeURL, {
                 transports: ['websocket', 'polling'],
@@ -604,7 +604,6 @@ class Home extends React.PureComponent {
                 reconnectionAttempts: Infinity,
                 reconnectionDelay: 900,
                 reconnectionDelayMax: 100,
-                'force new connection': true,
               });
               globalObject.props.App.socket = socket;
               globalObject.props.App.socket.connect();
@@ -614,7 +613,7 @@ class Home extends React.PureComponent {
             else {
               //? Update the global var for socket connection.
               globalObject.props.App.isSocketConnected = true;
-            }
+            }*/
             //...
             if (globalObject.props.App.intervalProgressLoop === false) {
               InteractionManager.runAfterInteractions(() => {
@@ -785,8 +784,11 @@ class Home extends React.PureComponent {
     });
 
     this.props.App.socket.on('error', () => {});
-    this.props.App.socket.on('disconnect', () => {});
+    this.props.App.socket.on('disconnect', () => {
+      globalObject.props.App.socket.connect();
+    });
     this.props.App.socket.on('connect_error', () => {
+      globalObject.props.App.socket.connect();
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           globalObject.props.App.generalErrorModalType,
@@ -799,10 +801,16 @@ class Home extends React.PureComponent {
         );
       }
     });
-    this.props.App.socket.on('connect_timeout', () => {});
+    this.props.App.socket.on('connect_timeout', () => {
+      globalObject.props.App.socket.connect();
+    });
     this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {});
-    this.props.App.socket.on('reconnect_failed', () => {});
+    this.props.App.socket.on('reconnect_error', () => {
+      globalObject.props.App.socket.connect();
+    });
+    this.props.App.socket.on('reconnect_failed', () => {
+      globalObject.props.App.socket.connect();
+    });
 
     //Bind the requests interval persister
     this.bindRequest_findFetcher();
