@@ -182,8 +182,15 @@ class ErrorModal extends React.PureComponent {
       this.setState({isLoading_something: true}); //Activate the loader
       //Bundle the cancel input
       let bundleData = {
-        request_fp: this.props.App.generalTRIP_details_driverDetails
-          .basicTripDetails.request_fp,
+        request_fp:
+          this.props.App.generalTRIP_details_driverDetails !== undefined &&
+          this.props.App.generalTRIP_details_driverDetails.basicTripDetails !==
+            undefined &&
+          this.props.App.generalTRIP_details_driverDetails.basicTripDetails
+            .request_fp !== undefined
+            ? this.props.App.generalTRIP_details_driverDetails.basicTripDetails
+                .request_fp
+            : this.props.App.generalTRIP_details_driverDetails.request_fp,
         user_fingerprint: this.props.App.user_fingerprint,
       };
       ///...
