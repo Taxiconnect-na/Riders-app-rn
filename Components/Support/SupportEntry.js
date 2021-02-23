@@ -173,7 +173,7 @@ class SupportEntry extends React.PureComponent {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.bttnGenericTc, {backgroundColor: '#CBCBCB'}]}
-                onPress={() => call({number: '061302302', prompt: true})}>
+                onPress={() => call({number: '+2646110111', prompt: true})}>
                 <IconCommunity
                   name="shield"
                   color={'#000'}
