@@ -2,9 +2,8 @@
 const io = require('socket.io-client');
 import {_MAIN_URL_ENDPOINT} from '@env';
 
-const nodeURL = _MAIN_URL_ENDPOINT;
 //...
-const socket = io(nodeURL, {
+const socket = io(_MAIN_URL_ENDPOINT, {
   transports: ['websocket', 'polling'],
   reconnection: true,
   reconnectionAttempts: Infinity,
