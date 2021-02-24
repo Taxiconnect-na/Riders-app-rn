@@ -783,7 +783,9 @@ class Home extends React.PureComponent {
       }
     });
 
-    this.props.App.socket.on('error', () => {});
+    this.props.App.socket.on('error', () => {
+      globalObject.props.App.socket.connect();
+    });
     this.props.App.socket.on('disconnect', () => {
       globalObject.props.App.socket.connect();
     });

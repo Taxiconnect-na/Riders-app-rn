@@ -161,6 +161,7 @@ class OTPVerificationEntry extends React.PureComponent {
     });
     //Socket error handling
     this.props.App.socket.on('error', () => {
+      globalObject.props.App.socket.connect();
       console.log('error');
     });
     this.props.App.socket.on('disconnect', () => {
@@ -168,13 +169,13 @@ class OTPVerificationEntry extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
+      globalObject.props.App.socket.connect();
       //Ask for the OTP again
       globalObject.props.UpdateErrorModalLog(
         true,
         'service_unavailable',
         'any',
       );
-      globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
       console.log('timeout');

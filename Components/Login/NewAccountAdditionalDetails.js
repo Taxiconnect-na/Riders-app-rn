@@ -87,7 +87,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
       }
     });
     //Socket error handling
-    this.props.App.socket.on('error', (error) => {});
+    this.props.App.socket.on('error', (error) => {
+      globalObject.props.App.socket.connect();
+    });
     this.props.App.socket.on('disconnect', () => {
       globalObject.props.App.socket.connect();
     });
