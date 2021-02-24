@@ -773,7 +773,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on('disconnect', () => {
       console.log('something');
       //...
-      const socket = io(_MAIN_URL_ENDPOINT, {
+      const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
         reconnection: true,
         reconnectionAttempts: Infinity,
@@ -798,7 +798,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on('connect_timeout', () => {
       console.log('connect_timeout');
       //...
-      const socket = io(_MAIN_URL_ENDPOINT, {
+      const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
         reconnection: true,
         reconnectionAttempts: Infinity,
@@ -816,7 +816,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect_failed');
       //...
-      const socket = io(_MAIN_URL_ENDPOINT, {
+      const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
         reconnection: true,
         reconnectionAttempts: Infinity,
