@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 const io = require('socket.io-client');
-const nodeURL = 'http://169.254.231.166:9097';
+import {_MAIN_URL_ENDPOINT} from '@env';
+
+const nodeURL = _MAIN_URL_ENDPOINT;
 //...
 const socket = io(nodeURL, {
   transports: ['websocket', 'polling'],

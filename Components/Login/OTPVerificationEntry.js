@@ -31,6 +31,8 @@ import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import SyncStorage from 'sync-storage';
 import {RFValue} from 'react-native-responsive-fontsize';
+const io = require('socket.io-client');
+import {_MAIN_URL_ENDPOINT} from '@env';
 
 const App = ({valueM, parentNode, editable}) => {
   const [value, setValue] = useState('');
@@ -166,7 +168,14 @@ class OTPVerificationEntry extends React.PureComponent {
     });
     this.props.App.socket.on('disconnect', () => {
       console.log('disconnect');
-      globalObject.props.App.socket.connect();
+      //...
+      const socket = io(_MAIN_URL_ENDPOINT, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
     this.props.App.socket.on('connect_error', () => {
       globalObject.props.App.socket.connect();
@@ -179,7 +188,14 @@ class OTPVerificationEntry extends React.PureComponent {
     });
     this.props.App.socket.on('connect_timeout', () => {
       console.log('timeout');
-      globalObject.props.App.socket.connect();
+      //...
+      const socket = io(_MAIN_URL_ENDPOINT, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
     this.props.App.socket.on('reconnect', () => {
       console.log('reconnect');
@@ -190,7 +206,14 @@ class OTPVerificationEntry extends React.PureComponent {
     });
     this.props.App.socket.on('reconnect_failed', () => {
       console.log('reconnect failed');
-      globalObject.props.App.socket.connect();
+      //...
+      const socket = io(_MAIN_URL_ENDPOINT, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
 
     /**

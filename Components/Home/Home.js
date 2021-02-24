@@ -61,6 +61,7 @@ import DismissKeyboard from '../Helpers/DismissKeyboard';
 import SyncStorage from 'sync-storage';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {_MAIN_URL_ENDPOINT} from '@env';
 const io = require('socket.io-client');
 //DEBUG
 //import {ROUTE} from './Route';
@@ -595,25 +596,7 @@ class Home extends React.PureComponent {
       InteractionManager.runAfterInteractions(() => {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
-            /*if (globalObject.props.App.socket.connected !== true) {
-              let nodeURL = 'http://192.168.0.182:9097';
-              //...
-              let socket = io(nodeURL, {
-                transports: ['websocket', 'polling'],
-                reconnection: true,
-                reconnectionAttempts: Infinity,
-                reconnectionDelay: 900,
-                reconnectionDelayMax: 100,
-              });
-              globalObject.props.App.socket = socket;
-              globalObject.props.App.socket.connect();
-              globalObject.props.App.isSocketConnected =
-                globalObject.props.App.socket.connected;
-            } //Connected
-            else {
-              //? Update the global var for socket connection.
-              globalObject.props.App.isSocketConnected = true;
-            }*/
+            //globalObject.props.App.socket.connect(); //! ? Check the performance effects
             //...
             if (globalObject.props.App.intervalProgressLoop === false) {
               InteractionManager.runAfterInteractions(() => {
@@ -786,8 +769,17 @@ class Home extends React.PureComponent {
     this.props.App.socket.on('error', () => {
       globalObject.props.App.socket.connect();
     });
+
     this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
+      console.log('something');
+      //...
+      const socket = io(_MAIN_URL_ENDPOINT, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
     this.props.App.socket.on('connect_error', () => {
       globalObject.props.App.socket.connect();
@@ -804,14 +796,33 @@ class Home extends React.PureComponent {
       }
     });
     this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
+      console.log('connect_timeout');
+      //...
+      const socket = io(_MAIN_URL_ENDPOINT, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
-    this.props.App.socket.on('reconnect', () => {});
+    this.props.App.socket.on('reconnect', () => {
+      ////console.log('something');
+    });
     this.props.App.socket.on('reconnect_error', () => {
+      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
+      console.log('reconnect_failed');
+      //...
+      const socket = io(_MAIN_URL_ENDPOINT, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
 
     //Bind the requests interval persister
