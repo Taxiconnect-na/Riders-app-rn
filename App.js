@@ -18,6 +18,7 @@ import StorageManager from './Components/Helpers/StorageManager';
 import {enableScreens} from 'react-native-screens';
 import OneSignal from 'react-native-onesignal';
 import SyncStorage from 'sync-storage';
+import SplashScreen from 'react-native-splash-screen';
 
 enableScreens();
 //import {LogBox} from 'react-native';
@@ -44,6 +45,7 @@ class App extends React.PureComponent {
   }
 
   async componentDidMount() {
+    SplashScreen.hide();
     await SyncStorage.init();
 
     OneSignal.setNotificationWillShowInForegroundHandler(

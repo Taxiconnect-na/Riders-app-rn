@@ -595,8 +595,8 @@ class Home extends React.PureComponent {
       InteractionManager.runAfterInteractions(() => {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
-            if (globalObject.props.App.socket.connected !== true) {
-              /*let nodeURL = 'http://192.168.0.182:9097';
+            /*if (globalObject.props.App.socket.connected !== true) {
+              let nodeURL = 'http://192.168.0.182:9097';
               //...
               let socket = io(nodeURL, {
                 transports: ['websocket', 'polling'],

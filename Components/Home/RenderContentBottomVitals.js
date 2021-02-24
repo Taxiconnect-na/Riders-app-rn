@@ -2202,12 +2202,21 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.parentNode.rerouteBookingProcessFlow(
-                      'next',
-                      /RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
-                        ? 'RIDE'
-                        : 'DELIVERY',
-                    )
+                    globalObject.props.App.previewDestinationData
+                      .originDestinationPreviewData.routePoints !== undefined &&
+                    globalObject.props.App.previewDestinationData
+                      .originDestinationPreviewData.routePoints !== false &&
+                    globalObject.props.App.previewDestinationData
+                      .originDestinationPreviewData.routePoints !== null
+                      ? this.props.parentNode.rerouteBookingProcessFlow(
+                          'next',
+                          /RIDE/i.test(
+                            this.props.App.bottomVitalsFlow.flowParent,
+                          )
+                            ? 'RIDE'
+                            : 'DELIVERY',
+                        )
+                      : globalObject.findPreviewRouteToDestination()
                   }
                   style={{
                     borderWidth: 1,

@@ -609,6 +609,8 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Taxiconnect */,
@@ -619,6 +621,9 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -862,28 +867,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Taxiconnect/Pods-Taxiconnect-frameworks.sh",
 				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework.dSYM",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MapboxMobileEvents.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -898,28 +887,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Taxiconnect-TaxiconnectTests/Pods-Taxiconnect-TaxiconnectTests-frameworks.sh",
 				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/MapboxMobileEvents.framework.dSYM",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${PODS_ROOT}/@react-native-mapbox-gl-mapbox-static/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxMobileEvents.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MapboxMobileEvents.framework.dSYM",
-				"${BUILT_PRODUCTS_DIR}/EF3F193B-8B19-3D7A-9C4D-CC7ACB8FD1B2.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/AF8AFA46-95A0-3C36-89B4-0A23D7D0A613.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/224E36C4-6533-3853-8416-A668FDC17C35.bcsymbolmap",
-				"${BUILT_PRODUCTS_DIR}/E1D60A9C-E180-3412-BFDB-809E8A1C178E.bcsymbolmap",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1184,6 +1157,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Taxiconnect.app/Taxiconnect";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -1204,6 +1180,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Taxiconnect.app/Taxiconnect";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -1237,6 +1216,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -1268,6 +1250,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -1296,6 +1281,9 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -1324,6 +1312,9 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -1351,6 +1342,9 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Taxiconnect-tvOS.app/Taxiconnect-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Debug;
 		};
@@ -1378,6 +1372,9 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Taxiconnect-tvOS.app/Taxiconnect-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 12.0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 			};
 			name = Release;
 		};
@@ -1429,6 +1426,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/react-native-splash-screen/ios\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
@@ -1484,6 +1482,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../node_modules/react-native-splash-screen/ios\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (

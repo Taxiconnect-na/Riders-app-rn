@@ -28,6 +28,7 @@ import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryS
 import OTPVerificationGeneric from '../Components/Settings/OTPVerificationGeneric';
 import SupportEntry from '../Components/Support/SupportEntry';
 import {MainDrawerContent} from './MainDrawerContent';
+import Splash from '../Components/Login/Splash';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 const Stack = createStackNavigator();
@@ -372,8 +373,13 @@ function MainDrawer_navigator() {
 function RootScreens() {
   return (
     <Stack.Navigator
-      initialRouteName={'EntryScreen'}
+      initialRouteName={'Splash'}
       screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
+      <Stack.Screen
+        name="Splash"
+        component={Splash}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="EntryScreen"
         component={EntryScreen}

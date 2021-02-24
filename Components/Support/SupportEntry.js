@@ -114,7 +114,7 @@ class SupportEntry extends React.PureComponent {
                 <Text
                   style={{
                     textAlign: 'left',
-                    fontSize: 17,
+                    fontSize: RFValue(17),
                     lineHeight: 23,
                     fontFamily:
                       Platform.OS === 'android'
