@@ -591,19 +591,23 @@ class Home extends React.PureComponent {
    */
   bindRequest_findFetcher() {
     let globalObject = this;
+    console.log(
+      'Called -> ',
+      this.props.App._TMP_TRIP_INTERVAL_PERSISTER,
+      globalObject.props.App.intervalProgressLoop,
+    );
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
       InteractionManager.runAfterInteractions(() => {
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
           function () {
-            //globalObject.props.App.socket.connect(); //! ? Check the performance effects
             //...
             if (globalObject.props.App.intervalProgressLoop === false) {
               InteractionManager.runAfterInteractions(() => {
                 globalObject.GPRS_resolver();
                 globalObject.updateRemoteLocationsData();
               });
-
+              console.log('Interval running');
               //2. Request for the total wallet balance
               globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
                 user_fingerprint: globalObject.props.App.user_fingerprint,
@@ -627,6 +631,11 @@ class Home extends React.PureComponent {
               }
             } //Kill the persister
             else {
+              console.log('killed');
+              console.log('Reinit pass values for specific interval');
+              globalObject.props.App.intervalProgressLoop = false;
+              globalObject.props.App.isRideInProgress = true;
+              //...
               clearInterval(
                 globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER,
               );
@@ -634,6 +643,25 @@ class Home extends React.PureComponent {
                 globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null
               ) {
                 globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
+              }
+              //! Kick start the specific loop in case
+              if (globalObject.props.App.intervalProgressLoop === false) {
+                console.log('Specific request push up booster!');
+                globalObject.props.App.intervalProgressLoop = setInterval(
+                  function () {
+                    if (globalObject.props.App.isRideInProgress === true) {
+                      console.log('Specific interval running');
+                      globalObject.GPRS_resolver();
+                      globalObject.updateRemoteLocationsData();
+                    } //clear interval
+                    else {
+                      clearInterval(
+                        globalObject.props.App.intervalProgressLoop,
+                      );
+                    }
+                  },
+                  3000,
+                );
               }
             }
           },
@@ -941,6 +969,7 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
+        //console.log(response);
         //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
         if (
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
@@ -1112,12 +1141,23 @@ class Home extends React.PureComponent {
         } else if (/pending/i.test(response.request_status)) {
           //! Reset navigation data if an existing previous scenario was set
           if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
+            //! CHECK FOR DRIVER REQUEST GHOSTING BUG!!!
             //Clean it up
             globalObject._RESET_STATE();
+            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
             //Recalibrate the map
             globalObject.recalibrateMap();
             //save pending scenario
             globalObject.props.App.request_status = response.request_status;
+            //? Update the pending location --force
+            globalObject.props.UpdatePendingGlobalVars({
+              request_status: response.request_status,
+              isRideInProgress: true,
+              pickupLocation_metadata: {
+                coordinates: response.pickupLocation_point,
+                pickupLocation_name: response.pickupLocation_name,
+              },
+            });
           }
 
           globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
@@ -1148,6 +1188,7 @@ class Home extends React.PureComponent {
             globalObject.props.App.intervalProgressLoop = setInterval(
               function () {
                 if (globalObject.props.App.isRideInProgress === true) {
+                  console.log('Specific interval running');
                   globalObject.GPRS_resolver();
                   globalObject.updateRemoteLocationsData();
                 } //clear interval
@@ -1168,6 +1209,10 @@ class Home extends React.PureComponent {
             if (/Searching/.test(response.pickupLocation_name)) {
               response.pickupLocation_name = 'Pickup';
             }
+            console.log({
+              coordinates: response.pickupLocation_point,
+              pickupLocation_name: response.pickupLocation_name,
+            });
             //...
             globalObject.props.UpdatePendingGlobalVars({
               request_status: response.request_status,

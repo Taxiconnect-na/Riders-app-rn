@@ -585,7 +585,11 @@ class RenderMainMapView extends React.PureComponent {
       );
     } else if (
       /pending/i.test(this.props.App.request_status) &&
-      this.props.App.isRideInProgress
+      this.props.App.isRideInProgress &&
+      this.props.App.pickupLocation_metadata !== undefined &&
+      this.props.App.pickupLocation_metadata !== null &&
+      this.props.App.pickupLocation_metadata.coordinates !== undefined &&
+      this.props.App.pickupLocation_metadata.coordinates !== null
     ) {
       //....
       //Pending request
@@ -594,7 +598,7 @@ class RenderMainMapView extends React.PureComponent {
         <View>
           <MarkerView
             id="riderPickupLocation_tooltip"
-            anchor={{x: 1, y: 1}}
+            anchor={Platform.OS === 'android' ? {x: 1, y: 1} : {x: 1.5, y: 1}}
             coordinate={this.props.App.pickupLocation_metadata.coordinates.map(
               parseFloat,
             )}>
@@ -838,17 +842,23 @@ class RenderMainMapView extends React.PureComponent {
                 }>
                 <Animated.LineLayer id={'lineRoutePickup'} />
               </Animated.ShapeSource>
-              <PulseCircleLayer
-                radius={10}
-                aboveLayerID={'lineRoutePickup'}
-                pulseRadius={25}
-                shape={{
-                  type: 'Point',
-                  coordinates: this.props.App.pickupLocation_metadata.coordinates.map(
-                    parseFloat,
-                  ),
-                }}
-              />
+              {this.props.App.pickupLocation_metadata !== undefined &&
+              this.props.App.pickupLocation_metadata !== null &&
+              this.props.App.pickupLocation_metadata.coordinates !==
+                undefined &&
+              this.props.App.pickupLocation_metadata.coordinates !== null ? (
+                <PulseCircleLayer
+                  radius={10}
+                  aboveLayerID={'lineRoutePickup'}
+                  pulseRadius={25}
+                  shape={{
+                    type: 'Point',
+                    coordinates: this.props.App.pickupLocation_metadata.coordinates.map(
+                      parseFloat,
+                    ),
+                  }}
+                />
+              ) : null}
             </>
           ) : /inRouteToDestination/i.test(this.props.App.request_status) ? (
             <PulseCircleLayer
