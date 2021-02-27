@@ -840,6 +840,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
           }
         }
       } else if (newState.bottomVitalsFlow.flowParent === 'DELIVERY') {
+        newState.bottomVitalsFlow.rideOrDeliveryMetadata.numberOfPassengersSelected = 1; //! Force the one passenger selection.
+        newState.bottomVitalsFlow.rideOrDeliveryMetadata.isAllgoingToTheSamePlace = false; //! Deactivate the going to the same destination flag.
         //For deliveries
         //Loader manager
         if (action.payload.flowDirection === 'next') {

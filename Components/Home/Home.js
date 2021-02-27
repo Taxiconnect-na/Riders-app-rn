@@ -591,11 +591,6 @@ class Home extends React.PureComponent {
    */
   bindRequest_findFetcher() {
     let globalObject = this;
-    console.log(
-      'Called -> ',
-      this.props.App._TMP_TRIP_INTERVAL_PERSISTER,
-      globalObject.props.App.intervalProgressLoop,
-    );
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
       InteractionManager.runAfterInteractions(() => {
@@ -607,7 +602,6 @@ class Home extends React.PureComponent {
                 globalObject.GPRS_resolver();
                 globalObject.updateRemoteLocationsData();
               });
-              console.log('Interval running');
               //2. Request for the total wallet balance
               globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
                 user_fingerprint: globalObject.props.App.user_fingerprint,
@@ -631,8 +625,6 @@ class Home extends React.PureComponent {
               }
             } //Kill the persister
             else {
-              console.log('killed');
-              console.log('Reinit pass values for specific interval');
               globalObject.props.App.intervalProgressLoop = false;
               globalObject.props.App.isRideInProgress = true;
               //...
@@ -646,11 +638,9 @@ class Home extends React.PureComponent {
               }
               //! Kick start the specific loop in case
               if (globalObject.props.App.intervalProgressLoop === false) {
-                console.log('Specific request push up booster!');
                 globalObject.props.App.intervalProgressLoop = setInterval(
                   function () {
                     if (globalObject.props.App.isRideInProgress === true) {
-                      console.log('Specific interval running');
                       globalObject.GPRS_resolver();
                       globalObject.updateRemoteLocationsData();
                     } //clear interval
@@ -1188,7 +1178,6 @@ class Home extends React.PureComponent {
             globalObject.props.App.intervalProgressLoop = setInterval(
               function () {
                 if (globalObject.props.App.isRideInProgress === true) {
-                  console.log('Specific interval running');
                   globalObject.GPRS_resolver();
                   globalObject.updateRemoteLocationsData();
                 } //clear interval
@@ -1209,10 +1198,6 @@ class Home extends React.PureComponent {
             if (/Searching/.test(response.pickupLocation_name)) {
               response.pickupLocation_name = 'Pickup';
             }
-            console.log({
-              coordinates: response.pickupLocation_point,
-              pickupLocation_name: response.pickupLocation_name,
-            });
             //...
             globalObject.props.UpdatePendingGlobalVars({
               request_status: response.request_status,
