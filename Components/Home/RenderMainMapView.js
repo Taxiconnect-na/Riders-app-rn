@@ -766,6 +766,7 @@ class RenderMainMapView extends React.PureComponent {
           styleURL={'mapbox://styles/dominiquektt/ckax4kse10a791iofjbx59jzm'}>
           <Camera
             ref={(c) => (this.props.parentNode.camera = c)}
+            //followUserMode="compass"
             zoomLevel={20}
           />
 

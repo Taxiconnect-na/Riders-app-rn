@@ -1088,6 +1088,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           destinationData: globalObject.props.App.search_passengersDestinations,
         };
 
+        console.log(globalObject.props.App.search_passengersDestinations); //! For debugging purposes
+
         //DOne gathering, make the server request
         //Cancel any previous interval
         clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
