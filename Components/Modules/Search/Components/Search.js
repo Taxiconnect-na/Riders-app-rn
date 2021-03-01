@@ -856,11 +856,12 @@ class Search extends React.PureComponent {
                             .search_passenger0DestinationInput
                     }
                     clearButtonMode="always"
-                    onFocus={() =>
+                    onFocus={() => {
+                      this.props.App.search_currentFocusedPassenger = 0;
                       this.props.UpdateSearchMetadataLoaderState({
                         search_currentFocusedPassenger: 0,
-                      })
-                    }
+                      });
+                    }}
                     autoCorrect={false}
                   />
                 )}
@@ -919,11 +920,12 @@ class Search extends React.PureComponent {
               : this.props.App.search_passenger1DestinationInput
           }
           clearButtonMode="always"
-          onFocus={() =>
+          onFocus={() => {
+            this.props.App.search_currentFocusedPassenger = 1;
             this.props.UpdateSearchMetadataLoaderState({
               search_currentFocusedPassenger: 1,
-            })
-          }
+            });
+          }}
           autoCorrect={false}
         />
       );
@@ -952,11 +954,12 @@ class Search extends React.PureComponent {
                 : this.props.App.search_passenger1DestinationInput
             }
             clearButtonMode="always"
-            onFocus={() =>
+            onFocus={() => {
+              this.props.App.search_currentFocusedPassenger = 1;
               this.props.UpdateSearchMetadataLoaderState({
                 search_currentFocusedPassenger: 1,
-              })
-            }
+              });
+            }}
             autoCorrect={false}
           />
         );
@@ -978,11 +981,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger1DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 1;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 1,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
             <TextInput
@@ -996,11 +1000,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger2DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 2;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 2,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
           </>
@@ -1023,11 +1028,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger1DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 1;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 1,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
             <TextInput
@@ -1041,11 +1047,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger2DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 2;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 2,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
             <TextInput
@@ -1059,11 +1066,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger3DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 3;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 3,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
           </>
@@ -1086,11 +1094,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger1DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 1;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 1,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
             <TextInput
@@ -1104,11 +1113,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger2DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 2;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 2,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
             <TextInput
@@ -1122,11 +1132,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger3DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 3;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 3,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
             <TextInput
@@ -1140,11 +1151,12 @@ class Search extends React.PureComponent {
                   : this.props.App.search_passenger4DestinationInput
               }
               clearButtonMode="always"
-              onFocus={() =>
+              onFocus={() => {
+                this.props.App.search_currentFocusedPassenger = 4;
                 this.props.UpdateSearchMetadataLoaderState({
                   search_currentFocusedPassenger: 4,
-                })
-              }
+                });
+              }}
               autoCorrect={false}
             />
           </>

@@ -23,7 +23,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import bearing from '@turf/bearing';
-import {systemWeights} from 'react-native-typography';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -58,6 +57,7 @@ import {
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
+import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import SyncStorage from 'sync-storage';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -3268,23 +3268,7 @@ class Home extends React.PureComponent {
                     : 'Requesting for your delivery'}
                 </Text>
                 <View style={{width: '100%'}}>
-                  <AnimatedNative.View
-                    style={[
-                      styles.loader,
-                      // eslint-disable-next-line react-native/no-inline-styles
-                      {
-                        borderTopColor: '#fff',
-                        transform: [
-                          {
-                            translateX: this.props.App.loaderPosition,
-                          },
-                          {
-                            scaleX: this.props.App.loaderBasicWidth,
-                          },
-                        ],
-                      },
-                    ]}
-                  />
+                  <GenericLoader active={true} thickness={4} color={'#fff'} />
                 </View>
               </View>
             </AnimatedNative.View>
