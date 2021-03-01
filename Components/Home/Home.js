@@ -1374,7 +1374,12 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'getPricingForRideorDelivery-response',
       function (response) {
-        if (response !== false && response.response === undefined) {
+        if (
+          response !== false &&
+          response.response === undefined &&
+          globalObject.props.App.pricingVariables
+            .didPricingReceivedFromServer !== true
+        ) {
           //Estimates computed
           //Convert to object
           if (typeof response === String) {

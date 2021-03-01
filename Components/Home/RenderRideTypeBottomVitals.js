@@ -1088,7 +1088,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           destinationData: globalObject.props.App.search_passengersDestinations,
         };
 
-        console.log(RIDE_OR_DELIVERY_BOOKING_DATA.pickupData); //! For debugging purposes
+        //console.log(RIDE_OR_DELIVERY_BOOKING_DATA.pickupData); //! For debugging purposes
 
         //DOne gathering, make the server request
         //Cancel any previous interval
