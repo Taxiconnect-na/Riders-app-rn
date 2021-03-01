@@ -3390,8 +3390,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       fontSize: RFValue(15),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextLight'
-                          : 'Uber Move Light',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   Your minimum fare is{' '}
@@ -3401,7 +3401,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         fontFamily:
                           Platform.OS === 'android'
                             ? 'UberMoveTextMedium'
-                            : 'Uber Move Medium',
+                            : 'Uber Move Text Medium',
                         color: '#096ED4',
                       },
                     ]}>
