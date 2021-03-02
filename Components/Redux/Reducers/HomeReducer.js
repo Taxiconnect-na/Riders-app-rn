@@ -42,6 +42,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.destinationPoint = null; //Will hold the coordinates to the passenger's destination location.
       newState.pickupPoint = null; //Will hodl the coordinations to the passenger's pickup locatiom.
 
+      newState.request_status = null; //! Reset the request status to null
+
       newState.pickupLocation_metadata = {pickupLocation_name: null}; //Hold all the metadata related to the pickup location, -- pickupLocation_name: null, //Hold the name of the pickup location.
       newState.initializedScenario = null; //To know which scenario has been initialized for animation
       //Update stored trip related variables
@@ -423,6 +425,13 @@ const HomeReducer = (state = INIT_STATE, action) => {
         } else if (/connectme/i.test(action.payload.connectType)) {
           //ConnetMe - format
           newState.bottomVitalsFlow.connectType = 'ConnectMe';
+          //? if the previous number of passenger is greater or equal to 4 - set to 3
+          if (
+            newState.bottomVitalsFlow.rideOrDeliveryMetadata
+              .numberOfPassengersSelected >= 4
+          ) {
+            newState.bottomVitalsFlow.rideOrDeliveryMetadata.numberOfPassengersSelected = 1;
+          }
         }
       }
       //---------------------------------------------------------------------

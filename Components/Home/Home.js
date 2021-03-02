@@ -1010,6 +1010,12 @@ class Home extends React.PureComponent {
 
           //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
           if (/inRouteToPickup/i.test(response.request_status)) {
+            //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
+            response.pickupPoint = response.pickupPoint.map(parseFloat);
+            response.destinationPoint = response.destinationPoint.map(
+              parseFloat,
+            );
+            //? -----------
             globalObject.props.App.isInRouteToDestination = false;
             globalObject.props.App.request_status = 'inRouteToPickup';
 
@@ -1034,6 +1040,13 @@ class Home extends React.PureComponent {
               );
             }
           } else if (response.request_status === 'inRouteToDestination') {
+            //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
+            response.pickupPoint = response.pickupPoint.map(parseFloat);
+            response.destinationPoint = response.destinationPoint.map(
+              parseFloat,
+            );
+            //? -----------
+
             globalObject.props.App.request_status = 'inRouteToDestination';
             globalObject.props.App.isInRouteToDestination = true;
             //Update destination metadata
@@ -1103,6 +1116,9 @@ class Home extends React.PureComponent {
                       currentPointRm,
                       paddingFit,
                       resolve1,
+                      /inRouteToDestination/i.test(response.request_status)
+                        ? response.pickupPoint
+                        : false,
                     );
                   }).then(
                     () => {},
@@ -1121,6 +1137,9 @@ class Home extends React.PureComponent {
                 currentPointRm,
                 paddingFit,
                 resolve1,
+                /inRouteToDestination/i.test(response.request_status)
+                  ? response.pickupPoint
+                  : false,
               );
             }).then(
               () => {},
@@ -1133,7 +1152,7 @@ class Home extends React.PureComponent {
           if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
             //! CHECK FOR DRIVER REQUEST GHOSTING BUG!!!
             //Clean it up
-            globalObject._RESET_STATE();
+            //globalObject._RESET_STATE();  //! <-- RE-RESET BUG
             globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
             //Recalibrate the map
             globalObject.recalibrateMap();
@@ -1213,6 +1232,17 @@ class Home extends React.PureComponent {
           response.request_status !== null &&
           /riderDropoffConfirmation_left/i.test(response.request_status)
         ) {
+          //! Reset navigation data if an existing previous scenario was set
+          if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
+            //! FIXED DROP OFF CONFIRMED FREEZE
+            //Clean it up
+            globalObject._RESET_STATE();
+            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
+            //Recalibrate the map
+            globalObject.recalibrateMap();
+            //save pending scenario
+            globalObject.props.App.request_status = response.request_status;
+          }
           //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
           if (
             globalObject.props.App.sharedSimplifiedLink !== null &&
@@ -1625,6 +1655,7 @@ class Home extends React.PureComponent {
     currentPointRm,
     paddingFit,
     resolve = false,
+    additionalData = false,
   ) {
     let globalObject = this;
 
@@ -1744,7 +1775,7 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[0],
                   globalObject.props.App.destinationPoint[1],
                 ],
-                [currentPoint[0], currentPoint[1]],
+                additionalData,
                 [90, 90, 250, 90],
                 1000,
               );
@@ -1754,7 +1785,7 @@ class Home extends React.PureComponent {
                   globalObject.props.App.destinationPoint[0],
                   globalObject.props.App.destinationPoint[1],
                 ],
-                [currentPoint[0], currentPoint[1]],
+                additionalData,
                 [90, 90, 250, 90],
                 1000,
               );

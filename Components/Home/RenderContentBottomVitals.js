@@ -1059,29 +1059,33 @@ class RenderContentBottomVitals extends React.PureComponent {
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.parentButtonNoPassengers}>
-            <TouchableOpacity
-              onPress={() => this.updateNumberOfPassengers(4)}
-              style={[
-                styles.shadowNumberOfRidersButtons,
-                styles.buttonNumberOfPassDefault,
-                {backgroundColor: '#0D8691'},
-              ]}>
-              <Text
+          {/ConnectMe/i.test(
+            this.props.App.bottomVitalsFlow.connectType,
+          ) ? null : (
+            <View style={styles.parentButtonNoPassengers}>
+              <TouchableOpacity
+                onPress={() => this.updateNumberOfPassengers(4)}
                 style={[
-                  {
-                    fontSize: RFValue(19.5),
-                    color: '#fff',
-                    fontFamily:
-                      Platform.OS === 'android'
-                        ? 'UberMoveTextMedium'
-                        : 'Uber Move Text Medium',
-                  },
+                  styles.shadowNumberOfRidersButtons,
+                  styles.buttonNumberOfPassDefault,
+                  {backgroundColor: '#0D8691'},
                 ]}>
-                4
-              </Text>
-            </TouchableOpacity>
-          </View>
+                <Text
+                  style={[
+                    {
+                      fontSize: RFValue(19.5),
+                      color: '#fff',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                    },
+                  ]}>
+                  4
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </>
       );
     }
@@ -2635,7 +2639,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               backgroundColor: '#fff',
               flex: 1,
               padding: 20,
-              paddingTop: Platform.OS === 'android' ? 20 : '2%',
+              paddingTop: Platform.OS === 'android' ? 20 : '10%',
               opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
               transform: [
                 {
