@@ -121,8 +121,7 @@ class SupportEntry extends React.PureComponent {
                         ? 'UberMoveTextLight'
                         : 'Uber Move Text Light',
                   }}>
-                  If you <Text style={{fontWeight: 'bold'}}>left</Text> your
-                  belongings in a taxi or you need{' '}
+                  If you need{' '}
                   <Text style={{fontWeight: 'bold'}}>assistance</Text> on using
                   The{' '}
                   <Text style={{fontWeight: 'bold', color: '#0e8491'}}>

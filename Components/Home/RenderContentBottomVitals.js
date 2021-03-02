@@ -1569,7 +1569,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       ? 'UberMoveTextLight'
                       : 'Uber Move Text Light',
                 }}>
-                Choose the wanted service
+                Choose the desired service
               </Text>
             </View>
             <View

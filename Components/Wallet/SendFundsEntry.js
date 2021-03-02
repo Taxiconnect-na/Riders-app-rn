@@ -149,7 +149,7 @@ class SendFundsEntry extends React.PureComponent {
                           paddingRight: 10,
                         }}>
                         Send rides or delivery fare to your friends and family
-                        instantly and hustle free.
+                        instantly and hassle free.
                       </Text>
                     </View>
                   </View>

@@ -29,6 +29,7 @@ class PhoneDetailsScreen extends React.PureComponent {
 
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
     this.backListener = null; //Responsible to hold the listener for the go back overwritter.
+    this._isMounted = false;
 
     this.state = {
       networkStateChecker: false,
@@ -37,6 +38,8 @@ class PhoneDetailsScreen extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    this._isMounted = true; //? mark component as mounted
+
     //? Add navigator listener - auto clean on focus
     this.backListener = globalObject.props.navigation.addListener(
       'focus',
@@ -95,6 +98,8 @@ class PhoneDetailsScreen extends React.PureComponent {
       //
       this.backListener = null;
     }*/
+    //? Mark component as unmounted
+    this._isMounted = false;
   }
 
   /**
@@ -128,81 +133,85 @@ class PhoneDetailsScreen extends React.PureComponent {
 
   render() {
     return (
-      <DismissKeyboard>
-        <SafeAreaView style={styles.mainWindow}>
-          <StatusBar backgroundColor="black" />
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-            ? this.renderError_modalView()
-            : null}
-          {this.automoveForward()}
-          <View style={styles.presentationWindow}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('EntryScreen')}
-              style={{width: '30%'}}>
-              <IconAnt name="arrowleft" size={29} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                {
-                  fontSize: RFValue(21),
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextMedium'
-                      : 'Uber Move Text Medium',
-                  marginTop: 15,
-                  marginBottom: 35,
-                },
-              ]}>
-              What's your phone number?
-            </Text>
-            <PhoneNumberInput autoFocus={true} />
-            <View
-              style={{
-                flexDirection: 'row',
-                position: 'absolute',
-                bottom: '10%',
-                left: 20,
-                right: 20,
-                width: '100%',
-              }}>
-              <View style={{flexDirection: 'row', flex: 1}}>
+      <>
+        {this._isMounted ? (
+          <DismissKeyboard>
+            <SafeAreaView style={styles.mainWindow}>
+              <StatusBar backgroundColor="black" />
+              {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+                ? this.renderError_modalView()
+                : null}
+              {this.automoveForward()}
+              <View style={styles.presentationWindow}>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('EntryScreen')}
+                  style={{width: '30%'}}>
+                  <IconAnt name="arrowleft" size={29} />
+                </TouchableOpacity>
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(13),
-                      marginLeft: 6,
-                      lineHeight: 18,
-                      color: '#141414',
+                      fontSize: RFValue(21),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
-                          : 'Uber Move Text',
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      marginTop: 15,
+                      marginBottom: 35,
                     },
                   ]}>
-                  By proceeding, you will receive an SMS and additional fees may
-                  apply.
+                  What's your phone number?
                 </Text>
+                <PhoneNumberInput autoFocus={true} />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: '10%',
+                    left: 20,
+                    right: 20,
+                    width: '100%',
+                  }}>
+                  <View style={{flexDirection: 'row', flex: 1}}>
+                    <Text
+                      style={[
+                        {
+                          fontSize: RFValue(13),
+                          marginLeft: 6,
+                          lineHeight: 18,
+                          color: '#141414',
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                        },
+                      ]}>
+                      By proceeding, you will receive an SMS and additional fees
+                      may apply.
+                    </Text>
+                  </View>
+                  <View style={{flex: 1, alignItems: 'flex-end'}}>
+                    {this.props.App.renderCountryCodeSeacher === false ? (
+                      <TouchableOpacity
+                        onPress={() => this.props.ValidateGenericPhoneNumber()}
+                        style={[
+                          styles.arrowCircledForwardBasic,
+                          styles.shadowButtonArrowCircledForward,
+                        ]}>
+                        <IconMaterialIcons
+                          name="arrow-forward-ios"
+                          size={30}
+                          color="#fff"
+                        />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                </View>
               </View>
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
-                {this.props.App.renderCountryCodeSeacher === false ? (
-                  <TouchableOpacity
-                    onPress={() => this.props.ValidateGenericPhoneNumber()}
-                    style={[
-                      styles.arrowCircledForwardBasic,
-                      styles.shadowButtonArrowCircledForward,
-                    ]}>
-                    <IconMaterialIcons
-                      name="arrow-forward-ios"
-                      size={30}
-                      color="#fff"
-                    />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-            </View>
-          </View>
-        </SafeAreaView>
-      </DismissKeyboard>
+            </SafeAreaView>
+          </DismissKeyboard>
+        ) : null}
+      </>
     );
   }
 }

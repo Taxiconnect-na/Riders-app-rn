@@ -68,7 +68,7 @@ class RenderRequestsList extends React.PureComponent {
               marginTop: 15,
               color: '#757575',
             }}>
-            No pending scheduled requests so far.
+            No scheduled requests so far.
           </Text>
         </View>
       );

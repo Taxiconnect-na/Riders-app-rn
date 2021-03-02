@@ -119,7 +119,7 @@ class SendFundsFriendInputNumber extends React.PureComponent {
                               : 'Uber Move Text',
                         },
                       ]}>
-                      You can only send funds to active{' '}
+                      You can only send fares to active{' '}
                       <Text style={{fontWeight: 'bold', color: '#0e8491'}}>
                         TaxiConnect
                       </Text>{' '}

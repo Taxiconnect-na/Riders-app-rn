@@ -2119,7 +2119,7 @@ class ErrorModal extends React.PureComponent {
             <TouchableOpacity
               onPress={() =>
                 call({
-                  number: '061302302',
+                  number: '+2646110111',
                   prompt: true,
                 })
               }
@@ -2172,7 +2172,7 @@ class ErrorModal extends React.PureComponent {
                     flex: Platform.OS === 'android' ? 1 : 0,
                     bottom: 5,
                   }}>
-                  Call immediatly the authorities if you feel a threaten.
+                  Call the authorities immediatly if you feel a threaten.
                 </Text>
               </View>
             </TouchableOpacity>

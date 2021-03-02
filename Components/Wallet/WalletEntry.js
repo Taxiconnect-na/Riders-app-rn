@@ -282,7 +282,7 @@ class WalletEntry extends React.PureComponent {
                               ? 'UberMoveTextRegular'
                               : 'Uber Move Text',
                           fontSize: RFValue(18),
-                          color: '#AFAFAF',
+                          color: '#757575',
                           paddingBottom: 15,
                           flex: 1,
                         }}>

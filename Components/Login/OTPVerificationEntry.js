@@ -93,6 +93,7 @@ class OTPVerificationEntry extends React.PureComponent {
 
     this._shouldShow_errorModal = true; //! ERROR MODAL AUTO-LOCKER - PERFORMANCE IMPROVER.
     this._navigatorEvent = null;
+    this._isMounted = false;
 
     this.state = {
       loaderState: true,
@@ -117,6 +118,7 @@ class OTPVerificationEntry extends React.PureComponent {
 
   componentDidMount() {
     let globalObject = this;
+    this._isMounted = true; //? mark component as mounted
 
     //? Generate the SMS hash linker to auto pick the verification code from the SMS.
     Platform.OS === 'android' &&
@@ -378,6 +380,8 @@ class OTPVerificationEntry extends React.PureComponent {
     }
     //Remove the auto otp seeker
     Platform.OS === 'android' && RNOtpVerify.removeListener();
+    //? Mark component as unmounted
+    this._isMounted = false;
   }
 
   /**
@@ -540,109 +544,116 @@ class OTPVerificationEntry extends React.PureComponent {
 
   render() {
     return (
-      <DismissKeyboard>
-        <SafeAreaView style={styles.mainWindow}>
-          <GenericLoader active={this.state.loaderState} thickness={4} />
-          {this.autoCheckOTPAsTyped()}
-          {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-            ? this.renderError_modalView()
-            : null}
-          <View style={styles.presentationWindow}>
-            <TouchableOpacity
-              onPress={() => this.goBackFUnc()}
-              style={{width: '30%'}}>
-              <IconAnt name="arrowleft" size={29} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                {
-                  fontSize: RFValue(21),
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextMedium'
-                      : 'Uber Move Text Medium',
-                  marginTop: 15,
-                  marginBottom: 35,
-                },
-              ]}>
-              Enter the 5-digits code sent you.
-            </Text>
-            <App
-              valueM={this.state.otpValue}
-              parentNode={this}
-              editable={!this.state.checkingOTP}
-            />
-            {this.state.showSendAgain &&
-            this.state.showErrorUnmatchedOTP === false ? (
-              <TouchableOpacity
-                onPress={() => this.requestForOTP(true)}
-                style={{marginTop: '15%'}}>
+      <>
+        {this._isMounted ? (
+          <DismissKeyboard>
+            <SafeAreaView style={styles.mainWindow}>
+              <GenericLoader active={this.state.loaderState} thickness={4} />
+              {this.autoCheckOTPAsTyped()}
+              {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+                ? this.renderError_modalView()
+                : null}
+              <View style={styles.presentationWindow}>
+                <TouchableOpacity
+                  onPress={() => this.goBackFUnc()}
+                  style={{width: '30%'}}>
+                  <IconAnt name="arrowleft" size={29} />
+                </TouchableOpacity>
                 <Text
                   style={[
                     {
+                      fontSize: RFValue(21),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
-                          : 'Uber Move Text',
-                      color: '#0e8491',
-                      fontSize: RFValue(17),
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      marginTop: 15,
+                      marginBottom: 35,
                     },
                   ]}>
-                  I didn't receive the code.
+                  Enter the 5-digits code sent you.
                 </Text>
-              </TouchableOpacity>
-            ) : this.state.showErrorUnmatchedOTP ? (
-              <View style={{marginTop: '15%'}}>
-                <Text
-                  style={[
-                    {
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
-                          : 'Uber Move Text',
-                      color: '#b22222',
-                      fontSize: RFValue(17),
-                    },
-                  ]}>
-                  The code entered is not correct.
-                </Text>
-              </View>
-            ) : null}
-
-            <View
-              style={{
-                flexDirection: 'row',
-                position: 'absolute',
-                bottom: '10%',
-                left: 20,
-                right: 20,
-                width: '100%',
-              }}>
-              <View style={{flexDirection: 'row', flex: 1}}>
-                <Text
-                  style={[systemWeights.light, {fontSize: 12, marginLeft: 6}]}
+                <App
+                  valueM={this.state.otpValue}
+                  parentNode={this}
+                  editable={!this.state.checkingOTP}
                 />
-              </View>
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
-                {this.state.checkingOTP === false ? (
+                {this.state.showSendAgain &&
+                this.state.showErrorUnmatchedOTP === false ? (
                   <TouchableOpacity
-                    onPress={() => this.moveForwardCheck()}
-                    style={[
-                      styles.arrowCircledForwardBasic,
-                      styles.shadowButtonArrowCircledForward,
-                    ]}>
-                    <IconMaterialIcons
-                      name="arrow-forward-ios"
-                      size={30}
-                      color="#fff"
-                    />
+                    onPress={() => this.requestForOTP(true)}
+                    style={{marginTop: '15%'}}>
+                    <Text
+                      style={[
+                        {
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          color: '#0e8491',
+                          fontSize: RFValue(17),
+                        },
+                      ]}>
+                      I didn't receive the code.
+                    </Text>
                   </TouchableOpacity>
+                ) : this.state.showErrorUnmatchedOTP ? (
+                  <View style={{marginTop: '15%'}}>
+                    <Text
+                      style={[
+                        {
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          color: '#b22222',
+                          fontSize: RFValue(17),
+                        },
+                      ]}>
+                      The code entered is not correct.
+                    </Text>
+                  </View>
                 ) : null}
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: '10%',
+                    left: 20,
+                    right: 20,
+                    width: '100%',
+                  }}>
+                  <View style={{flexDirection: 'row', flex: 1}}>
+                    <Text
+                      style={[
+                        systemWeights.light,
+                        {fontSize: 12, marginLeft: 6},
+                      ]}
+                    />
+                  </View>
+                  <View style={{flex: 1, alignItems: 'flex-end'}}>
+                    {this.state.checkingOTP === false ? (
+                      <TouchableOpacity
+                        onPress={() => this.moveForwardCheck()}
+                        style={[
+                          styles.arrowCircledForwardBasic,
+                          styles.shadowButtonArrowCircledForward,
+                        ]}>
+                        <IconMaterialIcons
+                          name="arrow-forward-ios"
+                          size={30}
+                          color="#fff"
+                        />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                </View>
               </View>
-            </View>
-          </View>
-        </SafeAreaView>
-      </DismissKeyboard>
+            </SafeAreaView>
+          </DismissKeyboard>
+        ) : null}
+      </>
     );
   }
 }
