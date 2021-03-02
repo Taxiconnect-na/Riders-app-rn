@@ -3355,7 +3355,8 @@ class Home extends React.PureComponent {
           }}>
           {this.props.App.bottomVitalsFlow.canGoBack &&
           this.props.App.bottomVitalsFlow.currentStep !==
-            'gettingRideProcessScreen' ? (
+            'gettingRideProcessScreen' &&
+          this.props.App.isRideInProgress !== true ? (
             /inputReceiverInformations/i.test(
               this.props.App.bottomVitalsFlow.currentStep,
             ) !== true ? (
