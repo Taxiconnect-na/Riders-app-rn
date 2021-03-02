@@ -2070,7 +2070,7 @@ class ErrorModal extends React.PureComponent {
                   borderBottomWidth: 0.5,
                   paddingLeft: 20,
                   paddingRight: 20,
-                  height: 100,
+                  height: 125,
                   backgroundColor: '#fff',
                   shadowColor: '#fff',
                   shadowOffset: {
@@ -2092,8 +2092,8 @@ class ErrorModal extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'UberMoveTextRegular'
-                        : 'Uber Move Text',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     fontSize: RFValue(20),
                     flex: 1,
                     color: '#000',
@@ -2108,7 +2108,7 @@ class ErrorModal extends React.PureComponent {
                         : 'Uber Move Text Light',
                     fontSize: RFValue(14),
                     lineHeight: 19,
-                    flex: 1,
+                    flex: Platform.OS === 'android' ? 1 : 0,
                     bottom: 5,
                   }}>
                   Allows you to share with your friends and family the realtime
@@ -2153,8 +2153,8 @@ class ErrorModal extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'UberMoveTextRegular'
-                        : 'Uber Move Text',
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
                     fontSize: RFValue(20),
                     flex: 1,
                     color: '#b22222',
@@ -2169,7 +2169,7 @@ class ErrorModal extends React.PureComponent {
                         : 'Uber Move Text Light',
                     fontSize: RFValue(14),
                     lineHeight: 19,
-                    flex: 1,
+                    flex: Platform.OS === 'android' ? 1 : 0,
                     bottom: 5,
                   }}>
                   Call immediatly the authorities if you feel a threaten.
@@ -2729,7 +2729,7 @@ class ErrorModal extends React.PureComponent {
                         onChangeText={(text) =>
                           this.setState({custom_note: text})
                         }
-                        maxLength={40}
+                        maxLength={150}
                         style={{
                           fontFamily:
                             Platform.OS === 'android'

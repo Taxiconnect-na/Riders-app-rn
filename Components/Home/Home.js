@@ -959,7 +959,6 @@ class Home extends React.PureComponent {
         response !== undefined &&
         /no_rides/i.test(response.request_status) === false
       ) {
-        //console.log(response);
         //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
         if (
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
