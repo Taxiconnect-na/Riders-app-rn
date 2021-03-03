@@ -2779,7 +2779,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               backgroundColor: '#fff',
               flex: 1,
               padding: 20,
-              paddingTop: Platform.OS === 'android' ? 20 : '2%',
+              paddingTop: Platform.OS === 'android' ? 20 : '10%',
               opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
               transform: [
                 {
