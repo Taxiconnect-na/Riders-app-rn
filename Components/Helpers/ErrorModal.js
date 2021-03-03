@@ -2111,7 +2111,7 @@ class ErrorModal extends React.PureComponent {
                     flex: Platform.OS === 'android' ? 1 : 0,
                     bottom: 5,
                   }}>
-                  Share your live location with your friends and family
+                  Share your live location with your friends and family.
                 </Text>
               </View>
             </TouchableOpacity>
