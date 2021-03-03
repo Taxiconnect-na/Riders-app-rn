@@ -3320,7 +3320,7 @@ class Home extends React.PureComponent {
               left: 20,
             }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}
+              onPress={() => this.props.navigation.toggleDrawer()}
               style={{
                 backgroundColor: '#fff',
                 width: 50,

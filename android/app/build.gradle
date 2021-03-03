@@ -148,8 +148,8 @@ android {
         applicationId "com.taxiconnect"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 93
-        versionName "2.1.310"
+        versionCode 94
+        versionName "2.1.311"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

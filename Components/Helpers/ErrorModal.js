@@ -2111,8 +2111,7 @@ class ErrorModal extends React.PureComponent {
                     flex: Platform.OS === 'android' ? 1 : 0,
                     bottom: 5,
                   }}>
-                  Allows you to share with your friends and family the realtime
-                  details of your ongoing trip.
+                  Share your live location with your friends and family
                 </Text>
               </View>
             </TouchableOpacity>
