@@ -20,7 +20,6 @@
 		716037F3E1EF00DFECE72582 /* libPods-Taxiconnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3A58E323AF3D6F539279C34 /* libPods-Taxiconnect.a */; };
 		79B416F7227B2940CEA21CE2 /* libPods-Taxiconnect-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2235E80ED669E65E94DDE0C9 /* libPods-Taxiconnect-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9621AE6725EF002800ABD01D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9621AE6625EF002800ABD01D /* GoogleService-Info.plist */; };
 		964AF19625C2D8D3007C5D25 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 964AF18525C2D8D3007C5D25 /* Foundation.ttf */; };
 		964AF19725C2D8D3007C5D25 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 964AF18525C2D8D3007C5D25 /* Foundation.ttf */; };
 		964AF19825C2D8D3007C5D25 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 964AF18525C2D8D3007C5D25 /* Foundation.ttf */; };
@@ -663,7 +662,6 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				96D3CCF325D3025900068A70 /* UberMoveTextMedium.otf in Resources */,
 				96D3CCF525D3025900068A70 /* UberMoveTextRegular.otf in Resources */,
-				9621AE6725EF002800ABD01D /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				EF1BA301914A4F8CBBEBFE95 /* UberMoveTextBold.otf in Resources */,
 				D09051B795004D3096BDA4D1 /* UberMoveTextLight.otf in Resources */,

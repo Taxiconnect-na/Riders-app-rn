@@ -1235,7 +1235,7 @@ class Home extends React.PureComponent {
           if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
             //! FIXED DROP OFF CONFIRMED FREEZE
             //Clean it up
-            globalObject._RESET_STATE();
+            //globalObject._RESET_STATE();  //! Dropoff crasher bug??
             globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
             //Recalibrate the map
             globalObject.recalibrateMap();

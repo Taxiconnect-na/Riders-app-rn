@@ -14,6 +14,8 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 export function MainDrawerContent(props) {
+  const propKing = props;
+
   return (
     <View style={{flex: 1}}>
       <SafeAreaView style={{backgroundColor: '#0e8491'}}>
@@ -22,7 +24,9 @@ export function MainDrawerContent(props) {
       <SafeAreaView style={{flex: 1}}>
         <ScrollView style={styles.menuContent}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('YourRidesEntry_drawer')}
+            onPress={() =>
+              propKing.navigation.navigate('YourRidesEntry_drawer')
+            }
             style={[styles.menuItem, {paddingTop: 30}]}>
             <Text style={styles.menuTitles}>Your rides</Text>
             <IconMaterialIcons
@@ -32,7 +36,7 @@ export function MainDrawerContent(props) {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Wallet_drawer')}
+            onPress={() => propKing.navigation.navigate('Wallet_drawer')}
             style={[styles.menuItem, {paddingTop: 10}]}>
             <Text style={styles.menuTitles}>Wallet</Text>
             <IconMaterialIcons
@@ -42,7 +46,7 @@ export function MainDrawerContent(props) {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('SettingsEntryScreen')}
+            onPress={() => propKing.navigation.navigate('SettingsEntryScreen')}
             style={[styles.menuItem, {paddingTop: 10}]}>
             <Text style={styles.menuTitles}>Settings</Text>
             <IconMaterialIcons
@@ -52,7 +56,7 @@ export function MainDrawerContent(props) {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Support_drawer')}
+            onPress={() => propKing.navigation.navigate('Support_drawer')}
             style={[styles.menuItem, {paddingTop: 10, borderBottomWidth: 0}]}>
             <Text style={styles.menuTitles}>Support</Text>
             <IconMaterialIcons
@@ -65,7 +69,7 @@ export function MainDrawerContent(props) {
         <View style={styles.footerDrawer}>
           <Text
             onPress={() =>
-              Linking.openURL('https://www.taxiconnectna.com/privacy.html')
+              Linking.openURL('https://taxiconnectna.com/privacy.html')
             }
             style={{
               fontFamily:

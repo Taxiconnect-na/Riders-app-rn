@@ -325,15 +325,18 @@ class OTPVerificationEntry extends React.PureComponent {
               globalObject.state.accountCreation_state = 'full';
               //? Check the state of the account creation
               globalObject.props.navigation.navigate('Home');
+              globalObject.props.navigation.navigate('Home');
             } //Minimal account - go to complete details
             else {
-              console.log(response);
               //! Save the user_fp and the rest of the globals
               globalObject.props.App.user_fingerprint = response.user_fp;
               SyncStorage.set('@accountCreation_state', 'minimal');
               //....
               globalObject.state.accountCreation_state = 'minimal';
               //? Minimal account - move to the additional details screen
+              globalObject.props.navigation.navigate(
+                'NewAccountAdditionalDetails',
+              );
               globalObject.props.navigation.navigate(
                 'NewAccountAdditionalDetails',
               );
@@ -544,116 +547,110 @@ class OTPVerificationEntry extends React.PureComponent {
 
   render() {
     return (
-      <>
-        {this._isMounted ? (
-          <DismissKeyboard>
-            <SafeAreaView style={styles.mainWindow}>
-              <GenericLoader active={this.state.loaderState} thickness={4} />
-              {this.autoCheckOTPAsTyped()}
-              {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-                ? this.renderError_modalView()
-                : null}
-              <View style={styles.presentationWindow}>
-                <TouchableOpacity
-                  onPress={() => this.goBackFUnc()}
-                  style={{width: '30%'}}>
-                  <IconAnt name="arrowleft" size={29} />
-                </TouchableOpacity>
+      <DismissKeyboard>
+        <SafeAreaView style={styles.mainWindow}>
+          <GenericLoader active={this.state.loaderState} thickness={4} />
+          {this.autoCheckOTPAsTyped()}
+          {this.props.App.generalErrorModal_vars.showErrorGeneralModal &&
+          this._isMounted
+            ? this.renderError_modalView()
+            : null}
+          <View style={styles.presentationWindow}>
+            <TouchableOpacity
+              onPress={() => this.goBackFUnc()}
+              style={{width: '30%'}}>
+              <IconAnt name="arrowleft" size={29} />
+            </TouchableOpacity>
+            <Text
+              style={[
+                {
+                  fontSize: RFValue(21),
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
+                  marginTop: 15,
+                  marginBottom: 35,
+                },
+              ]}>
+              Enter the 5-digits code sent you.
+            </Text>
+            <App
+              valueM={this.state.otpValue}
+              parentNode={this}
+              editable={!this.state.checkingOTP}
+            />
+            {this.state.showSendAgain &&
+            this.state.showErrorUnmatchedOTP === false ? (
+              <TouchableOpacity
+                onPress={() => this.requestForOTP(true)}
+                style={{marginTop: '15%'}}>
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(21),
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
-                      marginTop: 15,
-                      marginBottom: 35,
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      color: '#0e8491',
+                      fontSize: RFValue(17),
                     },
                   ]}>
-                  Enter the 5-digits code sent you.
+                  I didn't receive the code.
                 </Text>
-                <App
-                  valueM={this.state.otpValue}
-                  parentNode={this}
-                  editable={!this.state.checkingOTP}
-                />
-                {this.state.showSendAgain &&
-                this.state.showErrorUnmatchedOTP === false ? (
-                  <TouchableOpacity
-                    onPress={() => this.requestForOTP(true)}
-                    style={{marginTop: '15%'}}>
-                    <Text
-                      style={[
-                        {
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'UberMoveTextRegular'
-                              : 'Uber Move Text',
-                          color: '#0e8491',
-                          fontSize: RFValue(17),
-                        },
-                      ]}>
-                      I didn't receive the code.
-                    </Text>
-                  </TouchableOpacity>
-                ) : this.state.showErrorUnmatchedOTP ? (
-                  <View style={{marginTop: '15%'}}>
-                    <Text
-                      style={[
-                        {
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'UberMoveTextRegular'
-                              : 'Uber Move Text',
-                          color: '#b22222',
-                          fontSize: RFValue(17),
-                        },
-                      ]}>
-                      The code entered is not correct.
-                    </Text>
-                  </View>
-                ) : null}
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    position: 'absolute',
-                    bottom: '10%',
-                    left: 20,
-                    right: 20,
-                    width: '100%',
-                  }}>
-                  <View style={{flexDirection: 'row', flex: 1}}>
-                    <Text
-                      style={[
-                        systemWeights.light,
-                        {fontSize: 12, marginLeft: 6},
-                      ]}
-                    />
-                  </View>
-                  <View style={{flex: 1, alignItems: 'flex-end'}}>
-                    {this.state.checkingOTP === false ? (
-                      <TouchableOpacity
-                        onPress={() => this.moveForwardCheck()}
-                        style={[
-                          styles.arrowCircledForwardBasic,
-                          styles.shadowButtonArrowCircledForward,
-                        ]}>
-                        <IconMaterialIcons
-                          name="arrow-forward-ios"
-                          size={30}
-                          color="#fff"
-                        />
-                      </TouchableOpacity>
-                    ) : null}
-                  </View>
-                </View>
+              </TouchableOpacity>
+            ) : this.state.showErrorUnmatchedOTP ? (
+              <View style={{marginTop: '15%'}}>
+                <Text
+                  style={[
+                    {
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      color: '#b22222',
+                      fontSize: RFValue(17),
+                    },
+                  ]}>
+                  The code entered is not correct.
+                </Text>
               </View>
-            </SafeAreaView>
-          </DismissKeyboard>
-        ) : null}
-      </>
+            ) : null}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                position: 'absolute',
+                bottom: '10%',
+                left: 20,
+                right: 20,
+                width: '100%',
+              }}>
+              <View style={{flexDirection: 'row', flex: 1}}>
+                <Text
+                  style={[systemWeights.light, {fontSize: 12, marginLeft: 6}]}
+                />
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                {this.state.checkingOTP === false ? (
+                  <TouchableOpacity
+                    onPress={() => this.moveForwardCheck()}
+                    style={[
+                      styles.arrowCircledForwardBasic,
+                      styles.shadowButtonArrowCircledForward,
+                    ]}>
+                    <IconMaterialIcons
+                      name="arrow-forward-ios"
+                      size={30}
+                      color="#fff"
+                    />
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+            </View>
+          </View>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }

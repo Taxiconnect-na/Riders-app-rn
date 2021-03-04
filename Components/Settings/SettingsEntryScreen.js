@@ -535,9 +535,7 @@ class SettingsEntryScreen extends React.Component {
                 </View>
                 <TouchableOpacity
                   onPress={() =>
-                    Linking.openURL(
-                      'https://www.taxiconnectna.com/privacy.html',
-                    )
+                    Linking.openURL('https://taxiconnectna.com/privacy.html')
                   }
                   style={{
                     flexDirection: 'row',
@@ -564,9 +562,7 @@ class SettingsEntryScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() =>
-                    Linking.openURL(
-                      'https://www.taxiconnectna.com/privacy.html',
-                    )
+                    Linking.openURL('https://taxiconnectna.com/privacy.html')
                   }
                   style={{
                     flexDirection: 'row',

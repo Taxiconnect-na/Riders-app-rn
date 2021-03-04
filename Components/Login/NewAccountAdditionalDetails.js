@@ -128,7 +128,6 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     this.props.App.socket.on(
       'updateAdditionalProfileData-response',
       function (response) {
-        console.log(response);
         globalObject.setState({loaderState: false}); //stop loader
         if (response !== false && response.response !== undefined) {
           if (!/error/i.test(response.response)) {
@@ -155,6 +154,7 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             //....
             globalObject.state.accountCreation_state = 'full';
             //Move to home
+            globalObject.props.navigation.navigate('Home');
             globalObject.props.navigation.navigate('Home');
           } //Error updating the addition details - show error, but can proceed
           else {
