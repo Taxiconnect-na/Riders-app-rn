@@ -2051,7 +2051,7 @@ class RenderContentBottomVitals extends React.PureComponent {
             if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
               clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
               globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-              globalObject.props.parentNode.resetAnimationLoader();
+              //globalObject.props.parentNode.resetAnimationLoader();
             }
           }
         }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 500);
@@ -2059,7 +2059,7 @@ class RenderContentBottomVitals extends React.PureComponent {
         if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
           clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
           globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-          globalObject.props.parentNode.resetAnimationLoader();
+          //globalObject.props.parentNode.resetAnimationLoader();
         }
       }
       //...

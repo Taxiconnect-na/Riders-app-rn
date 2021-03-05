@@ -35,6 +35,7 @@ class SupportEntry extends React.PureComponent {
     if (this.backListener !== null) {
       this.backListener = null;
     }*/
+    this._navigatorEvent();
   }
 
   componentDidMount() {
@@ -53,12 +54,17 @@ class SupportEntry extends React.PureComponent {
           },
         );
         //Add home going back handler-----------------------------
-        globalObject.props.navigation.addListener('beforeRemove', (e) => {
-          // Prevent default behavior of leaving the screen
-          e.preventDefault();
-          globalObject.props.navigation.navigate('Home_drawer');
-          return;
-        });
+        globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+          'beforeRemove',
+          (e) => {
+            // Prevent default behavior of leaving the screen
+            e.preventDefault();
+            if (/POP/i.test(e.data.action.type)) {
+              globalObject.props.navigation.navigate('Home_drawer');
+            }
+            return;
+          },
+        );
       },
     );
     //--------------------------------------------------------

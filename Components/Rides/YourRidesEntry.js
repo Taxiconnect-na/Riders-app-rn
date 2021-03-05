@@ -59,13 +59,14 @@ class YourRidesEntry extends React.PureComponent {
       'focus',
       () => {
         globalObject.fetchRequestedRequests_history();
-        //Add home going back handler-----------------------------
         globalObject._navigatorEvent = globalObject.props.navigation.addListener(
           'beforeRemove',
           (e) => {
             // Prevent default behavior of leaving the screen
             e.preventDefault();
-            globalObject.props.navigation.navigate('Home_drawer');
+            if (/POP/i.test(e.data.action.type)) {
+              globalObject.props.navigation.navigate('Home_drawer');
+            }
             return;
           },
         );

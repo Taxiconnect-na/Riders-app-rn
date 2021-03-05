@@ -1239,8 +1239,6 @@ class Home extends React.PureComponent {
             globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
             //Recalibrate the map
             globalObject.recalibrateMap();
-            //save pending scenario
-            globalObject.props.App.request_status = response.request_status;
           }
           //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
           if (
@@ -1282,7 +1280,7 @@ class Home extends React.PureComponent {
           //...
           if (globalObject.props.App.isRideInProgress) {
             //Reset props.App
-            globalObject._RESET_STATE();
+            //globalObject._RESET_STATE(); //! Drop off crash??
             //Recalibrate the map
             globalObject.recalibrateMap();
           }

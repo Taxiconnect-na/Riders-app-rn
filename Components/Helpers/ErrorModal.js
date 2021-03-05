@@ -65,6 +65,8 @@ class ErrorModal extends React.PureComponent {
       errorString_template: 'An error occured', //TO hold any kind of string error
       isErrorThrown: false, //To know whether or not an error was thrown.
     };
+
+    this.signOff_theApp = this.signOff_theApp.bind(this);
   }
 
   componentDidMount() {

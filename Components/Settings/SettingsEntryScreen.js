@@ -50,29 +50,29 @@ class SettingsEntryScreen extends React.Component {
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
+    //--------------------------------------------------------
     globalObject._navigatorEvent = this.props.navigation.addListener(
       'focus',
       () => {
-        //Add home going back handler-----------------------------
-        if (globalObject.backListener === null) {
-          globalObject.backListener = globalObject.props.navigation.addListener(
-            'beforeRemove',
-            (e) => {
-              // Prevent default behavior of leaving the screen
-              e.preventDefault();
+        globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+          'beforeRemove',
+          (e) => {
+            // Prevent default behavior of leaving the screen
+            e.preventDefault();
+            if (/POP/i.test(e.data.action.type)) {
               globalObject.props.navigation.navigate('Home_drawer');
-              return;
-            },
-          );
-          //--------------------------------------------------------
-          globalObject.backHander = BackHandler.addEventListener(
-            'hardwareBackPress',
-            function () {
-              globalObject.props.navigation.navigate('Home_drawer');
-              return true;
-            },
-          );
-        }
+            }
+            return;
+          },
+        );
+        //--------------------------------------------------------
+        globalObject.backHander = BackHandler.addEventListener(
+          'hardwareBackPress',
+          function () {
+            globalObject.props.navigation.navigate('Home_drawer');
+            return true;
+          },
+        );
       },
     );
 
@@ -150,6 +150,7 @@ class SettingsEntryScreen extends React.Component {
     if (this.backListener !== null) {
       this.backListener = null;
     }*/
+    this._navigatorEvent();
   }
 
   /**

@@ -35,12 +35,9 @@ class WalletEntry extends React.PureComponent {
     //...
     /*if (this.backHander !== null) {
       this.backHander.remove();
-    }
-    //...
-    if (this._navigatorEvent != null) {
-      this._navigatorEvent();
-      this._navigatorEvent = null;
     }*/
+    //...
+    this._navigatorEvent();
   }
 
   componentDidMount() {
@@ -56,7 +53,9 @@ class WalletEntry extends React.PureComponent {
         (e) => {
           // Prevent default behavior of leaving the screen
           e.preventDefault();
-          globalObject.props.navigation.navigate('Home_drawer');
+          if (/POP/i.test(e.data.action.type)) {
+            globalObject.props.navigation.navigate('Home_drawer');
+          }
           return;
         },
       );
@@ -304,7 +303,7 @@ class WalletEntry extends React.PureComponent {
                               fontFamily:
                                 Platform.OS === 'android'
                                   ? 'UberMoveTextMedium'
-                                  : 'Uber Move Text Medium',
+                                  : 'Uber Move Text',
                               fontSize: RFValue(17.5),
                               color: '#757575',
                               paddingBottom: 15,
