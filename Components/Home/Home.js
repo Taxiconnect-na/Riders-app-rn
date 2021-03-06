@@ -3156,9 +3156,9 @@ class Home extends React.PureComponent {
             <Text
               style={[
                 {
-                  fontSize: RFValue(17.5),
+                  fontSize: RFValue(16),
                   color: '#fff',
-                  lineHeight: 20,
+                  lineHeight: 25,
                   fontFamily:
                     Platform.OS === 'android'
                       ? 'UberMoveTextRegular'
@@ -3170,7 +3170,7 @@ class Home extends React.PureComponent {
             <Text
               style={{
                 fontFamily:
-                  Platform.OS === 'android' ? 'MoveMedium' : 'Uber Move Medium',
+                  Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
                 fontSize: RFValue(17.5),
                 marginTop: 10,
                 color: '#fff',
@@ -3184,7 +3184,7 @@ class Home extends React.PureComponent {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <IconAnt name="arrowright" color={'#fff'} size={20} />
+            <IconAnt name="arrowright" color={'#fff'} size={25} />
           </View>
         </TouchableOpacity>
       );
@@ -3362,7 +3362,7 @@ class Home extends React.PureComponent {
               left: 20,
             }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.toggleDrawer()}
+              onPress={() => this.props.navigation.openDrawer()}
               style={{
                 backgroundColor: '#fff',
                 width: 50,

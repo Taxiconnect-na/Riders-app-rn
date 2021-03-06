@@ -5,7 +5,6 @@ import {
   PointAnnotation,
   MarkerView,
 } from '@react-native-mapbox-gl/maps';
-import {InteractionManager} from 'react-native';
 import {View} from 'react-native';
 import AnnotationDestination from './AnnotationDestination';
 import AnnotationPickup from './AnnotationPickup';
@@ -13,6 +12,10 @@ import AnnotationPickup from './AnnotationPickup';
 class PreviewRoute extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.previewRouteToDestinationSnapshot_render = this.previewRouteToDestinationSnapshot_render.bind(
+      this,
+    );
   }
 
   /**
@@ -21,7 +24,6 @@ class PreviewRoute extends React.PureComponent {
    * the destination location on the booking flow. -> Find the best anchor combination
    */
   previewRouteToDestinationSnapshot_render() {
-    let globalObject = this;
     if (
       this.props.App.previewDestinationData.originDestinationPreviewData !==
         undefined &&
@@ -30,23 +32,23 @@ class PreviewRoute extends React.PureComponent {
     ) {
       //Reposition MarkerViews optimally
       //Destination anchor
-      globalObject.props.repositionMaviewMarker(
-        globalObject.props.App.previewDestinationData
-          .originDestinationPreviewData.routePoints.coordinates[
-          globalObject.props.App.previewDestinationData
-            .originDestinationPreviewData.routePoints.coordinates.length - 1
+      this.props.parentNodeDirect.repositionMaviewMarker(
+        this.props.App.previewDestinationData.originDestinationPreviewData
+          .routePoints.coordinates[
+          this.props.App.previewDestinationData.originDestinationPreviewData
+            .routePoints.coordinates.length - 1
         ],
         'destination',
       );
       //Origin anchor
-      globalObject.props.repositionMaviewMarker(
-        globalObject.props.App.previewDestinationData
-          .originDestinationPreviewData.routePoints.coordinates[0],
+      this.props.parentNodeDirect.repositionMaviewMarker(
+        this.props.App.previewDestinationData.originDestinationPreviewData
+          .routePoints.coordinates[0],
         'origin',
       );
 
       //Fit to bounds
-      globalObject.props.parentNode.recalibrateMap();
+      this.props.parentNode.recalibrateMap();
       //...
       return (
         <>

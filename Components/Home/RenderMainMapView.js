@@ -325,7 +325,10 @@ class RenderMainMapView extends React.PureComponent {
             />
           )}
 
-          <PreviewRoute repositionMaviewMarker={this.repositionMaviewMarker} />
+          <PreviewRoute
+            parentNode={this.props.parentNode}
+            parentNodeDirect={this}
+          />
           <RenderTrackerDrivers
             repositionMaviewMarker={this.repositionMaviewMarker}
           />
