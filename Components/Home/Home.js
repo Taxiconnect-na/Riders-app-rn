@@ -1154,9 +1154,8 @@ class Home extends React.PureComponent {
           } else if (/pending/i.test(response.request_status)) {
             //! Do a preliminary cleaning
             if (
-              globalObject.props.App.request_status === null ||
-              globalObject.props.App.request_status === undefined ||
-              globalObject.props.App.request_status === false
+              globalObject.props.App.request_status !== 'pending' &&
+              globalObject.props.App.request_status !== null
             ) {
               console.log('preliminary cleaning done!');
               globalObject._RESET_STATE();

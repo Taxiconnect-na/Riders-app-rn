@@ -2210,10 +2210,11 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_CLOSEST_DRIVERS_LIST':
+      //? Optimized
       //Update data only if different
       if (
-        JSON.stringify(newState._CLOSEST_DRIVERS_DATA) ==
-        JSON.stringify(action.payload)
+        `${JSON.stringify(newState._CLOSEST_DRIVERS_DATA)}` ==
+        `${JSON.stringify(action.payload)}`
       ) {
         //Same data - don't update
         return state;
