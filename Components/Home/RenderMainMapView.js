@@ -742,12 +742,12 @@ class RenderMainMapView extends React.PureComponent {
           onRegionDidChange={() => this.normalizeCarSizeToZoom()}
           scrollEnabled={
             this.props.App.isRideInProgress
-              ? false
+              ? true
               : this.props.App.bottomVitalsFlow.scrollEnabled
           }
           zoomEnabled={
             this.props.App.isRideInProgress
-              ? false
+              ? true
               : this.props.App.bottomVitalsFlow.zoomEnabled
           }
           rotateEnabled={

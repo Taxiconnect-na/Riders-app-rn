@@ -59,14 +59,14 @@ const STATE = {
   //Will contain temporary variables that will be responsible for perisisting requests when the desired answer is
   //Not received yet.
   _TMP_INTERVAL_PERSISTER: null, //can be a setINterval or timeout - default: null
-  _TMP_INTERVAL_PERSISTER_TIME: 2000, //THe frequency of repetition - default: 2s
+  _TMP_INTERVAL_PERSISTER_TIME: 1500, //THe frequency of repetition - default: 1.5s
   //Interval persister for updating closest drivers on map
   _TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS: null, //To update the closest drivers on the map
-  _TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS: 3000,
+  _TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS: 1500,
   _CLOSEST_DRIVERS_DATA: null, //Will contain the array of all the closest drivers
   //Interval persister for updating requests data
   _TMP_TRIP_INTERVAL_PERSISTER: null, //The interval for updating rides related data
-  _TMP_TRIP_INTERVAL_PERSISTER_TIME: 3000, //THe frequency of repetition - default:3s
+  _TMP_TRIP_INTERVAL_PERSISTER_TIME: 1500, //THe frequency of repetition - default:2s
 
   _MAIN_PARENT: null, //Main parent of the whole screen
 

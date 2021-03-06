@@ -665,6 +665,7 @@ const styles = StyleSheet.create({
   presentationWindow: {
     flex: 1,
     padding: 20,
+    paddingTop: Platform.OS === 'android' ? 20 : '10%',
   },
   bttnGenericTc: {
     borderColor: '#000',

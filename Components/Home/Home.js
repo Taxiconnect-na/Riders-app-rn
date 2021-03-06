@@ -650,7 +650,7 @@ class Home extends React.PureComponent {
                       );
                     }
                   },
-                  3000,
+                  2000,
                 );
               }
             }
@@ -944,381 +944,426 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
-      //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
-      if (
-        /(connection_no_network|service_unavailable)/i.test(
-          globalObject.props.App.generalErrorModal_vars.generalErrorModalType,
-        )
-      ) {
-        //Do not interrupt the select gender process
-        globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
-      }
-      //...
-      if (
-        response !== null &&
-        response !== undefined &&
-        /no_rides/i.test(response.request_status) === false
-      ) {
-        //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
+      try {
+        //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (
-          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
-          globalObject.props.App.isRideInProgress === false
-        ) {
-          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
-          //Reset
-          globalObject._RESET_STATE();
-          //Recalibrate map
-          if (
-            globalObject.map !== undefined &&
-            globalObject.map !== null &&
-            globalObject.camera !== undefined &&
-            globalObject.camera !== null
-          ) {
-            globalObject.camera.setCamera({
-              centerCoordinate: [
-                globalObject.props.App.longitude,
-                globalObject.props.App.latitude,
-              ],
-              zoomLevel: 14,
-              animationDuration: 2000,
-            });
-          }
-        }
-
-        //1. Trip in progress: in route to pickup or in route to drop off
-        if (
-          response.response === undefined &&
-          response.routePoints !== undefined &&
-          /(inRouteToPickup|inRouteToDestination)/i.test(
-            response.request_status,
+          /(connection_no_network|service_unavailable)/i.test(
+            globalObject.props.App.generalErrorModal_vars.generalErrorModalType,
           )
         ) {
-          globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
-          //Save the driver's details - car details - and Static ETA to destination info
-          globalObject.props.App.generalTRIP_details_driverDetails = {
-            eta: response.eta,
-            ETA_toDestination: response.ETA_toDestination,
-            driverDetails: response.driverDetails,
-            carDetails: response.carDetails,
-            basicTripDetails: response.basicTripDetails,
-            riderOwnerInfoBundle:
-              response.riderOwnerInfoBundle !== undefined
-                ? response.riderOwnerInfoBundle
-                : undefined,
-          }; //Very important
-
-          //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
-          if (/inRouteToPickup/i.test(response.request_status)) {
-            //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
-            response.pickupPoint = response.pickupPoint.map(parseFloat);
-            response.destinationPoint = response.destinationPoint.map(
-              parseFloat,
-            );
-            //? -----------
-            globalObject.props.App.isInRouteToDestination = false;
-            globalObject.props.App.request_status = 'inRouteToPickup';
-
-            //Update loop request
-            //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
-            if (
-              globalObject.props.App.intervalProgressLoop === false &&
-              globalObject.props.App.sharedSimplifiedLink === null
-            ) {
-              globalObject.props.App.intervalProgressLoop = setInterval(
-                function () {
-                  if (globalObject.props.App.isRideInProgress === true) {
-                    globalObject.GPRS_resolver();
-                    globalObject.updateRemoteLocationsData();
-                  } //clear interval
-                  else {
-                    clearInterval(globalObject.props.App.intervalProgressLoop);
-                    globalObject.props.App.intervalProgressLoop = false;
-                  }
-                },
-                3000,
-              );
-            }
-          } else if (response.request_status === 'inRouteToDestination') {
-            //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
-            response.pickupPoint = response.pickupPoint.map(parseFloat);
-            response.destinationPoint = response.destinationPoint.map(
-              parseFloat,
-            );
-            //? -----------
-
-            globalObject.props.App.request_status = 'inRouteToDestination';
-            globalObject.props.App.isInRouteToDestination = true;
-            //Update destination metadata
-            globalObject.props.App.destinationLocation_metadata.eta =
-              response.eta; //ETA
-            globalObject.props.App.destinationLocation_metadata.distance =
-              response.distance; //Distance
-
-            //Update loop request
-            //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
-            if (
-              globalObject.props.App.intervalProgressLoop === false &&
-              globalObject.props.App.sharedSimplifiedLink === null
-            ) {
-              globalObject.props.App.intervalProgressLoop = setInterval(
-                function () {
-                  if (globalObject.props.App.isRideInProgress === true) {
-                    globalObject.GPRS_resolver();
-                    globalObject.updateRemoteLocationsData();
-                  } //clear interval
-                  else {
-                    clearInterval(globalObject.props.App.intervalProgressLoop);
-                    globalObject.props.App.intervalProgressLoop;
-                  }
-                },
-                3000,
-              );
-            }
-          }
-          //----------------------------------------------------------------------------------------
-          //let paddingFit = 100 * (20 / response.routePoints.length);
-          //paddingFit += 7;
-          //paddingFit =
-          //  paddingFit -
-          //  Math.round((paddingFit / PADDING_LIMIT - 1) * PADDING_LIMIT);
-          //if (paddingFit > PADDING_LIMIT) {
-          //paddingFit = PADDING_LIMIT;
-          //}
-          let paddingFit = PADDING_LIMIT;
-
-          //Get driver's next point
-          let currentPoint = response.driverNextPoint;
-          let currentPointRm = point(currentPoint);
-          //Compute the car's bearing angle
+          //Do not interrupt the select gender process
+          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+        }
+        //...
+        if (
+          response !== null &&
+          response !== undefined &&
+          /no_rides/i.test(response.request_status) === false
+        ) {
+          //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
           if (
-            globalObject.props.App.lastDriverCoords === null ||
-            globalObject.props.App.initializedScenario !==
-              response.request_status
+            globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
+            globalObject.props.App.isRideInProgress === false
           ) {
-            globalObject.props.App.lastDriverCoords = [];
-            globalObject.props.App.lastDriverCoords.push(0);
-            globalObject.props.App.lastDriverCoords.push(0);
-            //Initialize animation
-            new Promise((resolve0) => {
-              globalObject.initializeRouteNavigation(
-                response,
-                response.request_status,
-                resolve0,
-              );
-            }).then(
-              (reslt) => {
-                if (reslt === true) {
-                  new Promise((resolve1) => {
-                    globalObject.animateRoute(
-                      response,
-                      currentPoint,
-                      currentPointRm,
-                      paddingFit,
-                      resolve1,
-                      /inRouteToDestination/i.test(response.request_status)
-                        ? response.pickupPoint
-                        : false,
-                    );
-                  }).then(
-                    () => {},
-                    () => {},
-                  );
-                }
-              },
-              () => {},
-            );
-          } //Animate
-          else {
-            new Promise((resolve1) => {
-              globalObject.animateRoute(
-                response,
-                currentPoint,
-                currentPointRm,
-                paddingFit,
-                resolve1,
-                /inRouteToDestination/i.test(response.request_status)
-                  ? response.pickupPoint
-                  : false,
-              );
-            }).then(
-              () => {},
-              () => {},
-            );
-          }
-          //...
-        } else if (/pending/i.test(response.request_status)) {
-          //! Reset navigation data if an existing previous scenario was set
-          if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
-            //! CHECK FOR DRIVER REQUEST GHOSTING BUG!!!
-            //Clean it up
-            //globalObject._RESET_STATE();  //! <-- RE-RESET BUG
-            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
-            //Recalibrate the map
-            globalObject.recalibrateMap();
-            //save pending scenario
-            globalObject.props.App.request_status = response.request_status;
-            //? Update the pending location --force
-            globalObject.props.UpdatePendingGlobalVars({
-              request_status: response.request_status,
-              isRideInProgress: true,
-              pickupLocation_metadata: {
-                coordinates: response.pickupLocation_point,
-                pickupLocation_name: response.pickupLocation_name,
-              },
-            });
-          }
-
-          globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
-          //Save the main object
-          globalObject.props.App.generalTRIP_details_driverDetails = response;
-
-          //Update loop request
-          //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
-          if (
-            globalObject.props.App.intervalProgressLoop === false &&
-            globalObject.props.App.sharedSimplifiedLink === null
-          ) {
-            //Reposition the map
+            globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
+            //Reset
+            globalObject._RESET_STATE();
+            //Recalibrate map
             if (
+              globalObject.map !== undefined &&
+              globalObject.map !== null &&
               globalObject.camera !== undefined &&
               globalObject.camera !== null
             ) {
-              globalObject.camera.flyTo(
-                response.pickupLocation_point.map(parseFloat),
-                2000,
-              );
               globalObject.camera.setCamera({
-                centerCoordinate: response.pickupLocation_point.map(parseFloat),
+                centerCoordinate: [
+                  globalObject.props.App.longitude,
+                  globalObject.props.App.latitude,
+                ],
                 zoomLevel: 14,
-                animationDuration: 1000,
+                animationDuration: 1200,
               });
             }
-            globalObject.props.App.intervalProgressLoop = setInterval(
-              function () {
-                if (globalObject.props.App.isRideInProgress === true) {
-                  globalObject.GPRS_resolver();
-                  globalObject.updateRemoteLocationsData();
-                } //clear interval
-                else {
-                  clearInterval(globalObject.props.App.intervalProgressLoop);
-                }
-              },
-              3000,
-            );
           }
-          //Trip pending
+
+          //1. Trip in progress: in route to pickup or in route to drop off
           if (
-            globalObject.props.App.request_status !== response.request_status &&
-            globalObject.props.App.pickupLocation_metadata
-              .pickupLocation_name !== response.pickupLocation_name
+            response.response === undefined &&
+            response.routePoints !== undefined &&
+            /(inRouteToPickup|inRouteToDestination)/i.test(
+              response.request_status,
+            )
           ) {
-            //...
-            if (/Searching/.test(response.pickupLocation_name)) {
-              response.pickupLocation_name = 'Pickup';
+            globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
+            //Save the driver's details - car details - and Static ETA to destination info
+            globalObject.props.App.generalTRIP_details_driverDetails = {
+              eta: response.eta,
+              ETA_toDestination: response.ETA_toDestination,
+              driverDetails: response.driverDetails,
+              carDetails: response.carDetails,
+              basicTripDetails: response.basicTripDetails,
+              riderOwnerInfoBundle:
+                response.riderOwnerInfoBundle !== undefined
+                  ? response.riderOwnerInfoBundle
+                  : undefined,
+            }; //Very important
+
+            //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
+            if (/inRouteToPickup/i.test(response.request_status)) {
+              //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
+              response.pickupPoint = response.pickupPoint.map(parseFloat);
+              response.destinationPoint = response.destinationPoint.map(
+                parseFloat,
+              );
+              //? -----------
+              globalObject.props.App.isInRouteToDestination = false;
+              globalObject.props.App.request_status = 'inRouteToPickup';
+
+              //Update loop request
+              //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
+              if (
+                globalObject.props.App.intervalProgressLoop === false &&
+                globalObject.props.App.sharedSimplifiedLink === null
+              ) {
+                globalObject.props.App.intervalProgressLoop = setInterval(
+                  function () {
+                    if (globalObject.props.App.isRideInProgress === true) {
+                      globalObject.GPRS_resolver();
+                      globalObject.updateRemoteLocationsData();
+                    } //clear interval
+                    else {
+                      clearInterval(
+                        globalObject.props.App.intervalProgressLoop,
+                      );
+                      globalObject.props.App.intervalProgressLoop = false;
+                    }
+                  },
+                  2000,
+                );
+              }
+            } else if (response.request_status === 'inRouteToDestination') {
+              //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
+              response.pickupPoint = response.pickupPoint.map(parseFloat);
+              response.destinationPoint = response.destinationPoint.map(
+                parseFloat,
+              );
+              //? -----------
+
+              globalObject.props.App.request_status = 'inRouteToDestination';
+              globalObject.props.App.isInRouteToDestination = true;
+              //Update destination metadata
+              globalObject.props.App.destinationLocation_metadata.eta =
+                response.eta; //ETA
+              globalObject.props.App.destinationLocation_metadata.distance =
+                response.distance; //Distance
+
+              //Update loop request
+              //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
+              if (
+                globalObject.props.App.intervalProgressLoop === false &&
+                globalObject.props.App.sharedSimplifiedLink === null
+              ) {
+                globalObject.props.App.intervalProgressLoop = setInterval(
+                  function () {
+                    if (globalObject.props.App.isRideInProgress === true) {
+                      globalObject.GPRS_resolver();
+                      globalObject.updateRemoteLocationsData();
+                    } //clear interval
+                    else {
+                      clearInterval(
+                        globalObject.props.App.intervalProgressLoop,
+                      );
+                      globalObject.props.App.intervalProgressLoop;
+                    }
+                  },
+                  2000,
+                );
+              }
+            }
+            //----------------------------------------------------------------------------------------
+            //let paddingFit = 100 * (20 / response.routePoints.length);
+            //paddingFit += 7;
+            //paddingFit =
+            //  paddingFit -
+            //  Math.round((paddingFit / PADDING_LIMIT - 1) * PADDING_LIMIT);
+            //if (paddingFit > PADDING_LIMIT) {
+            //paddingFit = PADDING_LIMIT;
+            //}
+            let paddingFit = PADDING_LIMIT;
+
+            //Get driver's next point
+            let currentPoint = response.driverNextPoint;
+            let currentPointRm = point(currentPoint);
+            //Compute the car's bearing angle
+            if (
+              globalObject.props.App.lastDriverCoords === null ||
+              globalObject.props.App.initializedScenario !==
+                response.request_status
+            ) {
+              globalObject.props.App.lastDriverCoords = [];
+              globalObject.props.App.lastDriverCoords.push(0);
+              globalObject.props.App.lastDriverCoords.push(0);
+              //Initialize animation
+              new Promise((resolve0) => {
+                globalObject.initializeRouteNavigation(
+                  response,
+                  response.request_status,
+                  resolve0,
+                );
+              }).then(
+                (reslt) => {
+                  if (reslt === true) {
+                    new Promise((resolve1) => {
+                      globalObject.animateRoute(
+                        response,
+                        currentPoint,
+                        currentPointRm,
+                        paddingFit,
+                        resolve1,
+                        /inRouteToDestination/i.test(response.request_status)
+                          ? response.pickupPoint
+                          : false,
+                      );
+                    }).then(
+                      () => {},
+                      () => {},
+                    );
+                  }
+                },
+                () => {},
+              );
+            } //Animate
+            else {
+              new Promise((resolve1) => {
+                globalObject.animateRoute(
+                  response,
+                  currentPoint,
+                  currentPointRm,
+                  paddingFit,
+                  resolve1,
+                  /inRouteToDestination/i.test(response.request_status)
+                    ? response.pickupPoint
+                    : false,
+                );
+              }).then(
+                () => {},
+                () => {},
+              );
             }
             //...
-            globalObject.props.UpdatePendingGlobalVars({
-              request_status: response.request_status,
-              isRideInProgress: true,
-              pickupLocation_metadata: {
-                coordinates: response.pickupLocation_point,
-                pickupLocation_name: response.pickupLocation_name,
-              },
-            });
-          }
-        } else if (
-          response.request_status !== undefined &&
-          response.request_status !== null &&
-          /riderDropoffConfirmation_left/i.test(response.request_status)
-        ) {
-          //! Reset navigation data if an existing previous scenario was set
-          if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
-            //! FIXED DROP OFF CONFIRMED FREEZE
-            //Clean it up
-            //globalObject._RESET_STATE();  //! Dropoff crasher bug??
-            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
-            //Recalibrate the map
-            globalObject.recalibrateMap();
-          }
-          //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
-          if (
-            globalObject.props.App.sharedSimplifiedLink !== null &&
-            globalObject.props.App.sharedSimplifiedLink !== undefined
-          ) {
-            //Nullify the shared link
-            globalObject.props.App.sharedSimplifiedLink = null;
-            //Show the end modal
-            globalObject.props.UpdateErrorModalLog(
-              true,
-              'showStatus_gettingSharedTrip_details__doneTrip',
-              'any',
-            );
-          } else {
-            globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
-            //User drop off confirmation
-            globalObject.props.App.request_status = response.request_status;
-            globalObject.props.App.isRideInProgress = true;
-            //Save the basic trip and driver details for drop off confirmation and rating
-            //Save and update the state once - only if the data are different (handled in the reducer)
-            globalObject.props.UpdateDropoffDataFor_driverRating(response);
-          }
-        } else if (response.request_status === 'no_rides') {
-          //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
-          if (
-            globalObject.props.App.sharedSimplifiedLink !== null &&
-            globalObject.props.App.sharedSimplifiedLink !== undefined
-          ) {
-            //Nullify the shared link
-            globalObject.props.App.sharedSimplifiedLink = null;
-            //Show the end modal
-            globalObject.props.UpdateErrorModalLog(
-              true,
-              'showStatus_gettingSharedTrip_details__doneTrip',
-              'any',
-            );
-          }
-          //...
-          if (globalObject.props.App.isRideInProgress) {
-            //Reset props.App
-            //globalObject._RESET_STATE(); //! Drop off crash??
-            //Recalibrate the map
-            globalObject.recalibrateMap();
-          }
-        }
-      } //No rides
-      else {
-        //Update status
-        if (globalObject.props.App.sharedSimplifiedLink === null) {
-          //? ONLY WHEN THERE's no active trip shared
-          //Reset the state partially depending on the state of the trip variables
-          globalObject.props.App.intervalProgressLoop = false;
-          let testReg = new RegExp(response.request_status, 'i');
-          if (testReg.test(globalObject.props.App.request_status) === false) {
-            if (globalObject.props.App.request_status !== null) {
+          } else if (/pending/i.test(response.request_status)) {
+            //! Do a preliminary cleaning
+            if (
+              globalObject.props.App.request_status === null ||
+              globalObject.props.App.request_status === undefined ||
+              globalObject.props.App.request_status === false
+            ) {
+              console.log('preliminary cleaning done!');
               globalObject._RESET_STATE();
+            }
+            //! Reset navigation data if an existing previous scenario was set
+            if (/^inRouteTo/i.test(globalObject.props.App.request_status)) {
+              //! CHECK FOR DRIVER REQUEST GHOSTING BUG!!!
+              //Clean it up
+              //globalObject._RESET_STATE();  //! <-- RE-RESET BUG
+              globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
+              //Recalibrate the map
+              globalObject.recalibrateMap();
+              //save pending scenario
+              globalObject.props.App.request_status = response.request_status;
+              //? Update the pending location --force
+              globalObject.props.UpdatePendingGlobalVars({
+                request_status: response.request_status,
+                isRideInProgress: true,
+                pickupLocation_metadata: {
+                  coordinates: response.pickupLocation_point,
+                  pickupLocation_name: response.pickupLocation_name,
+                },
+              });
+            }
+
+            globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
+            //Save the main object
+            globalObject.props.App.generalTRIP_details_driverDetails = response;
+
+            //Update loop request
+            //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
+            if (
+              globalObject.props.App.intervalProgressLoop === false &&
+              globalObject.props.App.sharedSimplifiedLink === null
+            ) {
+              //Reposition the map
+              if (
+                globalObject.camera !== undefined &&
+                globalObject.camera !== null
+              ) {
+                globalObject.camera.flyTo(
+                  response.pickupLocation_point.map(parseFloat),
+                  1400,
+                );
+                globalObject.camera.setCamera({
+                  centerCoordinate: response.pickupLocation_point.map(
+                    parseFloat,
+                  ),
+                  zoomLevel: 14,
+                  animationDuration: 1000,
+                });
+              }
+              globalObject.props.App.intervalProgressLoop = setInterval(
+                function () {
+                  if (globalObject.props.App.isRideInProgress === true) {
+                    globalObject.GPRS_resolver();
+                    globalObject.updateRemoteLocationsData();
+                  } //clear interval
+                  else {
+                    clearInterval(globalObject.props.App.intervalProgressLoop);
+                  }
+                },
+                2000,
+              );
+            }
+            //Trip pending
+            if (
+              globalObject.props.App.request_status !==
+                response.request_status &&
+              globalObject.props.App.pickupLocation_metadata
+                .pickupLocation_name !== response.pickupLocation_name
+            ) {
+              //...
+              if (/Searching/.test(response.pickupLocation_name)) {
+                response.pickupLocation_name = 'Pickup';
+              }
+              //...
+              globalObject.props.UpdatePendingGlobalVars({
+                request_status: response.request_status,
+                isRideInProgress: true,
+                pickupLocation_metadata: {
+                  coordinates: response.pickupLocation_point,
+                  pickupLocation_name: response.pickupLocation_name,
+                },
+              });
+            }
+          } else if (
+            response.request_status !== undefined &&
+            response.request_status !== null &&
+            /riderDropoffConfirmation_left/i.test(response.request_status)
+          ) {
+            //! Do a preliminary cleaning
+            if (
+              globalObject.props.App.request_status === null ||
+              globalObject.props.App.request_status === undefined ||
+              globalObject.props.App.request_status === false
+            ) {
+              console.log('preliminary cleaning done!');
+              globalObject._RESET_STATE();
+            }
+            //! Reset navigation data if an existing previous scenario was set
+            if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
+              //! FIXED DROP OFF CONFIRMED FREEZE
+              //Clean it up
+              //globalObject._RESET_STATE();  //! Dropoff crasher bug??
+              globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
               //Recalibrate the map
               globalObject.recalibrateMap();
             }
+            //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+            if (
+              globalObject.props.App.sharedSimplifiedLink !== null &&
+              globalObject.props.App.sharedSimplifiedLink !== undefined
+            ) {
+              //Nullify the shared link
+              globalObject.props.App.sharedSimplifiedLink = null;
+              //Show the end modal
+              globalObject.props.UpdateErrorModalLog(
+                true,
+                'showStatus_gettingSharedTrip_details__doneTrip',
+                'any',
+              );
+            } else {
+              globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
+              //User drop off confirmation
+              globalObject.props.App.request_status = response.request_status;
+              globalObject.props.App.isRideInProgress = true;
+              //Save the basic trip and driver details for drop off confirmation and rating
+              //Save and update the state once - only if the data are different (handled in the reducer)
+              globalObject.props.UpdateDropoffDataFor_driverRating(response);
+            }
+          } else if (response.request_status === 'no_rides') {
+            //! Do a preliminary cleaning
+            if (
+              globalObject.props.App.request_status !== 'no_rides' &&
+              globalObject.props.App.request_status !== null
+            ) {
+              console.log('preliminary cleaning done - No rides!');
+              globalObject._RESET_STATE();
+            }
+            //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+            if (
+              globalObject.props.App.sharedSimplifiedLink !== null &&
+              globalObject.props.App.sharedSimplifiedLink !== undefined
+            ) {
+              //Nullify the shared link
+              globalObject.props.App.sharedSimplifiedLink = null;
+              //Show the end modal
+              globalObject.props.UpdateErrorModalLog(
+                true,
+                'showStatus_gettingSharedTrip_details__doneTrip',
+                'any',
+              );
+            }
             //...
-            globalObject.props.App.request_status = response.request_status;
+            if (globalObject.props.App.isRideInProgress) {
+              //Reset props.App
+              globalObject._RESET_STATE(); //! Drop off crash??
+              //Recalibrate the map
+              globalObject.recalibrateMap();
+            }
           }
-        } //Show shared trip maybe done
+        } //No rides
         else {
-          //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+          //! Do a preliminary cleaning
           if (
-            globalObject.props.App.sharedSimplifiedLink !== null &&
-            globalObject.props.App.sharedSimplifiedLink !== undefined
+            globalObject.props.App.request_status !== 'no_rides' &&
+            globalObject.props.App.request_status !== null
           ) {
-            //Nullify the shared link
-            globalObject.props.App.sharedSimplifiedLink = null;
-            //Show the end modal
-            globalObject.props.UpdateErrorModalLog(
-              true,
-              'showStatus_gettingSharedTrip_details__doneTrip',
-              'any',
-            );
+            console.log('preliminary cleaning done - No rides!');
+            globalObject._RESET_STATE();
+          }
+          //Update status
+          if (globalObject.props.App.sharedSimplifiedLink === null) {
+            //? ONLY WHEN THERE's no active trip shared
+            //Reset the state partially depending on the state of the trip variables
+            globalObject.props.App.intervalProgressLoop = false;
+            let testReg = new RegExp(response.request_status, 'i');
+            if (testReg.test(globalObject.props.App.request_status) === false) {
+              if (globalObject.props.App.request_status !== null) {
+                globalObject._RESET_STATE();
+                //Recalibrate the map
+                globalObject.recalibrateMap();
+              }
+              //...
+              globalObject.props.App.request_status = response.request_status;
+            }
+          } //Show shared trip maybe done
+          else {
+            //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
+            if (
+              globalObject.props.App.sharedSimplifiedLink !== null &&
+              globalObject.props.App.sharedSimplifiedLink !== undefined
+            ) {
+              //Nullify the shared link
+              globalObject.props.App.sharedSimplifiedLink = null;
+              //Show the end modal
+              globalObject.props.UpdateErrorModalLog(
+                true,
+                'showStatus_gettingSharedTrip_details__doneTrip',
+                'any',
+              );
+            }
           }
         }
+      } catch (error) {
+        console.log(error);
       }
     });
 

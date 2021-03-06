@@ -21,7 +21,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
   let routeDestination = null;
   let routeShapeDestination = null;
   let phoneNumberModuleTmp = null; //Multipurpose phone number input variable
+  //? State checks vars
+  let checkerArray = null; //Made to be a checker holder array
   //..........
+  //console.log(action.type);
   switch (action.type) {
     case 'RESET_STATE_PROPS':
       //The payload can be the parent node of the Home screen
@@ -165,12 +168,22 @@ const HomeReducer = (state = INIT_STATE, action) => {
       //Previous state updated
       return {...state, ...newState};
     case 'UPDATE_GRANTED_GPRS_VARS':
-      //Update the previous state
-      newState.gprsGlobals.hasGPRSPermissions =
-        action.payload.hasGPRSPermissions;
-      newState.gprsGlobals.didAskForGprs = action.payload.didAskForGprs;
+      //? Optimized
+      //Update the previous state only if changed
+      if (
+        newState.gprsGlobals.hasGPRSPermissions !==
+          action.payload.hasGPRSPermissions ||
+        newState.gprsGlobals.didAskForGprs !== action.payload.didAskForGprs
+      ) {
+        newState.gprsGlobals.hasGPRSPermissions =
+          action.payload.hasGPRSPermissions;
+        newState.gprsGlobals.didAskForGprs = action.payload.didAskForGprs;
 
-      return {...state, ...newState};
+        return {...state, ...newState};
+      } //No change
+      else {
+        return state;
+      }
     case 'UPDATE_PENDING_GLOBAL_VARS':
       //Update the previous state
       newState.request_status = action.payload.request_status;
@@ -183,39 +196,105 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_ROUTE_TO_PICKUP_VARS':
+      //? Optmized
       //Update the previous state
-      if (
+      //! Do state change checks
+      //! 0 for undefined elements or false conditions (no state change)
+      //! 1 for true conditions (new state)
+      //? Clean the array first
+      checkerArray = new Array();
+      //? condition 1
+      checkerArray[0] =
         action.payload.lastDriverBearing !== undefined &&
         action.payload.lastDriverBearing !== null
-      ) {
-        newState.lastDriverBearing = action.payload.lastDriverBearing;
-      }
-      if (
+          ? `${JSON.stringify(action.payload.lastDriverBearing)}` !==
+            `${JSON.stringify(newState.lastDriverBearing)}`
+            ? 1
+            : 0
+          : 0;
+      //? condition 2
+      checkerArray[1] =
         action.payload.lastDriverCoords !== undefined &&
         action.payload.lastDriverCoords !== null
-      ) {
-        newState.lastDriverCoords = action.payload.lastDriverCoords;
-      }
-      if (
+          ? `${JSON.stringify(action.payload.lastDriverCoords)}` !==
+            `${JSON.stringify(newState.lastDriverCoords)}`
+            ? 1
+            : 0
+          : 0;
+      //? condition 3
+      checkerArray[2] =
         action.payload.isRideInProgress !== undefined &&
         action.payload.isRideInProgress !== null
-      ) {
-        newState.isRideInProgress = action.payload.isRideInProgress;
-      }
-      if (
+          ? `${JSON.stringify(action.payload.isRideInProgress)}` !==
+            `${JSON.stringify(newState.isRideInProgress)}`
+            ? 1
+            : 0
+          : 0;
+      //? condition 4
+      checkerArray[3] =
         action.payload.actPointToMinusOne !== undefined &&
         action.payload.actPointToMinusOne !== null
-      ) {
-        newState.actPointToMinusOne = action.payload.actPointToMinusOne;
-      }
-      if (
+          ? `${JSON.stringify(action.payload.actPointToMinusOne)}` !==
+            `${JSON.stringify(newState.actPointToMinusOne)}`
+            ? 1
+            : 0
+          : 0;
+      //? condition 5
+      checkerArray[4] =
         action.payload.isInRouteToDestination !== undefined &&
         action.payload.isInRouteToDestination !== null
-      ) {
-        newState.isInRouteToDestination = action.payload.isInRouteToDestination;
-      }
+          ? `${JSON.stringify(action.payload.isInRouteToDestination)}` !==
+            `${JSON.stringify(newState.isInRouteToDestination)}`
+            ? 1
+            : 0
+          : 0;
+      //! Sum all the array if the result is greater than 1 - command a new state update
+      checkerArray = checkerArray.reduce((a, b) => a + b, 0);
       //...
-      return {...state, ...newState};
+      if (checkerArray > 0) {
+        //? New state update
+        //...1
+        if (
+          action.payload.lastDriverBearing !== undefined &&
+          action.payload.lastDriverBearing !== null
+        ) {
+          newState.lastDriverBearing = action.payload.lastDriverBearing;
+        }
+        //...2
+        if (
+          action.payload.lastDriverCoords !== undefined &&
+          action.payload.lastDriverCoords !== null
+        ) {
+          newState.lastDriverCoords = action.payload.lastDriverCoords;
+        }
+        //...3
+        if (
+          action.payload.isRideInProgress !== undefined &&
+          action.payload.isRideInProgress !== null
+        ) {
+          newState.isRideInProgress = action.payload.isRideInProgress;
+        }
+        //...4
+        if (
+          action.payload.actPointToMinusOne !== undefined &&
+          action.payload.actPointToMinusOne !== null
+        ) {
+          newState.actPointToMinusOne = action.payload.actPointToMinusOne;
+        }
+        //...5
+        if (
+          action.payload.isInRouteToDestination !== undefined &&
+          action.payload.isInRouteToDestination !== null
+        ) {
+          newState.isInRouteToDestination =
+            action.payload.isInRouteToDestination;
+        }
+        //...
+        return {...state, ...newState};
+      } //No new state update
+      else {
+        return state;
+      }
 
     case 'IN_ROUTE_TO_PICKUP_INIT_VARS':
       //The payload is the response from the MAP SERVICES
@@ -1704,6 +1783,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_CURRENT_LOCATION_METADATA':
+      //? Optmimized
       //Update the current location metadata - only if different
       if (newState.userCurrentLocationMetaData.city !== undefined) {
         //Had some old data
@@ -2152,19 +2232,32 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_GENERAL_ERROR_MODAL':
+      //? Optimized
       //Update only if new state
-      newState.generalErrorModal_vars.showErrorGeneralModal =
-        action.payload.activeStatus;
-      newState.generalErrorModal_vars.generalErrorModalType =
-        action.payload.errorMessage;
-      newState.generalErrorModal_vars.network_type = /any/i.test(
-        action.payload.network_type,
-      )
-        ? newState.generalErrorModal_vars.network_type
-        : action.payload.network_type; //Only update the network type of not 'any' value provided (dummy value)
+      if (
+        newState.generalErrorModal_vars.showErrorGeneralModal !==
+          action.payload.activeStatus ||
+        newState.generalErrorModal_vars.generalErrorModalType !==
+          action.payload.errorMessage ||
+        newState.generalErrorModal_vars.network_type !==
+          action.payload.network_type
+      ) {
+        newState.generalErrorModal_vars.showErrorGeneralModal =
+          action.payload.activeStatus;
+        newState.generalErrorModal_vars.generalErrorModalType =
+          action.payload.errorMessage;
+        newState.generalErrorModal_vars.network_type = /any/i.test(
+          action.payload.network_type,
+        )
+          ? newState.generalErrorModal_vars.network_type
+          : action.payload.network_type; //Only update the network type of not 'any' value provided (dummy value)
 
-      //...
-      return {...state, ...newState};
+        //...
+        return {...state, ...newState};
+      } //Same
+      else {
+        return state;
+      }
 
     case 'UPDATE_USER_GENDER_STATE':
       newState.gender_user = action.payload;

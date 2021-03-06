@@ -2072,7 +2072,7 @@ class ErrorModal extends React.PureComponent {
                   borderBottomWidth: 0.5,
                   paddingLeft: 20,
                   paddingRight: 20,
-                  height: 125,
+                  height: 100,
                   backgroundColor: '#fff',
                   shadowColor: '#fff',
                   shadowOffset: {
