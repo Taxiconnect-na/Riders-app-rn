@@ -50,7 +50,7 @@ function YourRidesEntry_drawer() {
   return (
     <Stack.Navigator
       initialRouteName="YourRidesEntry"
-      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}>
       <Stack.Screen
         name="YourRidesEntry"
         component={YourRidesEntry}
@@ -96,7 +96,7 @@ function Wallet_drawer() {
   return (
     <Stack.Navigator
       initialRouteName="WalletEntry"
-      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}>
       <Stack.Screen
         name="WalletEntry"
         component={WalletEntry}
@@ -280,7 +280,7 @@ function Support_drawer() {
   return (
     <Stack.Navigator
       initialRouteName="SupportEntry"
-      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}>
       <Stack.Screen
         name="SupportEntry"
         component={SupportEntry}
@@ -304,7 +304,7 @@ function SettingsDrawer_navigator() {
   return (
     <Stack.Navigator
       initialRouteName="SettingsEntryScreen"
-      screenOptions={{...TransitionPresets.ScaleFromCenterAndroid}}>
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}>
       <Stack.Screen
         name="SettingsEntryScreen"
         component={SettingsEntryScreen}
