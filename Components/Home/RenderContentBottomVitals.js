@@ -2010,7 +2010,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       if (this.props.App._TMP_INTERVAL_PERSISTER === null && initialCondition) {
         //Make an initial preview to destination request
         this.findPreviewRouteToDestination();
-        //this.props.parentNode.fire_search_animation(); //Fire animation
+        this.props.parentNode.fire_search_animation(); //Fire animation
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
           if (
             globalObject.props.App.previewDestinationData
@@ -2051,7 +2051,7 @@ class RenderContentBottomVitals extends React.PureComponent {
             if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
               clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
               globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-              //globalObject.props.parentNode.resetAnimationLoader();
+              globalObject.props.parentNode.resetAnimationLoader();
             }
           }
         }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 500);
@@ -2227,7 +2227,23 @@ class RenderContentBottomVitals extends React.PureComponent {
                     borderColor: 'transparent',
                     width: '90%',
                   }}>
-                  <View style={[styles.bttnGenericTc]}>
+                  <View
+                    style={[
+                      styles.bttnGenericTc,
+                      {
+                        opacity:
+                          globalObject.props.App.previewDestinationData
+                            .originDestinationPreviewData.routePoints !==
+                            undefined &&
+                          globalObject.props.App.previewDestinationData
+                            .originDestinationPreviewData.routePoints !==
+                            false &&
+                          globalObject.props.App.previewDestinationData
+                            .originDestinationPreviewData.routePoints !== null
+                            ? 1
+                            : 0.3,
+                      },
+                    ]}>
                     <Text
                       style={{
                         fontFamily:

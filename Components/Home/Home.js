@@ -1313,7 +1313,7 @@ class Home extends React.PureComponent {
             //...
             if (globalObject.props.App.isRideInProgress) {
               //Reset props.App
-              globalObject._RESET_STATE(); //! Drop off crash??
+              //globalObject._RESET_STATE(); //! Drop off crash??
               //Recalibrate the map
               globalObject.recalibrateMap();
             }

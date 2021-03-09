@@ -28,7 +28,6 @@ class AnnotationDestination extends React.PureComponent {
             },
             shadowOpacity: 0.3,
             shadowRadius: 4.7,
-
             elevation: 6,
             borderRadius: 2,
           }}>
@@ -76,6 +75,7 @@ class AnnotationDestination extends React.PureComponent {
                 justifyContent: 'center',
                 alignItems: 'center',
                 paddingRight: 5,
+                paddingLeft: 5,
                 flex: 1,
               }}>
               <Text
