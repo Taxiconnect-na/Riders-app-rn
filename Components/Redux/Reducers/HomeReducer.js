@@ -185,15 +185,37 @@ const HomeReducer = (state = INIT_STATE, action) => {
         return state;
       }
     case 'UPDATE_PENDING_GLOBAL_VARS':
+      //? Optmized
       //Update the previous state
-      newState.request_status = action.payload.request_status;
-      newState.isRideInProgress = action.payload.isRideInProgress;
-      newState.pickupLocation_metadata.coordinates =
-        action.payload.pickupLocation_metadata.coordinates;
-      newState.pickupLocation_metadata.pickupLocation_name =
-        action.payload.pickupLocation_metadata.pickupLocation_name;
-      //...
-      return {...state, ...newState};
+      if (
+        `${JSON.stringify(newState.request_status)}` !==
+          `${JSON.stringify(action.payload.request_status)}` ||
+        `${JSON.stringify(newState.isRideInProgress)}` !==
+          `${JSON.stringify(action.payload.isRideInProgress)}` ||
+        `${JSON.stringify(newState.pickupLocation_metadata.coordinates)}` !==
+          `${JSON.stringify(
+            action.payload.pickupLocation_metadata.coordinates,
+          )}` ||
+        `${JSON.stringify(
+          newState.pickupLocation_metadata.pickupLocation_name,
+        )}` !==
+          `${JSON.stringify(
+            action.payload.pickupLocation_metadata.pickupLocation_name,
+          )}`
+      ) {
+        newState.request_status = action.payload.request_status;
+        newState.isRideInProgress = action.payload.isRideInProgress;
+        newState.pickupLocation_metadata.coordinates =
+          action.payload.pickupLocation_metadata.coordinates;
+        newState.pickupLocation_metadata.pickupLocation_name =
+          action.payload.pickupLocation_metadata.pickupLocation_name;
+        //...
+        return {...state, ...newState};
+      } //No change
+      else {
+        console.log('SAME DATA');
+        return state;
+      }
 
     case 'UPDATE_ROUTE_TO_PICKUP_VARS':
       //? Optmized
