@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 class AnnotationDestination extends React.PureComponent {

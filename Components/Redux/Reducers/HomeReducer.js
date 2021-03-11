@@ -151,6 +151,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
       };
       //...
       if (
+        action.payload !== null &&
+        action.payload !== undefined &&
+        action.payload.fire_search_animation !== null &&
+        action.payload.fire_search_animation !== undefined &&
         action.payload !== true &&
         action.payload.fire_search_animation !== undefined
       ) {
@@ -213,7 +217,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
         return {...state, ...newState};
       } //No change
       else {
-        console.log('SAME DATA');
         return state;
       }
 
@@ -2283,6 +2286,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       }
 
     case 'UPDATE_USER_GENDER_STATE':
+      console.log(action.payload);
       newState.gender_user = action.payload;
       newState.generalErrorModal_vars.showErrorGeneralModal = false; //Close the modal selecter -reset
       newState.generalErrorModal_vars.generalErrorModalType = false; //Close the modal selecter -reset

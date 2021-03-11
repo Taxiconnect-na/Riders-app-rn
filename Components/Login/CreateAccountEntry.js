@@ -181,142 +181,138 @@ class CreateAccountEntry extends React.PureComponent {
 
   render() {
     return (
-      <>
-        {this._isMounted ? (
-          <SafeAreaView style={styles.mainWindow}>
-            <GenericLoader active={this.state.loaderState} thickness={4} />
-            {this.props.App.generalErrorModal_vars.showErrorGeneralModal
-              ? this.renderError_modalView()
-              : null}
-            <View style={styles.presentationWindow}>
-              <TouchableOpacity
-                style={{opacity: this.state.creatingAccount === false ? 1 : 0}}
-                onPress={() =>
-                  this.state.creatingAccount === false
-                    ? this.gobackFromAdditionalDetails()
-                    : {}
-                }>
-                <IconAnt name="arrowleft" size={29} />
-              </TouchableOpacity>
+      <SafeAreaView style={styles.mainWindow}>
+        <GenericLoader active={this.state.loaderState} thickness={4} />
+        {this.props.App.generalErrorModal_vars.showErrorGeneralModal
+          ? this.renderError_modalView()
+          : null}
+        <View style={styles.presentationWindow}>
+          <TouchableOpacity
+            style={{opacity: this.state.creatingAccount === false ? 1 : 0}}
+            onPress={() =>
+              this.state.creatingAccount === false
+                ? this.gobackFromAdditionalDetails()
+                : {}
+            }>
+            <IconAnt name="arrowleft" size={29} />
+          </TouchableOpacity>
+          <Text
+            style={[
+              {
+                fontSize: RFValue(30),
+                fontFamily:
+                  Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
+                marginTop: 15,
+                marginBottom: 35,
+                width: '100%',
+                textAlign: 'center',
+              },
+            ]}>
+            {this.state.creatingAccount === false ? 'Hi' : 'Give us a sec'}
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={require('../../Media_assets/Images/newDriverWelcome.jpg')}
+              style={{resizeMode: 'contain', width: '105%', height: '105%'}}
+            />
+          </View>
+          <Text
+            style={[
+              {
+                flex: 1,
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
+                color: '#000',
+                fontSize: RFValue(20),
+                marginTop: '10%',
+                textAlign: 'center',
+                width: '100%',
+              },
+            ]}>
+            {this.state.creatingAccount === false
+              ? 'Would you like to create a new account?'
+              : 'Creating your super account...'}
+          </Text>
+          {this.state.creatingAccount === false ? (
+            <View>
               <Text
                 style={[
                   {
-                    fontSize: RFValue(30),
                     fontFamily:
-                      Platform.OS === 'android' ? 'MoveBold' : 'Uber Move Bold',
-                    marginTop: 15,
-                    marginBottom: 35,
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextLight'
+                        : 'Uber Move Text Light',
+                    color: '#000',
+                    fontSize: RFValue(14),
+                    textAlign: 'left',
                     width: '100%',
-                    textAlign: 'center',
+                    lineHeight: 20,
+                    marginBottom: 15,
                   },
                 ]}>
-                {this.state.creatingAccount === false ? 'Hi' : 'Give us a sec'}
-              </Text>
-              <View
-                style={{
-                  flex: 1,
-                  width: '100%',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={require('../../Media_assets/Images/newDriverWelcome.jpg')}
-                  style={{resizeMode: 'contain', width: '105%', height: '105%'}}
-                />
-              </View>
-              <Text
-                style={[
-                  {
-                    flex: 1,
+                By clicking{' '}
+                <Text
+                  style={{
                     fontFamily:
                       Platform.OS === 'android'
                         ? 'UberMoveTextMedium'
                         : 'Uber Move Text Medium',
-                    color: '#000',
-                    fontSize: RFValue(20),
-                    marginTop: '10%',
-                    textAlign: 'center',
-                    width: '100%',
-                  },
-                ]}>
-                {this.state.creatingAccount === false
-                  ? 'Would you like to create a new account?'
-                  : 'Creating your super account...'}
+                  }}>
+                  Create your account
+                </Text>
+                , you automatically accept our{' '}
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    color: '#0e8491',
+                  }}>
+                  terms and conditions.
+                </Text>
               </Text>
-              {this.state.creatingAccount === false ? (
-                <View>
-                  <Text
-                    style={[
-                      {
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextLight'
-                            : 'Uber Move Text Light',
-                        color: '#000',
-                        fontSize: RFValue(14),
-                        textAlign: 'left',
-                        width: '100%',
-                        lineHeight: 20,
-                        marginBottom: 15,
-                      },
-                    ]}>
-                    By clicking{' '}
+              <View
+                style={{
+                  width: '100%',
+                  alignItems: 'center',
+                  height: 100,
+                }}>
+                <TouchableOpacity
+                  onPress={() => this.createNewAccount()}
+                  style={{
+                    borderWidth: 1,
+                    borderColor: 'transparent',
+                    width: '100%',
+                  }}>
+                  <View style={[styles.bttnGenericTc]}>
                     <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                      }}>
+                      style={[
+                        {
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextBold'
+                              : 'Uber Move Text Bold',
+                          fontSize: RFValue(23),
+                          color: '#fff',
+                        },
+                      ]}>
                       Create your account
                     </Text>
-                    , you automatically accept our{' '}
-                    <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                        color: '#0e8491',
-                      }}>
-                      terms and conditions.
-                    </Text>
-                  </Text>
-                  <View
-                    style={{
-                      width: '100%',
-                      alignItems: 'center',
-                      height: 100,
-                    }}>
-                    <TouchableOpacity
-                      onPress={() => this.createNewAccount()}
-                      style={{
-                        borderWidth: 1,
-                        borderColor: 'transparent',
-                        width: '100%',
-                      }}>
-                      <View style={[styles.bttnGenericTc]}>
-                        <Text
-                          style={[
-                            {
-                              fontFamily:
-                                Platform.OS === 'android'
-                                  ? 'UberMoveTextBold'
-                                  : 'Uber Move Text Bold',
-                              fontSize: RFValue(23),
-                              color: '#fff',
-                            },
-                          ]}>
-                          Create your account
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
                   </View>
-                </View>
-              ) : null}
+                </TouchableOpacity>
+              </View>
             </View>
-          </SafeAreaView>
-        ) : null}
-      </>
+          ) : null}
+        </View>
+      </SafeAreaView>
     );
   }
 }

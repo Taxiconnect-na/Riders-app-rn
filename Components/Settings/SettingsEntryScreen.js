@@ -291,6 +291,7 @@ class SettingsEntryScreen extends React.Component {
         error_status={
           this.props.App.generalErrorModal_vars.generalErrorModalType
         }
+        parentNode={this}
       />
     );
   }

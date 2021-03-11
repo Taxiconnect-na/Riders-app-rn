@@ -92,7 +92,7 @@ class Home extends React.PureComponent {
       this.camera.moveTo(
         [this.props.App.longitude, this.props.App.latitude],
         70,
-        2000,
+        1500,
       );
     }
   }
@@ -650,7 +650,7 @@ class Home extends React.PureComponent {
                       );
                     }
                   },
-                  2000,
+                  1500,
                 );
               }
             }
@@ -1038,7 +1038,7 @@ class Home extends React.PureComponent {
                       globalObject.props.App.intervalProgressLoop = false;
                     }
                   },
-                  2000,
+                  1500,
                 );
               }
             } else if (response.request_status === 'inRouteToDestination') {
@@ -1076,7 +1076,7 @@ class Home extends React.PureComponent {
                       globalObject.props.App.intervalProgressLoop;
                     }
                   },
-                  2000,
+                  1500,
                 );
               }
             }
@@ -1155,16 +1155,75 @@ class Home extends React.PureComponent {
             //! Do a preliminary cleaning
             if (
               globalObject.props.App.request_status !== 'pending' &&
-              globalObject.props.App.request_status !== null
+              globalObject.props.App.request_status !== null &&
+              globalObject.props.App.bottomVitalsFlow.currentStep !== 'mainView'
             ) {
               console.log('preliminary cleaning done!');
               globalObject._RESET_STATE();
             }
+            //-------------------------
+            //! Convert coords to float
+            response.pickupLocation_point = response.pickupLocation_point.map(
+              parseFloat,
+            );
+            //? Get temporary vars
+            let pickLatitude = response.pickupLocation_point[1];
+            let pickLongitude = response.pickupLocation_point[0];
+            //! Coordinates order fix - major bug fix for ocean bug
+            if (
+              pickLatitude !== undefined &&
+              pickLatitude !== null &&
+              pickLatitude !== 0 &&
+              pickLongitude !== undefined &&
+              pickLongitude !== null &&
+              pickLongitude !== 0
+            ) {
+              //? Switch latitude and longitude - check the negative sign
+              if (parseFloat(pickLongitude) < 0) {
+                //Negative - switch
+                let latitudeTmp = this.props.App.latitude;
+                pickLatitude = pickLongitude;
+                pickLongitude = latitudeTmp;
+                //Recreate the array
+                response.pickupLocation_point[0] = pickLongitude;
+                response.pickupLocation_point[1] = pickLatitude;
+              }
+            }
+            //!--------- Ocean bug fix
+            //...
+            if (/Searching/.test(response.pickupLocation_name)) {
+              response.pickupLocation_name = 'Pickup';
+            }
+            //...
+            globalObject.props.UpdatePendingGlobalVars({
+              request_status: response.request_status,
+              isRideInProgress: true,
+              pickupLocation_metadata: {
+                coordinates: response.pickupLocation_point.map(parseFloat),
+                pickupLocation_name: response.pickupLocation_name,
+              },
+            });
+
+            //Reposition the map
+            if (
+              globalObject.camera !== undefined &&
+              globalObject.camera !== null
+            ) {
+              InteractionManager.runAfterInteractions(() => {
+                globalObject.camera.flyTo(response.pickupLocation_point, 1000);
+                globalObject.camera.setCamera({
+                  centerCoordinate: response.pickupLocation_point,
+                  zoomLevel: 14,
+                  animationDuration: 500,
+                });
+              });
+            }
+            //...
             //! Reset navigation data if an existing previous scenario was set
             if (/^inRouteTo/i.test(globalObject.props.App.request_status)) {
+              console.log('HEREEE1');
               //! CHECK FOR DRIVER REQUEST GHOSTING BUG!!!
               //Clean it up
-              //globalObject._RESET_STATE();  //! <-- RE-RESET BUG
               globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
               //Recalibrate the map
               globalObject.recalibrateMap();
@@ -1175,13 +1234,11 @@ class Home extends React.PureComponent {
                 request_status: response.request_status,
                 isRideInProgress: true,
                 pickupLocation_metadata: {
-                  coordinates: response.pickupLocation_point,
+                  coordinates: response.pickupLocation_point.map(parseFloat),
                   pickupLocation_name: response.pickupLocation_name,
                 },
               });
             }
-
-            globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
             //Save the main object
             globalObject.props.App.generalTRIP_details_driverDetails = response;
 
@@ -1191,23 +1248,6 @@ class Home extends React.PureComponent {
               globalObject.props.App.intervalProgressLoop === false &&
               globalObject.props.App.sharedSimplifiedLink === null
             ) {
-              //Reposition the map
-              if (
-                globalObject.camera !== undefined &&
-                globalObject.camera !== null
-              ) {
-                globalObject.camera.flyTo(
-                  response.pickupLocation_point.map(parseFloat),
-                  1400,
-                );
-                globalObject.camera.setCamera({
-                  centerCoordinate: response.pickupLocation_point.map(
-                    parseFloat,
-                  ),
-                  zoomLevel: 14,
-                  animationDuration: 1000,
-                });
-              }
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
@@ -1218,29 +1258,8 @@ class Home extends React.PureComponent {
                     clearInterval(globalObject.props.App.intervalProgressLoop);
                   }
                 },
-                2000,
+                1500,
               );
-            }
-            //Trip pending
-            if (
-              globalObject.props.App.request_status !==
-                response.request_status &&
-              globalObject.props.App.pickupLocation_metadata
-                .pickupLocation_name !== response.pickupLocation_name
-            ) {
-              //...
-              if (/Searching/.test(response.pickupLocation_name)) {
-                response.pickupLocation_name = 'Pickup';
-              }
-              //...
-              globalObject.props.UpdatePendingGlobalVars({
-                request_status: response.request_status,
-                isRideInProgress: true,
-                pickupLocation_metadata: {
-                  coordinates: response.pickupLocation_point,
-                  pickupLocation_name: response.pickupLocation_name,
-                },
-              });
             }
           } else if (
             response.request_status !== undefined &&
@@ -1727,42 +1746,44 @@ class Home extends React.PureComponent {
 
       globalObject.props.App.CONSIDER = true;
 
-      globalObject.props.App.route
-        .timing({
-          toValue: {end: {point: currentPointRm}},
-          duration: timingRoute,
-          easing: Easing.linear,
-        })
-        .start(() => {
-          //Update car infos
-          if (globalObject.props.App.actPointToMinusOne === false) {
-            globalObject.props.UpdateRouteToPickupVars({
-              actPointToMinusOne: true,
-            });
-          }
-
-          if (
-            globalObject.camera !== undefined &&
-            globalObject.camera != null
-          ) {
-            //Only recenter when the user was not centered already
-            try {
-              globalObject.camera.fitBounds(
-                globalObject.props.App.pickupPoint,
-                [currentPoint[0], currentPoint[1]],
-                [90, 90, 250, 90],
-                1000,
-              );
-            } catch (error) {
-              globalObject.camera.fitBounds(
-                globalObject.props.App.pickupPoint,
-                [currentPoint[0], currentPoint[1]],
-                [90, 90, 250, 90],
-                1000,
-              );
+      InteractionManager.runAfterInteractions(() => {
+        globalObject.props.App.route
+          .timing({
+            toValue: {end: {point: currentPointRm}},
+            duration: timingRoute,
+            easing: Easing.linear,
+          })
+          .start(() => {
+            //Update car infos
+            if (globalObject.props.App.actPointToMinusOne === false) {
+              globalObject.props.UpdateRouteToPickupVars({
+                actPointToMinusOne: true,
+              });
             }
-          }
-        });
+
+            if (
+              globalObject.camera !== undefined &&
+              globalObject.camera != null
+            ) {
+              //Only recenter when the user was not centered already
+              try {
+                globalObject.camera.fitBounds(
+                  globalObject.props.App.pickupPoint,
+                  [currentPoint[0], currentPoint[1]],
+                  [90, 90, 250, 90],
+                  1000,
+                );
+              } catch (error) {
+                globalObject.camera.fitBounds(
+                  globalObject.props.App.pickupPoint,
+                  [currentPoint[0], currentPoint[1]],
+                  [90, 90, 250, 90],
+                  1000,
+                );
+              }
+            }
+          });
+      });
       //-------------------------------------------------------------------------
       resolve(true);
     } else if (globalObject.props.App.isInRouteToDestination) {
@@ -1777,62 +1798,64 @@ class Home extends React.PureComponent {
         });
       }
 
-      globalObject.props.App.shapeDestination
-        .timing({
-          toValue: response.routePoints,
-          duration: 10,
-          easing: Easing.linear,
-        })
-        .start(() => {
-          globalObject.props.UpdateRouteToPickupVars({
-            lastDriverBearing: carBearing,
-            lastDriverCoords: currentPoint,
-          });
-        });
-
-      globalObject.props.App.CONSIDER = true;
-      globalObject.props.App.routeDestination
-        .timing({
-          toValue: {end: {point: currentPointRm}},
-          duration: timingRoute,
-          easing: Easing.linear,
-        })
-        .start(() => {
-          //Update car infos
-          if (globalObject.props.App.actPointToMinusOne === false) {
+      InteractionManager.runAfterInteractions(() => {
+        globalObject.props.App.shapeDestination
+          .timing({
+            toValue: response.routePoints,
+            duration: 10,
+            easing: Easing.linear,
+          })
+          .start(() => {
             globalObject.props.UpdateRouteToPickupVars({
-              actPointToMinusOne: true,
+              lastDriverBearing: carBearing,
+              lastDriverCoords: currentPoint,
             });
-          }
+          });
 
-          if (
-            globalObject.camera !== undefined &&
-            globalObject.camera != null
-          ) {
-            //Only recenter when the user was not centered already
-            try {
-              globalObject.camera.fitBounds(
-                [
-                  globalObject.props.App.destinationPoint[0],
-                  globalObject.props.App.destinationPoint[1],
-                ],
-                additionalData,
-                [90, 90, 250, 90],
-                1000,
-              );
-            } catch (error) {
-              globalObject.camera.fitBounds(
-                [
-                  globalObject.props.App.destinationPoint[0],
-                  globalObject.props.App.destinationPoint[1],
-                ],
-                additionalData,
-                [90, 90, 250, 90],
-                1000,
-              );
+        globalObject.props.App.CONSIDER = true;
+        globalObject.props.App.routeDestination
+          .timing({
+            toValue: {end: {point: currentPointRm}},
+            duration: timingRoute,
+            easing: Easing.linear,
+          })
+          .start(() => {
+            //Update car infos
+            if (globalObject.props.App.actPointToMinusOne === false) {
+              globalObject.props.UpdateRouteToPickupVars({
+                actPointToMinusOne: true,
+              });
             }
-          }
-        });
+
+            if (
+              globalObject.camera !== undefined &&
+              globalObject.camera != null
+            ) {
+              //Only recenter when the user was not centered already
+              try {
+                globalObject.camera.fitBounds(
+                  [
+                    globalObject.props.App.destinationPoint[0],
+                    globalObject.props.App.destinationPoint[1],
+                  ],
+                  additionalData,
+                  [90, 90, 250, 90],
+                  1000,
+                );
+              } catch (error) {
+                globalObject.camera.fitBounds(
+                  [
+                    globalObject.props.App.destinationPoint[0],
+                    globalObject.props.App.destinationPoint[1],
+                  ],
+                  additionalData,
+                  [90, 90, 250, 90],
+                  1000,
+                );
+              }
+            }
+          });
+      });
       //...
       resolve(true);
     } else {

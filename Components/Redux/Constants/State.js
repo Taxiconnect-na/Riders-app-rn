@@ -52,7 +52,7 @@ const STATE = {
   //? CRUCIAL VARIABLES
   //! Used for performance updates to avoid instanciating the ErrorModal everywhere unneccesarily.
   favoritePlace_label: 'work', //To hold the favorite location selectedd by the user for modification. - default: work
-  detailToModify: 'name', //To hold the selected detail that the user want to modify - default: name
+  detailToModify: null, //To hold the selected detail that the user want to modify - default: null
   //!---
   _TOP_STACK_NAVIGATION: false, //TOP STACK NAVIGATION of the all, save on the entry screen
   //PERSISTANT INTERVAL VARIABLES

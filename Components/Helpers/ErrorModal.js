@@ -790,7 +790,7 @@ class ErrorModal extends React.PureComponent {
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() =>
-                this.props.App.detailToModify === undefined
+                this.props.App.detailToModify === null
                   ? this.props.UpdateUserGenderState('male')
                   : this.updateLocalStateNewPersonal_infos('gender', 'male')
               }
@@ -812,7 +812,7 @@ class ErrorModal extends React.PureComponent {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                this.props.App.detailToModify === undefined
+                this.props.App.detailToModify === null
                   ? this.props.UpdateUserGenderState('female')
                   : this.updateLocalStateNewPersonal_infos('gender', 'female')
               }
@@ -842,7 +842,7 @@ class ErrorModal extends React.PureComponent {
                 },
               ]}
               onPress={() =>
-                this.props.App.detailToModify === undefined
+                this.props.App.detailToModify === null
                   ? this.props.UpdateUserGenderState('unknown')
                   : this.updateLocalStateNewPersonal_infos('gender', 'unknown')
               }>

@@ -294,6 +294,7 @@ class OTPVerificationEntry extends React.PureComponent {
           if (/new_user/i.test(globalObject.state.userStatus)) {
             //Create new account
             globalObject.props.navigation.navigate('CreateAccountEntry');
+            globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home
           else {
             //? Restore the saved account details
@@ -334,9 +335,6 @@ class OTPVerificationEntry extends React.PureComponent {
               //....
               globalObject.state.accountCreation_state = 'minimal';
               //? Minimal account - move to the additional details screen
-              globalObject.props.navigation.navigate(
-                'NewAccountAdditionalDetails',
-              );
               globalObject.props.navigation.navigate(
                 'NewAccountAdditionalDetails',
               );

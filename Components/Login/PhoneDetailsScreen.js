@@ -22,6 +22,8 @@ import {
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {_MAIN_URL_ENDPOINT} from '@env';
+const io = require('socket.io-client');
 
 class PhoneDetailsScreen extends React.PureComponent {
   constructor(props) {
@@ -70,7 +72,13 @@ class PhoneDetailsScreen extends React.PureComponent {
     //Socket error handling
     this.props.App.socket.on('error', (error) => {});
     this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
+      const socket = io(String(_MAIN_URL_ENDPOINT), {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
     this.props.App.socket.on('connect_error', () => {
       //Ask for the OTP again
@@ -82,14 +90,26 @@ class PhoneDetailsScreen extends React.PureComponent {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
+      const socket = io(String(_MAIN_URL_ENDPOINT), {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
     this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
+      const socket = io(String(_MAIN_URL_ENDPOINT), {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 100,
+        reconnectionDelayMax: 200,
+      });
     });
   }
 
@@ -186,8 +206,8 @@ class PhoneDetailsScreen extends React.PureComponent {
                               : 'Uber Move Text',
                         },
                       ]}>
-                      By proceeding, you will receive an SMS and additional fees
-                      may apply.
+                      By proceeding, you will receive an SMS and data fees may
+                      apply.
                     </Text>
                   </View>
                   <View style={{flex: 1, alignItems: 'flex-end'}}>
