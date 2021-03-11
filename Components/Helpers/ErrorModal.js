@@ -347,6 +347,7 @@ class ErrorModal extends React.PureComponent {
         } else if (/^gender$/i.test(infoToUpdate)) {
           //gender
           this.setState({isErrorThrown: false, isLoading_something: true});
+          console.log(bundleData);
           this.props.App.socket.emit(
             'updateRiders_profileInfos_io',
             bundleData,

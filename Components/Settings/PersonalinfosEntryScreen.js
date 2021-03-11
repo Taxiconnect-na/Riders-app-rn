@@ -162,6 +162,7 @@ class PersonalinfosEntryScreen extends React.PureComponent {
     } else if (/gender/i.test(infoToUpdate)) {
       //The gender
       this.state.detailToModify = infoToUpdate;
+      this.props.App.detailToModify = infoToUpdate; //! Activate specific gender info vars controller. - TO RESET TO null after usage.
       this.props.UpdateErrorModalLog(true, 'gender_select', 'any');
     }
   }

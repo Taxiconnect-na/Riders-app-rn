@@ -141,6 +141,7 @@ class OTPVerificationEntry extends React.PureComponent {
           otpValue: '',
           showErrorUnmatchedOTP: false,
         }); //reset the error message, reset the otp textvalue, reset the sms limiter
+        globalObject.props.App.detailToModify = null; //! RESET GENDER controller to null
       },
     );
 

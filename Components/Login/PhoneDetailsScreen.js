@@ -47,6 +47,7 @@ class PhoneDetailsScreen extends React.PureComponent {
       'focus',
       () => {
         globalObject.props.ResetGenericPhoneNumberInput();
+        globalObject.props.App.detailToModify = null; //! RESET GENDER controller to null
       },
     );
     //Auto reset phone number validity to false
