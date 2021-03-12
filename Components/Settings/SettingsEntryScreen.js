@@ -1,9 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {StackActions} from '@react-navigation/native';
 import {
   View,
   Text,
+  Animated as AnimatedNative,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -13,8 +15,12 @@ import {
   Linking,
   BackHandler,
   Platform,
+  Easing,
 } from 'react-native';
-import {UpdateErrorModalLog} from '../Redux/HomeActionsCreators';
+import {
+  UpdateErrorModalLog,
+  UpdateHellosVars,
+} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
@@ -43,9 +49,12 @@ class SettingsEntryScreen extends React.Component {
       isChangingProfile_pic: false, //To know whether or not the profile pic is being changed to show up the loader.
       favoritePlace_label: 'home', //The place label to guid the simplified search.
     };
+
+    this.redirectTo_EntryScreen = this.redirectTo_EntryScreen.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.props.navigation);
     let globalObject = this;
     this._isMounted = true;
 
@@ -265,6 +274,165 @@ class SettingsEntryScreen extends React.Component {
   }
 
   /**
+   * @func fire_initGreetingAnd_after
+   * ? 2. Greeting animation - init and after init
+   * Launch greeting animations for hello1 and hello 2
+   */
+  fire_initGreetingAnd_after() {
+    let globalObject = this;
+    let timeout0 = setTimeout(function () {
+      AnimatedNative.parallel([
+        AnimatedNative.timing(
+          globalObject.props.App.initialHelloAnimationParams.opacity,
+          {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          },
+        ),
+        AnimatedNative.timing(
+          globalObject.props.App.initialHelloAnimationParams.top,
+          {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          },
+        ),
+      ]).start(() => {
+        let timeout = setTimeout(function () {
+          //Close hello 1
+          AnimatedNative.parallel([
+            AnimatedNative.timing(
+              globalObject.props.App.initialHelloAnimationParams.opacity,
+              {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+              },
+            ),
+            AnimatedNative.timing(
+              globalObject.props.App.initialHelloAnimationParams.top,
+              {
+                toValue: 10,
+                duration: 300,
+                useNativeDriver: true,
+              },
+            ),
+          ]).start(() => {
+            //Start hello 2
+            globalObject.props.UpdateHellosVars({initialHello: true});
+            AnimatedNative.parallel([
+              AnimatedNative.timing(
+                globalObject.props.App.initialHelloAnimationParams.opacity2,
+                {
+                  toValue: 1,
+                  duration: 300,
+                  useNativeDriver: true,
+                },
+              ),
+              AnimatedNative.timing(
+                globalObject.props.App.initialHelloAnimationParams.top2,
+                {
+                  toValue: 0,
+                  duration: 300,
+                  useNativeDriver: true,
+                },
+              ),
+            ]).start(() => {
+              //Replace text if GPRS is off
+              if (
+                globalObject.props.App.gprsGlobals.hasGPRSPermissions === false
+              ) {
+                //Replace hello 2 text with: Looks like you're off the map
+                let gprsOffText = "Looks like you're off the map";
+                if (globalObject.props.App.hello2Text !== gprsOffText) {
+                  let timeout2 = setTimeout(function () {
+                    globalObject.replaceHello2_text(gprsOffText);
+                    clearTimeout(timeout2);
+                  }, 1000);
+                }
+              }
+            });
+          });
+          clearTimeout(timeout0);
+          clearTimeout(timeout);
+        }, 4000);
+      });
+    }, 1000);
+  }
+
+  /**
+   * 3. Replace hello 2 text
+   * Laucn the animation of replacement of the hello 2 text.
+   */
+  replaceHello2_text(text) {
+    let globalObject = this;
+    //Close hello 2
+    AnimatedNative.parallel([
+      AnimatedNative.timing(
+        globalObject.props.App.initialHelloAnimationParams.opacity2,
+        {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        },
+      ),
+      AnimatedNative.timing(
+        globalObject.props.App.initialHelloAnimationParams.top2,
+        {
+          toValue: 10,
+          duration: 300,
+          useNativeDriver: true,
+        },
+      ),
+    ]).start(() => {
+      //Start hello 2
+      globalObject.props.UpdateHellosVars({hello2Text: text});
+      AnimatedNative.parallel([
+        AnimatedNative.timing(
+          globalObject.props.App.initialHelloAnimationParams.opacity2,
+          {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          },
+        ),
+        AnimatedNative.timing(
+          globalObject.props.App.initialHelloAnimationParams.top2,
+          {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          },
+        ),
+      ]).start();
+    });
+  }
+
+  /**
+   * @func resetAnimationLoader
+   * Reset the line loader to the default values
+   */
+  resetAnimationLoader() {
+    let globalObject = this;
+    this.props.App.showLocationSearch_loader = false;
+    AnimatedNative.timing(globalObject.props.App.loaderPosition, {
+      toValue: 0,
+      duration: 400,
+      useNativeDriver: true,
+    }).start(() => {
+      AnimatedNative.timing(globalObject.props.App.loaderBasicWidth, {
+        toValue: this.props.App.windowWidth,
+        duration: 3000,
+        useNativeDriver: true,
+        easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+      }).start(() => {
+        globalObject.props.App.showLocationSearch_loader = false;
+      });
+    });
+  }
+
+  /**
    * @func updateRiders_profilePic
    * Responsible to handle all the proccesses linked to changing the rider's profile picture.
    * And handle to notifyer button.
@@ -294,6 +462,10 @@ class SettingsEntryScreen extends React.Component {
         parentNode={this}
       />
     );
+  }
+
+  redirectTo_EntryScreen() {
+    this.props.navigation.navigate('EntryScreen');
   }
 
   render() {
@@ -592,13 +764,15 @@ class SettingsEntryScreen extends React.Component {
               </View>
               {/**Log out */}
               <TouchableOpacity
-                onPress={() =>
-                  this.props.UpdateErrorModalLog(
-                    true,
-                    'show_signOff_modal',
-                    'any',
-                  )
-                }
+                onPress={() => {
+                  Platform.OS === 'ios'
+                    ? this.props.UpdateErrorModalLog(
+                        true,
+                        'show_signOff_modal',
+                        'any',
+                      )
+                    : {};
+                }}
                 style={{
                   flexDirection: 'row',
                   marginTop: 25,
@@ -608,6 +782,7 @@ class SettingsEntryScreen extends React.Component {
                   alignItems: 'center',
                   borderTopWidth: 1,
                   borderTopColor: '#d0d0d0',
+                  opacity: Platform.OS === 'ios' ? 1 : 0.3,
                 }}>
                 <Text
                   style={{
@@ -665,6 +840,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       UpdateErrorModalLog,
+      UpdateHellosVars,
     },
     dispatch,
   );

@@ -26,6 +26,7 @@ import GenericLoader from '../Modules/GenericLoader/GenericLoader';
 import {
   ResetGenericPhoneNumberInput,
   UpdateErrorModalLog,
+  UpdateUserDetails_afterLoginSignup,
 } from '../Redux/HomeActionsCreators';
 import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
@@ -295,7 +296,6 @@ class OTPVerificationEntry extends React.PureComponent {
           if (/new_user/i.test(globalObject.state.userStatus)) {
             //Create new account
             globalObject.props.navigation.navigate('CreateAccountEntry');
-            globalObject.props.navigation.navigate('CreateAccountEntry');
           } //Home
           else {
             //? Restore the saved account details
@@ -326,8 +326,12 @@ class OTPVerificationEntry extends React.PureComponent {
               //....
               globalObject.state.accountCreation_state = 'full';
               //? Check the state of the account creation
-              globalObject.props.navigation.navigate('Home');
-              globalObject.props.navigation.navigate('Home');
+
+              if (Platform.OS === 'android') {
+                globalObject.props.navigation.navigate('Home');
+              } else {
+                globalObject.props.navigation.navigate('Home_drawer');
+              }
             } //Minimal account - go to complete details
             else {
               //! Save the user_fp and the rest of the globals
@@ -711,6 +715,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       ResetGenericPhoneNumberInput,
       UpdateErrorModalLog,
+      UpdateUserDetails_afterLoginSignup,
     },
     dispatch,
   );

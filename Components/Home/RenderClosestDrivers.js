@@ -28,42 +28,49 @@ class RenderClosestDrivers extends React.PureComponent {
       this.props.App.intervalProgressLoop === false
     ) {
       return this.props.App._CLOSEST_DRIVERS_DATA.map((driver, index) => {
-        //Compute the bearing
-        let carBearing = bearing(
-          point([
-            parseFloat(driver.driver_coordinates.longitude),
-            parseFloat(driver.driver_coordinates.latitude),
-          ]),
-          point([
-            parseFloat(driver.prev_driver_coordinates.longitude),
-            parseFloat(driver.prev_driver_coordinates.latitude),
-          ]),
-        );
-        //...
-        return (
-          <ShapeSource
-            key={index}
-            id={'currentLocationSource' + index}
-            shape={{
-              type: 'Point',
-              coordinates: [
-                parseFloat(driver.driver_coordinates.longitude),
-                parseFloat(driver.driver_coordinates.latitude),
-              ],
-            }}>
-            <Animated.SymbolLayer
-              id={'symbolCarLayer' + (index + 1)}
-              minZoomLevel={1}
-              //layerIndex={5000}
-              style={{
-                iconAllowOverlap: false,
-                iconImage: globalObject.props.App.carIcon_black,
-                iconSize: globalObject.props.App.carIconRelativeSize,
-                iconRotate: carBearing,
-              }}
-            />
-          </ShapeSource>
-        );
+        if (
+          driver.driver_coordinates !== undefined &&
+          driver.driver_coordinates !== null
+        ) {
+          //Compute the bearing
+          let carBearing = bearing(
+            point([
+              parseFloat(driver.driver_coordinates.longitude),
+              parseFloat(driver.driver_coordinates.latitude),
+            ]),
+            point([
+              parseFloat(driver.prev_driver_coordinates.longitude),
+              parseFloat(driver.prev_driver_coordinates.latitude),
+            ]),
+          );
+          //...
+          return (
+            <ShapeSource
+              key={index}
+              id={'currentLocationSource' + index}
+              shape={{
+                type: 'Point',
+                coordinates: [
+                  parseFloat(driver.driver_coordinates.longitude),
+                  parseFloat(driver.driver_coordinates.latitude),
+                ],
+              }}>
+              <Animated.SymbolLayer
+                id={'symbolCarLayer' + (index + 1)}
+                minZoomLevel={1}
+                //layerIndex={5000}
+                style={{
+                  iconAllowOverlap: false,
+                  iconImage: globalObject.props.App.carIcon_black,
+                  iconSize: globalObject.props.App.carIconRelativeSize,
+                  iconRotate: carBearing,
+                }}
+              />
+            </ShapeSource>
+          );
+        } else {
+          return null;
+        }
       });
       //return tmp;
     } else {

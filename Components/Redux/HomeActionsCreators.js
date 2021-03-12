@@ -377,3 +377,13 @@ export const UpdateKeyboardStateGlobal = (state) => ({
   type: 'UPDATE_STATE_OF_KEYBOARD_GLOBALLY',
   payload: state,
 });
+
+/**
+ * 47. Update crucial user details after login or sign up
+ * Responsible for updating globally the state after the user login and signup
+ * @param userData: the object containing the user's details.
+ */
+export const UpdateUserDetails_afterLoginSignup = (userData) => ({
+  type: 'UPDATE_USER_DETAILS_AFTER_LOGINSIGNUP',
+  payload: userData,
+});

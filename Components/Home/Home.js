@@ -676,6 +676,8 @@ class Home extends React.PureComponent {
 
   async componentDidMount() {
     let globalObject = this;
+    this.forceUpdate();
+
     //Add keyboard listeners
     Keyboard.addListener('keyboardDidShow', this.keyboardStateUpdater(true));
     Keyboard.addListener('keyboardDidHide', this.keyboardStateUpdater(false));

@@ -154,9 +154,10 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             //....
             globalObject.state.accountCreation_state = 'full';
             //Move to home
-            globalObject.props.navigation.navigate('Home');
-            if (Platform.OS === 'ios') {
-              globalObject.props.navigation.push('Home');
+            if (Platform.OS === 'android') {
+              globalObject.props.navigation.navigate('Home');
+            } else {
+              globalObject.props.navigation.navigate('Home_drawer');
             }
           } //Error updating the addition details - show error, but can proceed
           else {

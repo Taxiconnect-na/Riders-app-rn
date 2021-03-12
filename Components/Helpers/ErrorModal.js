@@ -450,7 +450,7 @@ class ErrorModal extends React.PureComponent {
       globalObject.props.App.accountCreation_state = null;
       //Log out
       globalObject.props.UpdateErrorModalLog(false, false, 'any');
-      globalObject.props.parentNode.props.navigation.push('EntryScreen');
+      globalObject.props.parentNode.props.navigation.navigate('EntryScreen');
     }, 1000);
   }
 

@@ -1486,7 +1486,9 @@ class RenderContentBottomVitals extends React.PureComponent {
                       },
                     ]}>
                     {/your day/i.test(this.props.App.hello2Text)
-                      ? `Hi ${this.props.App.username}`
+                      ? /^user$/i.test(this.props.App.username.trim())
+                        ? `Welcome`
+                        : `Hi ${this.props.App.username}`
                       : this.props.App.hello2Text}
                   </Text>
                 </AnimatedNative.View>

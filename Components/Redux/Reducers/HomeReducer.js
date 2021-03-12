@@ -24,7 +24,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
   //? State checks vars
   let checkerArray = null; //Made to be a checker holder array
   //..........
-  //console.log(action.type);
   switch (action.type) {
     case 'RESET_STATE_PROPS':
       //The payload can be the parent node of the Home screen
@@ -147,16 +146,13 @@ const HomeReducer = (state = INIT_STATE, action) => {
         top: new Animated.Value(10), //Hello 1
         opacity: new Animated.Value(0), //Hello 1
         top2: new Animated.Value(10), //Hello 2
-        opacity2: new Animated.Value(0), //Hello 2
+        opacity2: new Animated.Value(1), //Hello 2
       };
       //...
       if (
         action.payload !== null &&
         action.payload !== undefined &&
-        action.payload.fire_search_animation !== null &&
-        action.payload.fire_search_animation !== undefined &&
-        action.payload !== true &&
-        action.payload.fire_search_animation !== undefined
+        action.payload !== true
       ) {
         action.payload.resetAnimationLoader();
         action.payload.fire_initGreetingAnd_after();
@@ -2286,7 +2282,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
       }
 
     case 'UPDATE_USER_GENDER_STATE':
-      console.log(action.payload);
       newState.gender_user = action.payload;
       newState.generalErrorModal_vars.showErrorGeneralModal = false; //Close the modal selecter -reset
       newState.generalErrorModal_vars.generalErrorModalType = false; //Close the modal selecter -reset
@@ -2416,9 +2411,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
       //...
       return {...state, ...newState};
 
-    default:
-      return state;
-
     case 'UPDATE_STATE_OF_KEYBOARD_GLOBALLY':
       if (action.payload !== newState.isKeyboardShown) {
         //New state - update
@@ -2428,6 +2420,21 @@ const HomeReducer = (state = INIT_STATE, action) => {
       else {
         return state;
       }
+
+    case 'UPDATE_USER_DETAILS_AFTER_LOGINSIGNUP':
+      newState.user_fingerprint = action.payload.user_fp;
+      newState.gender_user = action.payload.gender;
+      newState.username = action.payload.name;
+      newState.surname_user = action.payload.surname;
+      newState.user_email = action.payload.email;
+      newState.phone_user = action.payload.phone_number;
+      newState.user_profile_pic = action.payload.profile_picture;
+      newState.pushnotif_token = action.payload.pushnotif_token;
+
+      return {...state, ...newState};
+
+    default:
+      return state;
   }
 };
 
