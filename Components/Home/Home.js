@@ -969,7 +969,7 @@ class Home extends React.PureComponent {
           ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
             //Reset
-            globalObject._RESET_STATE();
+            //globalObject._RESET_STATE(); //! SHOULD CHECK
             //Recalibrate map
             if (
               globalObject.map !== undefined &&

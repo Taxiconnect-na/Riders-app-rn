@@ -524,7 +524,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               },
             ),
           ]).start(() => {
-            //globalObject.resetAnimationLoader();
+            globalObject.props.parentNode.resetAnimationLoader();
           });
         });
       });

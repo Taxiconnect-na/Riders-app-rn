@@ -225,6 +225,9 @@ class Search extends React.PureComponent {
           });
         }
         //....
+        //? Force update - Fix idle state after locations filled
+        this.forceUpdate(); //! Not recommended
+        //?---
         if (
           this.props.App.search_passengersDestinations.passenger1Destination !==
           false
@@ -289,6 +292,9 @@ class Search extends React.PureComponent {
           });
         }
         //Check if all the location have been filled, if yes, auto dismiss the search window and move forward.
+        //? Force update - Fix idle state after locations filled
+        this.forceUpdate(); //! Not recommended
+        //?---
         if (
           this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
             .numberOfPassengersSelected === 1

@@ -1951,8 +1951,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_ROUTE_PREVIEW_TO_DESTINATION':
+      //? Optimized
       //Update route preview data - only if new
-      generalPurposeReg = new RegExp(JSON.stringify(action.payload));
       //Clear the interval persister
       if (newState._TMP_INTERVAL_PERSISTER !== null) {
         clearInterval(newState._TMP_INTERVAL_PERSISTER);
@@ -1960,11 +1960,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
       }
       //...
       if (
-        generalPurposeReg.test(
-          JSON.stringify(
-            newState.previewDestinationData.originDestinationPreviewData,
-          ),
-        )
+        `${JSON.stringify(action.payload)}` ===
+        `${newState.previewDestinationData.originDestinationPreviewData}`
       ) {
         //Already updated - do not update state
         return state;
