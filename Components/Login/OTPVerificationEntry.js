@@ -330,7 +330,7 @@ class OTPVerificationEntry extends React.PureComponent {
               if (Platform.OS === 'android') {
                 globalObject.props.navigation.navigate('Home');
               } else {
-                globalObject.props.navigation.navigate('Home_drawer');
+                globalObject.props.navigation.navigate('Home');
               }
             } //Minimal account - go to complete details
             else {

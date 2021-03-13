@@ -1959,7 +1959,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState._TMP_INTERVAL_PERSISTER = null;
       }
       //...
-      if (
+      /*if (
         `${JSON.stringify(action.payload)}` ===
         `${newState.previewDestinationData.originDestinationPreviewData}`
       ) {
@@ -1970,7 +1970,10 @@ const HomeReducer = (state = INIT_STATE, action) => {
         newState.previewDestinationData.originDestinationPreviewData =
           action.payload;
         return {...state, ...newState};
-      }
+      }*/
+      newState.previewDestinationData.originDestinationPreviewData =
+        action.payload;
+      return {...state, ...newState};
 
     case 'UPDATE_DELIVERY_PACKAGE_SIZE':
       //Update the delivery's package size on user select

@@ -969,7 +969,7 @@ class Home extends React.PureComponent {
           ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
             //Reset
-            //globalObject._RESET_STATE(); //! SHOULD CHECK
+            //globalObject._RESET_STATE(); //! Should check
             //Recalibrate map
             if (
               globalObject.map !== undefined &&
@@ -1161,7 +1161,7 @@ class Home extends React.PureComponent {
               globalObject.props.App.bottomVitalsFlow.currentStep !== 'mainView'
             ) {
               console.log('preliminary cleaning done!');
-              globalObject._RESET_STATE();
+              //globalObject._RESET_STATE(); //! SHOULD CHECK
             }
             //-------------------------
             //! Convert coords to float
