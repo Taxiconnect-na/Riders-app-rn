@@ -220,4 +220,4 @@ const mapStateToProps = (state) => {
   return {App};
 };
 
-export default React.memo(connect(mapStateToProps)(RenderTrackerDrivers));
+export default connect(mapStateToProps)(RenderTrackerDrivers);

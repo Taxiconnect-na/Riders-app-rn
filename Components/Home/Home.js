@@ -963,13 +963,10 @@ class Home extends React.PureComponent {
           /no_rides/i.test(response.request_status) === false
         ) {
           //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
-          if (
-            globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED &&
-            globalObject.props.App.isRideInProgress === false
-          ) {
+          if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
             //Reset
-            //globalObject._RESET_STATE(); //! Should check
+            globalObject._RESET_STATE(); //! Should check
             //Recalibrate map
             if (
               globalObject.map !== undefined &&
@@ -1162,6 +1159,14 @@ class Home extends React.PureComponent {
             ) {
               console.log('preliminary cleaning done!');
               //globalObject._RESET_STATE(); //! SHOULD CHECK
+              /*globalObject.props.UpdatePendingGlobalVars({
+                request_status: response.request_status,
+                isRideInProgress: true,
+                pickupLocation_metadata: {
+                  coordinates: response.pickupLocation_point.map(parseFloat),
+                  pickupLocation_name: response.pickupLocation_name,
+                },
+              });*/
             }
             //-------------------------
             //! Convert coords to float
@@ -1629,6 +1634,11 @@ class Home extends React.PureComponent {
             globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
           );
           globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+          //! RESET
+          /*if (globalObject.props.App.isRideInProgress === false) {
+            globalObject._RESET_STATE();
+          }*/
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
         } //An unxepected error occured
         else if (
           response !== false &&
@@ -1645,6 +1655,11 @@ class Home extends React.PureComponent {
             globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
           );
           globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+          //! RESET
+          /*if (globalObject.props.App.isRideInProgress === false) {
+            globalObject._RESET_STATE();
+          }*/
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
         } else {
           //clear any basic interval persister
           globalObject.props.App.bottomVitalsFlow._error_booking_requested = true;
@@ -1665,6 +1680,11 @@ class Home extends React.PureComponent {
             'show_error_requesting_modal',
             'any',
           );
+          //! RESET
+          /*if (globalObject.props.App.isRideInProgress === false) {
+            globalObject._RESET_STATE();
+          }*/
+          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
         }
       },
     );
