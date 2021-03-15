@@ -593,71 +593,63 @@ class Home extends React.PureComponent {
     let globalObject = this;
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
-      InteractionManager.runAfterInteractions(() => {
-        globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
-          function () {
-            //...
-            if (globalObject.props.App.intervalProgressLoop === false) {
-              InteractionManager.runAfterInteractions(() => {
-                globalObject.GPRS_resolver();
-                globalObject.updateRemoteLocationsData();
-              });
-              //2. Request for the total wallet balance
-              globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
-                user_fingerprint: globalObject.props.App.user_fingerprint,
-                mode: 'detailed',
-              });
-              //3. Request for any shared ride - if any - and if not ride is in progress
-              if (
-                globalObject.props.App.sharedSimplifiedLink !== undefined &&
-                globalObject.props.App.sharedSimplifiedLink !== null &&
-                globalObject.props.App.sharedSimplifiedLink.length > 0
-              ) {
-                globalObject.props.App.socket.emit(
-                  'getSharedTrip_information_io',
-                  {
-                    sharedTo_user_fingerprint:
-                      globalObject.props.App.user_fingerprint,
-                    trip_simplified_id:
-                      globalObject.props.App.sharedSimplifiedLink,
-                  },
-                );
-              }
-            } //Kill the persister
-            else {
-              globalObject.props.App.intervalProgressLoop = false;
-              globalObject.props.App.isRideInProgress = true;
-              //...
-              clearInterval(
-                globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER,
+      globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
+        function () {
+          console.log('_MAIN_MAZE_RUNNER_LOOP_');
+          //...
+          if (globalObject.props.App.intervalProgressLoop === false) {
+            globalObject.GPRS_resolver();
+            globalObject.updateRemoteLocationsData();
+            //2. Request for the total wallet balance
+            globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
+              user_fingerprint: globalObject.props.App.user_fingerprint,
+              mode: 'detailed',
+            });
+            //3. Request for any shared ride - if any - and if not ride is in progress
+            if (
+              globalObject.props.App.sharedSimplifiedLink !== undefined &&
+              globalObject.props.App.sharedSimplifiedLink !== null &&
+              globalObject.props.App.sharedSimplifiedLink.length > 0
+            ) {
+              globalObject.props.App.socket.emit(
+                'getSharedTrip_information_io',
+                {
+                  sharedTo_user_fingerprint:
+                    globalObject.props.App.user_fingerprint,
+                  trip_simplified_id:
+                    globalObject.props.App.sharedSimplifiedLink,
+                },
               );
-              if (
-                globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null
-              ) {
-                globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
-              }
-              //! Kick start the specific loop in case
-              if (globalObject.props.App.intervalProgressLoop === false) {
-                globalObject.props.App.intervalProgressLoop = setInterval(
-                  function () {
-                    if (globalObject.props.App.isRideInProgress === true) {
-                      globalObject.GPRS_resolver();
-                      globalObject.updateRemoteLocationsData();
-                    } //clear interval
-                    else {
-                      clearInterval(
-                        globalObject.props.App.intervalProgressLoop,
-                      );
-                    }
-                  },
-                  1500,
-                );
-              }
             }
-          },
-          globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
-        );
-      });
+          } //Kill the persister
+          else {
+            globalObject.props.App.intervalProgressLoop = false;
+            globalObject.props.App.isRideInProgress = true;
+            //...
+            clearInterval(globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER);
+            if (globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null) {
+              globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
+            }
+            //! Kick start the specific loop in case
+            if (globalObject.props.App.intervalProgressLoop === false) {
+              globalObject.props.App.intervalProgressLoop = setInterval(
+                function () {
+                  if (globalObject.props.App.isRideInProgress === true) {
+                    console.log('_SPECIFIC_RUNNER_INTERVAL_');
+                    globalObject.GPRS_resolver();
+                    globalObject.updateRemoteLocationsData();
+                  } //clear interval
+                  else {
+                    clearInterval(globalObject.props.App.intervalProgressLoop);
+                  }
+                },
+                1500,
+              );
+            }
+          }
+        },
+        globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
+      );
     }
   }
 
@@ -946,6 +938,7 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
+      console.log(response);
       try {
         //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (
@@ -1216,19 +1209,16 @@ class Home extends React.PureComponent {
               globalObject.camera !== undefined &&
               globalObject.camera !== null
             ) {
-              InteractionManager.runAfterInteractions(() => {
-                globalObject.camera.flyTo(response.pickupLocation_point, 1000);
-                globalObject.camera.setCamera({
-                  centerCoordinate: response.pickupLocation_point,
-                  zoomLevel: 14,
-                  animationDuration: 500,
-                });
+              globalObject.camera.flyTo(response.pickupLocation_point, 1000);
+              globalObject.camera.setCamera({
+                centerCoordinate: response.pickupLocation_point,
+                zoomLevel: 14,
+                animationDuration: 500,
               });
             }
             //...
             //! Reset navigation data if an existing previous scenario was set
             if (/^inRouteTo/i.test(globalObject.props.App.request_status)) {
-              console.log('HEREEE1');
               //! CHECK FOR DRIVER REQUEST GHOSTING BUG!!!
               //Clean it up
               globalObject.props.UpdateErrorModalLog(false, false, 'any'); //in case the modal was opened
@@ -1251,7 +1241,7 @@ class Home extends React.PureComponent {
 
             //Update loop request
             //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
-            if (
+            /*if (
               globalObject.props.App.intervalProgressLoop === false &&
               globalObject.props.App.sharedSimplifiedLink === null
             ) {
@@ -1267,7 +1257,7 @@ class Home extends React.PureComponent {
                 },
                 1500,
               );
-            }
+            }*/
           } else if (
             response.request_status !== undefined &&
             response.request_status !== null &&
