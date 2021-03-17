@@ -26,6 +26,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
   //..........
   switch (action.type) {
     case 'RESET_STATE_PROPS':
+      console.log('RESET_STATE_PROPS');
       //The payload can be the parent node of the Home screen
       newState.shape = null;
       newState.route = null; //Will manage the animation of the route to the passenger
@@ -1944,11 +1945,21 @@ const HomeReducer = (state = INIT_STATE, action) => {
       return {...state, ...newState};
 
     case 'UPDATE_PRICING_STATE_DATA':
-      newState.pricingVariables.didPricingReceivedFromServer = true;
-      newState.pricingVariables.carTypesPricingMetada = action.payload;
+      //? Optimized
+      if (
+        `${JSON.stringify(newState.pricingVariables.carTypesPricingMetada)}` ===
+        `${JSON.stringify(action.payload)}`
+      ) {
+        //Same data
+        return state;
+      } //New data
+      else {
+        newState.pricingVariables.didPricingReceivedFromServer = true;
+        newState.pricingVariables.carTypesPricingMetada = action.payload;
 
-      //...
-      return {...state, ...newState};
+        //...
+        return {...state, ...newState};
+      }
 
     case 'UPDATE_ROUTE_PREVIEW_TO_DESTINATION':
       //? Optimized

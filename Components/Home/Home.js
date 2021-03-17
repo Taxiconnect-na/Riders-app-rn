@@ -959,14 +959,15 @@ class Home extends React.PureComponent {
           //if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
           if (
             globalObject.props.App.previewDestinationData
-              .originDestinationPreviewData.routePoints !== undefined ||
+              .originDestinationPreviewData.routePoints !== undefined &&
             globalObject.props.App.previewDestinationData
-              .originDestinationPreviewData.routePoints !== false ||
+              .originDestinationPreviewData.routePoints !== false &&
             globalObject.props.App.previewDestinationData
               .originDestinationPreviewData.routePoints !== null
           ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
             //Reset
+            console.log('Reset globals');
             globalObject._RESET_STATE(); //! Should check
             //Recalibrate map
             if (
@@ -1473,7 +1474,9 @@ class Home extends React.PureComponent {
           response !== false &&
           response.response === undefined &&
           globalObject.props.App.pricingVariables
-            .didPricingReceivedFromServer !== true
+            .didPricingReceivedFromServer !== true &&
+          globalObject.props.App.pricingVariables.carTypesPricingMetada
+            .length === 0
         ) {
           //Estimates computed
           //Convert to object
