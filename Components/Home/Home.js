@@ -938,7 +938,7 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
-      console.log(response);
+      //console.log(response);
       try {
         //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (
@@ -956,7 +956,15 @@ class Home extends React.PureComponent {
           /no_rides/i.test(response.request_status) === false
         ) {
           //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
-          if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
+          //if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
+          if (
+            globalObject.props.App.previewDestinationData
+              .originDestinationPreviewData.routePoints !== undefined ||
+            globalObject.props.App.previewDestinationData
+              .originDestinationPreviewData.routePoints !== false ||
+            globalObject.props.App.previewDestinationData
+              .originDestinationPreviewData.routePoints !== null
+          ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
             //Reset
             globalObject._RESET_STATE(); //! Should check
@@ -1151,7 +1159,7 @@ class Home extends React.PureComponent {
               globalObject.props.App.bottomVitalsFlow.currentStep !== 'mainView'
             ) {
               console.log('preliminary cleaning done!');
-              //globalObject._RESET_STATE(); //! SHOULD CHECK
+              globalObject._RESET_STATE(); //! SHOULD CHECK
               /*globalObject.props.UpdatePendingGlobalVars({
                 request_status: response.request_status,
                 isRideInProgress: true,
@@ -1649,7 +1657,6 @@ class Home extends React.PureComponent {
           /*if (globalObject.props.App.isRideInProgress === false) {
             globalObject._RESET_STATE();
           }*/
-          globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
         } else {
           //clear any basic interval persister
           globalObject.props.App.bottomVitalsFlow._error_booking_requested = true;

@@ -1088,18 +1088,18 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           destinationData: globalObject.props.App.search_passengersDestinations,
         };
 
-        console.log(RIDE_OR_DELIVERY_BOOKING_DATA.pickupData); //! For debugging purposes
+        //console.log(RIDE_OR_DELIVERY_BOOKING_DATA.pickupData); //! For debugging purposes
 
         //DOne gathering, make the server request
-        //Cancel any previous interval
-        clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-        globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
 
         //Bind to interval persister
-        if (globalObject.props.App._TMP_INTERVAL_PERSISTER === null) {
+        /*if (globalObject.props.App._TMP_INTERVAL_PERSISTER === null) {
           globalObject.props.App._TMP_INTERVAL_PERSISTER = setInterval(
             function () {
-              if (globalObject.props.App.intervalProgressLoop === false) {
+              if (
+                globalObject.props.App.intervalProgressLoop === false ||
+                globalObject.props.App.isRideInProgress === false
+              ) {
                 if (
                   globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED ===
                     false &&
@@ -1115,6 +1115,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }
                 //Kill interval - if booking request data already received
                 else {
+                  globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
                   clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
                   if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
                     globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
@@ -1122,6 +1123,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }
               } //Kill interval - if booking request data already received
               else {
+                globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
                 clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
                 if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
                   globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
@@ -1130,7 +1132,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             },
             globalObject.props.App._TMP_INTERVAL_PERSISTER_TIME,
           );
-        }
+        }*/
+        //! Make a single request - risky
+        //Not yet request and no errors
+        //Check wheher an answer was already received - if not keep requesting
+        globalObject.props.App.socket.emit(
+          'requestRideOrDeliveryForThis',
+          RIDE_OR_DELIVERY_BOOKING_DATA,
+        );
 
         //...
         //Fade in the loader screen
@@ -1144,6 +1153,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           },
         ).start();
       });
+    } else {
+      //Clear the interval
+      globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
+      clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
+      if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
+        globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+      }
     }
   }
 
@@ -3291,13 +3307,17 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               height: 100,
             }}>
             <TouchableOpacity
-              onPress={() =>
+              onPress={() => {
+                //Cancel any previous interval
+                clearInterval(this.props.App._TMP_INTERVAL_PERSISTER);
+                this.props.App._TMP_INTERVAL_PERSISTER = null;
+                //...
                 this.connectToTaxiGenericButtonAction(
                   /RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
                     ? 'RIDE'
                     : 'DELIVERY',
-                )
-              }
+                );
+              }}
               style={{
                 borderWidth: 1,
                 borderColor: 'transparent',

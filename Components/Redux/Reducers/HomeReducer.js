@@ -187,7 +187,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
     case 'UPDATE_PENDING_GLOBAL_VARS':
       //? Optmized
       //Update the previous state
-      /*if (
+      if (
         `${JSON.stringify(newState.request_status)}` !==
           `${JSON.stringify(action.payload.request_status)}` ||
         `${JSON.stringify(newState.isRideInProgress)}` !==
@@ -214,15 +214,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       } //No change
       else {
         return state;
-      }*/
-      newState.request_status = action.payload.request_status;
-      newState.isRideInProgress = action.payload.isRideInProgress;
-      newState.pickupLocation_metadata.coordinates =
-        action.payload.pickupLocation_metadata.coordinates;
-      newState.pickupLocation_metadata.pickupLocation_name =
-        action.payload.pickupLocation_metadata.pickupLocation_name;
-      //...
-      return {...state, ...newState};
+      }
 
     case 'UPDATE_ROUTE_TO_PICKUP_VARS':
       //? Optmized
