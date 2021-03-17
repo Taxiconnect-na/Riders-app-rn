@@ -956,7 +956,7 @@ class Home extends React.PureComponent {
           /no_rides/i.test(response.request_status) === false
         ) {
           //! RESET EVERYTHING IF THE REQUEST WAS JUST MADE
-          //if (globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED) {
+          //? Reset if the preview graph is present - crucial condition
           if (
             globalObject.props.App.previewDestinationData
               .originDestinationPreviewData.routePoints !== undefined &&
@@ -1160,7 +1160,7 @@ class Home extends React.PureComponent {
               globalObject.props.App.bottomVitalsFlow.currentStep !== 'mainView'
             ) {
               console.log('preliminary cleaning done!');
-              globalObject._RESET_STATE(); //! SHOULD CHECK
+              //globalObject._RESET_STATE(); //! SHOULD CHECK
               /*globalObject.props.UpdatePendingGlobalVars({
                 request_status: response.request_status,
                 isRideInProgress: true,
@@ -1279,7 +1279,7 @@ class Home extends React.PureComponent {
               globalObject.props.App.request_status === false
             ) {
               console.log('preliminary cleaning done!');
-              globalObject._RESET_STATE();
+              //globalObject._RESET_STATE();
             }
             //! Reset navigation data if an existing previous scenario was set
             if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
@@ -1319,7 +1319,7 @@ class Home extends React.PureComponent {
               globalObject.props.App.request_status !== null
             ) {
               console.log('preliminary cleaning done - No rides!');
-              globalObject._RESET_STATE();
+              //globalObject._RESET_STATE();
             }
             //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
             if (
@@ -1351,7 +1351,7 @@ class Home extends React.PureComponent {
             globalObject.props.App.request_status !== null
           ) {
             console.log('preliminary cleaning done - No rides!');
-            globalObject._RESET_STATE();
+            //globalObject._RESET_STATE();
           }
           //Update status
           if (globalObject.props.App.sharedSimplifiedLink === null) {
@@ -1361,7 +1361,7 @@ class Home extends React.PureComponent {
             let testReg = new RegExp(response.request_status, 'i');
             if (testReg.test(globalObject.props.App.request_status) === false) {
               if (globalObject.props.App.request_status !== null) {
-                globalObject._RESET_STATE();
+                //globalObject._RESET_STATE();
                 //Recalibrate the map
                 globalObject.recalibrateMap();
               }
