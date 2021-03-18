@@ -216,6 +216,14 @@ const HomeReducer = (state = INIT_STATE, action) => {
       else {
         return state;
       }
+    /*newState.request_status = action.payload.request_status;
+      newState.isRideInProgress = action.payload.isRideInProgress;
+      newState.pickupLocation_metadata.coordinates =
+        action.payload.pickupLocation_metadata.coordinates;
+      newState.pickupLocation_metadata.pickupLocation_name =
+        action.payload.pickupLocation_metadata.pickupLocation_name;
+      //...
+      return {...state, ...newState};*/
 
     case 'UPDATE_ROUTE_TO_PICKUP_VARS':
       //? Optmized

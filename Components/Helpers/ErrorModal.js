@@ -113,19 +113,6 @@ class ErrorModal extends React.PureComponent {
       function (response) {
         //Stop the loader and restore
         globalObject.setState({isLoading_something: false});
-        if (
-          response !== false &&
-          response.response !== undefined &&
-          response.response !== null
-        ) {
-          //Received a response
-          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-          //Reset all the trips
-          globalObject.props.ResetStateProps(globalObject.props.parentNode);
-        } //error - close modal
-        else {
-          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-        }
       },
     );
   }

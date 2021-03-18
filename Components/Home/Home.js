@@ -932,6 +932,27 @@ class Home extends React.PureComponent {
       },
     );
 
+    //2 Handle cancel request response
+    this.props.App.socket.on(
+      'cancelRiders_request_io-response',
+      function (response) {
+        if (
+          response !== false &&
+          response.response !== undefined &&
+          response.response !== null
+        ) {
+          //Received a response
+          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+          //Reset all the trips
+          //globalObject.props.ResetStateProps(globalObject);
+          globalObject._RESET_STATE();
+        } //error - close modal
+        else {
+          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+        }
+      },
+    );
+
     /**
      * @socket trackdriverroute-response
      * Get route tracker response
@@ -1190,12 +1211,10 @@ class Home extends React.PureComponent {
               //? Switch latitude and longitude - check the negative sign
               if (parseFloat(pickLongitude) < 0) {
                 //Negative - switch
-                let latitudeTmp = this.props.App.latitude;
-                pickLatitude = pickLongitude;
-                pickLongitude = latitudeTmp;
-                //Recreate the array
-                response.pickupLocation_point[0] = pickLongitude;
-                response.pickupLocation_point[1] = pickLatitude;
+                response.pickupLocation_point = [
+                  response.pickupLocation_point[1],
+                  response.pickupLocation_point[0],
+                ];
               }
             }
             //!--------- Ocean bug fix
@@ -1624,6 +1643,7 @@ class Home extends React.PureComponent {
           response.response !== undefined &&
           /successfully_requested/i.test(response.response)
         ) {
+          //globalObject._RESET_STATE(); //Major reset
           //Successfully requested
           //Leave it to the request checker
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
@@ -1636,9 +1656,11 @@ class Home extends React.PureComponent {
           );
           globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
           //! RESET
-          /*if (globalObject.props.App.isRideInProgress === false) {
-            globalObject._RESET_STATE();
-          }*/
+          //if (globalObject.props.App.isRideInProgress === false) {
+          if (Platform.OS === 'ios') {
+            //globalObject._RESET_STATE();
+          }
+          //}
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
         } //An unxepected error occured
         else if (
@@ -1646,6 +1668,7 @@ class Home extends React.PureComponent {
           response.response !== undefined &&
           /already_have_a_pending_request/i.test(response.response)
         ) {
+          //globalObject._RESET_STATE();
           //Do nothing
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
           //clear any basic interval persister
@@ -1661,6 +1684,7 @@ class Home extends React.PureComponent {
             globalObject._RESET_STATE();
           }*/
         } else {
+          //globalObject._RESET_STATE(); //Major reset
           //clear any basic interval persister
           globalObject.props.App.bottomVitalsFlow._error_booking_requested = true;
           //clear the closest drivers interval persister
@@ -2250,7 +2274,9 @@ class Home extends React.PureComponent {
                 globalObject.camera.fitBounds(
                   originPoint,
                   destinationPoint,
-                  [100, 140, 40, 140],
+                  Platform.OS === 'android'
+                    ? [100, 140, 40, 140]
+                    : [100, 100, 40, 100],
                   Platform.OS === 'android' ? 800 : 800,
                 );
               });

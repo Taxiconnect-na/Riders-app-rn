@@ -121,6 +121,9 @@ class PersonalinfosEntryScreen extends React.PureComponent {
               clearTimeout(tmpTimeoutCloser);
             }, 2000);
           }
+          //?Change state to random value to allow general state update - workaround
+          globalObject.props.UpdateErrorModalLog(false, true, 'anyoui');
+          //?-------
         } //SOmething so strange happened - error
         else {
           globalObject.props.UpdateErrorModalLog(false, false, 'any');

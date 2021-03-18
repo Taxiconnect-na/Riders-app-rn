@@ -2008,6 +2008,10 @@ class RenderContentBottomVitals extends React.PureComponent {
           .originDestinationPreviewData.routePoints === false ||
         globalObject.props.App.previewDestinationData
           .originDestinationPreviewData.routePoints === null;
+      //!Kick starter
+      if (initialCondition) {
+        this.findPreviewRouteToDestination();
+      }
       //...
       if (this.props.App._TMP_INTERVAL_PERSISTER === null && initialCondition) {
         //Make an initial preview to destination request

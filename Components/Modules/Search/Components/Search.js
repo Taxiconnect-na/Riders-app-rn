@@ -86,7 +86,7 @@ class Search extends React.PureComponent {
     //Update the input field index for passengers
     if (inputFieldIndex === 0) {
       //Pickup location
-      //this.props.App.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = false; //Enable custom pickup location
+      //this.props.App.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = false; //Enable custom pickup location - DEBUG
       this.props.App.search_pickupLocationInfos.search_passenger0DestinationInput = query;
       if (query.length <= 0) {
         this.props.App.search_pickupLocationInfos.passenger0Destination = false;
@@ -225,8 +225,6 @@ class Search extends React.PureComponent {
           });
         }
         //....
-        //? Force update - Fix idle state after locations filled
-        this.forceUpdate(); //! Not recommended
         //?---
         if (
           this.props.App.search_passengersDestinations.passenger1Destination !==
@@ -274,119 +272,131 @@ class Search extends React.PureComponent {
               passengerIndex: 1,
               locationObject: locationObj,
             });
+            //Check if all the location have been filled, if yes, auto dismiss the search window and move forward.
+            this.checkMoveForward();
           }
         } else if (this.props.App.search_currentFocusedPassenger === 2) {
           this.props.UpdateDestinationDetails({
             passengerIndex: 2,
             locationObject: locationObj,
           });
+          //Check if all the location have been filled, if yes, auto dismiss the search window and move forward.
+          this.checkMoveForward();
         } else if (this.props.App.search_currentFocusedPassenger === 3) {
           this.props.UpdateDestinationDetails({
             passengerIndex: 3,
             locationObject: locationObj,
           });
+          //Check if all the location have been filled, if yes, auto dismiss the search window and move forward.
+          this.checkMoveForward();
         } else if (this.props.App.search_currentFocusedPassenger === 4) {
           this.props.UpdateDestinationDetails({
             passengerIndex: 4,
             locationObject: locationObj,
           });
-        }
-        //Check if all the location have been filled, if yes, auto dismiss the search window and move forward.
-        //? Force update - Fix idle state after locations filled
-        this.forceUpdate(); //! Not recommended
-        //?---
-        if (
-          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-            .numberOfPassengersSelected === 1
-        ) {
-          if (
-            this.props.App.search_passengersDestinations
-              .passenger1Destination !== false
-          ) {
-            //Restore pickup location to current pickup location if no custom location was selected
-            if (
-              this.props.App.search_pickupLocationInfos
-                .passenger0Destination === false
-            ) {
-              this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
-              this._onDestinationSelect(false, 'currentPickupLocation');
-            }
-            //All locations filled
-            this.props.UpdateProcessFlowState({flowDirection: 'next'});
-          }
-        } else if (
-          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-            .numberOfPassengersSelected === 2
-        ) {
-          if (
-            this.props.App.search_passengersDestinations
-              .passenger1Destination !== false &&
-            this.props.App.search_passengersDestinations
-              .passenger2Destination !== false
-          ) {
-            //Restore pickup location to current pickup location if no custom location was selected
-            if (
-              this.props.App.search_pickupLocationInfos
-                .passenger0Destination === false
-            ) {
-              this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
-              this._onDestinationSelect(false, 'currentPickupLocation');
-            }
-            //All locations filled
-            this.props.UpdateProcessFlowState({flowDirection: 'next'});
-          }
-        } else if (
-          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-            .numberOfPassengersSelected === 3
-        ) {
-          if (
-            this.props.App.search_passengersDestinations
-              .passenger1Destination !== false &&
-            this.props.App.search_passengersDestinations
-              .passenger2Destination !== false &&
-            this.props.App.search_passengersDestinations
-              .passenger3Destination !== false
-          ) {
-            //Restore pickup location to current pickup location if no custom location was selected
-            if (
-              this.props.App.search_pickupLocationInfos
-                .passenger0Destination === false
-            ) {
-              this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
-              this._onDestinationSelect(false, 'currentPickupLocation');
-            }
-            //All locations filled
-            this.props.UpdateProcessFlowState({flowDirection: 'next'});
-          }
-        } else if (
-          this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-            .numberOfPassengersSelected === 4
-        ) {
-          if (
-            this.props.App.search_passengersDestinations
-              .passenger1Destination !== false &&
-            this.props.App.search_passengersDestinations
-              .passenger2Destination !== false &&
-            this.props.App.search_passengersDestinations
-              .passenger3Destination !== false &&
-            this.props.App.search_passengersDestinations
-              .passenger4Destination !== false
-          ) {
-            //Restore pickup location to current pickup location if no custom location was selected
-            if (
-              this.props.App.search_pickupLocationInfos
-                .passenger0Destination === false
-            ) {
-              this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
-              this._onDestinationSelect(false, 'currentPickupLocation');
-            }
-            //All locations filled
-            this.props.UpdateProcessFlowState({flowDirection: 'next'});
-          }
+          //Check if all the location have been filled, if yes, auto dismiss the search window and move forward.
+          this.checkMoveForward();
         }
       }
     }
     //});
+  }
+
+  /**
+   * @func checkMoveForward
+   * Responsible for always checking if all the details where added or not, if yes, move forward
+   */
+  checkMoveForward() {
+    //?---
+    if (
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+        .numberOfPassengersSelected === 1
+    ) {
+      if (
+        this.props.App.search_passengersDestinations.passenger1Destination !==
+        false
+      ) {
+        //Restore pickup location to current pickup location if no custom location was selected
+        if (
+          this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          false
+        ) {
+          this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
+          this._onDestinationSelect(false, 'currentPickupLocation');
+        }
+        //All locations filled
+        this.props.UpdateProcessFlowState({flowDirection: 'next'});
+      }
+    } else if (
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+        .numberOfPassengersSelected === 2
+    ) {
+      if (
+        this.props.App.search_passengersDestinations.passenger1Destination !==
+          false &&
+        this.props.App.search_passengersDestinations.passenger2Destination !==
+          false
+      ) {
+        //Restore pickup location to current pickup location if no custom location was selected
+        if (
+          this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          false
+        ) {
+          this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
+          this._onDestinationSelect(false, 'currentPickupLocation');
+        }
+        //All locations filled
+        this.props.UpdateProcessFlowState({flowDirection: 'next'});
+      }
+    } else if (
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+        .numberOfPassengersSelected === 3
+    ) {
+      if (
+        this.props.App.search_passengersDestinations.passenger1Destination !==
+          false &&
+        this.props.App.search_passengersDestinations.passenger2Destination !==
+          false &&
+        this.props.App.search_passengersDestinations.passenger3Destination !==
+          false
+      ) {
+        //Restore pickup location to current pickup location if no custom location was selected
+        if (
+          this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          false
+        ) {
+          this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
+          this._onDestinationSelect(false, 'currentPickupLocation');
+        }
+        //All locations filled
+        this.props.UpdateProcessFlowState({flowDirection: 'next'});
+      }
+    } else if (
+      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+        .numberOfPassengersSelected === 4
+    ) {
+      if (
+        this.props.App.search_passengersDestinations.passenger1Destination !==
+          false &&
+        this.props.App.search_passengersDestinations.passenger2Destination !==
+          false &&
+        this.props.App.search_passengersDestinations.passenger3Destination !==
+          false &&
+        this.props.App.search_passengersDestinations.passenger4Destination !==
+          false
+      ) {
+        //Restore pickup location to current pickup location if no custom location was selected
+        if (
+          this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          false
+        ) {
+          this.props.App.search_currentFocusedPassenger = 0; //Very important refocus on the pickup location field
+          this._onDestinationSelect(false, 'currentPickupLocation');
+        }
+        //All locations filled
+        this.props.UpdateProcessFlowState({flowDirection: 'next'});
+      }
+    }
   }
 
   /**
