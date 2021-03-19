@@ -1370,7 +1370,7 @@ class Home extends React.PureComponent {
             globalObject.props.App.request_status !== null
           ) {
             console.log('preliminary cleaning done - No rides!');
-            //globalObject._RESET_STATE();
+            globalObject._RESET_STATE();
           }
           //Update status
           if (globalObject.props.App.sharedSimplifiedLink === null) {
@@ -1380,7 +1380,7 @@ class Home extends React.PureComponent {
             let testReg = new RegExp(response.request_status, 'i');
             if (testReg.test(globalObject.props.App.request_status) === false) {
               if (globalObject.props.App.request_status !== null) {
-                //globalObject._RESET_STATE();
+                globalObject._RESET_STATE();
                 //Recalibrate the map
                 globalObject.recalibrateMap();
               }
