@@ -595,7 +595,6 @@ class Home extends React.PureComponent {
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
       globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
         function () {
-          console.log('_MAIN_MAZE_RUNNER_LOOP_');
           //...
           if (globalObject.props.App.intervalProgressLoop === false) {
             globalObject.GPRS_resolver();
@@ -1419,6 +1418,7 @@ class Home extends React.PureComponent {
       'geocode-this-point-response',
       function (response) {
         if (response !== undefined && response !== false) {
+          console.log(response);
           globalObject.props.UpdateCurrentLocationMetadat(response);
         }
       },

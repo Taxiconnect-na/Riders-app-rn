@@ -209,7 +209,8 @@ class TopUpWalletScreen extends React.PureComponent {
     if (
       /valid/i.test(form.status.number) &&
       /valid/i.test(form.status.expiry) &&
-      /valid/i.test(form.status.cvc)
+      /valid/i.test(form.status.cvc) &&
+      /valid/i.test(form.status.name)
     ) {
       let globalObject = this;
       Animated.timing(this.state.buttonPayOpacity, {
@@ -262,6 +263,20 @@ class TopUpWalletScreen extends React.PureComponent {
           expiry: this.cardData.values.expiry.replace('/', ''),
           cvv: this.cardData.values.cvc,
           type: this.cardData.values.type,
+          name: this.cardData.values.name.trim().replace(/ /g, '_'),
+          city:
+            this.props.App.userCurrentLocationMetaData.city !== undefined &&
+            this.props.App.userCurrentLocationMetaData.city !== null &&
+            this.props.App.userCurrentLocationMetaData.city !== false
+              ? this.props.App.userCurrentLocationMetaData.city
+              : 'Windhoek',
+          country:
+            this.props.App.userCurrentLocationMetaData.countrycode !==
+              undefined &&
+            this.props.App.userCurrentLocationMetaData.countrycode !== null &&
+            this.props.App.userCurrentLocationMetaData.countrycode !== false
+              ? this.props.App.userCurrentLocationMetaData.countrycode
+              : 'NA',
         };
         //...
         if (this.state.isDeviceConnectedInternet) {
@@ -623,13 +638,15 @@ class TopUpWalletScreen extends React.PureComponent {
                     number: 'Card number',
                     expiry: 'MM/YY',
                     cvc: 'CVV',
+                    name: 'Name on card',
                   }}
                   labels={{
                     cvc: '',
                     number: '',
                     expiry: '',
+                    name: '',
                   }}
-                  requiresName={false}
+                  requiresName={true}
                   requiresCVC={true}
                   allowScroll={false}
                   inputContainerStyle={{
@@ -657,6 +674,9 @@ class TopUpWalletScreen extends React.PureComponent {
                     },
                     cvc: {
                       maxLength: 3,
+                    },
+                    name: {
+                      maxLength: 200,
                     },
                   }}
                   onChange={this._onChange}
