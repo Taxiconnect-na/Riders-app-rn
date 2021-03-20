@@ -1418,7 +1418,6 @@ class Home extends React.PureComponent {
       'geocode-this-point-response',
       function (response) {
         if (response !== undefined && response !== false) {
-          console.log(response);
           globalObject.props.UpdateCurrentLocationMetadat(response);
         }
       },

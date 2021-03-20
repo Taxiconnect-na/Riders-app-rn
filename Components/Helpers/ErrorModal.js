@@ -3047,8 +3047,8 @@ class ErrorModal extends React.PureComponent {
                           this.props.App.wallet_state_vars
                             .totalWallet_amount === 0
                             ? {}
-                            : this.props.App.customFareTripSelected !== false
-                            ? this.props.App.customFareTripSelected <=
+                            : this.props.App.fareTripSelected !== false
+                            ? this.props.App.fareTripSelected <=
                               this.props.App.wallet_state_vars
                                 .totalWallet_amount
                               ? this.props.UpdatePreferredPayment_method(
