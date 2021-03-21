@@ -1819,12 +1819,7 @@ class Home extends React.PureComponent {
                   1000,
                 );
               } catch (error) {
-                globalObject.camera.fitBounds(
-                  globalObject.props.App.pickupPoint,
-                  [currentPoint[0], currentPoint[1]],
-                  [90, 90, 250, 90],
-                  1000,
-                );
+                console.log(error);
               }
             }
           });
@@ -1844,62 +1839,59 @@ class Home extends React.PureComponent {
       }
 
       InteractionManager.runAfterInteractions(() => {
-        globalObject.props.App.shapeDestination
-          .timing({
-            toValue: response.routePoints,
-            duration: 10,
-            easing: Easing.linear,
-          })
-          .start(() => {
-            globalObject.props.UpdateRouteToPickupVars({
-              lastDriverBearing: carBearing,
-              lastDriverCoords: currentPoint,
-            });
-          });
-
-        globalObject.props.App.CONSIDER = true;
-        globalObject.props.App.routeDestination
-          .timing({
-            toValue: {end: {point: currentPointRm}},
-            duration: timingRoute,
-            easing: Easing.linear,
-          })
-          .start(() => {
-            //Update car infos
-            if (globalObject.props.App.actPointToMinusOne === false) {
+        if (
+          globalObject.props.App.shapeDestination !== null &&
+          globalObject.props.App.routeDestination !== null
+        ) {
+          globalObject.props.App.shapeDestination
+            .timing({
+              toValue: response.routePoints,
+              duration: 10,
+              easing: Easing.linear,
+            })
+            .start(() => {
               globalObject.props.UpdateRouteToPickupVars({
-                actPointToMinusOne: true,
+                lastDriverBearing: carBearing,
+                lastDriverCoords: currentPoint,
               });
-            }
+            });
 
-            if (
-              globalObject.camera !== undefined &&
-              globalObject.camera != null
-            ) {
-              //Only recenter when the user was not centered already
-              try {
-                globalObject.camera.fitBounds(
-                  [
-                    globalObject.props.App.destinationPoint[0],
-                    globalObject.props.App.destinationPoint[1],
-                  ],
-                  additionalData,
-                  [90, 90, 250, 90],
-                  1000,
-                );
-              } catch (error) {
-                globalObject.camera.fitBounds(
-                  [
-                    globalObject.props.App.destinationPoint[0],
-                    globalObject.props.App.destinationPoint[1],
-                  ],
-                  additionalData,
-                  [90, 90, 250, 90],
-                  1000,
-                );
+          globalObject.props.App.CONSIDER = true;
+          globalObject.props.App.routeDestination
+            .timing({
+              toValue: {end: {point: currentPointRm}},
+              duration: timingRoute,
+              easing: Easing.linear,
+            })
+            .start(() => {
+              //Update car infos
+              if (globalObject.props.App.actPointToMinusOne === false) {
+                globalObject.props.UpdateRouteToPickupVars({
+                  actPointToMinusOne: true,
+                });
               }
-            }
-          });
+
+              if (
+                globalObject.camera !== undefined &&
+                globalObject.camera != null
+              ) {
+                //Only recenter when the user was not centered already
+                try {
+                  globalObject.camera.fitBounds(
+                    [
+                      globalObject.props.App.destinationPoint[0],
+                      globalObject.props.App.destinationPoint[1],
+                    ],
+                    additionalData,
+                    [90, 90, 250, 90],
+                    1000,
+                  );
+                } catch (error) {
+                  console.log(error);
+                }
+              }
+            });
+        }
       });
       //...
       resolve(true);

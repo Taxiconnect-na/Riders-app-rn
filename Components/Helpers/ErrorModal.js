@@ -2266,14 +2266,14 @@ class ErrorModal extends React.PureComponent {
 
                         elevation: 6,
                       }}>
-                      {/http/i.test(
-                        this.props.App.generalTRIP_details_driverDetails
-                          .driver_details.profile_picture,
-                      ) &&
-                      this.props.App.generalTRIP_details_driverDetails
+                      {this.props.App.generalTRIP_details_driverDetails
                         .driver_details.profile_picture !== undefined &&
                       this.props.App.generalTRIP_details_driverDetails
-                        .driver_details.profile_picture !== null ? (
+                        .driver_details.profile_picture !== null &&
+                      /http/i.test(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .driver_details.profile_picture,
+                      ) ? (
                         <FastImage
                           source={{
                             uri:

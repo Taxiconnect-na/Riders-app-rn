@@ -1034,8 +1034,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           //...
           rideType: globalObject.props.App.bottomVitalsFlow.flowParent, //Ride or delivery
           paymentMethod:
-            globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-              .paymentMethod, //Payment method
+            globalObject.props.App.wallet_state_vars.selectedPayment_method, //Payment method
           timeScheduled: globalObject.props.App.selectedScheduleTime,
           pickupNote: globalObject.props.App.additionalNote_inputText, //Additional note for the pickup
           carTypeSelected: globalObject.props.App.carTypeSelected, //Ride selected, Economy normal taxis,etc
