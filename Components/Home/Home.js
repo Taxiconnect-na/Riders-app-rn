@@ -1268,7 +1268,7 @@ class Home extends React.PureComponent {
 
             //Update loop request
             //? AVOID TO START THE INTERVAL PERISTER FOR SHARED TRIPS
-            /*if (
+            if (
               globalObject.props.App.intervalProgressLoop === false &&
               globalObject.props.App.sharedSimplifiedLink === null
             ) {
@@ -1284,7 +1284,7 @@ class Home extends React.PureComponent {
                 },
                 1500,
               );
-            }*/
+            }
           } else if (
             response.request_status !== undefined &&
             response.request_status !== null &&
