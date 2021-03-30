@@ -1301,7 +1301,7 @@ class Home extends React.PureComponent {
               globalObject.props.App.request_status === false
             ) {
               console.log('preliminary cleaning done!');
-              //globalObject._RESET_STATE();
+              globalObject._RESET_STATE();
             }
             //! Reset navigation data if an existing previous scenario was set
             if (/inRouteTo/i.test(globalObject.props.App.request_status)) {
