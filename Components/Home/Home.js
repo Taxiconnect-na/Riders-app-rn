@@ -958,7 +958,7 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
-      //console.log(response);
+      console.log(response);
       try {
         //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (
@@ -983,9 +983,13 @@ class Home extends React.PureComponent {
             globalObject.props.App.previewDestinationData
               .originDestinationPreviewData.routePoints !== false &&
             globalObject.props.App.previewDestinationData
-              .originDestinationPreviewData.routePoints !== null
+              .originDestinationPreviewData.routePoints !== null &&
+            /(inRouteToPickup|inRouteToDestination|pending)/i.test(
+              response.request_status,
+            )
           ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
+            console.log(response);
             //Reset
             console.log('Reset globals');
             globalObject._RESET_STATE(); //! Should check
@@ -1637,6 +1641,7 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'requestRideOrDeliveryForThis-response',
       function (response) {
+        console.log(response);
         if (
           response !== false &&
           response.response !== undefined &&
