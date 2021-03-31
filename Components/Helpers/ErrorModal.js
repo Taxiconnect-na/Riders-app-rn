@@ -100,7 +100,7 @@ class ErrorModal extends React.PureComponent {
             //Received a response
             globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
             //Reset all the trips
-            globalObject.props.ResetStateProps(globalObject.props.parentNode);
+            //globalObject.props.ResetStateProps(globalObject.props.parentNode);
           }, 2000);
         } //error - close the modal
         else {
@@ -2200,6 +2200,7 @@ class ErrorModal extends React.PureComponent {
         this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
         //Reset all the trips
         this.props.ResetStateProps(this.props.parentNode);
+        return <></>;
       }
       //...
       try {
@@ -2830,6 +2831,7 @@ class ErrorModal extends React.PureComponent {
         this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
         //Reset all the trips
         this.props.ResetStateProps(this.props.parentNode);
+        return <></>;
       }
     } else if (/show_cancel_ride_modal/i.test(error_status)) {
       return (
