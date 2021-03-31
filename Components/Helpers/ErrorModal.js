@@ -78,30 +78,34 @@ class ErrorModal extends React.PureComponent {
     this.props.App.socket.on(
       'confirmRiderDropoff_requests_io-response',
       function (response) {
-        //Stop the loader and restore
-        globalObject.setState({isLoading_something: false});
         if (
           response !== false &&
           response.response !== undefined &&
           response.response !== null
         ) {
-          //Reset local drop off related data
-          globalObject.state.rating_score = 5;
-          globalObject.state.compliment_array = {
-            neatAndTidy: false,
-            excellentService: false,
-            greatMusic: false,
-            greatConversation: false,
-            expertNavigator: false,
-          };
-          globalObject.state.custom_note = false;
-          globalObject.state.request_fp = false;
-          //Received a response
-          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
-          //Reset all the trips
-          globalObject.props.ResetStateProps(globalObject.props.parentNode);
+          setTimeout(function () {
+            //Stop the loader and restore
+            globalObject.setState({isLoading_something: false});
+            //Reset local drop off related data
+            globalObject.state.rating_score = 5;
+            globalObject.state.compliment_array = {
+              neatAndTidy: false,
+              excellentService: false,
+              greatMusic: false,
+              greatConversation: false,
+              expertNavigator: false,
+            };
+            globalObject.state.custom_note = false;
+            globalObject.state.request_fp = false;
+            //Received a response
+            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+            //Reset all the trips
+            globalObject.props.ResetStateProps(globalObject.props.parentNode);
+          }, 2000);
         } //error - close the modal
         else {
+          //Stop the loader and restore
+          globalObject.setState({isLoading_something: false});
           globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
         }
       },
@@ -2169,612 +2173,664 @@ class ErrorModal extends React.PureComponent {
         </View>
       );
     } else if (/show_rating_driver_modal/i.test(error_status)) {
-      return (
-        <>
-          <SafeAreaView
-            style={{
-              backgroundColor: '#fff',
-              flex: 1,
-            }}>
-            <View style={styles.presentationWindow}>
-              <View
-                style={
-                  Platform.OS === 'android'
-                    ? {
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        padding: 20,
-                        paddingTop: 15,
-                        paddingBottom: 15,
-                        backgroundColor: '#000',
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 1,
-                        },
-                        shadowOpacity: 0.22,
-                        shadowRadius: 2.22,
+      //! Auto dismiss if no_rides status found
+      if (
+        this.props.App.generalTRIP_details_driverDetails === undefined ||
+        this.props.App.generalTRIP_details_driverDetails.driver_details ===
+          undefined ||
+        this.props.App.generalTRIP_details_driverDetails.driver_details
+          .profile_picture === undefined ||
+        Object.keys(this.props.App.generalTRIP_details_driverDetails).length <=
+          0
+      ) {
+        //Stop the loader and restore
+        this.setState({isLoading_something: false});
+        //Reset local drop off related data
+        this.state.rating_score = 5;
+        this.state.compliment_array = {
+          neatAndTidy: false,
+          excellentService: false,
+          greatMusic: false,
+          greatConversation: false,
+          expertNavigator: false,
+        };
+        this.state.custom_note = false;
+        this.state.request_fp = false;
+        //Received a response
+        this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+        //Reset all the trips
+        this.props.ResetStateProps(this.props.parentNode);
+      }
+      //...
+      try {
+        return (
+          <>
+            <SafeAreaView
+              style={{
+                backgroundColor: '#fff',
+                flex: 1,
+              }}>
+              <View style={styles.presentationWindow}>
+                <View
+                  style={
+                    Platform.OS === 'android'
+                      ? {
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingTop: 15,
+                          paddingBottom: 15,
+                          backgroundColor: '#000',
+                          shadowColor: '#000',
+                          shadowOffset: {
+                            width: 0,
+                            height: 1,
+                          },
+                          shadowOpacity: 0.22,
+                          shadowRadius: 2.22,
 
-                        elevation: 3,
-                      }
-                    : {
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        padding: 20,
-                        paddingTop: 15,
-                        paddingBottom: 15,
-                        borderBottomWidth: 0.7,
-                        borderBottomColor: '#d0d0d0',
-                        backgroundColor: '#fff',
-                      }
-                }>
-                <TouchableOpacity
-                  onPress={() =>
-                    this.props.UpdateErrorModalLog(false, false, 'any')
-                  }
-                  style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View style={{top: 0}}>
-                    <IconAnt
-                      name="arrowleft"
-                      color={Platform.OS === 'android' ? '#fff' : '#000'}
-                      size={22}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      {
-                        fontSize: RFValue(20),
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextRegular'
-                            : 'Uber Move Text',
-                        marginLeft: 5,
-                        color: Platform.OS === 'android' ? '#fff' : '#000',
-                      },
-                    ]}>
-                    Rating
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <ScrollView style={{flex: 1}}>
-                <KeyboardAvoidingView behavior={'position'}>
-                  {/**Driver's basic infos */}
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginTop: 20,
-                      marginBottom: 25,
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#fff',
-                        width: 60,
-                        height: 60,
-                        borderRadius: 150,
-                        borderWidth: 0.5,
-                        borderColor: '#f0f0f0',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 3,
-                        },
-                        shadowOpacity: 0.27,
-                        shadowRadius: 4.65,
-
-                        elevation: 6,
-                      }}>
-                      {this.props.App.generalTRIP_details_driverDetails
-                        .driver_details.profile_picture !== undefined &&
-                      this.props.App.generalTRIP_details_driverDetails
-                        .driver_details.profile_picture !== null &&
-                      /http/i.test(
-                        this.props.App.generalTRIP_details_driverDetails
-                          .driver_details.profile_picture,
-                      ) ? (
-                        <FastImage
-                          source={{
-                            uri:
-                              this.props.App.generalTRIP_details_driverDetails
-                                .driver_details.profile_picture !== undefined &&
-                              this.props.App.generalTRIP_details_driverDetails
-                                .driver_details.profile_picture !== null
-                                ? this.props.App
-                                    .generalTRIP_details_driverDetails
-                                    .driver_details.profile_picture
-                                : 'user.png',
-                            priority: FastImage.priority.normal,
-                          }}
-                          resizeMode={FastImage.resizeMode.cover}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            borderRadius: 150,
-                          }}
-                        />
-                      ) : (
-                        <Image
-                          source={require('../../Media_assets/Images/driver.jpg')}
-                          style={{
-                            resizeMode: 'cover',
-                            width: '100%',
-                            height: '100%',
-                            borderRadius: 150,
-                          }}
-                        />
-                      )}
+                          elevation: 3,
+                        }
+                      : {
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 20,
+                          paddingTop: 15,
+                          paddingBottom: 15,
+                          borderBottomWidth: 0.7,
+                          borderBottomColor: '#d0d0d0',
+                          backgroundColor: '#fff',
+                        }
+                  }>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt
+                        name="arrowleft"
+                        color={Platform.OS === 'android' ? '#fff' : '#000'}
+                        size={22}
+                      />
                     </View>
                     <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                        fontSize: RFValue(20),
-                        marginTop: 10,
-                      }}>
-                      {
-                        this.props.App.generalTRIP_details_driverDetails
-                          .driver_details.name
-                      }
-                    </Text>
-                    <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextRegular'
-                            : 'Uber Move Text',
-                        fontSize: RFValue(16),
-                        marginTop: 4,
-                      }}>
-                      {this.props.App.generalTRIP_details_driverDetails.trip_details.date_requested.replace(
-                        /\//g,
-                        '-',
-                      )}
-                    </Text>
-                  </View>
-                  {/**Rating section */}
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginBottom: 25,
-                      paddingTop: 13,
-                      paddingBottom: 25,
-                      backgroundColor: '#fafafa',
-                    }}>
-                    <AirbnbRating
-                      count={5}
-                      reviews={[
-                        'Terrible',
-                        'Bad',
-                        'Good',
-                        'Very good',
-                        'Excellent',
-                      ]}
-                      isDisabled={this.state.isLoading_something}
-                      defaultRating={4}
-                      onFinishRating={(rating) =>
-                        this.setState({rating_score: rating})
-                      }
-                      size={38}
-                      reviewSize={18}
-                      reviewColor={'#000'}
-                      selectedColor={'#ffbf00'}
-                    />
-                  </View>
-
-                  {/**Compliments */}
-                  <View
-                    style={{
-                      //borderBottomWidth: 0.5,
-                      paddingBottom: 25,
-                      borderBottomColor: '#d0d0d0',
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                        fontSize: RFValue(17),
-                        width: '100%',
-                        textAlign: 'center',
-                        color: '#757575',
-                        marginBottom: 5,
-                      }}>
-                      Give a compliment?
-                    </Text>
-                    <ScrollView
-                      horizontal
-                      alwaysBounceHorizontal
-                      showsHorizontalScrollIndicator={false}
-                      style={{
-                        flexDirection: 'row',
-                        marginTop: 15,
-                        paddingLeft: 20,
-                      }}>
-                      {/**Clean and tidy */}
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.state.isLoading_something === false
-                            ? this.updateDropOff_medata(
-                                'updateCompliment',
-                                'neatAndTidy',
-                              )
-                            : {}
-                        }
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 100,
-                        }}>
-                        <View
-                          style={{
-                            width: 55,
-                            height: 55,
-                            borderRadius: 150,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#fff',
-                            borderWidth: 1,
-                            borderColor: '#d0d0d0',
-                            opacity: this.state.compliment_array.neatAndTidy
-                              ? 1
-                              : 0.4,
-                          }}>
-                          <Image
-                            source={this.props.App.cleanAndTidy}
-                            style={{
-                              resizeMode: 'contain',
-                              width: '70%',
-                              height: '70%',
-                            }}
-                          />
-                        </View>
-                        <Text
-                          style={{
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
-                            fontSize: RFValue(14),
-                            marginTop: 10,
-                            flex: 1,
-                            textAlign: 'center',
-                            lineHeight: 15,
-                            paddingTop: 5,
-                            opacity: this.state.compliment_array.neatAndTidy
-                              ? 1
-                              : 0.4,
-                          }}>
-                          Neat and Tidy
-                        </Text>
-                      </TouchableOpacity>
-                      {/**Excellent service */}
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.state.isLoading_something === false
-                            ? this.updateDropOff_medata(
-                                'updateCompliment',
-                                'excellentService',
-                              )
-                            : {}
-                        }
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 100,
-                        }}>
-                        <View
-                          style={{
-                            width: 55,
-                            height: 55,
-                            borderRadius: 150,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#fff',
-                            borderWidth: 1,
-                            borderColor: '#d0d0d0',
-                            opacity: this.state.compliment_array
-                              .excellentService
-                              ? 1
-                              : 0.4,
-                          }}>
-                          <Image
-                            source={this.props.App.excellentService}
-                            style={{
-                              resizeMode: 'contain',
-                              width: '70%',
-                              height: '70%',
-                            }}
-                          />
-                        </View>
-                        <Text
-                          style={{
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
-                            fontSize: RFValue(14),
-                            marginTop: 10,
-                            flex: 1,
-                            textAlign: 'center',
-                            lineHeight: 15,
-                            paddingTop: 5,
-                            opacity: this.state.compliment_array
-                              .excellentService
-                              ? 1
-                              : 0.4,
-                          }}>
-                          Excellent service
-                        </Text>
-                      </TouchableOpacity>
-                      {/**Great music */}
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.state.isLoading_something === false
-                            ? this.updateDropOff_medata(
-                                'updateCompliment',
-                                'greatMusic',
-                              )
-                            : {}
-                        }
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 100,
-                        }}>
-                        <View
-                          style={{
-                            width: 55,
-                            height: 55,
-                            borderRadius: 150,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#fff',
-                            borderWidth: 1,
-                            borderColor: '#d0d0d0',
-                            opacity: this.state.compliment_array.greatMusic
-                              ? 1
-                              : 0.4,
-                          }}>
-                          <Image
-                            source={this.props.App.greatMusic}
-                            style={{
-                              resizeMode: 'contain',
-                              width: '70%',
-                              height: '70%',
-                            }}
-                          />
-                        </View>
-                        <Text
-                          style={{
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
-                            fontSize: RFValue(14),
-                            marginTop: 10,
-                            flex: 1,
-                            textAlign: 'center',
-                            lineHeight: 15,
-                            paddingTop: 5,
-                            opacity: this.state.compliment_array.greatMusic
-                              ? 1
-                              : 0.4,
-                          }}>
-                          Great music
-                        </Text>
-                      </TouchableOpacity>
-                      {/**Great conversation */}
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.state.isLoading_something === false
-                            ? this.updateDropOff_medata(
-                                'updateCompliment',
-                                'greatConversation',
-                              )
-                            : {}
-                        }
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 100,
-                        }}>
-                        <View
-                          style={{
-                            width: 55,
-                            height: 55,
-                            borderRadius: 150,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#fff',
-                            borderWidth: 1,
-                            borderColor: '#d0d0d0',
-                            opacity: this.state.compliment_array
-                              .greatConversation
-                              ? 1
-                              : 0.4,
-                          }}>
-                          <Image
-                            source={this.props.App.greatConversation}
-                            style={{
-                              resizeMode: 'contain',
-                              width: '70%',
-                              height: '70%',
-                            }}
-                          />
-                        </View>
-                        <Text
-                          style={{
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
-                            fontSize: RFValue(14),
-                            marginTop: 10,
-                            flex: 1,
-                            textAlign: 'center',
-                            lineHeight: 15,
-                            paddingTop: 5,
-                            opacity: this.state.compliment_array
-                              .greatConversation
-                              ? 1
-                              : 0.4,
-                          }}>
-                          Great conversation
-                        </Text>
-                      </TouchableOpacity>
-                      {/**Expert navigator */}
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.state.isLoading_something === false
-                            ? this.updateDropOff_medata(
-                                'updateCompliment',
-                                'expertNavigator',
-                              )
-                            : null
-                        }
-                        style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: 100,
-                          marginRight: 30,
-                        }}>
-                        <View
-                          style={{
-                            width: 55,
-                            height: 55,
-                            borderRadius: 150,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#fff',
-                            borderWidth: 1,
-                            borderColor: '#d0d0d0',
-                            opacity: this.state.compliment_array.expertNavigator
-                              ? 1
-                              : 0.4,
-                          }}>
-                          <Image
-                            source={this.props.App.greatNavigation}
-                            style={{
-                              resizeMode: 'contain',
-                              width: '70%',
-                              height: '70%',
-                            }}
-                          />
-                        </View>
-                        <Text
-                          style={{
-                            fontFamily:
-                              Platform.OS === 'android'
-                                ? 'UberMoveTextRegular'
-                                : 'Uber Move Text',
-                            fontSize: RFValue(14),
-                            marginTop: 10,
-                            flex: 1,
-                            textAlign: 'center',
-                            lineHeight: 15,
-                            paddingTop: 5,
-                            opacity: this.state.compliment_array.expertNavigator
-                              ? 1
-                              : 0.4,
-                          }}>
-                          Expert navigator
-                        </Text>
-                      </TouchableOpacity>
-                    </ScrollView>
-                  </View>
-                  {/**Add a custom note */}
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: '100%',
-                      padding: 20,
-                      paddingTop: 0,
-                      paddingBottom: 0,
-                    }}>
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        marginTop: 10,
-                        width: '100%',
-                        padding: 10,
-                        borderColor: '#EEEEEE',
-                        backgroundColor: '#EEEEEE',
-                      }}>
-                      <TextInput
-                        placeholderTextColor="#AFAFAF"
-                        placeholder="Add a personal note"
-                        editable={
-                          this.state.isLoading_something === false
-                            ? true
-                            : false
-                        }
-                        onChangeText={(text) =>
-                          this.setState({custom_note: text})
-                        }
-                        maxLength={150}
-                        style={{
+                      style={[
+                        {
+                          fontSize: RFValue(20),
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'UberMoveTextRegular'
                               : 'Uber Move Text',
-                          fontSize: RFValue(17.5),
-                          paddingTop: Platform.OS === 'android' ? 0 : 10,
-                          paddingBottom: Platform.OS === 'android' ? 0 : 10,
-                        }}
-                      />
-                    </View>
-                  </View>
-                  {/**Done, submit rating */}
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      width: '100%',
-                      padding: 20,
-                      paddingTop: 0,
-                      marginTop: 30,
-                      marginBottom: 35,
-                    }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.state.isLoading_something === false
-                          ? this.confirmRiderDropoff(
-                              this.props.App.generalTRIP_details_driverDetails
-                                .trip_details.request_fp,
-                            )
-                          : {}
-                      }
-                      style={styles.bttnGenericTc}>
+                          marginLeft: 5,
+                          color: Platform.OS === 'android' ? '#fff' : '#000',
+                        },
+                      ]}>
+                      Rating
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <ScrollView style={{flex: 1}}>
+                  <KeyboardAvoidingView behavior={'position'}>
+                    {/**Driver's basic infos */}
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: 20,
+                        marginBottom: 25,
+                      }}>
+                      <View
+                        style={{
+                          backgroundColor: '#fff',
+                          width: 60,
+                          height: 60,
+                          borderRadius: 150,
+                          borderWidth: 0.5,
+                          borderColor: '#f0f0f0',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          shadowColor: '#000',
+                          shadowOffset: {
+                            width: 0,
+                            height: 3,
+                          },
+                          shadowOpacity: 0.27,
+                          shadowRadius: 4.65,
+
+                          elevation: 6,
+                        }}>
+                        {this.props.App.generalTRIP_details_driverDetails
+                          .driver_details.profile_picture !== undefined &&
+                        this.props.App.generalTRIP_details_driverDetails
+                          .driver_details.profile_picture !== null &&
+                        /http/i.test(
+                          this.props.App.generalTRIP_details_driverDetails
+                            .driver_details.profile_picture,
+                        ) ? (
+                          <FastImage
+                            source={{
+                              uri:
+                                this.props.App.generalTRIP_details_driverDetails
+                                  .driver_details.profile_picture !==
+                                  undefined &&
+                                this.props.App.generalTRIP_details_driverDetails
+                                  .driver_details.profile_picture !== null
+                                  ? this.props.App
+                                      .generalTRIP_details_driverDetails
+                                      .driver_details.profile_picture
+                                  : 'user.png',
+                              priority: FastImage.priority.normal,
+                            }}
+                            resizeMode={FastImage.resizeMode.cover}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: 150,
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            source={require('../../Media_assets/Images/driver.jpg')}
+                            style={{
+                              resizeMode: 'cover',
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: 150,
+                            }}
+                          />
+                        )}
+                      </View>
                       <Text
                         style={{
                           fontFamily:
                             Platform.OS === 'android'
                               ? 'UberMoveTextMedium'
                               : 'Uber Move Text Medium',
-                          fontSize: RFValue(23),
-                          color: '#fff',
+                          fontSize: RFValue(20),
+                          marginTop: 10,
                         }}>
-                        {this.state.isLoading_something ? (
-                          <ActivityIndicator size="large" color="#fff" />
-                        ) : (
-                          'Done'
+                        {
+                          this.props.App.generalTRIP_details_driverDetails
+                            .driver_details.name
+                        }
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          fontSize: RFValue(16),
+                          marginTop: 4,
+                        }}>
+                        {this.props.App.generalTRIP_details_driverDetails.trip_details.date_requested.replace(
+                          /\//g,
+                          '-',
                         )}
                       </Text>
-                    </TouchableOpacity>
-                  </View>
-                </KeyboardAvoidingView>
-              </ScrollView>
-            </View>
-          </SafeAreaView>
-        </>
-      );
+                    </View>
+                    {/**Rating section */}
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: 25,
+                        paddingTop: 13,
+                        paddingBottom: 25,
+                        backgroundColor: '#fafafa',
+                      }}>
+                      <AirbnbRating
+                        count={5}
+                        reviews={[
+                          'Terrible',
+                          'Bad',
+                          'Good',
+                          'Very good',
+                          'Excellent',
+                        ]}
+                        isDisabled={this.state.isLoading_something}
+                        defaultRating={4}
+                        onFinishRating={(rating) =>
+                          this.setState({rating_score: rating})
+                        }
+                        size={38}
+                        reviewSize={18}
+                        reviewColor={'#000'}
+                        selectedColor={'#ffbf00'}
+                      />
+                    </View>
+
+                    {/**Compliments */}
+                    <View
+                      style={{
+                        //borderBottomWidth: 0.5,
+                        paddingBottom: 25,
+                        borderBottomColor: '#d0d0d0',
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(17),
+                          width: '100%',
+                          textAlign: 'center',
+                          color: '#757575',
+                          marginBottom: 5,
+                        }}>
+                        Give a compliment?
+                      </Text>
+                      <ScrollView
+                        horizontal
+                        alwaysBounceHorizontal
+                        showsHorizontalScrollIndicator={false}
+                        style={{
+                          flexDirection: 'row',
+                          marginTop: 15,
+                          paddingLeft: 20,
+                        }}>
+                        {/**Clean and tidy */}
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.state.isLoading_something === false
+                              ? this.updateDropOff_medata(
+                                  'updateCompliment',
+                                  'neatAndTidy',
+                                )
+                              : {}
+                          }
+                          style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 100,
+                          }}>
+                          <View
+                            style={{
+                              width: 55,
+                              height: 55,
+                              borderRadius: 150,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: '#fff',
+                              borderWidth: 1,
+                              borderColor: '#d0d0d0',
+                              opacity: this.state.compliment_array.neatAndTidy
+                                ? 1
+                                : 0.4,
+                            }}>
+                            <Image
+                              source={this.props.App.cleanAndTidy}
+                              style={{
+                                resizeMode: 'contain',
+                                width: '70%',
+                                height: '70%',
+                              }}
+                            />
+                          </View>
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(14),
+                              marginTop: 10,
+                              flex: 1,
+                              textAlign: 'center',
+                              lineHeight: 15,
+                              paddingTop: 5,
+                              opacity: this.state.compliment_array.neatAndTidy
+                                ? 1
+                                : 0.4,
+                            }}>
+                            Neat and Tidy
+                          </Text>
+                        </TouchableOpacity>
+                        {/**Excellent service */}
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.state.isLoading_something === false
+                              ? this.updateDropOff_medata(
+                                  'updateCompliment',
+                                  'excellentService',
+                                )
+                              : {}
+                          }
+                          style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 100,
+                          }}>
+                          <View
+                            style={{
+                              width: 55,
+                              height: 55,
+                              borderRadius: 150,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: '#fff',
+                              borderWidth: 1,
+                              borderColor: '#d0d0d0',
+                              opacity: this.state.compliment_array
+                                .excellentService
+                                ? 1
+                                : 0.4,
+                            }}>
+                            <Image
+                              source={this.props.App.excellentService}
+                              style={{
+                                resizeMode: 'contain',
+                                width: '70%',
+                                height: '70%',
+                              }}
+                            />
+                          </View>
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(14),
+                              marginTop: 10,
+                              flex: 1,
+                              textAlign: 'center',
+                              lineHeight: 15,
+                              paddingTop: 5,
+                              opacity: this.state.compliment_array
+                                .excellentService
+                                ? 1
+                                : 0.4,
+                            }}>
+                            Excellent service
+                          </Text>
+                        </TouchableOpacity>
+                        {/**Great music */}
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.state.isLoading_something === false
+                              ? this.updateDropOff_medata(
+                                  'updateCompliment',
+                                  'greatMusic',
+                                )
+                              : {}
+                          }
+                          style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 100,
+                          }}>
+                          <View
+                            style={{
+                              width: 55,
+                              height: 55,
+                              borderRadius: 150,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: '#fff',
+                              borderWidth: 1,
+                              borderColor: '#d0d0d0',
+                              opacity: this.state.compliment_array.greatMusic
+                                ? 1
+                                : 0.4,
+                            }}>
+                            <Image
+                              source={this.props.App.greatMusic}
+                              style={{
+                                resizeMode: 'contain',
+                                width: '70%',
+                                height: '70%',
+                              }}
+                            />
+                          </View>
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(14),
+                              marginTop: 10,
+                              flex: 1,
+                              textAlign: 'center',
+                              lineHeight: 15,
+                              paddingTop: 5,
+                              opacity: this.state.compliment_array.greatMusic
+                                ? 1
+                                : 0.4,
+                            }}>
+                            Great music
+                          </Text>
+                        </TouchableOpacity>
+                        {/**Great conversation */}
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.state.isLoading_something === false
+                              ? this.updateDropOff_medata(
+                                  'updateCompliment',
+                                  'greatConversation',
+                                )
+                              : {}
+                          }
+                          style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 100,
+                          }}>
+                          <View
+                            style={{
+                              width: 55,
+                              height: 55,
+                              borderRadius: 150,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: '#fff',
+                              borderWidth: 1,
+                              borderColor: '#d0d0d0',
+                              opacity: this.state.compliment_array
+                                .greatConversation
+                                ? 1
+                                : 0.4,
+                            }}>
+                            <Image
+                              source={this.props.App.greatConversation}
+                              style={{
+                                resizeMode: 'contain',
+                                width: '70%',
+                                height: '70%',
+                              }}
+                            />
+                          </View>
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(14),
+                              marginTop: 10,
+                              flex: 1,
+                              textAlign: 'center',
+                              lineHeight: 15,
+                              paddingTop: 5,
+                              opacity: this.state.compliment_array
+                                .greatConversation
+                                ? 1
+                                : 0.4,
+                            }}>
+                            Great conversation
+                          </Text>
+                        </TouchableOpacity>
+                        {/**Expert navigator */}
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.state.isLoading_something === false
+                              ? this.updateDropOff_medata(
+                                  'updateCompliment',
+                                  'expertNavigator',
+                                )
+                              : null
+                          }
+                          style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: 100,
+                            marginRight: 30,
+                          }}>
+                          <View
+                            style={{
+                              width: 55,
+                              height: 55,
+                              borderRadius: 150,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: '#fff',
+                              borderWidth: 1,
+                              borderColor: '#d0d0d0',
+                              opacity: this.state.compliment_array
+                                .expertNavigator
+                                ? 1
+                                : 0.4,
+                            }}>
+                            <Image
+                              source={this.props.App.greatNavigation}
+                              style={{
+                                resizeMode: 'contain',
+                                width: '70%',
+                                height: '70%',
+                              }}
+                            />
+                          </View>
+                          <Text
+                            style={{
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextRegular'
+                                  : 'Uber Move Text',
+                              fontSize: RFValue(14),
+                              marginTop: 10,
+                              flex: 1,
+                              textAlign: 'center',
+                              lineHeight: 15,
+                              paddingTop: 5,
+                              opacity: this.state.compliment_array
+                                .expertNavigator
+                                ? 1
+                                : 0.4,
+                            }}>
+                            Expert navigator
+                          </Text>
+                        </TouchableOpacity>
+                      </ScrollView>
+                    </View>
+                    {/**Add a custom note */}
+                    <View
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%',
+                        padding: 20,
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                      }}>
+                      <View
+                        style={{
+                          borderWidth: 1,
+                          marginTop: 10,
+                          width: '100%',
+                          padding: 10,
+                          borderColor: '#EEEEEE',
+                          backgroundColor: '#EEEEEE',
+                        }}>
+                        <TextInput
+                          placeholderTextColor="#AFAFAF"
+                          placeholder="Add a personal note"
+                          editable={
+                            this.state.isLoading_something === false
+                              ? true
+                              : false
+                          }
+                          onChangeText={(text) =>
+                            this.setState({custom_note: text})
+                          }
+                          maxLength={150}
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextRegular'
+                                : 'Uber Move Text',
+                            fontSize: RFValue(17.5),
+                            paddingTop: Platform.OS === 'android' ? 0 : 10,
+                            paddingBottom: Platform.OS === 'android' ? 0 : 10,
+                          }}
+                        />
+                      </View>
+                    </View>
+                    {/**Done, submit rating */}
+                    <View
+                      style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        width: '100%',
+                        padding: 20,
+                        paddingTop: 0,
+                        marginTop: 30,
+                        marginBottom: 35,
+                      }}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.state.isLoading_something === false
+                            ? this.confirmRiderDropoff(
+                                this.props.App.generalTRIP_details_driverDetails
+                                  .trip_details.request_fp,
+                              )
+                            : {}
+                        }
+                        style={styles.bttnGenericTc}>
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(23),
+                            color: '#fff',
+                          }}>
+                          {this.state.isLoading_something ? (
+                            <ActivityIndicator size="large" color="#fff" />
+                          ) : (
+                            'Done'
+                          )}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </KeyboardAvoidingView>
+                </ScrollView>
+              </View>
+            </SafeAreaView>
+          </>
+        );
+      } catch (error) {
+        //Stop the loader and restore
+        this.setState({isLoading_something: false});
+        //Reset local drop off related data
+        this.state.rating_score = 5;
+        this.state.compliment_array = {
+          neatAndTidy: false,
+          excellentService: false,
+          greatMusic: false,
+          greatConversation: false,
+          expertNavigator: false,
+        };
+        this.state.custom_note = false;
+        this.state.request_fp = false;
+        //Received a response
+        this.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+        //Reset all the trips
+        this.props.ResetStateProps(this.props.parentNode);
+      }
     } else if (/show_cancel_ride_modal/i.test(error_status)) {
       return (
         <View

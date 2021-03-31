@@ -203,6 +203,15 @@ class RenderMainMapView extends React.PureComponent {
             zoomLevel={20}
           />
 
+          <PreviewRoute
+            parentNode={this.props.parentNode}
+            parentNodeDirect={this}
+          />
+          <RenderTrackerDrivers
+            repositionMaviewMarker={this.repositionMaviewMarker}
+          />
+          <RenderClosestDrivers />
+
           {this.props.App.isRideInProgress === false ||
           /riderDropoffConfirmation_left/i.test(
             this.props.App.request_status,
@@ -324,15 +333,6 @@ class RenderMainMapView extends React.PureComponent {
               }}
             />
           )}
-
-          <PreviewRoute
-            parentNode={this.props.parentNode}
-            parentNodeDirect={this}
-          />
-          <RenderTrackerDrivers
-            repositionMaviewMarker={this.repositionMaviewMarker}
-          />
-          <RenderClosestDrivers />
         </MapView>
       );
     } //Close the interface until proper GRPS detected

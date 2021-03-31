@@ -634,7 +634,6 @@ class Home extends React.PureComponent {
               globalObject.props.App.intervalProgressLoop = setInterval(
                 function () {
                   if (globalObject.props.App.isRideInProgress === true) {
-                    console.log('_SPECIFIC_RUNNER_INTERVAL_');
                     globalObject.GPRS_resolver();
                     globalObject.updateRemoteLocationsData();
                   } //clear interval
@@ -958,7 +957,6 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
-      console.log(response);
       try {
         //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (
@@ -989,7 +987,6 @@ class Home extends React.PureComponent {
             )
           ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
-            console.log(response);
             //Reset
             console.log('Reset globals');
             globalObject._RESET_STATE(); //! Should check
@@ -1294,6 +1291,7 @@ class Home extends React.PureComponent {
             response.request_status !== null &&
             /riderDropoffConfirmation_left/i.test(response.request_status)
           ) {
+            console.log('DROPOFF');
             //! Do a preliminary cleaning
             if (
               globalObject.props.App.request_status === null ||
