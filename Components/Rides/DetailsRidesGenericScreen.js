@@ -396,7 +396,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                               style={{
                                 flexDirection: 'row',
                               }}>
-                              <View style={{width: 35}}>
+                              <View style={{width: 45}}>
                                 <Text
                                   style={{
                                     fontFamily:
@@ -443,7 +443,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                                 flexDirection: 'row',
                                 marginTop: 25,
                               }}>
-                              <View style={{width: 35}}>
+                              <View style={{width: 45}}>
                                 <Text
                                   style={{
                                     fontFamily:

@@ -72,6 +72,8 @@ const STATE = {
 
   _NORMAL_MAP_ZOOM_LEVEL: 13.5, //THe normal zoom level of the map
 
+  _MAX_NUMBER_OF_CALLBACKS_MAP: 5, //? The maximum number of function callbacks for the geolocation - default: 40 (Major performance improvement)
+
   //ASSETS
   windowWidth: windowWidth,
   windowHeight: windowHeight,
