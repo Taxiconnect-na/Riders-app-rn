@@ -1683,11 +1683,7 @@ class Home extends React.PureComponent {
           );
           globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
           //! RESET
-          //if (globalObject.props.App.isRideInProgress === false) {
-          if (Platform.OS === 'ios') {
-            //globalObject._RESET_STATE();
-          }
-          //}
+          //globalObject._RESET_STATE();
           globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true; //Mark booking as requested to clear the interval
         } //An unxepected error occured
         else if (
