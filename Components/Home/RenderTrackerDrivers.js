@@ -147,7 +147,27 @@ class RenderTrackerDrivers extends React.PureComponent {
                   }}
                 />
               </ShapeSource>
-            ) : null
+            ) : (
+              <Animated.ShapeSource
+                id="symbolCarIcon"
+                shape={
+                  new Animated.Shape({
+                    type: 'Point',
+                    coordinates: this.props.App.actPointDestination,
+                  })
+                }>
+                <Animated.SymbolLayer
+                  id="symbolCarLayer"
+                  minZoomLevel={1}
+                  style={{
+                    iconAllowOverlap: true,
+                    iconImage: this.props.App.carIcon_black,
+                    iconSize: 0.28,
+                    iconRotate: this.props.App.lastDriverBearing,
+                  }}
+                />
+              </Animated.ShapeSource>
+            )
           ) : (
             <Animated.ShapeSource
               id="symbolCarIcon"
@@ -163,7 +183,7 @@ class RenderTrackerDrivers extends React.PureComponent {
                 style={{
                   iconAllowOverlap: true,
                   iconImage: this.props.App.carIcon_black,
-                  iconSize: this.props.App.carIconRelativeSize,
+                  iconSize: 0.28,
                   iconRotate: this.props.App.lastDriverBearing,
                 }}
               />

@@ -173,13 +173,14 @@ class OTPVerificationEntry extends React.PureComponent {
     this.props.App.socket.on('disconnect', () => {
       console.log('disconnect');
       //...
-      const socket = io(String(_MAIN_URL_ENDPOINT), {
+      /*const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
         reconnection: true,
         reconnectionAttempts: Infinity,
         reconnectionDelay: 100,
         reconnectionDelayMax: 200,
-      });
+      });*/
+      globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
       globalObject.props.App.socket.connect();
