@@ -1387,6 +1387,7 @@ class Home extends React.PureComponent {
               globalObject.props.UpdateDropoffDataFor_driverRating(response);
             }
           } else if (response.request_status === 'no_rides') {
+            globalObject.props.App.request_status = response.request_status;
             //! Do a preliminary cleaning
             if (
               globalObject.props.App.request_status !== 'no_rides' &&
