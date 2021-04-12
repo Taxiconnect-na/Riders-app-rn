@@ -329,7 +329,7 @@ class OTPVerificationEntry extends React.PureComponent {
               //? Check the state of the account creation
 
               if (Platform.OS === 'android') {
-                globalObject.props.navigation.navigate('Home');
+                globalObject.props.navigation.push('Home');
               } else {
                 globalObject.props.navigation.navigate('Home');
               }
