@@ -28,6 +28,11 @@ class WalletEntry extends React.PureComponent {
     //Handlers
     this.backHander = null;
     this._navigatorEvent = null;
+    //! CHECK THE WALLET STATE BEFORE CONTINUING
+    if (/^locked/i.test(this.props.App.wallet_state_vars.wallet_state)) {
+      //! DO NOT ALLOW IN
+      this.props.navigation.navigate('Home_drawer');
+    }
   }
 
   componentWillUnmount() {
@@ -47,6 +52,13 @@ class WalletEntry extends React.PureComponent {
     //? Add navigator listener - auto clean on focus
     globalObject.props.navigation.addListener('focus', () => {
       console.log('focused');
+      //! CHECK THE WALLET STATE BEFORE CONTINUING
+      if (
+        /^locked/i.test(globalObject.props.App.wallet_state_vars.wallet_state)
+      ) {
+        //! DO NOT ALLOW IN
+        globalObject.props.navigation.navigate('Home_drawer');
+      }
       //Add home going back handler-----------------------------
       globalObject._navigatorEvent = globalObject.props.navigation.addListener(
         'beforeRemove',

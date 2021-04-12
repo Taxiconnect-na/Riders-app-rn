@@ -289,23 +289,31 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
       this.props.App.wallet_state_vars.totalWallet_amount !== undefined &&
       this.props.App.wallet_state_vars.totalWallet_amount !== null
     ) {
-      //Received some fares
-      try {
-        let fareTmp = parseFloat(fare);
-        let walletTmp = parseFloat(
-          this.props.App.wallet_state_vars.totalWallet_amount,
-        );
-        //...
-        if (walletTmp >= fareTmp) {
-          //Has enough funds in the wallet - select the wallet
-          this.props.UpdatePreferredPayment_method('wallet');
-        } //Not enough funds in the wallet - select cash
-        else {
+      //! CHECK THE WALLET STATE BEFORE CONTINUING
+      if (
+        /^unlocked/i.test(globalObject.props.App.wallet_state_vars.wallet_state)
+      ) {
+        //Received some fares
+        try {
+          let fareTmp = parseFloat(fare);
+          let walletTmp = parseFloat(
+            this.props.App.wallet_state_vars.totalWallet_amount,
+          );
+          //...
+          if (walletTmp >= fareTmp) {
+            //Has enough funds in the wallet - select the wallet
+            this.props.UpdatePreferredPayment_method('wallet');
+          } //Not enough funds in the wallet - select cash
+          else {
+            this.props.UpdatePreferredPayment_method('cash');
+          }
+        } catch (error) {
+          console.log(error);
+          //? Auto select cash then
           this.props.UpdatePreferredPayment_method('cash');
         }
-      } catch (error) {
-        console.log(error);
-        //? Auto select cash then
+      } //Force to CASH
+      else {
         this.props.UpdatePreferredPayment_method('cash');
       }
     }

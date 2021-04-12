@@ -2398,6 +2398,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       ) {
         //New values
         newState.wallet_state_vars.totalWallet_amount = action.payload.total;
+        newState.wallet_state_vars.wallet_state = action.payload.wallet_state;
         newState.wallet_state_vars.transactions_details =
           action.payload.transactions_data !== undefined &&
           action.payload.transactions_data !== null

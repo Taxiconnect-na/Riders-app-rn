@@ -3102,21 +3102,29 @@ class ErrorModal extends React.PureComponent {
                     <View style={{marginTop: 15}}>
                       <TouchableOpacity
                         onPress={() =>
-                          this.props.App.wallet_state_vars
-                            .totalWallet_amount === 0
-                            ? {}
-                            : this.props.App.fareTripSelected !== false
-                            ? this.props.App.fareTripSelected <=
-                              this.props.App.wallet_state_vars
-                                .totalWallet_amount
+                          /^unlocked/i.test(
+                            this.props.App.wallet_state_vars.wallet_state,
+                          )
+                            ? this.props.App.wallet_state_vars
+                                .totalWallet_amount === 0
+                              ? {}
+                              : this.props.App.fareTripSelected !== false
+                              ? this.props.App.fareTripSelected <=
+                                this.props.App.wallet_state_vars
+                                  .totalWallet_amount
+                                ? this.props.UpdatePreferredPayment_method(
+                                    'wallet',
+                                  )
+                                : this.props.UpdatePreferredPayment_method(
+                                    'cash',
+                                  )
+                              : this.props.App.fareTripSelected <=
+                                this.props.App.wallet_state_vars
+                                  .totalWallet_amount
                               ? this.props.UpdatePreferredPayment_method(
                                   'wallet',
                                 )
                               : this.props.UpdatePreferredPayment_method('cash')
-                            : this.props.App.fareTripSelected <=
-                              this.props.App.wallet_state_vars
-                                .totalWallet_amount
-                            ? this.props.UpdatePreferredPayment_method('wallet')
                             : this.props.UpdatePreferredPayment_method('cash')
                         }
                         style={{
@@ -3126,11 +3134,14 @@ class ErrorModal extends React.PureComponent {
                           paddingTop: 0,
                           paddingBottom: 5,
                           marginBottom: 20,
-                          opacity:
-                            this.props.App.wallet_state_vars
-                              .totalWallet_amount === 0
+                          opacity: /^unlocked/i.test(
+                            this.props.App.wallet_state_vars.wallet_state,
+                          )
+                            ? this.props.App.wallet_state_vars
+                                .totalWallet_amount === 0
                               ? 0.15
-                              : 1,
+                              : 1
+                            : 0.15,
                         }}>
                         <View style={{width: 30, height: 30}}>
                           <Image
