@@ -247,17 +247,48 @@ class RenderBottomVital extends React.PureComponent {
                           ? 'UberMoveTextMedium'
                           : 'Uber Move Text Medium',
                       color: '#000',
-                      fontSize: RFValue(18),
+                      fontSize:
+                        this.props.App.generalTRIP_details_driverDetails
+                          .requester_fp !== undefined &&
+                        this.props.user_fingerprint !==
+                          this.props.App.generalTRIP_details_driverDetails
+                            .requester_fp
+                          ? RFValue(15)
+                          : RFValue(18),
                       flex: 1,
                     }}>
-                    {this.props.App.generalTRIP_details_driverDetails.eta !==
-                      null &&
-                    this.props.App.generalTRIP_details_driverDetails.eta !==
-                      false &&
-                    this.props.App.generalTRIP_details_driverDetails.eta !==
-                      undefined
+                    {/**Handle the cases where it's the receiver for a delivery */}
+                    {/ride/i.test(
+                      this.props.App.generalTRIP_details_driverDetails
+                        .basicTripDetails.ride_mode,
+                    )
+                      ? this.props.App.generalTRIP_details_driverDetails.eta !==
+                          null &&
+                        this.props.App.generalTRIP_details_driverDetails.eta !==
+                          false &&
+                        this.props.App.generalTRIP_details_driverDetails.eta !==
+                          undefined
+                        ? this.props.App.generalTRIP_details_driverDetails.eta
+                        : 'Driver on his way'
+                      : this.props.user_fingerprint !==
+                        this.props.App.generalTRIP_details_driverDetails
+                          .requester_fp
+                      ? this.props.App.generalTRIP_details_driverDetails.eta !==
+                          null &&
+                        this.props.App.generalTRIP_details_driverDetails.eta !==
+                          false &&
+                        this.props.App.generalTRIP_details_driverDetails.eta !==
+                          undefined
+                        ? `Your package is ${this.props.App.generalTRIP_details_driverDetails.eta}`
+                        : 'Courier on his way'
+                      : this.props.App.generalTRIP_details_driverDetails.eta !==
+                          null &&
+                        this.props.App.generalTRIP_details_driverDetails.eta !==
+                          false &&
+                        this.props.App.generalTRIP_details_driverDetails.eta !==
+                          undefined
                       ? this.props.App.generalTRIP_details_driverDetails.eta
-                      : 'Driver on his way'}
+                      : 'Courier on his way'}
                   </Text>
                 </View>
                 <TouchableOpacity

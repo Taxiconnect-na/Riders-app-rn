@@ -1075,6 +1075,7 @@ class Home extends React.PureComponent {
                 response.riderOwnerInfoBundle !== undefined
                   ? response.riderOwnerInfoBundle
                   : undefined,
+              requester_fp: response.requester_fp,
             }; //Very important
 
             //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
@@ -1283,6 +1284,7 @@ class Home extends React.PureComponent {
               pickupLocation_metadata: {
                 coordinates: response.pickupLocation_point.map(parseFloat),
                 pickupLocation_name: response.pickupLocation_name,
+                requester_fp: response.requester_fp,
               },
             });
 
