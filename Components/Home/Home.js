@@ -1077,6 +1077,8 @@ class Home extends React.PureComponent {
                   : undefined,
               requester_fp: response.requester_fp,
               requester_infos: response.requester_infos,
+              packageSize: response.delivery_information.packageSize,
+              delivery_infos: response.delivery_information.receiver_infos,
             }; //Very important
 
             //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
