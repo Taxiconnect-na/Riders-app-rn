@@ -1076,6 +1076,7 @@ class Home extends React.PureComponent {
                   ? response.riderOwnerInfoBundle
                   : undefined,
               requester_fp: response.requester_fp,
+              requester_infos: response.requester_infos,
             }; //Very important
 
             //Update route to destination var - request status: inRouteToPickup, inRouteToDestination
@@ -1347,7 +1348,7 @@ class Home extends React.PureComponent {
             response.request_status !== null &&
             /riderDropoffConfirmation_left/i.test(response.request_status)
           ) {
-            console.log('DROPOFF');
+            console.log(response);
             //! Do a preliminary cleaning
             if (
               globalObject.props.App.request_status === null ||

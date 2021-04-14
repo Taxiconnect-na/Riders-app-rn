@@ -129,7 +129,16 @@ class ErrorModal extends React.PureComponent {
   confirmRiderDropoff(request_fp) {
     this.setState({isLoading_something: true}); //Activate the loader - and lock the rating, compliment, done button and additional note input
     let dropoff_bundle = {
-      user_fingerprint: this.props.App.user_fingerprint,
+      user_fingerprint: /ride/i.test(
+        this.props.App.generalTRIP_details_driverDetails.trip_details.ride_mode,
+      )
+        ? this.props.App.user_fingerprint
+        : this.props.App.generalTRIP_details_driverDetails.requester_fp !==
+            undefined &&
+          this.props.user_fingerprint !==
+            this.props.App.generalTRIP_details_driverDetails.requester_fp
+        ? this.props.App.generalTRIP_details_driverDetails.requester_fp
+        : this.props.App.user_fingerprint, //? Assign the requester's fingerprint for delivery requests if different
       dropoff_compliments: this.state.compliment_array,
       dropoff_personal_note: this.state.custom_note,
       rating_score: this.state.rating_score,
@@ -1139,7 +1148,12 @@ class ErrorModal extends React.PureComponent {
                       color: Platform.OS === 'android' ? '#fff' : '#000',
                     },
                   ]}>
-                  Trip details
+                  {/ride/i.test(
+                    this.props.App.generalTRIP_details_driverDetails
+                      .basicTripDetails.ride_mode,
+                  )
+                    ? 'Trip details'
+                    : 'Delivery details'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -1330,7 +1344,13 @@ class ErrorModal extends React.PureComponent {
                       flex: /inRouteToPickup/i.test(
                         this.props.App.request_status,
                       )
-                        ? 0
+                        ? this.props.App.generalTRIP_details_driverDetails
+                            .requester_fp !== undefined &&
+                          this.props.user_fingerprint !==
+                            this.props.App.generalTRIP_details_driverDetails
+                              .requester_fp
+                          ? 1
+                          : 0
                         : 1,
                       padding: 15,
                       borderRadius: 4,
@@ -1338,18 +1358,36 @@ class ErrorModal extends React.PureComponent {
                       borderTopRightRadius: /inRouteToPickup/i.test(
                         this.props.App.request_status,
                       )
-                        ? 0
+                        ? this.props.App.generalTRIP_details_driverDetails
+                            .requester_fp !== undefined &&
+                          this.props.user_fingerprint !==
+                            this.props.App.generalTRIP_details_driverDetails
+                              .requester_fp
+                          ? 4
+                          : 0
                         : 4,
                       borderBottomRightRadius: /inRouteToPickup/i.test(
                         this.props.App.request_status,
                       )
-                        ? 0
+                        ? this.props.App.generalTRIP_details_driverDetails
+                            .requester_fp !== undefined &&
+                          this.props.user_fingerprint !==
+                            this.props.App.generalTRIP_details_driverDetails
+                              .requester_fp
+                          ? 4
+                          : 0
                         : 4,
                       backgroundColor: '#096ED4',
                       marginRight: /inRouteToPickup/i.test(
                         this.props.App.request_status,
                       )
-                        ? 10
+                        ? this.props.App.generalTRIP_details_driverDetails
+                            .requester_fp !== undefined &&
+                          this.props.user_fingerprint !==
+                            this.props.App.generalTRIP_details_driverDetails
+                              .requester_fp
+                          ? 0
+                          : 10
                         : 0,
                       shadowColor: '#000',
                       shadowOffset: {
@@ -1365,50 +1403,56 @@ class ErrorModal extends React.PureComponent {
                   </TouchableOpacity>
 
                   {/inRouteToPickup/i.test(this.props.App.request_status) ? (
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.props.UpdateErrorModalLog(false, false, 'any');
-                        this.props.UpdateErrorModalLog(
-                          true,
-                          'show_cancel_ride_modal',
-                          'any',
-                        );
-                      }}
-                      style={{
-                        flexDirection: 'row',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: 15,
-                        height: 58,
-                        borderWidth: 1,
-                        borderColor: '#d0d0d0',
-                        borderRadius: 4,
-                        borderTopLeftRadius: 0,
-                        borderBottomLeftRadius: 0,
-                        backgroundColor: '#fff',
-                        shadowColor: '#d0d0d0',
-                        shadowOffset: {
-                          width: 0,
-                          height: 2,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3.84,
-
-                        elevation: 3,
-                      }}>
-                      <Text
+                    this.props.App.generalTRIP_details_driverDetails
+                      .requester_fp !== undefined &&
+                    this.props.user_fingerprint !==
+                      this.props.App.generalTRIP_details_driverDetails
+                        .requester_fp ? null : (
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.props.UpdateErrorModalLog(false, false, 'any');
+                          this.props.UpdateErrorModalLog(
+                            true,
+                            'show_cancel_ride_modal',
+                            'any',
+                          );
+                        }}
                         style={{
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'UberMoveTextMedium'
-                              : 'Uber Move Text Medium',
-                          fontSize: RFValue(19),
-                          color: '#b22222',
+                          flexDirection: 'row',
+                          flex: 1,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          padding: 15,
+                          height: 58,
+                          borderWidth: 1,
+                          borderColor: '#d0d0d0',
+                          borderRadius: 4,
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                          backgroundColor: '#fff',
+                          shadowColor: '#d0d0d0',
+                          shadowOffset: {
+                            width: 0,
+                            height: 2,
+                          },
+                          shadowOpacity: 0.25,
+                          shadowRadius: 3.84,
+
+                          elevation: 3,
                         }}>
-                        Cancel the trip
-                      </Text>
-                    </TouchableOpacity>
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(19),
+                            color: '#b22222',
+                          }}>
+                          Cancel the trip
+                        </Text>
+                      </TouchableOpacity>
+                    )
                   ) : null}
                 </View>
               ) : null}
@@ -1431,7 +1475,7 @@ class ErrorModal extends React.PureComponent {
                     color: '#a5a5a5',
                     paddingBottom: 16,
                   }}>
-                  Car details
+                  Vehicle details
                 </Text>
                 <View style={{flexDirection: 'row'}}>
                   <View
@@ -1748,7 +1792,7 @@ class ErrorModal extends React.PureComponent {
                     alignItems: 'center',
                     padding: 20,
 
-                    backgroundColor: '#fafafa',
+                    backgroundColor: '#f6f6f6',
                   }}>
                   <View>
                     <View
@@ -1812,6 +1856,116 @@ class ErrorModal extends React.PureComponent {
                   )}
                 </View>
               </View>
+              {/**Add package type for deliveries only */}
+              {/delivery/i.test(
+                this.props.App.generalTRIP_details_driverDetails
+                  .basicTripDetails.ride_mode,
+              ) ? (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    padding: 20,
+                    paddingBottom: 10,
+                  }}>
+                  <View style={{flexDirection: 'row'}}>
+                    <IconFeather name="package" color={'#000'} size={24} />
+                    <View style={{marginLeft: 5}}>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextMedium'
+                              : 'Uber Move Text Medium',
+                          fontSize: RFValue(17),
+                        }}>
+                        Small box
+                      </Text>
+                      <Text
+                        style={{
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextLight'
+                              : 'Uber Move Text Light',
+                          fontSize: RFValue(14),
+                        }}>
+                        Package type
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ) : null}
+              {/**Receiver's infos */}
+              {/Delivery/i.test(
+                this.props.App.generalTRIP_details_driverDetails
+                  .basicTripDetails.ride_mode,
+              ) &&
+              this.props.App.generalTRIP_details_driverDetails
+                .requester_infos !== undefined &&
+              this.props.App.generalTRIP_details_driverDetails
+                .requester_infos !== null ? (
+                <View style={{marginBottom: 15}}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(16.5),
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      color: '#a5a5a5',
+                      padding: 20,
+                      paddingBottom: 10,
+                    }}>
+                    Sender's information
+                  </Text>
+                  <View
+                    style={{
+                      padding: 20,
+                      backgroundColor: '#F6F6F6',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingTop: 0,
+                      paddingBottom: 0,
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(17),
+                        flex: 1,
+                      }}>
+                      {
+                        this.props.App.generalTRIP_details_driverDetails
+                          .requester_infos.requester_name
+                      }
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        call({
+                          number: this.props.App
+                            .generalTRIP_details_driverDetails.requester_infos
+                            .phone,
+                          prompt: true,
+                        })
+                      }
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: 5,
+                        flexDirection: 'row',
+                        padding: 15,
+                      }}>
+                      <IconMaterialIcons
+                        name="phone"
+                        color="#096ED4"
+                        size={30}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : null}
               {/**Payment method, amount and passenger number */}
               {this.props.App.generalTRIP_details_driverDetails
                 .riderOwnerInfoBundle === undefined ? (

@@ -273,12 +273,21 @@ class RenderBottomVital extends React.PureComponent {
                       : this.props.user_fingerprint !==
                         this.props.App.generalTRIP_details_driverDetails
                           .requester_fp
-                      ? this.props.App.generalTRIP_details_driverDetails.eta !==
-                          null &&
-                        this.props.App.generalTRIP_details_driverDetails.eta !==
-                          false &&
-                        this.props.App.generalTRIP_details_driverDetails.eta !==
-                          undefined
+                      ? /inRouteToPickup/i.test(this.props.App.request_status)
+                        ? this.props.App.generalTRIP_details_driverDetails
+                            .eta !== null &&
+                          this.props.App.generalTRIP_details_driverDetails
+                            .eta !== false &&
+                          this.props.App.generalTRIP_details_driverDetails
+                            .eta !== undefined
+                          ? `${this.props.App.generalTRIP_details_driverDetails.eta} from pickup`
+                          : 'Courier on his way to pickup the package'
+                        : this.props.App.generalTRIP_details_driverDetails
+                            .eta !== null &&
+                          this.props.App.generalTRIP_details_driverDetails
+                            .eta !== false &&
+                          this.props.App.generalTRIP_details_driverDetails
+                            .eta !== undefined
                         ? `Your package is ${this.props.App.generalTRIP_details_driverDetails.eta}`
                         : 'Courier on his way'
                       : this.props.App.generalTRIP_details_driverDetails.eta !==

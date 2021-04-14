@@ -24,13 +24,23 @@ class RenderMainMapView extends React.PureComponent {
    * bounded area of the map.
    */
   async repositionMaviewMarker(point = false, label = false) {
-    if (point !== false && label !== false) {
+    if (
+      point !== false &&
+      label !== false &&
+      this.props.parentNode !== undefined &&
+      this.props.parentNode != null
+    ) {
       point = {
         latitude: point[1],
         longitude: point[0],
       };
       //...
-      if (point.latitude !== undefined && point.longitude !== false) {
+      if (
+        point.latitude !== undefined &&
+        point.longitude !== false &&
+        this.props.parentNode !== undefined &&
+        this.props.parentNode != null
+      ) {
         //Check if the camera module's ready
         if (
           this.props.parentNode.camera !== undefined &&
@@ -207,9 +217,7 @@ class RenderMainMapView extends React.PureComponent {
             parentNode={this.props.parentNode}
             parentNodeDirect={this}
           />
-          <RenderTrackerDrivers
-            repositionMaviewMarker={this.repositionMaviewMarker}
-          />
+          <RenderTrackerDrivers parentNode={this} />
           <RenderClosestDrivers />
 
           {this.props.App.isRideInProgress === false ||

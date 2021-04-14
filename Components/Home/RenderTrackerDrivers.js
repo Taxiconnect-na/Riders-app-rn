@@ -101,7 +101,7 @@ class RenderTrackerDrivers extends React.PureComponent {
       this.props.App.isInRouteToDestination &&
       /inRouteToDestination/i.test(this.props.App.request_status)
     ) {
-      this.props.repositionMaviewMarker(
+      this.props.parentNode.repositionMaviewMarker(
         this.props.App.destinationPoint,
         'destination',
       );
