@@ -49,7 +49,6 @@ class TransactionFinalReport extends React.PureComponent {
     this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
-        console.log('focused');
         globalObject.makeTransaction(); //! AUTO MAKE THE TRANSACTION THE RECIPIENT
         globalObject.setState({
           isWorking: true,
@@ -83,7 +82,6 @@ class TransactionFinalReport extends React.PureComponent {
     this.props.App.socket.on(
       'makeWallet_transaction_io-response',
       function (response) {
-        console.log('HERE -->', response);
         if (
           response !== undefined &&
           response !== null &&
@@ -145,7 +143,6 @@ class TransactionFinalReport extends React.PureComponent {
               .recipient_number,
             amount: this.props.App.recipient_crucial_data.amount,
           };
-          console.log(bundleMakeRequest);
           //..
           this.props.App.socket.emit(
             'makeWallet_transaction_io',
@@ -190,7 +187,6 @@ class TransactionFinalReport extends React.PureComponent {
               .recipient_number,
             amount: this.props.App.recipient_crucial_data.amount,
           };
-          console.log(bundleMakeRequest);
           //..
           this.props.App.socket.emit(
             'makeWallet_transaction_io',

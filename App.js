@@ -60,9 +60,7 @@ class App extends React.PureComponent {
       if (deviceState.userId !== undefined && deviceState.userId !== null) {
         SyncStorage.set('@pushnotif_token_global_obj', deviceState);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   render() {

@@ -51,7 +51,6 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
     this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
       () => {
-        console.log('focused');
         globalObject.checkSenderDetails(); //! AUTO CHECK THE RECIPIENT
         globalObject.props.App.recipient_crucial_data = null; //! Clear the recipient AFTER check data
         globalObject.setState({
@@ -149,7 +148,6 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
             user_nature: this.props.App.user_sender_nature,
             payNumberOrPhoneNumber: phoneNumber,
           };
-          console.log(bundleCheckRecipient);
           //..
           this.props.App.socket.emit(
             'checkRecipient_information_beforeTransfer',
@@ -180,7 +178,6 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
             user_nature: this.props.App.user_sender_nature,
             payNumberOrPhoneNumber: paymentNumber,
           };
-          console.log(bundleCheckRecipient);
           //..
           this.props.App.socket.emit(
             'checkRecipient_information_beforeTransfer',

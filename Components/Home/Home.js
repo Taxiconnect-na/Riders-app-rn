@@ -825,7 +825,6 @@ class Home extends React.PureComponent {
     });
 
     this.props.App.socket.on('disconnect', () => {
-      console.log('something');
       //...
       const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
@@ -851,7 +850,6 @@ class Home extends React.PureComponent {
       }
     });
     this.props.App.socket.on('connect_timeout', () => {
-      console.log('connect_timeout');
       //...
       const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
@@ -862,15 +860,11 @@ class Home extends React.PureComponent {
       });
       //globalObject.props.App.socket.connect();
     });
-    this.props.App.socket.on('reconnect', () => {
-      ////console.log('something');
-    });
+    this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      console.log('reconnect_error');
       globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      console.log('reconnect_failed');
       //...
       const socket = io(String(_MAIN_URL_ENDPOINT), {
         transports: ['websocket', 'polling'],
@@ -1035,7 +1029,6 @@ class Home extends React.PureComponent {
           ) {
             globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = false;
             //Reset
-            console.log('Reset globals');
             globalObject._RESET_STATE(); //! Should check
             //Recalibrate map
             if (
@@ -1238,7 +1231,6 @@ class Home extends React.PureComponent {
               globalObject.props.App.request_status !== null &&
               globalObject.props.App.bottomVitalsFlow.currentStep !== 'mainView'
             ) {
-              console.log('preliminary cleaning done!');
               globalObject._RESET_STATE(); //! SHOULD CHECK
               /*globalObject.props.UpdatePendingGlobalVars({
                 request_status: response.request_status,
@@ -1350,14 +1342,12 @@ class Home extends React.PureComponent {
             response.request_status !== null &&
             /riderDropoffConfirmation_left/i.test(response.request_status)
           ) {
-            console.log(response);
             //! Do a preliminary cleaning
             if (
               globalObject.props.App.request_status === null ||
               globalObject.props.App.request_status === undefined ||
               globalObject.props.App.request_status === false
             ) {
-              console.log('preliminary cleaning done!');
               globalObject._RESET_STATE();
             }
             //! Reset navigation data if an existing previous scenario was set
@@ -1398,7 +1388,6 @@ class Home extends React.PureComponent {
               globalObject.props.App.request_status !== 'no_rides' &&
               globalObject.props.App.request_status !== null
             ) {
-              console.log('preliminary cleaning done - No rides!');
               globalObject._RESET_STATE();
             }
             //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
@@ -1430,7 +1419,6 @@ class Home extends React.PureComponent {
             globalObject.props.App.request_status !== 'no_rides' &&
             globalObject.props.App.request_status !== null
           ) {
-            console.log('preliminary cleaning done - No rides!');
             globalObject._RESET_STATE();
           }
           //Update status
@@ -1466,9 +1454,7 @@ class Home extends React.PureComponent {
             }
           }
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     });
 
     /**
@@ -1699,7 +1685,6 @@ class Home extends React.PureComponent {
     this.props.App.socket.on(
       'requestRideOrDeliveryForThis-response',
       function (response) {
-        console.log(response);
         if (
           response !== false &&
           response.response !== undefined &&
@@ -1882,9 +1867,7 @@ class Home extends React.PureComponent {
                     [90, 90, 250, 90],
                     1000,
                   );
-                } catch (error) {
-                  console.log(error);
-                }
+                } catch (error) {}
               }
             });
         });
@@ -1954,9 +1937,7 @@ class Home extends React.PureComponent {
                       [90, 90, 250, 90],
                       1000,
                     );
-                  } catch (error) {
-                    console.log(error);
-                  }
+                  } catch (error) {}
                 }
               });
           }

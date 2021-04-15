@@ -44,9 +44,7 @@ class ShowAllTransactionsEntry extends React.PureComponent {
     //? Add navigator listener - auto clean on focus
     this._navigatorEvent = globalObject.props.navigation.addListener(
       'focus',
-      () => {
-        console.log('focused');
-      },
+      () => {},
     );
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',

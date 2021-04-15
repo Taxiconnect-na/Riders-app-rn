@@ -347,7 +347,6 @@ class ErrorModal extends React.PureComponent {
         } else if (/^gender$/i.test(infoToUpdate)) {
           //gender
           this.setState({isErrorThrown: false, isLoading_something: true});
-          console.log(bundleData);
           this.props.App.socket.emit(
             'updateRiders_profileInfos_io',
             bundleData,
@@ -2045,7 +2044,11 @@ class ErrorModal extends React.PureComponent {
                 </View>
               ) : null}
               {/**Payment method, amount and passenger number */}
-              {this.props.App.generalTRIP_details_driverDetails
+              {/ride/i.test(
+                this.props.App.generalTRIP_details_driverDetails
+                  .basicTripDetails.ride_mode,
+              ) &&
+              this.props.App.generalTRIP_details_driverDetails
                 .riderOwnerInfoBundle === undefined ? (
                 <View
                   style={{
@@ -2140,7 +2143,111 @@ class ErrorModal extends React.PureComponent {
                     </Text>
                   </View>
                 </View>
-              ) : null}
+              ) : /Delivery/i.test(
+                  this.props.App.generalTRIP_details_driverDetails
+                    .basicTripDetails.ride_mode,
+                ) &&
+                this.props.App.generalTRIP_details_driverDetails
+                  .requester_infos !== undefined &&
+                this.props.App.generalTRIP_details_driverDetails
+                  .requester_infos !== null &&
+                this.props.App.user_fingerprint !==
+                  this.props.App.generalTRIP_details_driverDetails
+                    .requester_fp ? null : (
+                <View
+                  style={{
+                    padding: 20,
+                    borderBottomWidth: 0.7,
+                    borderBottomColor: '#d0d0d0',
+                    height: 70,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      flex: 1,
+                    }}>
+                    {/cash/i.test(
+                      String(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.payment_method,
+                      ),
+                    ) ? (
+                      <IconCommunity name="cash-usd" color={'#000'} size={26} />
+                    ) : (
+                      <IconMaterialIcons name="credit-card" size={26} />
+                    )}
+
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(19),
+                        marginLeft: 4,
+                      }}>
+                      {String(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.payment_method,
+                      )[0] +
+                        String(
+                          this.props.App.generalTRIP_details_driverDetails
+                            .basicTripDetails.payment_method,
+                        )
+                          .substring(
+                            1,
+                            String(
+                              this.props.App.generalTRIP_details_driverDetails
+                                .basicTripDetails.payment_method,
+                            ).length,
+                          )
+                          .toLowerCase()}
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text Medium',
+                      fontSize: RFValue(20),
+                      color: '#09864A',
+                      flex: 1,
+                      textAlign: 'center',
+                    }}>
+                    {'N$' +
+                      this.props.App.generalTRIP_details_driverDetails
+                        .basicTripDetails.fare_amount}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      flex: 1,
+                    }}>
+                    <IconAnt name="user" size={16} />
+                    <Text
+                      style={{
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextMedium'
+                            : 'Uber Move Text Medium',
+                        fontSize: RFValue(19),
+                        marginLeft: 4,
+                      }}>
+                      {
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.passengers_number
+                      }
+                    </Text>
+                  </View>
+                </View>
+              )}
               {/**Guardian */}
               {this.props.App.generalTRIP_details_driverDetails
                 .riderOwnerInfoBundle === undefined ? (
@@ -2164,46 +2271,106 @@ class ErrorModal extends React.PureComponent {
                     Safety
                   </Text>
                   <View>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.onShare(
-                          'My TaxiConnect ride',
-                          "Hey, I'm in a TaxiConnect taxi " +
-                            (this.props.App.generalTRIP_details_driverDetails
-                              .carDetails.taxi_number !== false
-                              ? this.props.App.generalTRIP_details_driverDetails
-                                  .carDetails.taxi_number
-                              : this.props.App.generalTRIP_details_driverDetails
-                                  .carDetails.car_brand) +
-                            ' with the driver ' +
-                            this.props.App.generalTRIP_details_driverDetails
-                              .driverDetails.name +
-                            '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
-                            this.props.App.generalTRIP_details_driverDetails
-                              .basicTripDetails.ride_simplified_id,
-                        )
-                      }
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginBottom: 20,
-                        paddingBottom: 10,
-                      }}>
-                      <IconCommunity name="earth" color="#000" size={25} />
-                      <Text
+                    {/ride/i.test(
+                      this.props.App.generalTRIP_details_driverDetails
+                        .basicTripDetails.ride_mode,
+                    ) ? (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.onShare(
+                            'My TaxiConnect ride',
+                            "Hey, I'm in a TaxiConnect taxi " +
+                              (this.props.App.generalTRIP_details_driverDetails
+                                .carDetails.taxi_number !== false
+                                ? this.props.App
+                                    .generalTRIP_details_driverDetails
+                                    .carDetails.taxi_number
+                                : this.props.App
+                                    .generalTRIP_details_driverDetails
+                                    .carDetails.car_brand) +
+                              ' with the driver ' +
+                              this.props.App.generalTRIP_details_driverDetails
+                                .driverDetails.name +
+                              '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                              this.props.App.generalTRIP_details_driverDetails
+                                .basicTripDetails.ride_simplified_id,
+                          )
+                        }
                         style={{
-                          fontFamily:
-                            Platform.OS === 'android'
-                              ? 'UberMoveTextMedium'
-                              : 'Uber Move Text Medium',
-                          fontSize: RFValue(19),
-                          color: '#000',
-                          marginLeft: 5,
-                          flex: 1,
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginBottom: 20,
+                          paddingBottom: 10,
                         }}>
-                        Share your trip
-                      </Text>
-                    </TouchableOpacity>
+                        <IconCommunity name="earth" color="#000" size={25} />
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(19),
+                            color: '#000',
+                            marginLeft: 5,
+                            flex: 1,
+                          }}>
+                          Share your trip
+                        </Text>
+                      </TouchableOpacity>
+                    ) : /Delivery/i.test(
+                        this.props.App.generalTRIP_details_driverDetails
+                          .basicTripDetails.ride_mode,
+                      ) &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .requester_infos !== undefined &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .requester_infos !== null &&
+                      this.props.App.user_fingerprint !==
+                        this.props.App.generalTRIP_details_driverDetails
+                          .requester_fp ? null : (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.onShare(
+                            'My TaxiConnect ride',
+                            "Hey, I'm in a TaxiConnect taxi " +
+                              (this.props.App.generalTRIP_details_driverDetails
+                                .carDetails.taxi_number !== false
+                                ? this.props.App
+                                    .generalTRIP_details_driverDetails
+                                    .carDetails.taxi_number
+                                : this.props.App
+                                    .generalTRIP_details_driverDetails
+                                    .carDetails.car_brand) +
+                              ' with the driver ' +
+                              this.props.App.generalTRIP_details_driverDetails
+                                .driverDetails.name +
+                              '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                              this.props.App.generalTRIP_details_driverDetails
+                                .basicTripDetails.ride_simplified_id,
+                          )
+                        }
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginBottom: 20,
+                          paddingBottom: 10,
+                        }}>
+                        <IconCommunity name="earth" color="#000" size={25} />
+                        <Text
+                          style={{
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(19),
+                            color: '#000',
+                            marginLeft: 5,
+                            flex: 1,
+                          }}>
+                          Share your trip
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                     <TouchableOpacity
                       onPress={() =>
                         call({

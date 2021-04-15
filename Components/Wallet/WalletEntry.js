@@ -51,7 +51,6 @@ class WalletEntry extends React.PureComponent {
 
     //? Add navigator listener - auto clean on focus
     globalObject.props.navigation.addListener('focus', () => {
-      console.log('focused');
       //! CHECK THE WALLET STATE BEFORE CONTINUING
       if (
         /^locked/i.test(globalObject.props.App.wallet_state_vars.wallet_state)

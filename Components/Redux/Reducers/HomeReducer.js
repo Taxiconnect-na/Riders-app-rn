@@ -26,7 +26,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
   //..........
   switch (action.type) {
     case 'RESET_STATE_PROPS':
-      console.log('RESET_STATE_PROPS');
       //The payload can be the parent node of the Home screen
       newState.shape = null;
       newState.route = null; //Will manage the animation of the route to the passenger

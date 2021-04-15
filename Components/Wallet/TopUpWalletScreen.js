@@ -139,7 +139,6 @@ class TopUpWalletScreen extends React.PureComponent {
     this.props.App.socket.on(
       'topUp_wallet_io-response',
       function (dataReceived) {
-        console.log(dataReceived);
         if (dataReceived !== undefined) {
           if (
             /success/i.test(dataReceived.response) &&

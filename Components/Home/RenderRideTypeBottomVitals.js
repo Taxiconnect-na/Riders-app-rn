@@ -308,7 +308,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             this.props.UpdatePreferredPayment_method('cash');
           }
         } catch (error) {
-          console.log(error);
           //? Auto select cash then
           this.props.UpdatePreferredPayment_method('cash');
         }
@@ -1094,8 +1093,6 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           },
           destinationData: globalObject.props.App.search_passengersDestinations,
         };
-
-        //console.log(RIDE_OR_DELIVERY_BOOKING_DATA.pickupData); //! For debugging purposes
 
         //DOne gathering, make the server request
 
