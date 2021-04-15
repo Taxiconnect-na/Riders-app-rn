@@ -187,38 +187,94 @@ class RenderBottomVital extends React.PureComponent {
                   justifyContent: 'center',
                 }}>
                 {/**------SAFETY GUARDIAN */}
-                <TouchableOpacity
-                  onPress={() =>
-                    this.props.UpdateErrorModalLog(
-                      true,
-                      'show_guardian_toolkit',
-                      'any',
-                    )
-                  }
-                  style={{
-                    position: 'absolute',
-                    borderWidth: 3,
-                    borderColor: '#096ED4',
-                    top: -80,
-                    right: 20,
-                    backgroundColor: '#fff',
-                    width: 55,
-                    height: 55,
-                    borderRadius: 150,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 4,
-                    },
-                    shadowOpacity: 0.32,
-                    shadowRadius: 5.46,
+                {/ride/i.test(
+                  this.props.App.generalTRIP_details_driverDetails
+                    .basicTripDetails.ride_mode,
+                ) ? (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(
+                        true,
+                        'show_guardian_toolkit',
+                        'any',
+                      )
+                    }
+                    style={{
+                      position: 'absolute',
+                      borderWidth: 3,
+                      borderColor: '#096ED4',
+                      top: -80,
+                      right: 20,
+                      backgroundColor: '#fff',
+                      width: 55,
+                      height: 55,
+                      borderRadius: 150,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 4,
+                      },
+                      shadowOpacity: 0.32,
+                      shadowRadius: 5.46,
 
-                    elevation: 9,
-                  }}>
-                  <IconMaterialIcons name="shield" color="#096ED4" size={30} />
-                </TouchableOpacity>
+                      elevation: 9,
+                    }}>
+                    <IconMaterialIcons
+                      name="shield"
+                      color="#096ED4"
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                ) : /Delivery/i.test(
+                    this.props.App.generalTRIP_details_driverDetails
+                      .basicTripDetails.ride_mode,
+                  ) &&
+                  this.props.App.generalTRIP_details_driverDetails
+                    .requester_infos !== undefined &&
+                  this.props.App.generalTRIP_details_driverDetails
+                    .requester_infos !== null &&
+                  this.props.App.user_fingerprint !==
+                    this.props.App.generalTRIP_details_driverDetails
+                      .requester_fp ? null : (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(
+                        true,
+                        'show_guardian_toolkit',
+                        'any',
+                      )
+                    }
+                    style={{
+                      position: 'absolute',
+                      borderWidth: 3,
+                      borderColor: '#096ED4',
+                      top: -80,
+                      right: 20,
+                      backgroundColor: '#fff',
+                      width: 55,
+                      height: 55,
+                      borderRadius: 150,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 4,
+                      },
+                      shadowOpacity: 0.32,
+                      shadowRadius: 5.46,
+
+                      elevation: 9,
+                    }}>
+                    <IconMaterialIcons
+                      name="shield"
+                      color="#096ED4"
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                )}
                 {/**------ */}
                 <View
                   style={{

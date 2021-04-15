@@ -1097,7 +1097,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         //DOne gathering, make the server request
 
         //Bind to interval persister
-        /*if (globalObject.props.App._TMP_INTERVAL_PERSISTER === null) {
+        if (globalObject.props.App._TMP_INTERVAL_PERSISTER === null) {
           globalObject.props.App._TMP_INTERVAL_PERSISTER = setInterval(
             function () {
               if (
@@ -1136,14 +1136,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             },
             globalObject.props.App._TMP_INTERVAL_PERSISTER_TIME,
           );
-        }*/
+        }
         //! Make a single request - risky
         //Not yet request and no errors
         //Check wheher an answer was already received - if not keep requesting
-        globalObject.props.App.socket.emit(
+        /*globalObject.props.App.socket.emit(
           'requestRideOrDeliveryForThis',
           RIDE_OR_DELIVERY_BOOKING_DATA,
-        );
+        );*/
 
         //...
         //Fade in the loader screen
