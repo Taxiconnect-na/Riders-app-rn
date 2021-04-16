@@ -66,7 +66,7 @@ const STATE = {
   _CLOSEST_DRIVERS_DATA: null, //Will contain the array of all the closest drivers
   //Interval persister for updating requests data
   _TMP_TRIP_INTERVAL_PERSISTER: null, //The interval for updating rides related data
-  _TMP_TRIP_INTERVAL_PERSISTER_TIME: 1500, //THe frequency of repetition - default:2s
+  _TMP_TRIP_INTERVAL_PERSISTER_TIME: 1000, //THe frequency of repetition - default:1s
 
   _MAIN_PARENT: null, //Main parent of the whole screen
 

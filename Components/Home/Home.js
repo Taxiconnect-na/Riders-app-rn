@@ -703,6 +703,10 @@ class Home extends React.PureComponent {
     this.props.UpdateKeyboardStateGlobal(state);
   }
 
+  componentDidUpdate() {
+    this.bindRequest_findFetcher();
+  }
+
   /**
    * @func componentDidMount
    * Main mounting point of the app
