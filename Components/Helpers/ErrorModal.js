@@ -4253,6 +4253,7 @@ class ErrorModal extends React.PureComponent {
         </View>
       );
     } else {
+      this.props.UpdateErrorModalLog(false, false, 'any');
       return <></>;
     }
   }

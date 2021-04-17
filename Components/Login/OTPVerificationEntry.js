@@ -506,7 +506,10 @@ class OTPVerificationEntry extends React.PureComponent {
       });
       this.props.App.socket.emit('checkThisOTP_SMS', {
         phone_number: this.props.App.finalPhoneNumber,
-        user_nature: 'passenger',
+        user_nature: /new_user/i.test(this.state.userStatus)
+          ? 'unregistered'
+          : 'passenger',
+        user_type: this.state.userStatus,
         otp: this.state.otpValue,
       });
     }
