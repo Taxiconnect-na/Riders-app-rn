@@ -387,3 +387,23 @@ export const UpdateUserDetails_afterLoginSignup = (userData) => ({
   type: 'UPDATE_USER_DETAILS_AFTER_LOGINSIGNUP',
   payload: userData,
 });
+
+/**
+ * 48. Update the trip data for the rides
+ * Reesponsible for updating the trip details for rides
+ * @param tripdata: the trip data coming straight from the server.
+ */
+export const UpdateEssentialsTripData = (tripData) => ({
+  type: 'UPDATE_ESSENTIALS_TRIP_DATA',
+  payload: tripData,
+});
+
+/**
+ * 49. Update trip request staus
+ * Responsible for updating the trip status: in route to pickup/destination, pending, confirm drop off, etc
+ * @param tripStatus: the status of the trip to be updated
+ */
+export const UpdateTripStatusState = (tripStatus) => ({
+  type: 'UPDATE_TRIP_STATUS_REQUEST',
+  payload: tripStatus,
+});

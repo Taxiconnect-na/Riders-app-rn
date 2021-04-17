@@ -1062,6 +1062,7 @@ class Home extends React.PureComponent {
           ) {
             globalObject.props.App.bottomVitalsFlow.currentStep = 'mainView'; //Change current step back to mainView
             //Save the driver's details - car details - and Static ETA to destination info
+            //? Use redux to update the state
             globalObject.props.App.generalTRIP_details_driverDetails = {
               eta: response.eta,
               ETA_toDestination: response.ETA_toDestination,

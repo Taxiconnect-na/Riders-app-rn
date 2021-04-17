@@ -2452,6 +2452,30 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
       return {...state, ...newState};
 
+    case 'UPDATE_ESSENTIALS_TRIP_DATA':
+      //? Optimize
+      if (
+        `${newState.generalTRIP_details_driverDetails}` !== `${action.payload}`
+      ) {
+        //New data received
+        newState.generalTRIP_details_driverDetails = action.payload;
+        return {...state, ...newState};
+      } //Same data
+      else {
+        return state;
+      }
+
+    case 'UPDATE_TRIP_STATUS_REQUEST':
+      //? Optimize
+      if (newState.request_status !== action.payload) {
+        //New statee received
+        newState.request_status = action.payload;
+        return {...state, ...newState};
+      } //Same data
+      else {
+        return state;
+      }
+
     default:
       return state;
   }
