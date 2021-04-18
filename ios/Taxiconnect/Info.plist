@@ -54,7 +54,7 @@
 		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>taxiconnectna.com</key>
+			<key>taxiconnectnanetwork.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
