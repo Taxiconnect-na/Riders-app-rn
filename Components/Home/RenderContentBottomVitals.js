@@ -2433,7 +2433,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                               : 'Uber Move Text Medium',
                         },
                       ]}>
-                      N$45
+                      N$48
                     </Text>
                   </Text>
                 </View>
