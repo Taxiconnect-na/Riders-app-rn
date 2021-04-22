@@ -64,11 +64,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>TaxiConnect needs access your camera in order for you to take a picture for your profile picture.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>TaxiConnect needs your location for a better experience.</string>
+	<string>TaxiConnect needs your location to give you accurate price estimates, track your drivers and for a better navigation experience.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>TaxiConnect needs your location for a better experience.</string>
+	<string>TaxiConnect needs your location to give you accurate price estimates, track your drivers and for a better navigation experience.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>TaxiConnect needs your location for a better experience.</string>
+	<string>TaxiConnect needs your location to give you accurate price estimates, track your drivers and for a better navigation experience.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>TaxiConnect needs access your gallery in order to change your profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -121,7 +121,6 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
