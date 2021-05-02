@@ -157,7 +157,6 @@ class PhoneNumberInput extends React.PureComponent {
             <TextInput
               placeholderTextColor="#AFAFAF"
               placeholder="Search your country"
-              placeholderTextColor="#a2a2a2"
               autoCorrect={false}
               autoFocus={true}
               onChangeText={(text) => this.updateSearchedQueryCountry(text)}

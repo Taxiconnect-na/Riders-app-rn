@@ -1624,7 +1624,7 @@ class Home extends React.PureComponent {
         } //! No valid estimates due to a problem, try again
         else {
           //? Force the estimates try again.
-          globalObject.getFareEstimation();
+          //globalObject.getFareEstimation();
         }
       },
     );
@@ -2764,8 +2764,35 @@ class Home extends React.PureComponent {
       }
       //Check if a custom pickup location was specified
       //Point to current location by default
-      let org_latitude = this.props.App.latitude;
-      let org_longitude = this.props.App.longitude;
+      let org_latitude =
+        this.props.App.search_pickupLocationInfos
+          .isBeingPickedupFromCurrentLocation === false ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          false ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          undefined ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination
+          .coordinates === undefined ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination
+          .coordinates[1] === undefined
+          ? this.props.App.latitude
+          : this.props.App.search_pickupLocationInfos.passenger0Destination
+              .coordinates[1];
+      //----------------------------------------------
+      let org_longitude =
+        this.props.App.search_pickupLocationInfos
+          .isBeingPickedupFromCurrentLocation === false ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          false ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination ===
+          undefined ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination
+          .coordinates === undefined ||
+        this.props.App.search_pickupLocationInfos.passenger0Destination
+          .coordinates[0] === undefined
+          ? this.props.App.longitude
+          : this.props.App.search_pickupLocationInfos.passenger0Destination
+              .coordinates[0];
       //Check forr custom pickup
       if (
         this.props.App.search_pickupLocationInfos
