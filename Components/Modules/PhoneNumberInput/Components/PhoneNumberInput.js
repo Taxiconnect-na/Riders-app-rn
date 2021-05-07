@@ -504,7 +504,7 @@ class PhoneNumberInput extends React.PureComponent {
                 this.props.UpdateDialDataORQueryTyped({
                   action: 'updateTypedNumber',
                   phoneNumberEntered: new AsYouType(
-                    this.props.App.countryCodeSelected.toUpperCase(),
+                    this.props.App.countryCodeSelected,
                   ).input(text),
                 })
               }

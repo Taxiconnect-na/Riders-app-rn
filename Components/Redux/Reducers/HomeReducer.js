@@ -187,35 +187,36 @@ const HomeReducer = (state = INIT_STATE, action) => {
     case 'UPDATE_PENDING_GLOBAL_VARS':
       //? Optmized
       //Update the previous state
-      if (
-        `${JSON.stringify(newState.request_status)}` !==
-          `${JSON.stringify(action.payload.request_status)}` ||
-        `${JSON.stringify(newState.isRideInProgress)}` !==
-          `${JSON.stringify(action.payload.isRideInProgress)}` ||
-        `${JSON.stringify(newState.pickupLocation_metadata.coordinates)}` !==
+      try {
+        if (
+          `${JSON.stringify(newState.request_status)}` !==
+            `${JSON.stringify(action.payload.request_status)}` ||
+          `${JSON.stringify(newState.isRideInProgress)}` !==
+            `${JSON.stringify(action.payload.isRideInProgress)}` ||
+          `${JSON.stringify(newState.pickupLocation_metadata.coordinates)}` !==
+            `${JSON.stringify(
+              action.payload.pickupLocation_metadata.coordinates,
+            )}` ||
           `${JSON.stringify(
-            action.payload.pickupLocation_metadata.coordinates,
-          )}` ||
-        `${JSON.stringify(
-          newState.pickupLocation_metadata.pickupLocation_name,
-        )}` !==
-          `${JSON.stringify(
-            action.payload.pickupLocation_metadata.pickupLocation_name,
-          )}`
-      ) {
-        newState.request_status = action.payload.request_status;
-        newState.isRideInProgress = action.payload.isRideInProgress;
-        newState.pickupLocation_metadata.coordinates =
-          action.payload.pickupLocation_metadata.coordinates;
-        newState.pickupLocation_metadata.pickupLocation_name =
-          action.payload.pickupLocation_metadata.pickupLocation_name;
-        //...
-        return {...state, ...newState};
-      } //No change
-      else {
-        return state;
-      }
-    /*newState.request_status = action.payload.request_status;
+            newState.pickupLocation_metadata.pickupLocation_name,
+          )}` !==
+            `${JSON.stringify(
+              action.payload.pickupLocation_metadata.pickupLocation_name,
+            )}`
+        ) {
+          newState.request_status = action.payload.request_status;
+          newState.isRideInProgress = action.payload.isRideInProgress;
+          newState.pickupLocation_metadata.coordinates =
+            action.payload.pickupLocation_metadata.coordinates;
+          newState.pickupLocation_metadata.pickupLocation_name =
+            action.payload.pickupLocation_metadata.pickupLocation_name;
+          //...
+          return {...state, ...newState};
+        } //No change
+        else {
+          return state;
+        }
+        /*newState.request_status = action.payload.request_status;
       newState.isRideInProgress = action.payload.isRideInProgress;
       newState.pickupLocation_metadata.coordinates =
         action.payload.pickupLocation_metadata.coordinates;
@@ -223,6 +224,9 @@ const HomeReducer = (state = INIT_STATE, action) => {
         action.payload.pickupLocation_metadata.pickupLocation_name;
       //...
       return {...state, ...newState};*/
+      } catch (error) {
+        return state;
+      }
 
     case 'UPDATE_ROUTE_TO_PICKUP_VARS':
       //? Optmized
@@ -230,98 +234,102 @@ const HomeReducer = (state = INIT_STATE, action) => {
       //! Do state change checks
       //! 0 for undefined elements or false conditions (no state change)
       //! 1 for true conditions (new state)
-      //? Clean the array first
-      checkerArray = new Array();
-      //? condition 1
-      checkerArray[0] =
-        action.payload.lastDriverBearing !== undefined &&
-        action.payload.lastDriverBearing !== null
-          ? `${JSON.stringify(action.payload.lastDriverBearing)}` !==
-            `${JSON.stringify(newState.lastDriverBearing)}`
-            ? 1
-            : 0
-          : 0;
-      //? condition 2
-      checkerArray[1] =
-        action.payload.lastDriverCoords !== undefined &&
-        action.payload.lastDriverCoords !== null
-          ? `${JSON.stringify(action.payload.lastDriverCoords)}` !==
-            `${JSON.stringify(newState.lastDriverCoords)}`
-            ? 1
-            : 0
-          : 0;
-      //? condition 3
-      checkerArray[2] =
-        action.payload.isRideInProgress !== undefined &&
-        action.payload.isRideInProgress !== null
-          ? `${JSON.stringify(action.payload.isRideInProgress)}` !==
-            `${JSON.stringify(newState.isRideInProgress)}`
-            ? 1
-            : 0
-          : 0;
-      //? condition 4
-      checkerArray[3] =
-        action.payload.actPointToMinusOne !== undefined &&
-        action.payload.actPointToMinusOne !== null
-          ? `${JSON.stringify(action.payload.actPointToMinusOne)}` !==
-            `${JSON.stringify(newState.actPointToMinusOne)}`
-            ? 1
-            : 0
-          : 0;
-      //? condition 5
-      checkerArray[4] =
-        action.payload.isInRouteToDestination !== undefined &&
-        action.payload.isInRouteToDestination !== null
-          ? `${JSON.stringify(action.payload.isInRouteToDestination)}` !==
-            `${JSON.stringify(newState.isInRouteToDestination)}`
-            ? 1
-            : 0
-          : 0;
-      //! Sum all the array if the result is greater than 1 - command a new state update
-      checkerArray = checkerArray.reduce((a, b) => a + b, 0);
-      //...
-      if (checkerArray > 0) {
-        //? New state update
-        //...1
-        if (
+      try {
+        //? Clean the array first
+        checkerArray = new Array();
+        //? condition 1
+        checkerArray[0] =
           action.payload.lastDriverBearing !== undefined &&
           action.payload.lastDriverBearing !== null
-        ) {
-          newState.lastDriverBearing = action.payload.lastDriverBearing;
-        }
-        //...2
-        if (
+            ? `${JSON.stringify(action.payload.lastDriverBearing)}` !==
+              `${JSON.stringify(newState.lastDriverBearing)}`
+              ? 1
+              : 0
+            : 0;
+        //? condition 2
+        checkerArray[1] =
           action.payload.lastDriverCoords !== undefined &&
           action.payload.lastDriverCoords !== null
-        ) {
-          newState.lastDriverCoords = action.payload.lastDriverCoords;
-        }
-        //...3
-        if (
+            ? `${JSON.stringify(action.payload.lastDriverCoords)}` !==
+              `${JSON.stringify(newState.lastDriverCoords)}`
+              ? 1
+              : 0
+            : 0;
+        //? condition 3
+        checkerArray[2] =
           action.payload.isRideInProgress !== undefined &&
           action.payload.isRideInProgress !== null
-        ) {
-          newState.isRideInProgress = action.payload.isRideInProgress;
-        }
-        //...4
-        if (
+            ? `${JSON.stringify(action.payload.isRideInProgress)}` !==
+              `${JSON.stringify(newState.isRideInProgress)}`
+              ? 1
+              : 0
+            : 0;
+        //? condition 4
+        checkerArray[3] =
           action.payload.actPointToMinusOne !== undefined &&
           action.payload.actPointToMinusOne !== null
-        ) {
-          newState.actPointToMinusOne = action.payload.actPointToMinusOne;
-        }
-        //...5
-        if (
+            ? `${JSON.stringify(action.payload.actPointToMinusOne)}` !==
+              `${JSON.stringify(newState.actPointToMinusOne)}`
+              ? 1
+              : 0
+            : 0;
+        //? condition 5
+        checkerArray[4] =
           action.payload.isInRouteToDestination !== undefined &&
           action.payload.isInRouteToDestination !== null
-        ) {
-          newState.isInRouteToDestination =
-            action.payload.isInRouteToDestination;
-        }
+            ? `${JSON.stringify(action.payload.isInRouteToDestination)}` !==
+              `${JSON.stringify(newState.isInRouteToDestination)}`
+              ? 1
+              : 0
+            : 0;
+        //! Sum all the array if the result is greater than 1 - command a new state update
+        checkerArray = checkerArray.reduce((a, b) => a + b, 0);
         //...
-        return {...state, ...newState};
-      } //No new state update
-      else {
+        if (checkerArray > 0) {
+          //? New state update
+          //...1
+          if (
+            action.payload.lastDriverBearing !== undefined &&
+            action.payload.lastDriverBearing !== null
+          ) {
+            newState.lastDriverBearing = action.payload.lastDriverBearing;
+          }
+          //...2
+          if (
+            action.payload.lastDriverCoords !== undefined &&
+            action.payload.lastDriverCoords !== null
+          ) {
+            newState.lastDriverCoords = action.payload.lastDriverCoords;
+          }
+          //...3
+          if (
+            action.payload.isRideInProgress !== undefined &&
+            action.payload.isRideInProgress !== null
+          ) {
+            newState.isRideInProgress = action.payload.isRideInProgress;
+          }
+          //...4
+          if (
+            action.payload.actPointToMinusOne !== undefined &&
+            action.payload.actPointToMinusOne !== null
+          ) {
+            newState.actPointToMinusOne = action.payload.actPointToMinusOne;
+          }
+          //...5
+          if (
+            action.payload.isInRouteToDestination !== undefined &&
+            action.payload.isInRouteToDestination !== null
+          ) {
+            newState.isInRouteToDestination =
+              action.payload.isInRouteToDestination;
+          }
+          //...
+          return {...state, ...newState};
+        } //No new state update
+        else {
+          return state;
+        }
+      } catch (error) {
         return state;
       }
 
@@ -1813,28 +1821,32 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_CURRENT_LOCATION_METADATA':
       //? Optmimized
-      //Update the current location metadata - only if different
-      if (newState.userCurrentLocationMetaData.city !== undefined) {
-        //Had some old data
-        generalPurposeReg = new RegExp(JSON.stringify(action.payload));
-        if (
-          generalPurposeReg.test(
-            JSON.stringify(newState.userCurrentLocationMetaData),
-          )
-        ) {
-          //Same data - don't update state
-          return state;
-        } //New data -update state
+      try {
+        //Update the current location metadata - only if different
+        if (newState.userCurrentLocationMetaData.city !== undefined) {
+          //Had some old data
+          generalPurposeReg = new RegExp(JSON.stringify(action.payload));
+          if (
+            generalPurposeReg.test(
+              JSON.stringify(newState.userCurrentLocationMetaData),
+            )
+          ) {
+            //Same data - don't update state
+            return state;
+          } //New data -update state
+          else {
+            newState.userCurrentLocationMetaData = action.payload;
+            //...
+            return {...state, ...newState};
+          }
+        } //No data at all - update state
         else {
           newState.userCurrentLocationMetaData = action.payload;
           //...
           return {...state, ...newState};
         }
-      } //No data at all - update state
-      else {
-        newState.userCurrentLocationMetaData = action.payload;
-        //...
-        return {...state, ...newState};
+      } catch (error) {
+        return state;
       }
 
     case 'UPDATE_NUMBER_OF_PASSENGERS_SELECTED':
@@ -1953,19 +1965,24 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_PRICING_STATE_DATA':
       //? Optimized
-      if (
-        `${JSON.stringify(newState.pricingVariables.carTypesPricingMetada)}` ===
-        `${JSON.stringify(action.payload)}`
-      ) {
-        //Same data
-        return state;
-      } //New data
-      else {
-        newState.pricingVariables.didPricingReceivedFromServer = true;
-        newState.pricingVariables.carTypesPricingMetada = action.payload;
+      try {
+        if (
+          `${JSON.stringify(
+            newState.pricingVariables.carTypesPricingMetada,
+          )}` === `${JSON.stringify(action.payload)}`
+        ) {
+          //Same data
+          return state;
+        } //New data
+        else {
+          newState.pricingVariables.didPricingReceivedFromServer = true;
+          newState.pricingVariables.carTypesPricingMetada = action.payload;
 
-        //...
-        return {...state, ...newState};
+          //...
+          return {...state, ...newState};
+        }
+      } catch (error) {
+        return state;
       }
 
     case 'UPDATE_ROUTE_PREVIEW_TO_DESTINATION':
@@ -2250,18 +2267,22 @@ const HomeReducer = (state = INIT_STATE, action) => {
 
     case 'UPDATE_CLOSEST_DRIVERS_LIST':
       //? Optimized
-      //Update data only if different
-      if (
-        `${JSON.stringify(newState._CLOSEST_DRIVERS_DATA)}` ==
-        `${JSON.stringify(action.payload)}`
-      ) {
-        //Same data - don't update
+      try {
+        //Update data only if different
+        if (
+          `${JSON.stringify(newState._CLOSEST_DRIVERS_DATA)}` ==
+          `${JSON.stringify(action.payload)}`
+        ) {
+          //Same data - don't update
+          return state;
+        } //Different data - update state
+        else {
+          newState._CLOSEST_DRIVERS_DATA = action.payload;
+          //...
+          return {...state, ...newState};
+        }
+      } catch (error) {
         return state;
-      } //Different data - update state
-      else {
-        newState._CLOSEST_DRIVERS_DATA = action.payload;
-        //...
-        return {...state, ...newState};
       }
 
     case 'UPDATE_ERROR_BOTTOM_VITALS':

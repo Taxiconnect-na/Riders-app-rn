@@ -1330,13 +1330,34 @@ class ErrorModal extends React.PureComponent {
                   }}>
                   <TouchableOpacity
                     onPress={() =>
-                      call({
-                        number: this.props.App.generalTRIP_details_driverDetails
-                          .driverDetails.phone_number,
-                        prompt: true,
-                      })
+                      this.props.App.generalTRIP_details_driverDetails
+                        .driverDetails !== undefined &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .driverDetails !== null &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .driverDetails.phone_number !== undefined &&
+                      this.props.App.generalTRIP_details_driverDetails
+                        .driverDetails.phone_number !== null
+                        ? call({
+                            number: this.props.App
+                              .generalTRIP_details_driverDetails.driverDetails
+                              .phone_number,
+                            prompt: true,
+                          })
+                        : {}
                     }
                     style={{
+                      opacity:
+                        this.props.App.generalTRIP_details_driverDetails
+                          .driverDetails !== undefined &&
+                        this.props.App.generalTRIP_details_driverDetails
+                          .driverDetails !== null &&
+                        this.props.App.generalTRIP_details_driverDetails
+                          .driverDetails.phone_number !== undefined &&
+                        this.props.App.generalTRIP_details_driverDetails
+                          .driverDetails.phone_number !== null
+                          ? 1
+                          : 0.2,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',

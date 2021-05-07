@@ -1174,9 +1174,10 @@ class Home extends React.PureComponent {
             let currentPointRm = point(currentPoint);
             //Compute the car's bearing angle
             if (
-              globalObject.props.App.lastDriverCoords === null ||
+              /*globalObject.props.App.lastDriverCoords === null ||
               globalObject.props.App.initializedScenario !==
-                response.request_status
+                response.request_status*/
+              true
             ) {
               globalObject.props.App.lastDriverCoords = [];
               globalObject.props.App.lastDriverCoords.push(0);
@@ -1828,7 +1829,9 @@ class Home extends React.PureComponent {
       if (
         globalObject.props.App.isInRouteToDestination === false &&
         globalObject.props.App.route !== null &&
-        globalObject.props.App.route !== undefined
+        globalObject.props.App.route !== undefined &&
+        globalObject.props.App.shape !== undefined &&
+        globalObject.props.App.shape !== null
       ) {
         globalObject.props.App.shape
           .timing({
@@ -1881,7 +1884,9 @@ class Home extends React.PureComponent {
       } else if (
         globalObject.props.App.isInRouteToDestination &&
         globalObject.props.App.shapeDestination !== null &&
-        globalObject.props.App.shapeDestination !== undefined
+        globalObject.props.App.shapeDestination !== undefined &&
+        globalObject.props.App.routeDestination !== undefined &&
+        globalObject.props.App.routeDestination !== null
       ) {
         //2. ROUTE TO DESTINATION
         if (globalObject.props.App.actPointToMinusOne === false) {
@@ -1897,7 +1902,9 @@ class Home extends React.PureComponent {
         InteractionManager.runAfterInteractions(() => {
           if (
             globalObject.props.App.shapeDestination !== null &&
-            globalObject.props.App.routeDestination !== null
+            globalObject.props.App.shapeDestination !== undefined &&
+            globalObject.props.App.routeDestination !== null &&
+            globalObject.props.App.routeDestination !== undefined
           ) {
             globalObject.props.App.shapeDestination
               .timing({
@@ -2083,7 +2090,7 @@ class Home extends React.PureComponent {
         },
         {
           enableHighAccuracy: true,
-          timeout: 5000,
+          timeout: 2000,
           maximumAge: 1000,
           distanceFilter: 3,
         },
@@ -3357,7 +3364,9 @@ class Home extends React.PureComponent {
         if (this.props.App.bottomVitalsFlow.tmpVisibleBounds === false) {
           //Not initialized yet
           this.props.App.bottomVitalsFlow.tmpVisibleBounds =
-            JSON.stringify(visibleBounds) + 'false'; //Update the temp visible bounds - semi initialize
+            visibleBounds !== undefined && visibleBounds !== null
+              ? `${JSON.stringify(visibleBounds)}false`
+              : 'somethingfalse'; //Update the temp visible bounds - semi initialize
           if (smoothRemoval === false) {
             this.props.UpdateMapUsabilityState({
               isRecentered: true,
@@ -3381,7 +3390,11 @@ class Home extends React.PureComponent {
             });
           }
         } else {
-          if (/false/.test(this.props.App.bottomVitalsFlow.tmpVisibleBounds)) {
+          if (
+            /false/.test(this.props.App.bottomVitalsFlow.tmpVisibleBounds) &&
+            visibleBounds !== undefined &&
+            visibleBounds !== null
+          ) {
             //Semi initialization detected - full y initialize
             this.props.App.bottomVitalsFlow.tmpVisibleBounds = JSON.stringify(
               visibleBounds,
@@ -3392,8 +3405,10 @@ class Home extends React.PureComponent {
           } //Already fully initialized
           else {
             if (
+              visibleBounds !== undefined &&
+              visibleBounds !== null &&
               JSON.stringify(visibleBounds) ===
-              this.props.App.bottomVitalsFlow.tmpVisibleBounds
+                this.props.App.bottomVitalsFlow.tmpVisibleBounds
             ) {
               //Hide recenter button
               if (
