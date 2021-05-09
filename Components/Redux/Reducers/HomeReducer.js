@@ -490,7 +490,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
       newState.shapeDestination = routeShapeDestination;
       newState.actPointDestination = new AnimatedMapbox.ExtractCoordinateFromArray(
         routeDestination,
-        -1,
+        0,
       ); //Independent from shape
       newState.destinationPoint = action.payload.destinationPoint; //Destination coords
       //...
