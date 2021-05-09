@@ -700,6 +700,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           marginLeft: 4,
                         }}>
                         {this.state.detailed_requestData.numberOf_passengers}
+                        {alert(JSON.stringify(this.state.detailed_requestData))}
                       </Text>
                     </View>
                   </View>
@@ -744,7 +745,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
 
                             elevation: 3,
                           }}>
-                          <Image
+                          {/*<Image
                             source={require('../../Media_assets/Images/driver.jpg')}
                             style={{
                               resizeMode: 'cover',
@@ -752,7 +753,45 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                               height: '100%',
                               borderRadius: 150,
                             }}
-                          />
+                          />*/}
+                          {/http/i.test(
+                            this.state.detailed_requestData.driver_details
+                              .driver_picture,
+                          ) &&
+                          this.state.detailed_requestData.driver_details
+                            .driver_picture !== undefined &&
+                          this.state.detailed_requestData.driver_details
+                            .driver_picture !== null ? (
+                            <FastImage
+                              source={{
+                                uri:
+                                  this.state.detailed_requestData.driver_details
+                                    .driver_picture !== undefined &&
+                                  this.state.detailed_requestData.driver_details
+                                    .driver_picture !== null
+                                    ? this.state.detailed_requestData
+                                        .driver_details.driver_picture
+                                    : 'user.png',
+                                priority: FastImage.priority.normal,
+                              }}
+                              resizeMode={FastImage.resizeMode.cover}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                borderRadius: 150,
+                              }}
+                            />
+                          ) : (
+                            <Image
+                              source={require('../../Media_assets/Images/driver.jpg')}
+                              style={{
+                                resizeMode: 'cover',
+                                width: '100%',
+                                height: '100%',
+                                borderRadius: 150,
+                              }}
+                            />
+                          )}
                         </View>
                         <View style={{marginLeft: 10}}>
                           <Text

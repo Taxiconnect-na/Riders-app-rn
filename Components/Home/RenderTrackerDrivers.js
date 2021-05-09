@@ -43,7 +43,7 @@ class RenderTrackerDrivers extends React.PureComponent {
               id={'lineRoutePickup'}
               style={{
                 lineCap: 'round',
-                lineWidth: 4,
+                lineWidth: 5,
                 lineOpacity: 0.8,
                 lineColor: '#000',
               }}

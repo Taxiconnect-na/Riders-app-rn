@@ -39,10 +39,24 @@ export const InRouteToPickupInitVars = (response) => ({
   payload: response,
 });
 
+//5.b IN ROUTE TO PICKUP update vars
+//@param response: from the MAP SERVICES
+export const __Update_InRouteToPickupInitVars = (response) => ({
+  type: '__UPDATE_IN_ROUTE_TO_PICKUP_INIT_VARS',
+  payload: response,
+});
+
 //6. IN ROUTE TO DESTINATION initialization vars
 //@param response: from the MAP SERVICES
 export const InRouteToDestinationInitVars = (response) => ({
   type: 'IN_ROUTE_TO_DESTINATION_INIT_VARS',
+  payload: response,
+});
+
+//6.b IN ROUTE TO DESTINATION update vars
+//@param response: from the MAP SERVICES
+export const __Update_InRouteToDestinationInitVars = (response) => ({
+  type: '__UPDATE_IN_ROUTE_TO_DESTINATION_INIT_VARS',
   payload: response,
 });
 

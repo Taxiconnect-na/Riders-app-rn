@@ -292,7 +292,11 @@ const HomeReducer = (state = INIT_STATE, action) => {
             action.payload.lastDriverBearing !== undefined &&
             action.payload.lastDriverBearing !== null
           ) {
-            newState.lastDriverBearing = action.payload.lastDriverBearing;
+            newState.lastDriverBearing =
+              newState.lastDriverBearing !== 0 &&
+              action.payload.lastDriverBearing === 0
+                ? newState.lastDriverBearing
+                : action.payload.lastDriverBearing;
           }
           //...2
           if (
@@ -327,9 +331,31 @@ const HomeReducer = (state = INIT_STATE, action) => {
           return {...state, ...newState};
         } //No new state update
         else {
+          //...1
+          if (
+            action.payload.lastDriverBearing !== undefined &&
+            action.payload.lastDriverBearing !== null
+          ) {
+            newState.lastDriverBearing =
+              newState.lastDriverBearing !== 0 &&
+              action.payload.lastDriverBearing === 0
+                ? newState.lastDriverBearing
+                : action.payload.lastDriverBearing;
+          }
           return state;
         }
       } catch (error) {
+        //...1
+        if (
+          action.payload.lastDriverBearing !== undefined &&
+          action.payload.lastDriverBearing !== null
+        ) {
+          newState.lastDriverBearing =
+            newState.lastDriverBearing !== 0 &&
+            action.payload.lastDriverBearing === 0
+              ? newState.lastDriverBearing
+              : action.payload.lastDriverBearing;
+        }
         return state;
       }
 
@@ -379,6 +405,39 @@ const HomeReducer = (state = INIT_STATE, action) => {
       //...
       return {...state, ...newState};
 
+    case '__UPDATE_IN_ROUTE_TO_PICKUP_INIT_VARS':
+      //The payload is the response from the MAP SERVICES
+      //Initialize animation components
+      route = new AnimatedMapbox.RouteCoordinatesArray(
+        action.payload.routePoints,
+      );
+      routeShape = new AnimatedMapbox.CoordinatesArray(
+        action.payload.routePoints,
+      );
+      //Initialize animation components for destination route
+      routeDestination = new AnimatedMapbox.RouteCoordinatesArray(
+        action.payload.routePoints,
+      );
+      routeShapeDestination = new AnimatedMapbox.CoordinatesArray(
+        action.payload.routePoints,
+      );
+      //......
+      newState.route = route;
+      newState.shape = routeShape;
+      //? actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
+      newState.actPoint = new AnimatedMapbox.ExtractCoordinateFromArray(
+        route,
+        0,
+      ); //Independent from shape
+      newState.routeCoordsPickup = action.payload.routePoints; //To pickup
+      newState.routeCoordsDestination = action.payload.routePoints;
+
+      newState.routeDestination = routeDestination;
+      newState.shapeDestination = routeShapeDestination;
+      newState.pickupPoint = action.payload.pickupPoint.map(parseFloat); //Pickup point
+      //...
+      return {...state, ...newState};
+
     case 'IN_ROUTE_TO_DESTINATION_INIT_VARS':
       //The payload is the response from the MAP SERVICES
       //Initialize animation components for destination route
@@ -399,6 +458,34 @@ const HomeReducer = (state = INIT_STATE, action) => {
         parseFloat(action.payload.driverNextPoint[1]),
       ];
       newState.isRideInProgress = true;
+      newState.routeDestination = routeDestination;
+      newState.shapeDestination = routeShapeDestination;
+      newState.actPointDestination = new AnimatedMapbox.ExtractCoordinateFromArray(
+        routeDestination,
+        -1,
+      ); //Independent from shape
+      newState.destinationPoint = action.payload.destinationPoint; //Destination coords
+      //...
+      return {...state, ...newState};
+
+    case '__UPDATE_IN_ROUTE_TO_DESTINATION_INIT_VARS':
+      //The payload is the response from the MAP SERVICES
+      //Initialize animation components for destination route
+      routeDestination = new AnimatedMapbox.RouteCoordinatesArray(
+        action.payload.routePoints,
+      );
+      routeShapeDestination = new AnimatedMapbox.CoordinatesArray(
+        action.payload.routePoints,
+      );
+      //----
+      //? actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
+      newState.routeCoordsPickup = action.payload.routePoints; //To pickup
+      newState.routeCoordsDestination =
+        action.payload.destinationData.routePoints; //To destination
+      newState.lastDriverCoords = [
+        parseFloat(action.payload.driverNextPoint[0]),
+        parseFloat(action.payload.driverNextPoint[1]),
+      ];
       newState.routeDestination = routeDestination;
       newState.shapeDestination = routeShapeDestination;
       newState.actPointDestination = new AnimatedMapbox.ExtractCoordinateFromArray(

@@ -38,7 +38,9 @@ import {
   UpdatePendingGlobalVars,
   UpdateRouteToPickupVars,
   InRouteToPickupInitVars,
+  __Update_InRouteToPickupInitVars,
   InRouteToDestinationInitVars,
+  __Update_InRouteToDestinationInitVars,
   UpdateHellosVars,
   UpdateSchedulerState,
   UpdateBottomVitalsState,
@@ -1115,7 +1117,7 @@ class Home extends React.PureComponent {
             } else if (response.request_status === 'inRouteToDestination') {
               //? Save the previous status
               let prevStatus = globalObject.props.App.request_status;
-              //? Force the conversion of the pickupPoint and destinationPoint from string to boolean
+              //? Force the conversion of the pickupPoint and destinationPoint from string to Float
               response.pickupPoint = response.pickupPoint.map(parseFloat);
               response.destinationPoint = response.destinationPoint.map(
                 parseFloat,
@@ -1174,10 +1176,9 @@ class Home extends React.PureComponent {
             let currentPointRm = point(currentPoint);
             //Compute the car's bearing angle
             if (
-              /*globalObject.props.App.lastDriverCoords === null ||
+              globalObject.props.App.lastDriverCoords === null ||
               globalObject.props.App.initializedScenario !==
-                response.request_status*/
-              true
+                response.request_status
             ) {
               globalObject.props.App.lastDriverCoords = [];
               globalObject.props.App.lastDriverCoords.push(0);
@@ -1191,6 +1192,19 @@ class Home extends React.PureComponent {
                 );
               }).then(
                 (reslt) => {
+                  //? Update route data
+                  if (/inRouteToPickup/i.test(response.request_status)) {
+                    globalObject.props.__Update_InRouteToPickupInitVars(
+                      response,
+                    );
+                  } else if (
+                    /inRouteToDestination/i.test(response.request_status)
+                  ) {
+                    globalObject.props.__Update_InRouteToDestinationInitVars(
+                      response,
+                    );
+                  }
+                  //---------------
                   if (reslt === true) {
                     new Promise((resolve1) => {
                       globalObject.animateRoute(
@@ -1209,7 +1223,21 @@ class Home extends React.PureComponent {
                     );
                   }
                 },
-                () => {},
+                () => {
+                  //? Update route data
+                  if (/inRouteToPickup/i.test(response.request_status)) {
+                    globalObject.props.__Update_InRouteToPickupInitVars(
+                      response,
+                    );
+                  } else if (
+                    /inRouteToDestination/i.test(response.request_status)
+                  ) {
+                    globalObject.props.__Update_InRouteToDestinationInitVars(
+                      response,
+                    );
+                  }
+                  //---------------
+                },
               );
             } //Animate
             else {
@@ -1225,8 +1253,36 @@ class Home extends React.PureComponent {
                     : false,
                 );
               }).then(
-                () => {},
-                () => {},
+                () => {
+                  //? Update route data
+                  if (/inRouteToPickup/i.test(response.request_status)) {
+                    globalObject.props.__Update_InRouteToPickupInitVars(
+                      response,
+                    );
+                  } else if (
+                    /inRouteToDestination/i.test(response.request_status)
+                  ) {
+                    globalObject.props.__Update_InRouteToDestinationInitVars(
+                      response,
+                    );
+                  }
+                  //---------------
+                },
+                () => {
+                  //? Update route data
+                  if (/inRouteToPickup/i.test(response.request_status)) {
+                    globalObject.props.__Update_InRouteToPickupInitVars(
+                      response,
+                    );
+                  } else if (
+                    /inRouteToDestination/i.test(response.request_status)
+                  ) {
+                    globalObject.props.__Update_InRouteToDestinationInitVars(
+                      response,
+                    );
+                  }
+                  //---------------
+                },
               );
             }
             //...
@@ -1848,37 +1904,35 @@ class Home extends React.PureComponent {
 
         globalObject.props.App.CONSIDER = true;
 
-        InteractionManager.runAfterInteractions(() => {
-          globalObject.props.App.route
-            .timing({
-              toValue: {end: {point: currentPointRm}},
-              duration: timingRoute,
-              easing: Easing.linear,
-            })
-            .start(() => {
-              //Update car infos
-              if (globalObject.props.App.actPointToMinusOne === false) {
-                globalObject.props.UpdateRouteToPickupVars({
-                  actPointToMinusOne: true,
-                });
-              }
+        globalObject.props.App.route
+          .timing({
+            toValue: {end: {point: currentPointRm}},
+            duration: timingRoute,
+            easing: Easing.linear,
+          })
+          .start(() => {
+            //Update car infos
+            if (globalObject.props.App.actPointToMinusOne === false) {
+              globalObject.props.UpdateRouteToPickupVars({
+                actPointToMinusOne: true,
+              });
+            }
 
-              if (
-                globalObject.camera !== undefined &&
-                globalObject.camera != null
-              ) {
-                //Only recenter when the user was not centered already
-                try {
-                  globalObject.camera.fitBounds(
-                    globalObject.props.App.pickupPoint,
-                    [currentPoint[0], currentPoint[1]],
-                    [90, 90, 250, 90],
-                    1000,
-                  );
-                } catch (error) {}
-              }
-            });
-        });
+            if (
+              globalObject.camera !== undefined &&
+              globalObject.camera != null
+            ) {
+              //Only recenter when the user was not centered already
+              try {
+                globalObject.camera.fitBounds(
+                  globalObject.props.App.pickupPoint,
+                  [currentPoint[0], currentPoint[1]],
+                  [90, 90, 250, 90],
+                  1000,
+                );
+              } catch (error) {}
+            }
+          });
         //-------------------------------------------------------------------------
         resolve(true);
       } else if (
@@ -3778,7 +3832,9 @@ const mapDispatchToProps = (dispatch) =>
       UpdatePendingGlobalVars,
       UpdateRouteToPickupVars,
       InRouteToPickupInitVars,
+      __Update_InRouteToPickupInitVars,
       InRouteToDestinationInitVars,
+      __Update_InRouteToDestinationInitVars,
       UpdateHellosVars,
       UpdateSchedulerState,
       UpdateBottomVitalsState,
