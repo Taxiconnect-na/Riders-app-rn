@@ -13,6 +13,7 @@ import {
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import call from 'react-native-phone-call';
 import {RFValue} from 'react-native-responsive-fontsize';
+import AdManager from '../Modules/AdManager/AdManager';
 
 class SupportEntry extends React.PureComponent {
   constructor(props) {
@@ -198,6 +199,7 @@ class SupportEntry extends React.PureComponent {
                 </Text>
               </TouchableOpacity>
             </View>
+            <AdManager />
           </ScrollView>
         ) : null}
       </>

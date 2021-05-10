@@ -44,6 +44,7 @@ import SyncStorage from 'sync-storage';
 import Search from '../Modules/Search/Components/Search';
 import FastImage from 'react-native-fast-image';
 import {RFValue} from 'react-native-responsive-fontsize';
+import AdManager from '../Modules/AdManager/AdManager';
 
 class ErrorModal extends React.PureComponent {
   constructor(props) {
@@ -1515,7 +1516,7 @@ class ErrorModal extends React.PureComponent {
                     this.props.App.generalTRIP_details_driverDetails.carDetails
                       .car_image !== undefined &&
                     this.props.App.generalTRIP_details_driverDetails.carDetails
-                      .car_imagee !== null ? (
+                      .car_image !== null ? (
                       <FastImage
                         source={{
                           uri:
@@ -1525,7 +1526,7 @@ class ErrorModal extends React.PureComponent {
                               .carDetails.car_image !== null
                               ? this.props.App.generalTRIP_details_driverDetails
                                   .carDetails.car_image
-                              : 'user.png',
+                              : 'normaltaxieconomy.png',
                           priority: FastImage.priority.normal,
                         }}
                         resizeMode={FastImage.resizeMode.cover}
@@ -3200,6 +3201,7 @@ class ErrorModal extends React.PureComponent {
                         marginTop: 30,
                         marginBottom: 35,
                       }}>
+                      <AdManager bottom={'3%'} />
                       <TouchableOpacity
                         onPress={() =>
                           this.state.isLoading_something === false
@@ -3647,6 +3649,7 @@ class ErrorModal extends React.PureComponent {
                 </View>
               </View>
             </ScrollView>
+            <AdManager paddingLeft={20} paddingBottom={'3%'} />
             <View
               style={{
                 width: '100%',

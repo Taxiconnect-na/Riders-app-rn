@@ -12,6 +12,7 @@ import {
 import HeaderDrawerContent from './HeaderDrawerContent';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {RFValue} from 'react-native-responsive-fontsize';
+import AdManager from '../Components/Modules/AdManager/AdManager';
 
 export function MainDrawerContent(props) {
   const propKing = props;
@@ -66,6 +67,7 @@ export function MainDrawerContent(props) {
             />
           </TouchableOpacity>
         </ScrollView>
+        <AdManager marginBottom={'3%'} />
         <View style={styles.footerDrawer}>
           <Text
             onPress={() =>
@@ -92,7 +94,7 @@ export function MainDrawerContent(props) {
               color: '#AFAFAF',
               textAlign: 'right',
             }}>
-            v2.1.370
+            v2.1.373
           </Text>
         </View>
       </SafeAreaView>

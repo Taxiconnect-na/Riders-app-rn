@@ -700,7 +700,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           marginLeft: 4,
                         }}>
                         {this.state.detailed_requestData.numberOf_passengers}
-                        {alert(JSON.stringify(this.state.detailed_requestData))}
+                        {/*alert(JSON.stringify(this.state.detailed_requestData))*/}
                       </Text>
                     </View>
                   </View>
@@ -871,19 +871,48 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           borderWidth: 1,
                           borderColor: '#EEEEEE',
                           width: 130,
-                          height: 70,
+                          height: 75,
                           borderRadius: 3,
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
-                        <Image
-                          source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
-                          style={{
-                            resizeMode: 'cover',
-                            width: '100%',
-                            height: '100%',
-                          }}
-                        />
+                        {/http/i.test(
+                          this.state.detailed_requestData.car_details
+                            .car_picture,
+                        ) &&
+                        this.state.detailed_requestData.car_details
+                          .car_picture !== undefined &&
+                        this.state.detailed_requestData.car_details
+                          .car_picture !== null ? (
+                          <FastImage
+                            source={{
+                              uri:
+                                this.state.detailed_requestData.car_details
+                                  .car_picture !== undefined &&
+                                this.state.detailed_requestData.car_details
+                                  .car_picture !== null
+                                  ? this.state.detailed_requestData.car_details
+                                      .car_picture
+                                  : 'normaltaxieconomy.png',
+                              priority: FastImage.priority.normal,
+                            }}
+                            resizeMode={FastImage.resizeMode.cover}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              borderRadius: 3,
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            source={require('../../Media_assets/Images/normaltaxieconomy.jpg')}
+                            style={{
+                              resizeMode: 'cover',
+                              width: '100%',
+                              height: '100%',
+                            }}
+                          />
+                        )}
                       </View>
                       <View style={{marginLeft: 10, flex: 1}}>
                         <Text

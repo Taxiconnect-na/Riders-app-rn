@@ -479,7 +479,6 @@ const HomeReducer = (state = INIT_STATE, action) => {
       );
       //----
       //? actPoint: new AnimatedMapbox.ExtractCoordinateFromArray(routeShape, 0), //Linked to shape
-      newState.routeCoordsPickup = action.payload.routePoints; //To pickup
       newState.routeCoordsDestination =
         action.payload.destinationData.routePoints; //To destination
       newState.lastDriverCoords = [
@@ -800,6 +799,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
             ) {
               newState.isSearchModuleOn = true;
               newState.search_showSearchNodeMain = true;
+              //! Mark default car selected to false
+              newState.wasRideChoosedByDefault = false;
             } //Hide search module
             else {
               newState.isSearchModuleOn = false;
@@ -987,6 +988,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
               'addMoreTripDetails'
             ) {
               newState.wasRideChoosedByDefault = true; //automatically turn off the scheduler
+              //! Mark default car selected to false
+              newState.wasRideChoosedByDefault = false;
             }
 
             //Reset location identified to false if choose ride or delivery back detected
@@ -1226,6 +1229,9 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) + 1
               ] === 'addMoreTripDetails'
             ) {
+              //! Mark default car selected to false
+              newState.wasRideChoosedByDefault = false;
+              //....
               Animated.parallel([
                 Animated.timing(
                   newState.bottomVitalsFlow.genericContainerOpacity,
@@ -1258,6 +1264,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
             ) {
               newState.isSearchModuleOn = true;
               newState.search_showSearchNodeMain = true;
+              //! Mark default car selected to false
+              newState.wasRideChoosedByDefault = false;
             } //Hide search module
             else {
               newState.isSearchModuleOn = false;
@@ -1456,6 +1464,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
             ) {
               newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               newState.wasRideChoosedByDefault = true; //automatically turn off the scheduler
+              //! Mark default car selected to false
+              newState.wasRideChoosedByDefault = false;
             }
 
             //Reset location identified to false if choose ride or delivery back detected
@@ -1488,6 +1498,9 @@ const HomeReducer = (state = INIT_STATE, action) => {
               ] === 'selectDestination'
             ) {
               newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
+              //! Mark default car selected to false
+              newState.wasRideChoosedByDefault = false;
+              //....
               Animated.timing(
                 newState.bottomVitalsFlow.bottomVitalChildHeight,
                 {

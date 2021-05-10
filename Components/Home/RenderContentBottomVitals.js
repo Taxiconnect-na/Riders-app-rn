@@ -158,7 +158,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           : 'Uber Move Text Medium',
                     },
                   ]}>
-                  Taxi Rank
+                  Current location
                 </Text>
                 <Text
                   style={[
@@ -264,7 +264,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                           : 'Uber Move Text Medium',
                     },
                   ]}>
-                  Private location
+                  Current location
                 </Text>
                 <Text
                   style={[
@@ -1798,7 +1798,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         : 'Uber Move Text Medium',
                   },
                 ]}>
-                Hey, we're good to go
+                Hey, we're good to go!
               </AnimatedNative.Text>
             </View>
             <View
@@ -1825,7 +1825,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                       ? 'UberMoveTextLight'
                       : 'Uber Move Text Light',
                 }}>
-                We autodected your pickup location
+                We detected your pickup location
               </AnimatedNative.Text>
             </View>
             <View

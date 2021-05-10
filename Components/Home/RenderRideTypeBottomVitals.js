@@ -1343,8 +1343,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               flexDirection: 'row',
               textAlign: 'center',
               fontSize: RFValue(14),
-              width: 200,
-              paddingTop: 20,
+              width: '100%',
+              paddingTop: 10,
               fontFamily:
                 Platform.OS === 'android'
                   ? 'UberMoveTextLight'
@@ -1355,17 +1355,17 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: RFValue(15),
+                fontSize: RFValue(17),
                 color: '#0D8691',
                 fontFamily:
                   Platform.OS === 'android'
-                    ? 'UberMoveTextMedium'
-                    : 'Uber Move Text Medium',
+                    ? 'UberMoveTextBold'
+                    : 'Uber Move Text Bold',
               },
             ]}>
             {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
-              ? 'enter a custom fare'
-              : 'enter a custom price'}
+              ? 'Enter a custom fare'
+              : 'Enter a custom price'}
           </Text>
         </Text>
       </TouchableOpacity>
@@ -1909,7 +1909,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                   vehicle.availability,
                                                 )
                                                   ? RFValue(20)
-                                                  : RFValue(16),
+                                                  : RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'UberMoveTextMedium'
@@ -2150,7 +2150,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                   vehicle.availability,
                                                 )
                                                   ? RFValue(20)
-                                                  : RFValue(16),
+                                                  : RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'UberMoveTextMedium'
@@ -2375,7 +2375,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                   vehicle.availability,
                                                 )
                                                   ? RFValue(20)
-                                                  : RFValue(16),
+                                                  : RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'UberMoveTextMedium'
@@ -2569,12 +2569,22 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }}>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.parentNodeHome.rerouteBookingProcessFlow(
-                      'next',
-                      'RIDE',
-                    )
+                    this.props.App.pricingVariables.carTypesPricingMetada.filter(
+                      (vehicle) => /^available$/i.test(vehicle.availability),
+                    ).length > 0
+                      ? this.props.parentNodeHome.rerouteBookingProcessFlow(
+                          'next',
+                          'RIDE',
+                        )
+                      : {}
                   }
                   style={{
+                    opacity:
+                      this.props.App.pricingVariables.carTypesPricingMetada.filter(
+                        (vehicle) => /^available$/i.test(vehicle.availability),
+                      ).length > 0
+                        ? 1
+                        : 0.2,
                     borderWidth: 1,
                     borderColor: 'transparent',
                     width: '90%',
@@ -2827,7 +2837,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                   vehicle.availability,
                                                 )
                                                   ? RFValue(20)
-                                                  : RFValue(16),
+                                                  : RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'UberMoveTextMedium'
@@ -3081,7 +3091,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                                   vehicle.availability,
                                                 )
                                                   ? RFValue(20)
-                                                  : RFValue(16),
+                                                  : RFValue(15),
                                                 fontFamily:
                                                   Platform.OS === 'android'
                                                     ? 'UberMoveTextMedium'
@@ -3203,8 +3213,21 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
-                    onPress={() => this.rideTypeToSchedulerTransistor(true)}
+                    onPress={() =>
+                      this.props.App.pricingVariables.carTypesPricingMetada.filter(
+                        (vehicle) => /^available$/i.test(vehicle.availability),
+                      ).length > 0
+                        ? this.rideTypeToSchedulerTransistor(true)
+                        : {}
+                    }
                     style={{
+                      opacity:
+                        this.props.App.pricingVariables.carTypesPricingMetada.filter(
+                          (vehicle) =>
+                            /^available$/i.test(vehicle.availability),
+                        ).length > 0
+                          ? 1
+                          : 0.2,
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'flex-end',
@@ -3244,12 +3267,22 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 }}>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.parentNodeHome.rerouteBookingProcessFlow(
-                      'next',
-                      'DELIVERY',
-                    )
+                    this.props.App.pricingVariables.carTypesPricingMetada.filter(
+                      (vehicle) => /^available$/i.test(vehicle.availability),
+                    ).length > 0
+                      ? this.props.parentNodeHome.rerouteBookingProcessFlow(
+                          'next',
+                          'DELIVERY',
+                        )
+                      : {}
                   }
                   style={{
+                    opacity:
+                      this.props.App.pricingVariables.carTypesPricingMetada.filter(
+                        (vehicle) => /^available$/i.test(vehicle.availability),
+                      ).length > 0
+                        ? 1
+                        : 0.2,
                     borderWidth: 1,
                     borderColor: 'transparent',
                     width: '90%',
@@ -3307,6 +3340,37 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           <View
             style={{
               width: '100%',
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingBottom: '1.5%',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <IconMaterialIcons name="info" size={18} color={'#1a1a1a'} />
+            <Text
+              style={{
+                marginLeft: 5,
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextLight'
+                    : 'Uber Move Text Light',
+                fontSize: RFValue(12),
+              }}>
+              <Text
+                style={{
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'UberMoveTextMedium'
+                      : 'Uber Move Text Medium',
+                }}>
+                +N$5
+              </Text>{' '}
+              pickup fee included.
+            </Text>
+          </View>
+          <View
+            style={{
+              width: '100%',
               alignItems: 'center',
               height: 100,
             }}>
@@ -3327,7 +3391,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 borderColor: 'transparent',
                 width: '90%',
               }}>
-              <View style={[styles.bttnGenericTc]}>
+              <View style={[styles.bttnGenericTc, {alignItems: 'center'}]}>
                 <Text
                   style={{
                     fontFamily:
@@ -3336,11 +3400,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         : 'Uber Move Text Medium',
                     fontSize: RFValue(20),
                     color: '#fff',
+                    flex: 1,
+                    textAlign: 'center',
                   }}>
                   {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
                     ? 'Connect to your ride'
                     : 'Request for delivery'}
                 </Text>
+                <IconAnt name="arrowright" color={'#fff'} size={26} />
               </View>
             </TouchableOpacity>
           </View>

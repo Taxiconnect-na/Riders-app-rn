@@ -16,6 +16,7 @@ import {UpdatePreferredPayment_method} from '../Redux/HomeActionsCreators';
 import IconCommunity from 'react-native-vector-icons/MaterialCommunityIcons';
 import DismissKeyboard from '../Helpers/DismissKeyboard';
 import {RFValue} from 'react-native-responsive-fontsize';
+import AdManager from '../Modules/AdManager/AdManager';
 
 class WalletTopUpEntry extends React.PureComponent {
   constructor(props) {
@@ -270,6 +271,7 @@ class WalletTopUpEntry extends React.PureComponent {
               </View>
             </ScrollView>
           </View>
+          <AdManager paddingLeft={20} />
         </SafeAreaView>
       </DismissKeyboard>
     );
