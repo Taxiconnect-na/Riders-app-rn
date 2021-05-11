@@ -241,9 +241,31 @@ class WalletEntry extends React.PureComponent {
 
                     {/**Top-up wallet */}
                     <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate('WalletTopUpEntry')
-                      }
+                      onPress={() => {
+                        //? Gather Ad analytics *************************************************
+                        if (
+                          this.props.App.ad_vars !== undefined &&
+                          this.props.App.ad_vars !== null &&
+                          this.props.App.ad_vars.compaign_id !== undefined &&
+                          this.props.App.ad_vars.compaign_id !== null
+                        ) {
+                          this.props.App.socket.emit(
+                            'gatherAdsManagerAnalytics_io',
+                            {
+                              user_fingerprint: this.props.App.user_fingerprint,
+                              user_nature: 'rider',
+                              screen_identifier:
+                                'BottomEntryScreen_WalletTopUp',
+                              company_identifier: this.props.App.ad_vars
+                                .company_id,
+                              campaign_identifier: this.props.App.ad_vars
+                                .compaign_id,
+                            },
+                          );
+                        }
+                        //? *********************************************************************
+                        this.props.navigation.navigate('WalletTopUpEntry');
+                      }}
                       style={{alignItems: 'center', marginRight: '11%'}}>
                       <View
                         style={[

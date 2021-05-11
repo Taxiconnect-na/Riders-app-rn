@@ -1000,13 +1000,29 @@ class RenderBottomVital extends React.PureComponent {
               </View>
               {/**Confirm drop off button */}
               <TouchableOpacity
-                onPress={() =>
+                onPress={() => {
+                  //? Gather Ad analytics *************************************************
+                  if (
+                    this.props.App.ad_vars !== undefined &&
+                    this.props.App.ad_vars !== null &&
+                    this.props.App.ad_vars.compaign_id !== undefined &&
+                    this.props.App.ad_vars.compaign_id !== null
+                  ) {
+                    this.props.App.socket.emit('gatherAdsManagerAnalytics_io', {
+                      user_fingerprint: this.props.App.user_fingerprint,
+                      user_nature: 'rider',
+                      screen_identifier: 'BottomRating',
+                      company_identifier: this.props.App.ad_vars.company_id,
+                      campaign_identifier: this.props.App.ad_vars.compaign_id,
+                    });
+                  }
+                  //? *********************************************************************
                   this.props.UpdateErrorModalLog(
                     true,
                     'show_rating_driver_modal',
                     'any',
-                  )
-                }
+                  );
+                }}
                 style={{
                   flex: 1,
                   backgroundColor: '#096ED4',

@@ -543,6 +543,9 @@ const STATE = {
     transactions_details: null, //Will contain all the transactions made by the user using his wallet - or by cash.
     wallet_state: 'locked', //To know whether to lock or unlock the wallet, can be locked or unlocked - default: locked
   },
+
+  //? AD MANAGER VARS
+  ad_vars: null, //Contains all the ads vars to display custom Ads in some regions of the app.
 };
 
 export default STATE;

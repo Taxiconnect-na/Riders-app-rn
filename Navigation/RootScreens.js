@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, Platform, StyleSheet} from 'react-native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import {HeaderBackButton} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import EntryScreen from '../Components/Login/EntrySreen';
 import PhoneDetailsScreen from '../Components/Login/PhoneDetailsScreen';

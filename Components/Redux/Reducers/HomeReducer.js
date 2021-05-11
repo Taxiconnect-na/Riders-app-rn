@@ -2597,6 +2597,36 @@ const HomeReducer = (state = INIT_STATE, action) => {
         return state;
       }
 
+    case 'UPDATE_AD_GET_DATA':
+      //?Optimise
+      if (action.payload !== undefined && action.payload !== null) {
+        try {
+          if (
+            `${JSON.stringify(action.payload)}` !==
+            `${JSON.stringify(newState.ad_vars)}`
+          ) {
+            //New data
+            newState.ad_vars = action.payload;
+            return {...state, ...newState};
+          } //Same data
+          else {
+            return state;
+          }
+        } catch (error) {
+          return state;
+        }
+      } //No AD
+      else {
+        if (action.payload !== newState.ad_vars) {
+          //Update
+          newState.ad_vars = action.payload;
+          return {...state, ...newState};
+        } //Same data
+        else {
+          return state;
+        }
+      }
+
     default:
       return state;
   }

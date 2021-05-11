@@ -55,6 +55,7 @@ import {
   UpdateDropoffDataFor_driverRating,
   UpdateTotalWalletAmount,
   UpdateKeyboardStateGlobal,
+  UpdateADGetData,
 } from '../Redux/HomeActionsCreators';
 import RenderBottomVital from './RenderBottomVital';
 import RenderMainMapView from './RenderMainMapView';
@@ -642,55 +643,18 @@ class Home extends React.PureComponent {
               trip_simplified_id: globalObject.props.App.sharedSimplifiedLink,
             });
           }
-          /*if (globalObject.props.App.intervalProgressLoop === false) {
-            globalObject.GPRS_resolver();
-            globalObject.updateRemoteLocationsData();
-            //2. Request for the total wallet balance
-            globalObject.props.App.socket.emit('getRiders_walletInfos_io', {
+          //4. Request for any AD infos
+          if (
+            globalObject.props.App.userCurrentLocationMetaData.city !==
+              undefined &&
+            globalObject.props.App.userCurrentLocationMetaData.city !== null
+          ) {
+            globalObject.props.App.socket.emit('getAdsManagerRunningInfos_io', {
               user_fingerprint: globalObject.props.App.user_fingerprint,
-              mode: 'detailed',
+              user_nature: 'rider',
+              city: globalObject.props.App.userCurrentLocationMetaData.city,
             });
-            //3. Request for any shared ride - if any - and if not ride is in progress
-            if (
-              globalObject.props.App.sharedSimplifiedLink !== undefined &&
-              globalObject.props.App.sharedSimplifiedLink !== null &&
-              globalObject.props.App.sharedSimplifiedLink.length > 0
-            ) {
-              globalObject.props.App.socket.emit(
-                'getSharedTrip_information_io',
-                {
-                  sharedTo_user_fingerprint:
-                    globalObject.props.App.user_fingerprint,
-                  trip_simplified_id:
-                    globalObject.props.App.sharedSimplifiedLink,
-                },
-              );
-            }
-          } //Kill the persister
-          else {
-            globalObject.props.App.intervalProgressLoop = false;
-            globalObject.props.App.isRideInProgress = true;
-            //...
-            clearInterval(globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER);
-            if (globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER !== null) {
-              globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = null;
-            }
-            //! Kick start the specific loop in case
-            if (globalObject.props.App.intervalProgressLoop === false) {
-              globalObject.props.App.intervalProgressLoop = setInterval(
-                function () {
-                  if (globalObject.props.App.isRideInProgress === true) {
-                    globalObject.GPRS_resolver();
-                    globalObject.updateRemoteLocationsData();
-                  } //clear interval
-                  else {
-                    clearInterval(globalObject.props.App.intervalProgressLoop);
-                  }
-                },
-                1500,
-              );
-            }
-          }*/
+          }
         },
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
       );
@@ -884,6 +848,27 @@ class Home extends React.PureComponent {
 
     //Bind the requests interval persister
     this.bindRequest_findFetcher();
+
+    /**
+     * @socket getAdsManagerRunningInfos_io
+     * Get any running AD information
+     * Responsible for getting any running AD information.
+     */
+    this.props.App.socket.on(
+      'getAdsManagerRunningInfos_io-response',
+      function (response) {
+        if (
+          response.response === undefined &&
+          response.campaign_name !== undefined &&
+          response.campaign_name !== null
+        ) {
+          globalObject.props.UpdateADGetData(response);
+        } //No data
+        else {
+          globalObject.props.UpdateADGetData(null);
+        }
+      },
+    );
 
     /**
      * @socket getRiders_walletInfos_io-response
@@ -3577,7 +3562,25 @@ class Home extends React.PureComponent {
               left: 20,
             }}>
             <TouchableOpacity
-              onPress={() => this.props.navigation.openDrawer()}
+              onPress={() => {
+                //? Gather Ad analytics *************************************************
+                if (
+                  this.props.App.ad_vars !== undefined &&
+                  this.props.App.ad_vars !== null &&
+                  this.props.App.ad_vars.compaign_id !== undefined &&
+                  this.props.App.ad_vars.compaign_id !== null
+                ) {
+                  this.props.App.socket.emit('gatherAdsManagerAnalytics_io', {
+                    user_fingerprint: this.props.App.user_fingerprint,
+                    user_nature: 'rider',
+                    screen_identifier: 'BottomDrawer',
+                    company_identifier: this.props.App.ad_vars.company_id,
+                    campaign_identifier: this.props.App.ad_vars.compaign_id,
+                  });
+                }
+                //? *********************************************************************
+                this.props.navigation.openDrawer();
+              }}
               style={{
                 backgroundColor: '#fff',
                 width: 50,
@@ -3849,6 +3852,7 @@ const mapDispatchToProps = (dispatch) =>
       UpdateDropoffDataFor_driverRating,
       UpdateTotalWalletAmount,
       UpdateKeyboardStateGlobal,
+      UpdateADGetData,
     },
     dispatch,
   );

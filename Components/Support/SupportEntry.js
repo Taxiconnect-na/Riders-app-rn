@@ -54,6 +54,22 @@ class SupportEntry extends React.PureComponent {
             return true;
           },
         );
+        //? Gather Ad analytics *************************************************
+        if (
+          this.props.App.ad_vars !== undefined &&
+          this.props.App.ad_vars !== null &&
+          this.props.App.ad_vars.compaign_id !== undefined &&
+          this.props.App.ad_vars.compaign_id !== null
+        ) {
+          globalObject.props.App.socket.emit('gatherAdsManagerAnalytics_io', {
+            user_fingerprint: globalObject.props.App.user_fingerprint,
+            user_nature: 'rider',
+            screen_identifier: 'BottomSupport',
+            company_identifier: globalObject.props.App.ad_vars.company_id,
+            campaign_identifier: globalObject.props.App.ad_vars.compaign_id,
+          });
+        }
+        //? *********************************************************************
         //Add home going back handler-----------------------------
         globalObject._navigatorEvent = globalObject.props.navigation.addListener(
           'beforeRemove',

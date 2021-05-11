@@ -421,3 +421,13 @@ export const UpdateTripStatusState = (tripStatus) => ({
   type: 'UPDATE_TRIP_STATUS_REQUEST',
   payload: tripStatus,
 });
+
+/**
+ * 50. Update the AD get data
+ * Responsible for updating the advertisement get data.
+ * @param advertData: Ad data coming straigth from the server
+ */
+export const UpdateADGetData = (advertData) => ({
+  type: 'UPDATE_AD_GET_DATA',
+  payload: advertData,
+});
