@@ -24,14 +24,11 @@ class EntryScreen extends React.PureComponent {
 
   async componentDidMount() {
     //Add home going back handler-----------------------------
-    this.backListener = this.props.navigation.addListener(
-      'beforeRemove',
-      (e) => {
-        // Prevent default behavior of leaving the screen
-        e.preventDefault();
-        return;
-      },
-    );
+    this.props.navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+      return;
+    });
     //--------------------------------------------------------
     //Check for the user_fp
     //Get persisted data and update the general state

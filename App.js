@@ -15,12 +15,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import RootScreens from './Navigation/RootScreens';
 import config from './Components/Helpers/config';
 import StorageManager from './Components/Helpers/StorageManager';
-//import {enableScreens} from 'react-native-screens';
+import {enableScreens} from 'react-native-screens';
 import OneSignal from 'react-native-onesignal';
 import SyncStorage from 'sync-storage';
 import SplashScreen from 'react-native-splash-screen';
 
-//enableScreens();
+enableScreens();
 //import {LogBox} from 'react-native';
 
 //LogBox.ignoreAllLogs();
@@ -54,13 +54,15 @@ class App extends React.PureComponent {
     OneSignal.setNotificationOpenedHandler((notification) => {});
     OneSignal.addSubscriptionObserver((event) => {});
     OneSignal.addPermissionObserver((event) => {});
-    const deviceState = await OneSignal.getDeviceState();
-    //Save the push notif object
-    try {
-      if (deviceState.userId !== undefined && deviceState.userId !== null) {
-        SyncStorage.set('@pushnotif_token_global_obj', deviceState);
-      }
-    } catch (error) {}
+    if (OneSignal !== null && OneSignal !== undefined) {
+      const deviceState = await OneSignal.getDeviceState();
+      //Save the push notif object
+      try {
+        if (deviceState.userId !== undefined && deviceState.userId !== null) {
+          SyncStorage.set('@pushnotif_token_global_obj', deviceState);
+        }
+      } catch (error) {}
+    }
   }
 
   render() {

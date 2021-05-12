@@ -320,11 +320,12 @@ class OTPVerificationEntry extends React.PureComponent {
               globalObject.state.accountCreation_state = 'full';
               //? Check the state of the account creation
 
-              if (Platform.OS === 'android') {
+              /*if (Platform.OS === 'android') {
                 globalObject.props.navigation.push('Home');
               } else {
                 globalObject.props.navigation.navigate('Home');
-              }
+              }*/
+              globalObject.props.navigation.navigate('Home');
             } //Minimal account - go to complete details
             else {
               //! Save the user_fp and the rest of the globals

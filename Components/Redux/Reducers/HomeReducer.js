@@ -801,6 +801,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
               newState.search_showSearchNodeMain = true;
               //! Mark default car selected to false
               newState.wasRideChoosedByDefault = false;
+              //! Restore pickup location the the current one
+              newState.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = true;
             } //Hide search module
             else {
               newState.isSearchModuleOn = false;
@@ -1011,6 +1013,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) - 1
               ] === 'selectDestination'
             ) {
+              //! Restore pickup location the the current one
+              newState.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = true;
               //Reset custom pickup location to current location
               newState.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = true; //Disable custom pickup
               newState.search_pickupLocationInfos.passenger0Destination = false; //Reset the location details
@@ -1266,6 +1270,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
               newState.search_showSearchNodeMain = true;
               //! Mark default car selected to false
               newState.wasRideChoosedByDefault = false;
+              //! Restore pickup location the the current one
+              newState.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = true;
             } //Hide search module
             else {
               newState.isSearchModuleOn = false;
@@ -1497,6 +1503,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) - 1
               ] === 'selectDestination'
             ) {
+              //! Restore pickup location the the current one
+              newState.search_pickupLocationInfos.isBeingPickedupFromCurrentLocation = true;
               newState.pricingVariables.didPricingReceivedFromServer = false; //! Reset did receive pricing
               //! Mark default car selected to false
               newState.wasRideChoosedByDefault = false;

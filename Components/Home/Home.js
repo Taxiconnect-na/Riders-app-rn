@@ -30,6 +30,7 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import ErrorModal from '../Helpers/ErrorModal';
 import NetInfo from '@react-native-community/netinfo';
 import Search from '../Modules/Search/Components/Search';
+import OneSignal from 'react-native-onesignal';
 import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 //Import of action creators
 import {
@@ -86,6 +87,11 @@ class Home extends React.PureComponent {
     this.state = {
       networkStateChecker: false,
     };
+    OneSignal.setAppId('05ebefef-e2b4-48e3-a154-9a00285e394b');
+    OneSignal.setRequiresUserPrivacyConsent(false);
+    if (Platform.OS === 'ios') {
+      OneSignal.promptForPushNotificationsWithUserResponse((response) => {});
+    }
   }
 
   _RESET_STATE() {
@@ -655,9 +661,38 @@ class Home extends React.PureComponent {
               city: globalObject.props.App.userCurrentLocationMetaData.city,
             });
           }
+
+          //5. NOTIFICATIONS
+          globalObject.getNotifications_vars();
         },
         globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER_TIME,
       );
+    }
+  }
+
+  /**
+   * @func getNotifications_vars
+   * Responsible for updadting the notifications vars to the local storage.
+   */
+  async getNotifications_vars() {
+    OneSignal.setNotificationWillShowInForegroundHandler(
+      (notifReceivedEvent) => {},
+    );
+    OneSignal.setNotificationWillShowInForegroundHandler(
+      (notifReceivedEvent) => {},
+    );
+    OneSignal.setNotificationOpenedHandler((notification) => {});
+    OneSignal.addSubscriptionObserver((event) => {});
+    OneSignal.addPermissionObserver((event) => {});
+    if (OneSignal !== null && OneSignal !== undefined) {
+      const deviceState = await OneSignal.getDeviceState();
+      //Save the push notif object
+      try {
+        if (deviceState.userId !== undefined && deviceState.userId !== null) {
+          //SyncStorage.set('@pushnotif_token_global_obj', deviceState);
+          this.props.App.pushnotif_token = deviceState;
+        }
+      } catch (error) {}
     }
   }
 
@@ -681,6 +716,17 @@ class Home extends React.PureComponent {
   async componentDidMount() {
     let globalObject = this;
     this.forceUpdate();
+
+    this.props.navigation.addListener('focus', () => {
+      if (
+        globalObject.props.App.user_fingerprint === null ||
+        globalObject.props.App.user_fingerprint === undefined
+      ) {
+        //Logged out user
+        globalObject.props.UpdateErrorModalLog(false, false, 'any');
+        globalObject.props.navigation.navigate('EntryScreen');
+      }
+    });
 
     //Add keyboard listeners
     Keyboard.addListener('keyboardDidShow', this.keyboardStateUpdater(true));

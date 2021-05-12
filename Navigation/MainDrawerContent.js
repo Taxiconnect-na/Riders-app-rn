@@ -67,11 +67,7 @@ export function MainDrawerContent(props) {
             />
           </TouchableOpacity>
         </ScrollView>
-        <AdManager
-          marginBottom={'3%'}
-          borderRadius={7}
-          paddingLeftBasic={true}
-        />
+        <AdManager marginBottom={'3%'} paddingLeftBasic={true} />
         <View style={styles.footerDrawer}>
           <Text
             onPress={() =>
@@ -98,7 +94,7 @@ export function MainDrawerContent(props) {
               color: '#AFAFAF',
               textAlign: 'right',
             }}>
-            v2.1.375
+            v2.1.379
           </Text>
         </View>
       </SafeAreaView>
