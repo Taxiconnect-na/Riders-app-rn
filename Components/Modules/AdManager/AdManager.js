@@ -30,7 +30,12 @@ class AdManager extends React.PureComponent {
         {this.props.App.ad_vars !== null &&
         this.props.App.ad_vars !== undefined ? (
           <TouchableOpacity
-            onPress={() => Linking.openURL('https://www.taxiconnectna.com/')}
+            onPress={() =>
+              this.props.App.ad_vars.afterClick_url !== null &&
+              this.props.App.ad_vars.afterClick_url !== undefined
+                ? Linking.openURL(this.props.App.ad_vars.afterClick_url)
+                : {}
+            }
             style={[
               styles.mainContainer,
               {
