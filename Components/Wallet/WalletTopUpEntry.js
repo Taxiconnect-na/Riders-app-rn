@@ -271,7 +271,7 @@ class WalletTopUpEntry extends React.PureComponent {
               </View>
             </ScrollView>
           </View>
-          <AdManager paddingLeft={20} />
+          <AdManager paddingLeft={20} paddingRight={20} borderRadius={7} />
         </SafeAreaView>
       </DismissKeyboard>
     );

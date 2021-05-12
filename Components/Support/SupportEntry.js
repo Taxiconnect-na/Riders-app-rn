@@ -215,7 +215,7 @@ class SupportEntry extends React.PureComponent {
                 </Text>
               </TouchableOpacity>
             </View>
-            <AdManager />
+            <AdManager borderRadius={7} />
           </ScrollView>
         ) : null}
       </>

@@ -41,11 +41,22 @@ class AdManager extends React.PureComponent {
               {
                 marginBottom:
                   this.props.marginBottom !== undefined
-                    ? this.props.marginBottom
+                    ? this.props.App.ad_vars.is_banner
+                      ? 0
+                      : this.props.marginBottom
                     : 0,
                 marginLeft:
-                  this.props.paddingLeft !== undefined
+                  this.props.paddingLeftBasic !== undefined &&
+                  this.props.paddingLeftBasic
+                    ? this.props.App.ad_vars.is_banner
+                      ? 0
+                      : 20
+                    : this.props.paddingLeft !== undefined
                     ? this.props.paddingLeft
+                    : 0,
+                marginRight:
+                  this.props.paddingRight !== undefined
+                    ? this.props.paddingRight
                     : 0,
                 paddingBottom:
                   this.props.paddingBottom !== undefined
@@ -57,46 +68,71 @@ class AdManager extends React.PureComponent {
                   this.props.iconOnly === false
                     ? 'flex-start'
                     : 'center',
+                borderRadius:
+                  this.props.borderRadius !== undefined
+                    ? this.props.borderRadius
+                    : 0,
+                height: this.props.App.ad_vars.is_banner ? 65 : 45,
               },
             ]}>
-            <View style={styles.logoContainer}>
+            <View
+              style={[
+                styles.logoContainer,
+                {
+                  borderRadius:
+                    this.props.borderRadius !== undefined
+                      ? this.props.borderRadius
+                      : 0,
+                  width: this.props.App.ad_vars.is_banner ? '100%' : 50,
+                  marginRight: this.props.App.ad_vars.is_banner ? 0 : '1%',
+                },
+              ]}>
               <FastImage
                 source={{
                   uri: this.props.App.ad_vars.media.logo,
                   priority: FastImage.priority.normal,
                 }}
-                resizeMode={FastImage.resizeMode.contain}
-                style={{width: '100%', height: '100%'}}
+                resizeMode={FastImage.resizeMode.cover}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius:
+                    this.props.borderRadius !== undefined
+                      ? this.props.borderRadius
+                      : 0,
+                }}
               />
             </View>
-            {this.props.iconOnly === undefined ||
-            this.props.iconOnly === false ? (
-              <View style={styles.textsContainer}>
-                {this.props.App.ad_vars.texts_specs.is_big_text_visible ? (
-                  <Text
-                    style={[
-                      styles.bigText,
-                      {
-                        color: this.props.App.ad_vars.texts_specs
-                          .big_text_color,
-                      },
-                    ]}>
-                    {this.props.App.ad_vars.media.big_text}
-                  </Text>
-                ) : null}
-                {this.props.App.ad_vars.texts_specs.is_small_text_visible ? (
-                  <Text
-                    style={[
-                      styles.descText,
-                      {
-                        color: this.props.App.ad_vars.texts_specs
-                          .small_text_color,
-                      },
-                    ]}>
-                    {this.props.App.ad_vars.media.small_text}
-                  </Text>
-                ) : null}
-              </View>
+            {this.props.App.ad_vars.is_banner === false ? (
+              this.props.iconOnly === undefined ||
+              this.props.iconOnly === false ? (
+                <View style={styles.textsContainer}>
+                  {this.props.App.ad_vars.texts_specs.is_big_text_visible ? (
+                    <Text
+                      style={[
+                        styles.bigText,
+                        {
+                          color: this.props.App.ad_vars.texts_specs
+                            .big_text_color,
+                        },
+                      ]}>
+                      {this.props.App.ad_vars.media.big_text}
+                    </Text>
+                  ) : null}
+                  {this.props.App.ad_vars.texts_specs.is_small_text_visible ? (
+                    <Text
+                      style={[
+                        styles.descText,
+                        {
+                          color: this.props.App.ad_vars.texts_specs
+                            .small_text_color,
+                        },
+                      ]}>
+                      {this.props.App.ad_vars.media.small_text}
+                    </Text>
+                  ) : null}
+                </View>
+              ) : null
             ) : null}
           </TouchableOpacity>
         ) : null}
@@ -107,16 +143,16 @@ class AdManager extends React.PureComponent {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    height: 40,
+    height: 65,
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
+    //width: '100%',
   },
   logoContainer: {
     height: '100%',
-    width: 50,
-    marginRight: '1%',
+    //marginRight: '1%',
     backgroundColor: '#fff',
+    //borderWidth: 1,
   },
   textsContainer: {
     flex: 1,

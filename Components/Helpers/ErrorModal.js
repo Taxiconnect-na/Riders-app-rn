@@ -3649,7 +3649,12 @@ class ErrorModal extends React.PureComponent {
                 </View>
               </View>
             </ScrollView>
-            <AdManager paddingLeft={20} paddingBottom={'3%'} />
+            <AdManager
+              paddingLeft={20}
+              paddingRight={20}
+              borderRadius={5}
+              bottom={'3%'}
+            />
             <View
               style={{
                 width: '100%',
