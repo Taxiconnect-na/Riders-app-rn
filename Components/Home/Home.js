@@ -173,7 +173,7 @@ class Home extends React.PureComponent {
                     enableHighAccuracy: true,
                     timeout: 2000,
                     maximumAge: 1000,
-                    distanceFilter: 3,
+                    distanceFilter: 0,
                   },
                 );
                 this.props.App.isMapPermitted = true;
@@ -223,7 +223,7 @@ class Home extends React.PureComponent {
                       enableHighAccuracy: true,
                       timeout: 2000,
                       maximumAge: 10000,
-                      distanceFilter: 3,
+                      distanceFilter: 0,
                     },
                   );
                 }
@@ -303,7 +303,7 @@ class Home extends React.PureComponent {
                   enableHighAccuracy: true,
                   timeout: 5000,
                   maximumAge: 1000,
-                  distanceFilter: 3,
+                  distanceFilter: 0,
                 },
               );
               this.props.App.isMapPermitted = true;
@@ -398,7 +398,7 @@ class Home extends React.PureComponent {
                       enableHighAccuracy: true,
                       timeout: 5000,
                       maximumAge: 1000,
-                      distanceFilter: 3,
+                      distanceFilter: 0,
                     },
                   );
                   this.props.App.isMapPermitted = true;
@@ -439,7 +439,7 @@ class Home extends React.PureComponent {
                       enableHighAccuracy: true,
                       timeout: 5000,
                       maximumAge: 10000,
-                      distanceFilter: 3,
+                      distanceFilter: 0,
                     },
                   );
                   //Check the zoom level
@@ -518,7 +518,7 @@ class Home extends React.PureComponent {
                       enableHighAccuracy: true,
                       timeout: 5000,
                       maximumAge: 1000,
-                      distanceFilter: 3,
+                      distanceFilter: 0,
                     },
                   );
                   this.props.App.isMapPermitted = true;
@@ -572,7 +572,7 @@ class Home extends React.PureComponent {
                         enableHighAccuracy: true,
                         timeout: 5000,
                         maximumAge: 10000,
-                        distanceFilter: 3,
+                        distanceFilter: 0,
                       },
                     );
                   }
@@ -2177,7 +2177,7 @@ class Home extends React.PureComponent {
           enableHighAccuracy: true,
           timeout: 2000,
           maximumAge: 1000,
-          distanceFilter: 3,
+          distanceFilter: 0,
         },
       );
     }

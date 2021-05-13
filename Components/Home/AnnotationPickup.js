@@ -63,7 +63,9 @@ class AnnotationPickup extends React.PureComponent {
                 },
               ]}>
               {this.props.title.length > 17
-                ? this.props.title.substring(0, 17) + '.'
+                ? /Samora Machel Constituency/i.test(this.props.title)
+                  ? 'Wanaheda'
+                  : `${this.props.title.substring(0, 17)} .`
                 : this.props.title}
             </Text>
           </View>

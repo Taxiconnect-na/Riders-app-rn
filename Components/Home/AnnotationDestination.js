@@ -8,6 +8,8 @@ class AnnotationDestination extends React.PureComponent {
   }
 
   render() {
+    //? Replace Samora Machel Constituency by Wanaheda
+
     return (
       <View
         style={{
@@ -90,7 +92,9 @@ class AnnotationDestination extends React.PureComponent {
                   },
                 ]}>
                 {this.props.title.length > 17
-                  ? this.props.title.substring(0, 17) + '.'
+                  ? /Samora Machel Constituency/i.test(this.props.title)
+                    ? 'Wanaheda'
+                    : `${this.props.title.substring(0, 17)} .`
                   : this.props.title}
               </Text>
             </View>

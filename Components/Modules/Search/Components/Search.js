@@ -648,7 +648,9 @@ class Search extends React.PureComponent {
                             flex: 1,
                           },
                         ]}>
-                        {item.location_name}
+                        {/Samora Machel Constituency/i.test(item.location_name)
+                          ? 'Wanaheda'
+                          : item.location_name}
                       </Text>
                       <View
                         style={{
