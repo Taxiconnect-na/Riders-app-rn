@@ -624,6 +624,11 @@ class Search extends React.PureComponent {
               ? null
               : this.renderFavoritePlaces()
             : this.props.App.search_metadataResponse.map((item, index) => {
+                item.location_name = /Samora Machel Constituency/i.test(
+                  item.location_name,
+                )
+                  ? 'Wanaheda'
+                  : item.location_name;
                 return (
                   <TouchableOpacity
                     key={index + 1}
