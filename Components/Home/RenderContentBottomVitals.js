@@ -531,7 +531,14 @@ class RenderContentBottomVitals extends React.PureComponent {
     } //Still loading
     else {
       //Include the interval persister
-      if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
+      //Initial request of the location nature
+      globalObject.props.App.socket.emit('getPickupLocationNature', {
+        latitude: globalObject.props.App.latitude,
+        longitude: globalObject.props.App.longitude,
+        user_fingerprint: globalObject.props.App.user_fingerprint,
+      });
+      //...
+      /*if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
         //Initial request of the location nature
         globalObject.props.App.socket.emit('getPickupLocationNature', {
           latitude: globalObject.props.App.latitude,
@@ -554,7 +561,7 @@ class RenderContentBottomVitals extends React.PureComponent {
             globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
           }
         }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 1500);
-      }
+      }*/
 
       AnimatedNative.parallel([
         AnimatedNative.timing(
@@ -2013,60 +2020,46 @@ class RenderContentBottomVitals extends React.PureComponent {
         this.findPreviewRouteToDestination();
       }
       //...
-      if (this.props.App._TMP_INTERVAL_PERSISTER === null && initialCondition) {
+      if (initialCondition) {
         //Make an initial preview to destination request
         this.findPreviewRouteToDestination();
         this.props.parentNode.fire_search_animation(); //Fire animation
-        this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
+        //this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
+        if (
+          globalObject.props.App.previewDestinationData
+            .originDestinationPreviewData === false ||
+          globalObject.props.App.previewDestinationData
+            .originDestinationPreviewData === undefined
+        ) {
           if (
-            globalObject.props.App.previewDestinationData
-              .originDestinationPreviewData === false ||
-            globalObject.props.App.previewDestinationData
-              .originDestinationPreviewData === undefined
+            globalObject.props.App.search_passengersDestinations
+              .passenger1Destination !== false
           ) {
             if (
-              globalObject.props.App.search_passengersDestinations
-                .passenger1Destination !== false
+              globalObject.props.App.previewDestinationData
+                .originDestinationPreviewData.routePoints === undefined ||
+              globalObject.props.App.previewDestinationData
+                .originDestinationPreviewData.routePoints === false ||
+              globalObject.props.App.previewDestinationData
+                .originDestinationPreviewData.routePoints === null
             ) {
-              if (
-                globalObject.props.App.previewDestinationData
-                  .originDestinationPreviewData.routePoints === undefined ||
-                globalObject.props.App.previewDestinationData
-                  .originDestinationPreviewData.routePoints === false ||
-                globalObject.props.App.previewDestinationData
-                  .originDestinationPreviewData.routePoints === null
-              ) {
-                //Not found yet -make a request
-                globalObject.findPreviewRouteToDestination();
-              } //Data already received - kill interval
-              else {
-                if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-                  clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-                  globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-                  globalObject.props.parentNode.resetAnimationLoader();
-                }
-              }
-            } else {
-              if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-                clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-                globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-              }
-            }
-          } //Data already received - kill interval
-          else {
-            if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-              clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-              globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+              //Not found yet -make a request
+              globalObject.findPreviewRouteToDestination();
+            } //Data already received - kill interval
+            else {
               globalObject.props.parentNode.resetAnimationLoader();
             }
+          } else {
+            globalObject.props.parentNode.resetAnimationLoader();
           }
-        }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 500);
-      } else {
-        if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-          clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-          globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
-          //globalObject.props.parentNode.resetAnimationLoader();
+        } //Data already received - kill interval
+        else {
+          globalObject.props.parentNode.resetAnimationLoader();
         }
+        //}, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 500);
+      } else {
+        //? Do nothing
+        globalObject.props.parentNode.resetAnimationLoader();
       }
       //...
       return (
