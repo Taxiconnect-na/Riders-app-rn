@@ -196,6 +196,7 @@ class ErrorModal extends React.PureComponent {
             : this.props.App.generalTRIP_details_driverDetails.request_fp,
         user_fingerprint: this.props.App.user_fingerprint,
       };
+      console.trace(this.props.App.generalTRIP_details_driverDetails);
       ///...
       this.props.App.socket.emit('cancelRiders_request_io', bundleData);
     } //Invalid request fp - close the modal

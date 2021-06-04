@@ -627,6 +627,7 @@ class Home extends React.PureComponent {
     let globalObject = this;
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
+      console.log('Initialized');
       globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
         function () {
           //...
@@ -704,10 +705,6 @@ class Home extends React.PureComponent {
     this.props.UpdateKeyboardStateGlobal(state);
   }
 
-  componentDidUpdate() {
-    this.bindRequest_findFetcher();
-  }
-
   /**
    * @func componentDidMount
    * Main mounting point of the app
@@ -722,6 +719,7 @@ class Home extends React.PureComponent {
         globalObject.props.App.user_fingerprint === null ||
         globalObject.props.App.user_fingerprint === undefined
       ) {
+        globalObject.bindRequest_findFetcher();
         //Logged out user
         globalObject.props.UpdateErrorModalLog(false, false, 'any');
         globalObject.props.navigation.navigate('EntryScreen');
@@ -1035,6 +1033,7 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
+      //console.log(response);
       try {
         //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (
