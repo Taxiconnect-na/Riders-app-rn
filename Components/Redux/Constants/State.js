@@ -59,7 +59,7 @@ const STATE = {
   //Will contain temporary variables that will be responsible for perisisting requests when the desired answer is
   //Not received yet.
   _TMP_INTERVAL_PERSISTER: null, //can be a setINterval or timeout - default: null
-  _TMP_INTERVAL_PERSISTER_TIME: 1500, //THe frequency of repetition - default: 1.5s
+  _TMP_INTERVAL_PERSISTER_TIME: 2000, //THe frequency of repetition - default: 2s
   //Interval persister for updating closest drivers on map
   _TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS: null, //To update the closest drivers on the map
   _TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS: 3000,
