@@ -27,6 +27,7 @@ import SettingsEntryScreen from '../Components/Settings/SettingsEntryScreen';
 import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryScreen';
 import OTPVerificationGeneric from '../Components/Settings/OTPVerificationGeneric';
 import SupportEntry from '../Components/Support/SupportEntry';
+import ReferralEntry from '../Components/Referral/ReferralEntry';
 import {MainDrawerContent} from './MainDrawerContent';
 import Splash from '../Components/Login/Splash';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -299,6 +300,31 @@ function Support_drawer() {
   );
 }
 
+//d. Referral
+function Referral_drawer() {
+  return (
+    <Stack.Navigator
+      initialRouteName="ReferralEntry"
+      screenOptions={{...TransitionPresets.SlideFromRightIOS}}>
+      <Stack.Screen
+        name="ReferralEntry"
+        component={ReferralEntry}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerBackTitle: 'Back',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.genericHeader}>Make money</Text>
+            </View>
+          ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function SettingsDrawer_navigator() {
   return (
     <Stack.Navigator
@@ -352,7 +378,7 @@ function SettingsDrawer_navigator() {
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Home_drawer"
+      initialRouteName="Referral_drawer"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen
@@ -365,6 +391,7 @@ function MainDrawer_navigator() {
         name="SettingsEntryScreen"
         component={SettingsDrawer_navigator}
       />
+      <Drawer.Screen name="Referral_drawer" component={Referral_drawer} />
       <Drawer.Screen name="Support_drawer" component={Support_drawer} />
     </Drawer.Navigator>
   );

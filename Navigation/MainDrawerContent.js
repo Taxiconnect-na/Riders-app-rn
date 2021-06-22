@@ -57,6 +57,16 @@ export function MainDrawerContent(props) {
             />
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => propKing.navigation.navigate('Referral_drawer')}
+            style={[styles.menuItem, {paddingTop: 10}]}>
+            <Text style={styles.menuTitles}>Make money</Text>
+            <IconMaterialIcons
+              name="keyboard-arrow-right"
+              color="#AFAFAF"
+              size={20}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => propKing.navigation.navigate('Support_drawer')}
             style={[styles.menuItem, {paddingTop: 10, borderBottomWidth: 0}]}>
             <Text style={styles.menuTitles}>Support</Text>

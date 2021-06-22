@@ -65,6 +65,24 @@ class ErrorModal extends React.PureComponent {
       tmpString: null, //Responsible to be used template string for the new values.
       errorString_template: 'An error occured', //TO hold any kind of string error
       isErrorThrown: false, //To know whether or not an error was thrown.
+      //Will contain all the temporary information about a referral
+      referral_infos: {
+        driver_infos: {
+          taxi_number: null,
+          name: null,
+          phone_number: null,
+        },
+        step_name: 'enterTaxiNumber', //The name of the current step window: enterTaxiNumber, enterFullDetails, successfullyReferred, alreadyReferred, isADriver
+        request_status: null, //The status of the request: null, successful, alreadyReferred, isADriver
+        showErrors: {
+          taxi_number: false,
+          driver_name: false,
+        }, //Whether or now to show the error strings of the corresponding fields.
+        errorsStrings: {
+          taxi_number: null,
+          driver_name: null,
+        }, //Errors strings of the corresponding fields.
+      },
     };
 
     this.signOff_theApp = this.signOff_theApp.bind(this);
@@ -4282,9 +4300,804 @@ class ErrorModal extends React.PureComponent {
           </View>
         </View>
       );
+    } else if (/show_refer_driver_dialog/i.test(error_status)) {
+      //! DEBUG INFOS
+      //this.state.referral_infos.step_name = 'error_whileReferring';
+      //! -------------
+      return (
+        <SafeAreaView
+          style={{
+            backgroundColor: '#fff',
+            flex: 1,
+          }}>
+          <View style={styles.presentationWindow}>
+            {/**Refer a driver: enter taxi number */}
+            {/enterTaxiNumber/i.test(this.state.referral_infos.step_name) ? (
+              <>
+                <View
+                  style={{
+                    padding: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt name="arrowleft" size={25} />
+                    </View>
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(24),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'MoveBold'
+                            : 'Uber Move Bold',
+                        marginTop: 15,
+                      },
+                    ]}>
+                    Refer a driver
+                  </Text>
+                </View>
+                <View style={{padding: 20, flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(16),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        marginBottom: '7%',
+                        color: '#525252',
+                      },
+                    ]}>
+                    Please enter the Taxi number of the driver that you wish to
+                    refer.
+                  </Text>
+                  <TextInput
+                    placeholderTextColor="#AFAFAF"
+                    editable={!this.state.isLoading_something}
+                    placeholder="What's the Taxi number?"
+                    value={
+                      this.state.referral_infos.driver_infos.taxi_number !==
+                        null &&
+                      this.state.referral_infos.driver_infos.taxi_number !==
+                        undefined
+                        ? this.state.referral_infos.driver_infos.taxi_number
+                        : ''
+                    }
+                    onChangeText={(text) => {
+                      this.state.referral_infos.showErrors.taxi_number = false;
+                      this.state.referral_infos.driver_infos.taxi_number = text.trim();
+                      this.forceUpdate();
+                    }}
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(19.5),
+                      borderBottomWidth: 1.7,
+                      paddingLeft: 0,
+                      paddingBottom: 15,
+                    }}
+                  />
+                  {this.state.referral_infos.showErrors.taxi_number ? (
+                    <Text
+                      style={[
+                        {
+                          fontSize: RFValue(16),
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          marginTop: '4%',
+                          color: '#b22222',
+                        },
+                      ]}>
+                      {this.state.referral_infos.errorsStrings.taxi_number !==
+                        null &&
+                      this.state.referral_infos.errorsStrings.taxi_number !==
+                        undefined
+                        ? this.state.referral_infos.errorsStrings.taxi_number
+                        : ''}
+                    </Text>
+                  ) : null}
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    height: 100,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.state.isLoading_something === false
+                        ? this.moveForward_WithReferral_steps(
+                            'enterFullDetails',
+                          )
+                        : {}
+                    }
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <View style={[styles.bttnGenericTc, {flex: 1}]}>
+                      {this.state.isLoading_something === false ? (
+                        <Text
+                          style={[
+                            {
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextMedium'
+                                  : 'Uber Move Text Medium',
+                              fontSize: RFValue(22),
+                              color: '#fff',
+                              flex: 1,
+                              textAlign: 'center',
+                            },
+                          ]}>
+                          Next
+                        </Text>
+                      ) : (
+                        <GenericLoader
+                          active={this.state.isLoading_something}
+                          thickness={5}
+                        />
+                      )}
+                      <IconCommunity
+                        name="arrow-right"
+                        color={'#fff'}
+                        size={28}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : /enterFullDetails/i.test(
+                this.state.referral_infos.step_name,
+              ) ? (
+              <>
+                <View
+                  style={{
+                    padding: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt name="arrowleft" size={25} />
+                    </View>
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(24),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'MoveBold'
+                            : 'Uber Move Bold',
+                        marginTop: 15,
+                      },
+                    ]}>
+                    Refer a driver
+                  </Text>
+                </View>
+                <View style={{padding: 20, flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(16),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        marginBottom: '7%',
+                        color: '#525252',
+                      },
+                    ]}>
+                    Please fill in the remaining information in order to
+                    complete your referral.
+                  </Text>
+                  {/**Name */}
+                  <TextInput
+                    placeholderTextColor="#AFAFAF"
+                    autoFocus={true}
+                    editable={!this.state.isLoading_something}
+                    placeholder="Driver's name"
+                    value={
+                      this.state.referral_infos.driver_infos.name !== null &&
+                      this.state.referral_infos.driver_infos.name !== undefined
+                        ? this.state.referral_infos.driver_infos.name
+                        : ''
+                    }
+                    onChangeText={(text) => {}}
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(19.5),
+                      borderBottomWidth: 1.7,
+                      paddingLeft: 0,
+                      paddingBottom: 10,
+                      marginBottom: '10%',
+                    }}
+                  />
+                  {this.state.referral_infos.showErrors.driver_name ? (
+                    <Text
+                      style={[
+                        {
+                          fontSize: RFValue(16),
+                          fontFamily:
+                            Platform.OS === 'android'
+                              ? 'UberMoveTextRegular'
+                              : 'Uber Move Text',
+                          marginTop: '4%',
+                          marginBottom: '5%',
+                          color: '#b22222',
+                        },
+                      ]}>
+                      {this.state.referral_infos.errorsStrings.driver_name !==
+                        null &&
+                      this.state.referral_infos.errorsStrings.driver_name !==
+                        undefined
+                        ? this.state.referral_infos.errorsStrings.driver_name
+                        : ''}
+                    </Text>
+                  ) : null}
+                  {/**Phone */}
+                  <PhoneNumberInput autoFocus={false} />
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    height: 100,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => {}}
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <View style={[styles.bttnGenericTc, {flex: 1}]}>
+                      {this.state.isLoading_something === false ? (
+                        <Text
+                          style={[
+                            {
+                              fontFamily:
+                                Platform.OS === 'android'
+                                  ? 'UberMoveTextMedium'
+                                  : 'Uber Move Text Medium',
+                              fontSize: RFValue(22),
+                              color: '#fff',
+                              flex: 1,
+                              textAlign: 'center',
+                            },
+                          ]}>
+                          Refer
+                        </Text>
+                      ) : (
+                        <GenericLoader
+                          active={this.state.isLoading_something}
+                          thickness={5}
+                        />
+                      )}
+                      <IconCommunity
+                        name="arrow-right"
+                        color={'#fff'}
+                        size={28}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : /alreadyReferred/i.test(this.state.referral_infos.step_name) ? (
+              <>
+                <View
+                  style={{
+                    padding: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                    width: '100%',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt name="arrowleft" size={25} />
+                    </View>
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      marginBottom: '6%',
+                      marginTop: '7%',
+                    }}>
+                    <IconMaterialIcons
+                      name="error"
+                      color={'#b22222'}
+                      size={45}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(24),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'MoveMedium'
+                            : 'Uber Move Medium',
+                        marginTop: 15,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Driver already referred
+                  </Text>
+                </View>
+                <View style={{padding: 20, flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(18),
+                        flex: 1,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Sorry this driver was already referred by someone else,
+                    please try referring another driver.
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    height: 100,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <View style={[styles.bttnGenericTc, {flex: 1}]}>
+                      <Text
+                        style={[
+                          {
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(22),
+                            color: '#fff',
+                            flex: 1,
+                            textAlign: 'center',
+                          },
+                        ]}>
+                        Close
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : /isADriver/i.test(this.state.referral_infos.step_name) ? (
+              <>
+                <View
+                  style={{
+                    padding: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                    width: '100%',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt name="arrowleft" size={25} />
+                    </View>
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      marginBottom: '6%',
+                      marginTop: '7%',
+                    }}>
+                    <IconMaterialIcons
+                      name="check-circle"
+                      color={'#09864A'}
+                      size={45}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(24),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'MoveMedium'
+                            : 'Uber Move Medium',
+                        marginTop: 15,
+                        color: '#09864A',
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    TaxiConnect partner
+                  </Text>
+                </View>
+                <View style={{padding: 20, flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(18),
+                        flex: 1,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Sorry you can only refer drivers that are not yet
+                    TaxiConnect partners.
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    height: 100,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <View style={[styles.bttnGenericTc, {flex: 1}]}>
+                      <Text
+                        style={[
+                          {
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(22),
+                            color: '#fff',
+                            flex: 1,
+                            textAlign: 'center',
+                          },
+                        ]}>
+                        Close
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : /successfullyReferred/i.test(
+                this.state.referral_infos.step_name,
+              ) ? (
+              <>
+                <View
+                  style={{
+                    padding: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                    width: '100%',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt name="arrowleft" size={25} />
+                    </View>
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      marginBottom: '6%',
+                      marginTop: '7%',
+                    }}>
+                    <IconMaterialIcons
+                      name="check-circle"
+                      color={'#09864A'}
+                      size={45}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(24),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'MoveMedium'
+                            : 'Uber Move Medium',
+                        marginTop: 15,
+                        color: '#09864A',
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Successfully referred
+                  </Text>
+                </View>
+                <View style={{padding: 20, flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(18),
+                        flex: 1,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Congratulations you have successfully referred a driver (
+                    {this.state.referral_infos.driver_infos.taxi_number !==
+                      null &&
+                    this.state.referral_infos.driver_infos.taxi_number !==
+                      undefined
+                      ? this.state.referral_infos.driver_infos.taxi_number.toUpperCase()
+                      : 'Current'}
+                    ) after the registration of which you will be paid N$50.
+                  </Text>
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(18),
+                        color: '#fff',
+                        flex: 1,
+                        marginTop: '2%',
+                      },
+                    ]}>
+                    Thank you!
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    height: 100,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <View style={[styles.bttnGenericTc, {flex: 1}]}>
+                      <Text
+                        style={[
+                          {
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(22),
+                            color: '#fff',
+                            flex: 1,
+                            textAlign: 'center',
+                          },
+                        ]}>
+                        Close
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : /error_whileReferring/i.test(
+                this.state.referral_infos.step_name,
+              ) ? (
+              <>
+                <View
+                  style={{
+                    padding: 20,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                    width: '100%',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{top: 0}}>
+                      <IconAnt name="arrowleft" size={25} />
+                    </View>
+                  </TouchableOpacity>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      marginBottom: '6%',
+                      marginTop: '7%',
+                    }}>
+                    <IconMaterialIcons
+                      name="error"
+                      color={'#b22222'}
+                      size={45}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      {
+                        fontSize: RFValue(24),
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'MoveMedium'
+                            : 'Uber Move Medium',
+                        marginTop: 15,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Unable to refer the driver
+                  </Text>
+                </View>
+                <View style={{padding: 20, flex: 1}}>
+                  <Text
+                    style={[
+                      {
+                        fontFamily:
+                          Platform.OS === 'android'
+                            ? 'UberMoveTextRegular'
+                            : 'Uber Move Text',
+                        fontSize: RFValue(18),
+                        flex: 1,
+                        textAlign: 'center',
+                      },
+                    ]}>
+                    Sorry due to an unexpected error, we were unable to
+                    successfully complete your referral request. Please try
+                    again later.
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    alignItems: 'center',
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    height: 100,
+                  }}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.UpdateErrorModalLog(false, false, 'any')
+                    }
+                    style={{
+                      borderColor: 'transparent',
+                      width: '100%',
+                      justifyContent: 'center',
+                      flexDirection: 'row',
+                    }}>
+                    <View style={[styles.bttnGenericTc, {flex: 1}]}>
+                      <Text
+                        style={[
+                          {
+                            fontFamily:
+                              Platform.OS === 'android'
+                                ? 'UberMoveTextMedium'
+                                : 'Uber Move Text Medium',
+                            fontSize: RFValue(22),
+                            color: '#fff',
+                            flex: 1,
+                            textAlign: 'center',
+                          },
+                        ]}>
+                        Close
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : null}
+          </View>
+        </SafeAreaView>
+      );
     } else {
       this.props.UpdateErrorModalLog(false, false, 'any');
       return <></>;
+    }
+  }
+
+  /**
+   * @func moveForward_WithReferral_steps
+   * Responsible for managing the navigation flow of the referral windows and all the
+   * checkings and API calls in between.
+   * @param step: the step to be moved to -> enterTaxiNumber, enterFullDetails, alreadyReferred, isADriver, successfullyReferred, error_whileReferring
+   */
+  moveForward_WithReferral_steps(step) {
+    if (/enterTaxiNumber/i.test(step)) {
+      //Go back to the initial route
+      //?0 Move back the previous screen first!
+      let newState = this.state.referral_infos;
+      newState.step_name = step;
+      newState.driver_infos.name = null;
+      newState.driver_details.phone_number = null;
+      this.state.referral_infos = newState;
+      this.forceUpdate();
+      //1. Reset the generic and later state phone numbers
+      this.props.App.ResetGenericPhoneNumberInput();
+    } else if (/enterFullDetails/i.test(step)) {
+      //Move the full details entry if the checks are true
+      let newState = this.state.referral_infos;
+      //1. Check that the enterTaxiNumber field is not empty.
+      this.state.referral_infos.driver_infos.taxi_number =
+        this.state.referral_infos.driver_infos.taxi_number !== null &&
+        this.state.referral_infos.driver_infos.taxi_number !== undefined
+          ? this.state.referral_infos.driver_infos.taxi_number
+          : '';
+      if (this.state.referral_infos.driver_infos.taxi_number.length > 0) {
+        //2. Check the Taxi number free state and decide whether or not to move forward.
+        newState.step_name = step;
+        this.state.referral_infos = newState;
+        this.forceUpdate();
+      } //Empty taxi number
+      else {
+        //Show error empty taxi number
+        newState.errorsStrings.taxi_number =
+          'Please enter a Taxi number first.';
+        newState.showErrors.taxi_number = true;
+        //...
+        this.state.referral_infos = newState;
+        this.forceUpdate();
+      }
     }
   }
 
