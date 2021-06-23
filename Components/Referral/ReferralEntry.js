@@ -54,22 +54,6 @@ class ReferralEntry extends React.PureComponent {
             return true;
           },
         );
-        //? Gather Ad analytics *************************************************
-        if (
-          this.props.App.ad_vars !== undefined &&
-          this.props.App.ad_vars !== null &&
-          this.props.App.ad_vars.compaign_id !== undefined &&
-          this.props.App.ad_vars.compaign_id !== null
-        ) {
-          globalObject.props.App.socket.emit('gatherAdsManagerAnalytics_io', {
-            user_fingerprint: globalObject.props.App.user_fingerprint,
-            user_nature: 'rider',
-            screen_identifier: 'BottomSupport',
-            company_identifier: globalObject.props.App.ad_vars.company_id,
-            campaign_identifier: globalObject.props.App.ad_vars.compaign_id,
-          });
-        }
-        //? *********************************************************************
         //Add home going back handler-----------------------------
         globalObject._navigatorEvent = globalObject.props.navigation.addListener(
           'beforeRemove',
@@ -245,10 +229,12 @@ class ReferralEntry extends React.PureComponent {
               <IconCommunity name="arrow-right" color={'#fff'} size={28} />
             </TouchableOpacity>
             {/**Who did I refer? */}
-            <TouchableOpacity style={{flex: 1, marginTop: '10%'}}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('MyReferrals')}
+              style={{flex: 1, marginTop: '10%'}}>
               <Text
                 style={{
-                  fontSize: RFValue(16),
+                  fontSize: RFValue(17),
                   color: '#0e8491',
                   fontFamily:
                     Platform.OS === 'android'

@@ -28,6 +28,7 @@ import PersonalinfosEntryScreen from '../Components/Settings/PersonalinfosEntryS
 import OTPVerificationGeneric from '../Components/Settings/OTPVerificationGeneric';
 import SupportEntry from '../Components/Support/SupportEntry';
 import ReferralEntry from '../Components/Referral/ReferralEntry';
+import MyReferrals from '../Components/Referral/MyReferrals';
 import {MainDrawerContent} from './MainDrawerContent';
 import Splash from '../Components/Login/Splash';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -321,6 +322,21 @@ function Referral_drawer() {
           ),
         }}
       />
+      <Stack.Screen
+        name="MyReferrals"
+        component={MyReferrals}
+        options={{
+          headerShown: true,
+          headerStyle: {backgroundColor: '#000'},
+          headerTintColor: '#fff',
+          headerBackTitle: 'Back',
+          headerTitle: (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.genericHeader}>My referrals</Text>
+            </View>
+          ),
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -378,7 +394,7 @@ function SettingsDrawer_navigator() {
 function MainDrawer_navigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Referral_drawer"
+      initialRouteName="Home_drawer"
       drawerContent={(props) => <MainDrawerContent {...props} />}>
       <Drawer.Screen name="Home_drawer" component={Home} />
       <Drawer.Screen
