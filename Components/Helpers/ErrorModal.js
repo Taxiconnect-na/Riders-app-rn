@@ -12,6 +12,7 @@ import {
   Image,
   Share,
   Animated,
+  Easing,
   TextInput,
   Platform,
   KeyboardAvoidingView,
@@ -82,6 +83,10 @@ class ErrorModal extends React.PureComponent {
           taxi_number: null,
           driver_name: null,
         }, //Errors strings of the corresponding fields.
+        animation_vars: {
+          left_position: new Animated.Value(0),
+          opacity: new Animated.Value(1),
+        },
       },
     };
 
@@ -136,6 +141,162 @@ class ErrorModal extends React.PureComponent {
       function (response) {
         //Stop the loader and restore
         globalObject.setState({isLoading_something: false});
+      },
+    );
+
+    //3. Handle referral checking infos
+    this.props.App.socket.on(
+      'referralOperations_perform_io_CHECKING-response',
+      function (response) {
+        globalObject.state.isLoading_something = false;
+        if (response.response !== undefined && response.response !== null) {
+          Animated.parallel([
+            Animated.timing(
+              globalObject.state.referral_infos.animation_vars.left_position,
+              {
+                toValue: -100,
+                duration: 250,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            Animated.timing(
+              globalObject.state.referral_infos.animation_vars.opacity,
+              {
+                toValue: 0,
+                duration: 200,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+          ]).start(() => {
+            if (/error/i.test(response.response)) {
+              //An error occured
+              globalObject.state.referral_infos.step_name =
+                'error_whileReferring';
+              globalObject.forceUpdate();
+            } else if (/driver_alreadyRegistered/i.test(response.response)) {
+              //Official taxiconnect partner
+              globalObject.state.referral_infos.step_name = 'isADriver';
+              globalObject.forceUpdate();
+            } else if (/driver_alreadyReferred/i.test(response.response)) {
+              //Driver already referred
+              globalObject.state.referral_infos.step_name = 'alreadyReferred';
+              globalObject.forceUpdate();
+            } else if (/driver_freeForReferral/i.test(response.response)) {
+              //? Free for referral
+              globalObject.state.referral_infos.step_name = 'enterFullDetails';
+              globalObject.forceUpdate();
+            } //Some weird error probably happened
+            else {
+              globalObject.state.referral_infos.step_name =
+                'error_whileReferring';
+              globalObject.forceUpdate();
+            }
+            //...
+            Animated.parallel([
+              Animated.timing(
+                globalObject.state.referral_infos.animation_vars.left_position,
+                {
+                  toValue: 0,
+                  duration: 250,
+                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                  useNativeDriver: true,
+                },
+              ),
+              Animated.timing(
+                globalObject.state.referral_infos.animation_vars.opacity,
+                {
+                  toValue: 1,
+                  duration: 200,
+                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                  useNativeDriver: true,
+                },
+              ),
+            ]).start(() => {
+              //alert('Animation done');
+            });
+          });
+        } //Some error occured
+        else {
+          globalObject.state.referral_infos.step_name = 'error_whileReferring';
+          globalObject.forceUpdate();
+        }
+      },
+    );
+
+    //4. Handle referral submit infos
+    this.props.App.socket.on(
+      'referralOperations_perform_io_SUBMIT-response',
+      function (response) {
+        globalObject.state.isLoading_something = false;
+        if (response.response !== undefined && response.response !== null) {
+          Animated.parallel([
+            Animated.timing(
+              globalObject.state.referral_infos.animation_vars.left_position,
+              {
+                toValue: -100,
+                duration: 250,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+            Animated.timing(
+              globalObject.state.referral_infos.animation_vars.opacity,
+              {
+                toValue: 0,
+                duration: 200,
+                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                useNativeDriver: true,
+              },
+            ),
+          ]).start(() => {
+            if (/error_unexpected_foundActive/i.test(response.response)) {
+              //Already referred
+              //Driver already referred
+              globalObject.state.referral_infos.step_name = 'alreadyReferred';
+              globalObject.forceUpdate();
+            } else if (/successfully_referred/i.test(response.response)) {
+              //? Successfully referred
+              globalObject.state.referral_infos.step_name =
+                'successfullyReferred';
+              globalObject.forceUpdate();
+            } //Error
+            else {
+              globalObject.state.referral_infos.step_name =
+                'error_whileReferring';
+              globalObject.forceUpdate();
+            }
+            //...
+            Animated.parallel([
+              Animated.timing(
+                globalObject.state.referral_infos.animation_vars.left_position,
+                {
+                  toValue: 0,
+                  duration: 250,
+                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                  useNativeDriver: true,
+                },
+              ),
+              Animated.timing(
+                globalObject.state.referral_infos.animation_vars.opacity,
+                {
+                  toValue: 1,
+                  duration: 200,
+                  easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+                  useNativeDriver: true,
+                },
+              ),
+            ]).start(() => {
+              //alert('Animation done');
+            });
+          });
+        }
+        //Some error occured
+        else {
+          globalObject.state.referral_infos.step_name = 'error_whileReferring';
+          globalObject.forceUpdate();
+        }
       },
     );
   }
@@ -4310,7 +4471,19 @@ class ErrorModal extends React.PureComponent {
             backgroundColor: '#fff',
             flex: 1,
           }}>
-          <View style={styles.presentationWindow}>
+          <Animated.View
+            style={[
+              styles.presentationWindow,
+              {
+                opacity: this.state.referral_infos.animation_vars.opacity,
+                transform: [
+                  {
+                    translateX: this.state.referral_infos.animation_vars
+                      .left_position,
+                  },
+                ],
+              },
+            ]}>
             {/**Refer a driver: enter taxi number */}
             {/enterTaxiNumber/i.test(this.state.referral_infos.step_name) ? (
               <>
@@ -4343,6 +4516,12 @@ class ErrorModal extends React.PureComponent {
                     Refer a driver
                   </Text>
                 </View>
+                {this.state.isLoading_something === false ? null : (
+                  <GenericLoader
+                    active={this.state.isLoading_something}
+                    thickness={5}
+                  />
+                )}
                 <View style={{padding: 20, flex: 1}}>
                   <Text
                     style={[
@@ -4433,32 +4612,29 @@ class ErrorModal extends React.PureComponent {
                     }}>
                     <View style={[styles.bttnGenericTc, {flex: 1}]}>
                       {this.state.isLoading_something === false ? (
-                        <Text
-                          style={[
-                            {
-                              fontFamily:
-                                Platform.OS === 'android'
-                                  ? 'UberMoveTextMedium'
-                                  : 'Uber Move Text Medium',
-                              fontSize: RFValue(22),
-                              color: '#fff',
-                              flex: 1,
-                              textAlign: 'center',
-                            },
-                          ]}>
-                          Next
-                        </Text>
-                      ) : (
-                        <GenericLoader
-                          active={this.state.isLoading_something}
-                          thickness={5}
-                        />
-                      )}
-                      <IconCommunity
-                        name="arrow-right"
-                        color={'#fff'}
-                        size={28}
-                      />
+                        <>
+                          <Text
+                            style={[
+                              {
+                                fontFamily:
+                                  Platform.OS === 'android'
+                                    ? 'UberMoveTextMedium'
+                                    : 'Uber Move Text Medium',
+                                fontSize: RFValue(22),
+                                color: '#fff',
+                                flex: 1,
+                                textAlign: 'center',
+                              },
+                            ]}>
+                            Next
+                          </Text>
+                          <IconCommunity
+                            name="arrow-right"
+                            color={'#fff'}
+                            size={28}
+                          />
+                        </>
+                      ) : null}
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -4475,7 +4651,7 @@ class ErrorModal extends React.PureComponent {
                   }}>
                   <TouchableOpacity
                     onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
+                      this.moveForward_WithReferral_steps('enterTaxiNumber')
                     }
                     style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{top: 0}}>
@@ -4496,6 +4672,12 @@ class ErrorModal extends React.PureComponent {
                     Refer a driver
                   </Text>
                 </View>
+                {this.state.isLoading_something === false ? null : (
+                  <GenericLoader
+                    active={this.state.isLoading_something}
+                    thickness={5}
+                  />
+                )}
                 <View style={{padding: 20, flex: 1}}>
                   <Text
                     style={[
@@ -4509,8 +4691,8 @@ class ErrorModal extends React.PureComponent {
                         color: '#525252',
                       },
                     ]}>
-                    Please fill in the remaining information in order to
-                    complete your referral.
+                    Please fill in the remaining driver information to complete
+                    your referral
                   </Text>
                   {/**Name */}
                   <TextInput
@@ -4524,7 +4706,11 @@ class ErrorModal extends React.PureComponent {
                         ? this.state.referral_infos.driver_infos.name
                         : ''
                     }
-                    onChangeText={(text) => {}}
+                    onChangeText={(text) => {
+                      this.state.referral_infos.showErrors.driver_name = false;
+                      this.state.referral_infos.driver_infos.name = text.trim();
+                      this.forceUpdate();
+                    }}
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
@@ -4546,7 +4732,6 @@ class ErrorModal extends React.PureComponent {
                             Platform.OS === 'android'
                               ? 'UberMoveTextRegular'
                               : 'Uber Move Text',
-                          marginTop: '4%',
                           marginBottom: '5%',
                           color: '#b22222',
                         },
@@ -4571,7 +4756,13 @@ class ErrorModal extends React.PureComponent {
                     height: 100,
                   }}>
                   <TouchableOpacity
-                    onPress={() => {}}
+                    onPress={() =>
+                      this.state.isLoading_something === false
+                        ? this.moveForward_WithReferral_steps(
+                            'finalizeFormSubmit',
+                          )
+                        : {}
+                    }
                     style={{
                       borderColor: 'transparent',
                       width: '100%',
@@ -4580,32 +4771,29 @@ class ErrorModal extends React.PureComponent {
                     }}>
                     <View style={[styles.bttnGenericTc, {flex: 1}]}>
                       {this.state.isLoading_something === false ? (
-                        <Text
-                          style={[
-                            {
-                              fontFamily:
-                                Platform.OS === 'android'
-                                  ? 'UberMoveTextMedium'
-                                  : 'Uber Move Text Medium',
-                              fontSize: RFValue(22),
-                              color: '#fff',
-                              flex: 1,
-                              textAlign: 'center',
-                            },
-                          ]}>
-                          Refer
-                        </Text>
-                      ) : (
-                        <GenericLoader
-                          active={this.state.isLoading_something}
-                          thickness={5}
-                        />
-                      )}
-                      <IconCommunity
-                        name="arrow-right"
-                        color={'#fff'}
-                        size={28}
-                      />
+                        <>
+                          <Text
+                            style={[
+                              {
+                                fontFamily:
+                                  Platform.OS === 'android'
+                                    ? 'UberMoveTextMedium'
+                                    : 'Uber Move Text Medium',
+                                fontSize: RFValue(22),
+                                color: '#fff',
+                                flex: 1,
+                                textAlign: 'center',
+                              },
+                            ]}>
+                            Refer
+                          </Text>
+                          <IconCommunity
+                            name="arrow-right"
+                            color={'#fff'}
+                            size={28}
+                          />
+                        </>
+                      ) : null}
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -4620,9 +4808,10 @@ class ErrorModal extends React.PureComponent {
                     width: '100%',
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      this.clearReferralData();
+                    }}
                     style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{top: 0}}>
                       <IconAnt name="arrowleft" size={25} />
@@ -4670,7 +4859,7 @@ class ErrorModal extends React.PureComponent {
                         textAlign: 'center',
                       },
                     ]}>
-                    Sorry this driver was already referred by someone else,
+                    Sorry this driver is already referred by someone else,
                     please try referring another driver.
                   </Text>
                 </View>
@@ -4683,9 +4872,11 @@ class ErrorModal extends React.PureComponent {
                     height: 100,
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      //! Clear data
+                      this.clearReferralData();
+                    }}
                     style={{
                       borderColor: 'transparent',
                       width: '100%',
@@ -4722,9 +4913,10 @@ class ErrorModal extends React.PureComponent {
                     width: '100%',
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      this.clearReferralData();
+                    }}
                     style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{top: 0}}>
                       <IconAnt name="arrowleft" size={25} />
@@ -4757,7 +4949,7 @@ class ErrorModal extends React.PureComponent {
                         textAlign: 'center',
                       },
                     ]}>
-                    TaxiConnect partner
+                    TaxiConnect Partner
                   </Text>
                 </View>
                 <View style={{padding: 20, flex: 1}}>
@@ -4786,9 +4978,11 @@ class ErrorModal extends React.PureComponent {
                     height: 100,
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      //! Clear data
+                      this.clearReferralData();
+                    }}
                     style={{
                       borderColor: 'transparent',
                       width: '100%',
@@ -4827,9 +5021,10 @@ class ErrorModal extends React.PureComponent {
                     width: '100%',
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      this.clearReferralData();
+                    }}
                     style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{top: 0}}>
                       <IconAnt name="arrowleft" size={25} />
@@ -4855,14 +5050,14 @@ class ErrorModal extends React.PureComponent {
                         fontSize: RFValue(24),
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'MoveMedium'
-                            : 'Uber Move Medium',
+                            ? 'MoveBold'
+                            : 'Uber Move Bold',
                         marginTop: 15,
                         color: '#09864A',
                         textAlign: 'center',
                       },
                     ]}>
-                    Successfully referred
+                    Referral received
                   </Text>
                 </View>
                 <View style={{padding: 20, flex: 1}}>
@@ -4878,14 +5073,18 @@ class ErrorModal extends React.PureComponent {
                         textAlign: 'center',
                       },
                     ]}>
-                    Congratulations you have successfully referred a driver (
-                    {this.state.referral_infos.driver_infos.taxi_number !==
-                      null &&
-                    this.state.referral_infos.driver_infos.taxi_number !==
-                      undefined
-                      ? this.state.referral_infos.driver_infos.taxi_number.toUpperCase()
-                      : 'Current'}
-                    ) after the registration of which you will be paid N$50.
+                    We have received your referral for taxi driver (
+                    <Text style={{fontWeight: 'bold'}}>
+                      {this.state.referral_infos.driver_infos.taxi_number !==
+                        null &&
+                      this.state.referral_infos.driver_infos.taxi_number !==
+                        undefined
+                        ? this.state.referral_infos.driver_infos.taxi_number.toUpperCase()
+                        : 'Current'}
+                    </Text>
+                    ). Upon the driver's successful onboarding, you will be
+                    notified to claim your{' '}
+                    <Text style={{fontWeight: 'bold'}}>NAD50.00</Text>.
                   </Text>
                   <Text
                     style={[
@@ -4912,9 +5111,11 @@ class ErrorModal extends React.PureComponent {
                     height: 100,
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      //! Clear data
+                      this.clearReferralData();
+                    }}
                     style={{
                       borderColor: 'transparent',
                       width: '100%',
@@ -4953,9 +5154,10 @@ class ErrorModal extends React.PureComponent {
                     width: '100%',
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      this.clearReferralData();
+                    }}
                     style={{flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{top: 0}}>
                       <IconAnt name="arrowleft" size={25} />
@@ -5017,9 +5219,11 @@ class ErrorModal extends React.PureComponent {
                     height: 100,
                   }}>
                   <TouchableOpacity
-                    onPress={() =>
-                      this.props.UpdateErrorModalLog(false, false, 'any')
-                    }
+                    onPress={() => {
+                      this.props.UpdateErrorModalLog(false, false, 'any');
+                      //! Clear data
+                      this.clearReferralData();
+                    }}
                     style={{
                       borderColor: 'transparent',
                       width: '100%',
@@ -5047,13 +5251,44 @@ class ErrorModal extends React.PureComponent {
                 </View>
               </>
             ) : null}
-          </View>
+          </Animated.View>
         </SafeAreaView>
       );
     } else {
       this.props.UpdateErrorModalLog(false, false, 'any');
       return <></>;
     }
+  }
+
+  /**
+   * @func clearReferralData
+   * Responsibel for clearing the referral information after usage.
+   */
+  clearReferralData() {
+    this.props.ResetGenericPhoneNumberInput();
+    this.setState({
+      referral_infos: {
+        driver_infos: {
+          taxi_number: null,
+          name: null,
+          phone_number: null,
+        },
+        step_name: 'enterTaxiNumber', //The name of the current step window: enterTaxiNumber, enterFullDetails, successfullyReferred, alreadyReferred, isADriver
+        request_status: null, //The status of the request: null, successful, alreadyReferred, isADriver
+        showErrors: {
+          taxi_number: false,
+          driver_name: false,
+        }, //Whether or now to show the error strings of the corresponding fields.
+        errorsStrings: {
+          taxi_number: null,
+          driver_name: null,
+        }, //Errors strings of the corresponding fields.
+        animation_vars: {
+          left_position: new Animated.Value(0),
+          opacity: new Animated.Value(1),
+        },
+      },
+    });
   }
 
   /**
@@ -5064,16 +5299,59 @@ class ErrorModal extends React.PureComponent {
    */
   moveForward_WithReferral_steps(step) {
     if (/enterTaxiNumber/i.test(step)) {
+      let globalObject = this;
       //Go back to the initial route
-      //?0 Move back the previous screen first!
-      let newState = this.state.referral_infos;
-      newState.step_name = step;
-      newState.driver_infos.name = null;
-      newState.driver_details.phone_number = null;
-      this.state.referral_infos = newState;
-      this.forceUpdate();
-      //1. Reset the generic and later state phone numbers
-      this.props.App.ResetGenericPhoneNumberInput();
+      Animated.parallel([
+        Animated.timing(
+          globalObject.state.referral_infos.animation_vars.left_position,
+          {
+            toValue: -100,
+            duration: 250,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          },
+        ),
+        Animated.timing(
+          globalObject.state.referral_infos.animation_vars.opacity,
+          {
+            toValue: 0,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          },
+        ),
+      ]).start(() => {
+        //?0 Move back the previous screen first!
+        globalObject.state.referral_infos.step_name = step;
+        globalObject.state.referral_infos.driver_infos.name = null;
+        globalObject.state.referral_infos.driver_infos.phone_number = null;
+        globalObject.forceUpdate();
+        //1. Reset the generic and later state phone numbers
+        globalObject.props.ResetGenericPhoneNumberInput();
+        //...
+        Animated.parallel([
+          Animated.timing(
+            globalObject.state.referral_infos.animation_vars.left_position,
+            {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+          Animated.timing(
+            globalObject.state.referral_infos.animation_vars.opacity,
+            {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            },
+          ),
+        ]).start(() => {
+          //alert('Animation done');
+        });
+      });
     } else if (/enterFullDetails/i.test(step)) {
       //Move the full details entry if the checks are true
       let newState = this.state.referral_infos;
@@ -5083,12 +5361,29 @@ class ErrorModal extends React.PureComponent {
         this.state.referral_infos.driver_infos.taxi_number !== undefined
           ? this.state.referral_infos.driver_infos.taxi_number
           : '';
-      if (this.state.referral_infos.driver_infos.taxi_number.length > 0) {
+      if (this.state.referral_infos.driver_infos.taxi_number.length >= 3) {
         //2. Check the Taxi number free state and decide whether or not to move forward.
-        newState.step_name = step;
+        //! Activate the loader
+        this.setState({isLoading_something: true});
+        this.props.App.socket.emit('referralOperations_perform_io', {
+          user_fingerprint: this.props.App.user_fingerprint,
+          user_nature: 'rider',
+          action: 'check',
+          taxi_number: this.state.referral_infos.driver_infos.taxi_number,
+        });
+      } else if (
+        this.state.referral_infos.driver_infos.taxi_number.length > 0 &&
+        this.state.referral_infos.driver_infos.taxi_number.length < 3
+      ) {
+        //Too short
+        //Show error empty taxi number
+        newState.errorsStrings.taxi_number = 'Taxi number too short';
+        newState.showErrors.taxi_number = true;
+        //...
         this.state.referral_infos = newState;
         this.forceUpdate();
-      } //Empty taxi number
+      }
+      //Empty taxi number
       else {
         //Show error empty taxi number
         newState.errorsStrings.taxi_number =
@@ -5096,6 +5391,46 @@ class ErrorModal extends React.PureComponent {
         newState.showErrors.taxi_number = true;
         //...
         this.state.referral_infos = newState;
+        this.forceUpdate();
+      }
+    } else if (/finalizeFormSubmit/i.test(step)) {
+      this.props.ValidateGenericPhoneNumber();
+      //! Check that the name and phone number are set
+      this.state.referral_infos.driver_infos.name =
+        this.state.referral_infos.driver_infos.name !== undefined &&
+        this.state.referral_infos.driver_infos.name !== null
+          ? this.state.referral_infos.driver_infos.name
+          : '';
+      if (this.state.referral_infos.driver_infos.name.trim().length > 0) {
+        //! Check the phone number
+        if (this.props.App.isPhoneNumberValid) {
+          //Valid phone
+          this.setState({isLoading_something: true});
+          //Submit the referral
+          let infoSubmit = {
+            user_fingerprint: this.props.App.user_fingerprint,
+            user_nature: 'rider',
+            action: 'submit',
+            taxi_number: this.state.referral_infos.driver_infos.taxi_number,
+            driver_name: this.state.referral_infos.driver_infos.name,
+            driver_phone: this.props.App.finalPhoneNumber,
+          };
+          //...
+          this.props.App.socket.emit(
+            'referralOperations_perform_io',
+            infoSubmit,
+          );
+        } //Invalid phone
+        else {
+          //Do nothing
+        }
+      } //Empty name field
+      else {
+        //Show error empty taxi number
+        this.state.referral_infos.errorsStrings.driver_name =
+          "Please enter the driver's name";
+        this.state.referral_infos.showErrors.driver_name = true;
+        //...
         this.forceUpdate();
       }
     }

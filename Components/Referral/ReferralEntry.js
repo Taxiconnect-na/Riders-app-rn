@@ -125,7 +125,7 @@ class ReferralEntry extends React.PureComponent {
             <View
               style={{
                 flex: 1,
-                width: 150,
+                width: 120,
                 height: 120,
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -145,19 +145,74 @@ class ReferralEntry extends React.PureComponent {
                     : 'Uber Move Text Bold',
                 fontSize: RFValue(20),
               }}>
-              Earn
+              Earn by referring
             </Text>
-            <Text
-              style={{
-                marginTop: 10,
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'UberMoveTextRegular'
-                    : 'Uber Move Text',
-                fontSize: RFValue(17.5),
-              }}>
-              Refer a driver and earn seemlessly......
-            </Text>
+            <View style={{marginTop: '9%'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                }}>
+                <IconCommunity name="square" size={15} />
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(17),
+                    bottom: 3,
+                    marginLeft: 4,
+                  }}>
+                  Help a taxi driver make a living and get paid for it.
+                </Text>
+              </View>
+              {/** */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  marginTop: '5%',
+                }}>
+                <IconCommunity name="square" size={15} />
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(17),
+                    bottom: 3,
+                    marginLeft: 4,
+                  }}>
+                  You get a minimum of{' '}
+                  <Text style={{fontWeight: 'bold'}}>N$50</Text> per successful
+                  referral.
+                </Text>
+              </View>
+              {/** */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'flex-start',
+                  marginTop: '5%',
+                }}>
+                <IconCommunity name="square" size={15} />
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextRegular'
+                        : 'Uber Move Text',
+                    fontSize: RFValue(17),
+                    bottom: 3,
+                    marginLeft: 4,
+                  }}>
+                  When you refer a taxi driver to{' '}
+                  <Text style={{fontWeight: 'bold'}}>TaxiConnect</Text>.
+                </Text>
+              </View>
+            </View>
           </View>
           <View
             style={{
