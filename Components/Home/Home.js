@@ -627,7 +627,6 @@ class Home extends React.PureComponent {
     let globalObject = this;
     //...
     if (this.props.App._TMP_TRIP_INTERVAL_PERSISTER === null) {
-      console.log('Initialized');
       globalObject.props.App._TMP_TRIP_INTERVAL_PERSISTER = setInterval(
         function () {
           //...
@@ -1033,7 +1032,6 @@ class Home extends React.PureComponent {
      * Responsible for redirecting updates to map graphics data based on if the status of the request is: pending, in route to pickup, in route to drop off or completed
      */
     this.props.App.socket.on('trackdriverroute-response', function (response) {
-      //console.log(response);
       try {
         //! CLOSEE ONLY FOR CONNECTION RELATED ERROS
         if (

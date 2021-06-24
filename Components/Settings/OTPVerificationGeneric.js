@@ -243,7 +243,6 @@ class OTPVerificationGeneric extends React.PureComponent {
           //...
         }
       } catch (err) {
-        console.warn(err);
         //Request for otp
         globalObject.requestForOTP();
         //...
