@@ -987,6 +987,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           isAllGoingToSameDestination:
             globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
               .isAllgoingToTheSamePlace, //If all the passengers are going to the same destination
+          isGoingUntilHome: /RIDE/i.test(
+            globalObject.props.App.bottomVitalsFlow.flowParent,
+          )
+            ? globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                .isGoingUntilHome
+            : false, //! Will double the fares for the Economy - Set to false for the DELIVERY
           naturePickup: /RIDE/i.test(
             globalObject.props.App.bottomVitalsFlow.flowParent,
           )
@@ -3366,29 +3372,54 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               paddingRight: 20,
               paddingBottom: '1.5%',
               flexDirection: 'row',
-              alignItems: 'center',
+              alignItems: 'flex-start',
             }}>
             <IconMaterialIcons name="info" size={18} color={'#1a1a1a'} />
-            <Text
-              style={{
-                marginLeft: 5,
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'UberMoveTextLight'
-                    : 'Uber Move Text Light',
-                fontSize: RFValue(12),
-              }}>
+            <View style={{marginLeft: 5}}>
               <Text
                 style={{
                   fontFamily:
                     Platform.OS === 'android'
-                      ? 'UberMoveTextMedium'
-                      : 'Uber Move Text Medium',
+                      ? 'UberMoveTextLight'
+                      : 'Uber Move Text Light',
+                  fontSize: RFValue(12),
                 }}>
-                +N$5
-              </Text>{' '}
-              pickup fee included.
-            </Text>
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                  }}>
+                  N$5
+                </Text>{' '}
+                pickup fee included.
+              </Text>
+              {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                .isGoingUntilHome ? (
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    color: '#0e8491',
+                  }}>
+                  Going until home.
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'UberMoveTextMedium'
+                        : 'Uber Move Text Medium',
+                    color: '#0e8491',
+                  }}>
+                  Not going until home.
+                </Text>
+              )}
+            </View>
           </View>
           <View
             style={{

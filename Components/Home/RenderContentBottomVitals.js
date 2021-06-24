@@ -33,6 +33,7 @@ import {
   ValidateReceiverInfosForDelivery,
   UpdateErrorMessagesStateInputRecDelivery,
   UpdateReceiverNameOnType,
+  UpdateGoingHomeButtonState,
 } from '../Redux/HomeActionsCreators';
 import RenderRideTypeBottomVitals from './RenderRideTypeBottomVitals';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -104,6 +105,65 @@ class RenderContentBottomVitals extends React.PureComponent {
   }
 
   /**
+   * @func renderChoose_goUntilHome
+   * Responsible for rendering the go Home switch button
+   */
+  renderChoose_goUntilHome() {
+    if (/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)) {
+      return (
+        <View
+          style={{
+            height: 80,
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '90%',
+          }}>
+          <Switch
+            trackColor={{false: '#767577', true: '#000'}}
+            thumbColor={
+              this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                .isGoingUntilHome
+                ? '#0D8691'
+                : '#f4f3f4'
+            }
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(val) => {
+              this.props.UpdateGoingHomeButtonState(val);
+            }}
+            value={
+              this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                .isGoingUntilHome
+            }
+          />
+          <Text
+            style={[
+              {
+                fontSize: RFValue(16),
+                marginLeft: Platform.OS === 'android' ? 0 : 5,
+                flex: 1,
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextMedium'
+                    : 'Uber Move Text Medium',
+                color: this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+                  .isGoingUntilHome
+                  ? '#0D8691'
+                  : '#000',
+              },
+            ]}>
+            {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+              .isGoingUntilHome
+              ? 'Going until home.'
+              : 'Not going until home.'}
+          </Text>
+        </View>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  /**
    * @func renderIdentifiedLocationType()
    * Responsible for rendering the identified location type (taxi rank or private location) after computing
    */
@@ -132,7 +192,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                paddingBottom: 10,
               }}>
               <View style={styles.borderIconLocationType}>
                 <Image
@@ -183,6 +242,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 </Text>
               </View>
             </View>
+            {this.renderChoose_goUntilHome()}
             <View
               style={{
                 width: '100%',
@@ -238,7 +298,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                paddingBottom: 10,
               }}>
               <View style={[styles.borderIconLocationType]}>
                 <Image
@@ -289,6 +348,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 </Text>
               </View>
             </View>
+            {this.renderChoose_goUntilHome()}
             <View
               style={{
                 width: '100%',
@@ -344,7 +404,6 @@ class RenderContentBottomVitals extends React.PureComponent {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flex: 1,
-                paddingBottom: 10,
               }}>
               <View style={styles.borderIconLocationType}>
                 <Image
@@ -386,6 +445,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                 </Text>
               </View>
             </View>
+            {this.renderChoose_goUntilHome()}
             <View
               style={{
                 width: '100%',
@@ -662,22 +722,6 @@ class RenderContentBottomVitals extends React.PureComponent {
    * Responsible for updating the switch that mark with true or false if all the passengers are going to the same place
    */
   updateIsAllGoingToTheSamePlaceSwitch(val) {
-    /*if (
-      this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-        .isAllgoingToTheSamePlace
-    ) {
-      this.props.UpdateNumberOfPassengersSelected({
-        numberOfPassengers: this.props.App.bottomVitalsFlow
-          .rideOrDeliveryMetadata.numberOfPassengersSelected,
-        isAllgoingToTheSamePlace: false,
-      });
-    } else {
-      this.props.UpdateNumberOfPassengersSelected({
-        numberOfPassengers: this.props.App.bottomVitalsFlow
-          .rideOrDeliveryMetadata.numberOfPassengersSelected,
-        isAllgoingToTheSamePlace: true,
-      });
-    }*/
     this.props.UpdateNumberOfPassengersSelected({
       numberOfPassengers: this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
         .numberOfPassengersSelected,
@@ -1812,29 +1856,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-              }}>
-              <AnimatedNative.Text
-                style={{
-                  opacity: this.props.App.bottomVitalsFlow
-                    .rideOrDeliveryMetadata
-                    .identifyinfLocationTypeTopTextOpacity,
-                  transform: [
-                    {
-                      translateX: this.props.App.bottomVitalsFlow
-                        .rideOrDeliveryMetadata
-                        .identifyinfLocationTypeTopTextPosition,
-                    },
-                  ],
-                  fontSize: RFValue(13),
-                  color: '#000',
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextLight'
-                      : 'Uber Move Text Light',
-                }}>
-                We detected your pickup location
-              </AnimatedNative.Text>
-            </View>
+              }}></View>
             <View
               style={{
                 alignItems: 'center',
@@ -3301,6 +3323,7 @@ const mapDispatchToProps = (dispatch) =>
       ValidateReceiverInfosForDelivery,
       UpdateErrorMessagesStateInputRecDelivery,
       UpdateReceiverNameOnType,
+      UpdateGoingHomeButtonState,
     },
     dispatch,
   );
@@ -3360,9 +3383,9 @@ const styles = StyleSheet.create({
   borderIconLocationType: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 75,
-    height: 75,
-    bottom: 10,
+    width: 50,
+    height: 50,
+    marginBottom: '2%',
     borderWidth: 1.5,
     borderRadius: 100,
     borderColor: '#000',

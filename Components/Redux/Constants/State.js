@@ -62,7 +62,7 @@ const STATE = {
   _TMP_INTERVAL_PERSISTER_TIME: 2000, //THe frequency of repetition - default: 2s
   //Interval persister for updating closest drivers on map
   _TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS: null, //To update the closest drivers on the map
-  _TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS: 3000,
+  _TMP_INTERVAL_PERSISTER_TIME_CLOSEST_DRIVERS: 7000,
   _CLOSEST_DRIVERS_DATA: null, //Will contain the array of all the closest drivers
   //Interval persister for updating requests data
   _TMP_TRIP_INTERVAL_PERSISTER: null, //The interval for updating rides related data
@@ -284,6 +284,8 @@ const STATE = {
       selectedPackageSize: 'envelope', //The selected package size for delivery - default: envelope (can be: small, large or envelope)
       receiverName: false, //The name of the receiver from entering the receiver's infos
       paymentMethod: 'CASH', //The customer's payment method
+      //!GOING UNTIL HOME OR NOT
+      isGoingUntilHome: false, //To know if the rider is going until home or not.
     }, //Current metadata for the booking process: for RIDE or DELIVERIES
 
     //Generic loader screen after ride or delivery booking animation variables

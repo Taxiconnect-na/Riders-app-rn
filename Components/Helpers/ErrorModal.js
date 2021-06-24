@@ -213,9 +213,7 @@ class ErrorModal extends React.PureComponent {
                   useNativeDriver: true,
                 },
               ),
-            ]).start(() => {
-              //alert('Animation done');
-            });
+            ]).start(() => {});
           });
         } //Some error occured
         else {
@@ -287,9 +285,7 @@ class ErrorModal extends React.PureComponent {
                   useNativeDriver: true,
                 },
               ),
-            ]).start(() => {
-              //alert('Animation done');
-            });
+            ]).start(() => {});
           });
         }
         //Some error occured
@@ -1954,7 +1950,7 @@ class ErrorModal extends React.PureComponent {
                                           Platform.OS === 'android'
                                             ? 'UberMoveTextRegular'
                                             : 'Uber Move Text',
-                                        fontSize: 17,
+                                        fontSize: RFValue(17),
                                         marginLeft: 5,
                                         flex: 1,
                                       }}>
@@ -1980,6 +1976,28 @@ class ErrorModal extends React.PureComponent {
                                   </View>
                                 );
                               })}
+                            {/**Going until home Tag */}
+                            <Text
+                              style={{
+                                fontFamily:
+                                  Platform.OS === 'android'
+                                    ? 'UberMoveTextRegular'
+                                    : 'Uber Move Text',
+                                fontSize: RFValue(17),
+                                color: '#096ED4',
+                                marginTop: '2%',
+                              }}>
+                              {this.props.generalTRIP_details_driverDetails
+                                .basicTripDetails.isGoingUntilHome !==
+                                undefined &&
+                              this.props.generalTRIP_details_driverDetails
+                                .basicTripDetails.isGoingUntilHome !== null
+                                ? this.props.generalTRIP_details_driverDetails
+                                    .basicTripDetails.isGoingUntilHome
+                                  ? 'Going until home'
+                                  : 'Not going until home'
+                                : 'Not going until home.'}
+                            </Text>
                           </View>
                         </View>
                       </View>
@@ -5348,9 +5366,7 @@ class ErrorModal extends React.PureComponent {
               useNativeDriver: true,
             },
           ),
-        ]).start(() => {
-          //alert('Animation done');
-        });
+        ]).start(() => {});
       });
     } else if (/enterFullDetails/i.test(step)) {
       //Move the full details entry if the checks are true

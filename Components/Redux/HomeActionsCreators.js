@@ -431,3 +431,13 @@ export const UpdateADGetData = (advertData) => ({
   type: 'UPDATE_AD_GET_DATA',
   payload: advertData,
 });
+
+/**
+ * 51. Update the going home state
+ * Responsible for updating the going home state at the user's wish
+ * @param isGoingHome: "true" if the going home is on, and false otherwise.
+ */
+export const UpdateGoingHomeButtonState = (isGoingHome) => ({
+  type: 'UPDATE_GOING_HOME_BUTTON_STATE',
+  payload: isGoingHome,
+});

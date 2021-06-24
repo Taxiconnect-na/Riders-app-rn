@@ -114,6 +114,8 @@ const HomeReducer = (state = INIT_STATE, action) => {
         selectedPackageSize: 'envelope', //The selected package size for delivery - default: envelope (can be: small, large or envelope)
         receiverName: false, //The name of the receiver from entering the receiver's infos
         paymentMethod: 'CASH', //The customer's payment method
+        //!GOING UNTIL HOME OR NOT
+        isGoingUntilHome: false, //To know if the rider is going until home or not.
       }; //Current metadata for the booking process: for RIDE or DELIVERIES
       newState.bottomVitalsFlow.currentStep = 'mainView'; //Reset current step to mainView
       newState.intervalProgressLoop = false; //Faslify the interval progress loop
@@ -1002,6 +1004,7 @@ const HomeReducer = (state = INIT_STATE, action) => {
                 ) - 1
               ] === 'selectRideOrDelivery'
             ) {
+              newState.bottomVitalsFlow.rideOrDeliveryMetadata.isGoingUntilHome = false; //Reset going until home var
               newState.bottomVitalsFlow.rideOrDeliveryMetadata.locationTypeIdentified = false; //reset pickup location identified
             }
 
@@ -2634,6 +2637,12 @@ const HomeReducer = (state = INIT_STATE, action) => {
           return state;
         }
       }
+
+    case 'UPDATE_GOING_HOME_BUTTON_STATE':
+      newState.bottomVitalsFlow.rideOrDeliveryMetadata.isGoingUntilHome =
+        action.payload;
+
+      return {...state, ...newState};
 
     default:
       return state;

@@ -2919,6 +2919,8 @@ class Home extends React.PureComponent {
           country: originLocation.country,
           isAllGoingToSameDestination: this.props.App.bottomVitalsFlow
             .rideOrDeliveryMetadata.isAllgoingToTheSamePlace,
+          isGoingUntilHome: this.props.App.bottomVitalsFlow
+            .rideOrDeliveryMetadata.isGoingUntilHome, //! Will double the fares for the Economy
           naturePickup:
             this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
               .locationTypeIdentified !== false
@@ -2948,7 +2950,6 @@ class Home extends React.PureComponent {
           destinationData: this.props.App.search_passengersDestinations,
         };
         //..ask
-        console.log(JSON.stringify(pricingInputDataRaw));
         this.props.App.socket.emit(
           'getPricingForRideorDelivery',
           pricingInputDataRaw,
@@ -2961,6 +2962,7 @@ class Home extends React.PureComponent {
           connectType: 'ConnectUs',
           country: this.props.App.userCurrentLocationMetaData.country,
           isAllGoingToSameDestination: false,
+          isGoingUntilHome: false, //! Set going home to false for now.
           naturePickup: 'PrivateLocation', //Force PrivateLocation type if nothing found
           passengersNo: 1, //Default 1 possible destination
           rideType: 'DELIVERY',

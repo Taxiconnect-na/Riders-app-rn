@@ -700,7 +700,6 @@ class DetailsRidesGenericScreen extends React.PureComponent {
                           marginLeft: 4,
                         }}>
                         {this.state.detailed_requestData.numberOf_passengers}
-                        {/*alert(JSON.stringify(this.state.detailed_requestData))*/}
                       </Text>
                     </View>
                   </View>
