@@ -1983,16 +1983,18 @@ class ErrorModal extends React.PureComponent {
                                   Platform.OS === 'android'
                                     ? 'UberMoveTextRegular'
                                     : 'Uber Move Text',
-                                fontSize: RFValue(17),
+                                fontSize: RFValue(16),
                                 color: '#096ED4',
                                 marginTop: '2%',
+                                marginLeft: 5,
                               }}>
-                              {this.props.generalTRIP_details_driverDetails
+                              {this.props.App.generalTRIP_details_driverDetails
                                 .basicTripDetails.isGoingUntilHome !==
                                 undefined &&
-                              this.props.generalTRIP_details_driverDetails
+                              this.props.App.generalTRIP_details_driverDetails
                                 .basicTripDetails.isGoingUntilHome !== null
-                                ? this.props.generalTRIP_details_driverDetails
+                                ? this.props.App
+                                    .generalTRIP_details_driverDetails
                                     .basicTripDetails.isGoingUntilHome
                                   ? 'Going until home'
                                   : 'Not going until home'
