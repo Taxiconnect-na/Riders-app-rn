@@ -2885,6 +2885,8 @@ class Home extends React.PureComponent {
           : this.props.App.search_pickupLocationInfos.passenger0Destination
               .coordinates[0];
       //Check forr custom pickup
+      let originLocation = this.props.App.userCurrentLocationMetaData;
+      //...
       if (
         this.props.App.search_pickupLocationInfos
           .isBeingPickedupFromCurrentLocation === false &&
@@ -2895,6 +2897,17 @@ class Home extends React.PureComponent {
           .passenger0Destination.coordinates[1];
         org_longitude = this.props.App.search_pickupLocationInfos
           .passenger0Destination.coordinates[0];
+        //! Update the  rest of the custom location
+        originLocation = {
+          name: this.props.App.search_pickupLocationInfos.passenger0Destination
+            .location_name,
+          street: this.props.App.search_pickupLocationInfos
+            .passenger0Destination.street,
+          city: this.props.App.search_pickupLocationInfos.passenger0Destination
+            .city,
+          country: this.props.App.search_pickupLocationInfos
+            .passenger0Destination.country,
+        };
       }
       if (/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)) {
         //RIDE PRICING
@@ -2903,7 +2916,7 @@ class Home extends React.PureComponent {
         let pricingInputDataRaw = {
           user_fingerprint: this.props.App.user_fingerprint,
           connectType: this.props.App.bottomVitalsFlow.connectType,
-          country: this.props.App.userCurrentLocationMetaData.country,
+          country: originLocation.country,
           isAllGoingToSameDestination: this.props.App.bottomVitalsFlow
             .rideOrDeliveryMetadata.isAllgoingToTheSamePlace,
           naturePickup:
@@ -2919,24 +2932,23 @@ class Home extends React.PureComponent {
           pickupData: {
             coordinates: [org_latitude, org_longitude],
             location_name:
-              this.props.App.userCurrentLocationMetaData.name !== undefined &&
-              this.props.App.userCurrentLocationMetaData.name !== null
-                ? this.props.App.userCurrentLocationMetaData.name
+              originLocation.name !== undefined && originLocation.name !== null
+                ? originLocation.name
                 : false,
             street_name:
-              this.props.App.userCurrentLocationMetaData.street !== undefined &&
-              this.props.App.userCurrentLocationMetaData.street !== null
-                ? this.props.App.userCurrentLocationMetaData.street
+              originLocation.street !== undefined &&
+              originLocation.street !== null
+                ? originLocation.street
                 : false,
             city:
-              this.props.App.userCurrentLocationMetaData.city !== undefined &&
-              this.props.App.userCurrentLocationMetaData.city !== null
-                ? this.props.App.userCurrentLocationMetaData.city
+              originLocation.city !== undefined && originLocation.city !== null
+                ? originLocation.city
                 : false,
           },
           destinationData: this.props.App.search_passengersDestinations,
         };
         //..ask
+        console.log(JSON.stringify(pricingInputDataRaw));
         this.props.App.socket.emit(
           'getPricingForRideorDelivery',
           pricingInputDataRaw,
