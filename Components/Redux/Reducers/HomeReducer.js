@@ -810,6 +810,17 @@ const HomeReducer = (state = INIT_STATE, action) => {
               newState.isSearchModuleOn = false;
               newState.search_showSearchNodeMain = false;
             }
+
+            //? Get the price estimations from the server
+            if (
+              newState.bottomVitalsFlow.rideBookingFlow[
+                newState.bottomVitalsFlow.rideBookingFlow.indexOf(
+                  newState.bottomVitalsFlow.currentStep,
+                ) + 1
+              ] === 'selectCarTypeAndPaymentMethod'
+            ) {
+              newState._MAIN_PARENT.getFareEstimation();
+            }
             //...
             newState.bottomVitalsFlow.currentStep =
               newState.bottomVitalsFlow.rideBookingFlow[
@@ -1279,6 +1290,17 @@ const HomeReducer = (state = INIT_STATE, action) => {
             else {
               newState.isSearchModuleOn = false;
               newState.search_showSearchNodeMain = false;
+            }
+
+            //? Get the price estimations from the server
+            if (
+              newState.bottomVitalsFlow.rideBookingFlow[
+                newState.bottomVitalsFlow.rideBookingFlow.indexOf(
+                  newState.bottomVitalsFlow.currentStep,
+                ) + 1
+              ] === 'selectCarTypeAndPaymentMethod'
+            ) {
+              newState._MAIN_PARENT.getFareEstimation();
             }
             //...Move
             newState.bottomVitalsFlow.currentStep =

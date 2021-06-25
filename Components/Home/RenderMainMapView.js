@@ -153,20 +153,34 @@ class RenderMainMapView extends React.PureComponent {
 
   customRenderOrderer() {
     //! Coordinates order fix - major bug fix for ocean bug
+    let userLatitude = this.props.App.latitude;
+    let userLongitude = this.props.App.longitude;
+    //? Recenter the userr location Pin based on the custom location if provided.
     if (
-      this.props.App.latitude !== undefined &&
-      this.props.App.latitude !== null &&
-      this.props.App.latitude !== 0 &&
-      this.props.App.longitude !== undefined &&
-      this.props.App.longitude !== null &&
-      this.props.App.longitude !== 0
+      this.props.App.search_pickupLocationInfos
+        .isBeingPickedupFromCurrentLocation === false &&
+      this.props.App.search_pickupLocationInfos.passenger0Destination !== false
+    ) {
+      userLatitude = this.props.App.search_pickupLocationInfos
+        .passenger0Destination.coordinates[1];
+      userLongitude = this.props.App.search_pickupLocationInfos
+        .passenger0Destination.coordinates[0];
+    }
+    //...
+    if (
+      userLatitude !== undefined &&
+      userLatitude !== null &&
+      userLatitude !== 0 &&
+      userLongitude !== undefined &&
+      userLongitude !== null &&
+      userLongitude !== 0
     ) {
       //? Switch latitude and longitude - check the negative sign
-      if (parseFloat(this.props.App.longitude) < 0) {
+      if (parseFloat(userLongitude) < 0) {
         //Negative - switch
-        let latitudeTmp = this.props.App.latitude;
-        this.props.App.latitude = this.props.App.longitude;
-        this.props.App.longitude = latitudeTmp;
+        let latitudeTmp = userLatitude;
+        userLatitude = userLongitude;
+        userLongitude = latitudeTmp;
       }
     }
     //!--------- Ocean bug fix
@@ -206,7 +220,7 @@ class RenderMainMapView extends React.PureComponent {
           attributionEnabled={false}
           compassEnabled={false}
           id={'mainMapViewElement'}
-          styleURL={'mapbox://styles/dominiquektt/ckax4kse10a791iofjbx59jzm'}>
+          styleURL={'mapbox://styles/masterroot/ckq3roasw2m4u18mjz8xkoale'}>
           <Camera
             ref={(c) => (this.props.parentNode.camera = c)}
             //followUserMode="compass"
@@ -269,10 +283,7 @@ class RenderMainMapView extends React.PureComponent {
                   }}
                   shape={{
                     type: 'Point',
-                    coordinates: [
-                      this.props.App.longitude,
-                      this.props.App.latitude,
-                    ],
+                    coordinates: [userLongitude, userLatitude],
                   }}
                 />
               </>
