@@ -104,7 +104,7 @@ export function MainDrawerContent(props) {
               color: '#AFAFAF',
               textAlign: 'right',
             }}>
-            v2.1.390
+            v2.1.395 - DocDB
           </Text>
         </View>
       </SafeAreaView>

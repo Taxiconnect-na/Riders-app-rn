@@ -540,7 +540,7 @@ class OTPVerificationEntry extends React.PureComponent {
         error_status={
           this.props.App.generalErrorModal_vars.generalErrorModalType
         }
-        parentNode={null}
+        parentNode={this}
       />
     );
   }
