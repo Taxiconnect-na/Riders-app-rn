@@ -67,6 +67,7 @@ import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {_MAIN_URL_ENDPOINT} from '@env';
 const io = require('socket.io-client');
+
 //DEBUG
 //import {ROUTE} from './Route';
 const INIT_ZOOM_LEVEL = 0.384695086717085;
@@ -98,6 +99,24 @@ class Home extends React.PureComponent {
     this.props.ResetStateProps(this);
     //...
     if (this.camera !== undefined && this.camera != null) {
+      //! Coordinates order fix - major bug fix for ocean bug
+      if (
+        this.props.App.latitude !== undefined &&
+        this.props.App.latitude !== null &&
+        this.props.App.latitude !== 0 &&
+        this.props.App.longitude !== undefined &&
+        this.props.App.longitude !== null &&
+        this.props.App.longitude !== 0
+      ) {
+        //? Switch latitude and longitude - check the negative sign
+        if (parseFloat(this.props.App.longitude) < 0) {
+          //Negative - switch
+          let latitudeTmp = this.props.App.latitude;
+          this.props.App.latitude = this.props.App.longitude;
+          this.props.App.longitude = latitudeTmp;
+        }
+      }
+      //!--------- Ocean bug fix
       this.camera.moveTo(
         [this.props.App.longitude, this.props.App.latitude],
         70,
@@ -963,6 +982,7 @@ class Home extends React.PureComponent {
               'any',
             );
             globalObject.props.App.sharedSimplifiedLink = null;
+            globalObject.props.App.isSharedTripLinkValid = false;
           } else if (/no_rides/i.test(response.responsePass)) {
             //The trip might be completed
             globalObject.props.UpdateErrorModalLog(
@@ -971,6 +991,7 @@ class Home extends React.PureComponent {
               'any',
             );
             globalObject.props.App.sharedSimplifiedLink = null;
+            globalObject.props.App.isSharedTripLinkValid = true;
           }
           //Got something
           else if (/success/i.test(response.responsePass)) {
@@ -983,6 +1004,7 @@ class Home extends React.PureComponent {
             ) {
               //Do not interrupt the select gender process
               globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Auto close connection unavailable
+              globalObject.props.App.isSharedTripLinkValid = true;
             }
           } //Error
           else {
@@ -992,6 +1014,7 @@ class Home extends React.PureComponent {
               'any',
             );
             globalObject.props.App.sharedSimplifiedLink = null;
+            globalObject.props.App.isSharedTripLinkValid = false;
           }
         } //Error
         else {
@@ -1001,6 +1024,7 @@ class Home extends React.PureComponent {
             'any',
           );
           globalObject.props.App.sharedSimplifiedLink = null;
+          globalObject.props.App.isSharedTripLinkValid = false;
         }
       },
     );
@@ -1452,10 +1476,12 @@ class Home extends React.PureComponent {
             //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
             if (
               globalObject.props.App.sharedSimplifiedLink !== null &&
-              globalObject.props.App.sharedSimplifiedLink !== undefined
+              globalObject.props.App.sharedSimplifiedLink !== undefined &&
+              globalObject.props.App.isSharedTripLinkValid
             ) {
               //Nullify the shared link
               globalObject.props.App.sharedSimplifiedLink = null;
+              globalObject.props.App.isSharedTripLinkValid = false;
               //Show the end modal
               globalObject.props.UpdateErrorModalLog(
                 true,
@@ -1483,10 +1509,12 @@ class Home extends React.PureComponent {
             //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
             if (
               globalObject.props.App.sharedSimplifiedLink !== null &&
-              globalObject.props.App.sharedSimplifiedLink !== undefined
+              globalObject.props.App.sharedSimplifiedLink !== undefined &&
+              globalObject.props.App.isSharedTripLinkValid
             ) {
               //Nullify the shared link
               globalObject.props.App.sharedSimplifiedLink = null;
+              globalObject.props.App.isSharedTripLinkValid = false;
               //Show the end modal
               globalObject.props.UpdateErrorModalLog(
                 true,
@@ -1531,10 +1559,12 @@ class Home extends React.PureComponent {
             //? SHOW THE DONE TRIP MODAL ONLY OR SHARED TRIPS
             if (
               globalObject.props.App.sharedSimplifiedLink !== null &&
-              globalObject.props.App.sharedSimplifiedLink !== undefined
+              globalObject.props.App.sharedSimplifiedLink !== undefined &&
+              globalObject.props.App.isSharedTripLinkValid
             ) {
               //Nullify the shared link
               globalObject.props.App.sharedSimplifiedLink = null;
+              globalObject.props.App.isSharedTripLinkValid = false;
               //Show the end modal
               globalObject.props.UpdateErrorModalLog(
                 true,
@@ -1869,9 +1899,6 @@ class Home extends React.PureComponent {
       this.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
     }
     //...
-    /*if (this.backHander !== null) {
-      this.backHander.remove();
-    }*/
     //Clear the location watcher
     GeolocationP.clearWatch(this.props.App._MAIN_LOCATION_WATCHER);
     this.props.App._MAIN_LOCATION_WATCHER = null;
@@ -1882,6 +1909,8 @@ class Home extends React.PureComponent {
       'keyboardDidHide',
       this.keyboardStateUpdater(false),
     );
+    //...
+    Linking.removeEventListener('url', this.handleOpenURL);
   }
 
   /**
@@ -2055,33 +2084,51 @@ class Home extends React.PureComponent {
 
   processDeepLinkedURL = (url) => {
     if (url !== null && url !== undefined) {
-      let route = url.replace(/.*?:\/\//g, '');
-      let id = route.match(/\/([^\/]+)\/?$/)[1];
+      if (/sharedTrip/i.test(url)) {
+        let route = url;
+        let id = url;
 
-      //Fire the sharing realtime of the received trip if no trip is in progress
-      if (this.props.App.isRideInProgress) {
-        //Has a ride in progress
-        this.props.UpdateErrorModalLog(
-          true,
-          'showStatus_gettingSharedTrip_details__tripInProgress',
-          'any',
-        );
-        this.props.App.sharedSimplifiedLink = null;
-      } //Can see trip of friends and family
+        if (/link/i.test(url)) {
+          //Android case
+          id = url.split('link=')[1].trim();
+        } //iOS
+        else {
+          route = url.replace(/.*?:\/\//g, '');
+          id = route.match(/\/([^\/]+)\/?$/)[1];
+        }
+
+        //Fire the sharing realtime of the received trip if no trip is in progress
+        if (this.props.App.isRideInProgress) {
+          //Has a ride in progress
+          this.props.UpdateErrorModalLog(
+            true,
+            'showStatus_gettingSharedTrip_details__tripInProgress',
+            'any',
+          );
+          this.props.App.sharedSimplifiedLink = null;
+          this.props.App.isSharedTripLinkValid = false;
+        } //Can see trip of friends and family
+        else {
+          //Open modal loader
+          this.props.UpdateErrorModalLog(
+            true,
+            'showStatus_gettingSharedTrip_details__gettingLink',
+            'any',
+          );
+          //!Save the simplified link
+          this.props.App.sharedSimplifiedLink = id;
+          this.props.App.isSharedTripLinkValid = false;
+          //? No need to request here - the MAIN INTERVAL FETCHER WILL TAKE CARE OF IT.
+        }
+      } //Nullify global var
       else {
-        //Open modal loader
-        this.props.UpdateErrorModalLog(
-          true,
-          'showStatus_gettingSharedTrip_details__gettingLink',
-          'any',
-        );
-        //!Save the simplified link
-        this.props.App.sharedSimplifiedLink = id;
-        //? No need to request here - the MAIN INTERVAL FETCHER WILL TAKE CARE OF IT.
+        this.props.App.sharedSimplifiedLink = null;
+        this.props.App.isSharedTripLinkValid = false;
       }
     } //Nullify the global var
     else {
       this.props.App.sharedSimplifiedLink = null;
+      this.props.App.isSharedTripLinkValid = false;
     }
   };
   handleOpenURL = (event) => {

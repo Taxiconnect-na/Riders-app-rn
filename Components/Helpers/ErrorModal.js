@@ -2512,7 +2512,7 @@ class ErrorModal extends React.PureComponent {
                               ' with the driver ' +
                               this.props.App.generalTRIP_details_driverDetails
                                 .driverDetails.name +
-                              '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                              '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedTrip/trip.html?link=' +
                               this.props.App.generalTRIP_details_driverDetails
                                 .basicTripDetails.ride_simplified_id,
                           )
@@ -2565,7 +2565,7 @@ class ErrorModal extends React.PureComponent {
                               ' with the driver ' +
                               this.props.App.generalTRIP_details_driverDetails
                                 .driverDetails.name +
-                              '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                              '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedTrip/trip.html?link=' +
                               this.props.App.generalTRIP_details_driverDetails
                                 .basicTripDetails.ride_simplified_id,
                           )
@@ -2669,7 +2669,7 @@ class ErrorModal extends React.PureComponent {
                     ') with the driver ' +
                     this.props.App.generalTRIP_details_driverDetails
                       .driverDetails.name +
-                    '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedRide/' +
+                    '.\n\nYou can track my trip in realtime here: https://www.taxiconnectna.com/sharedTrip/trip.html?link=' +
                     this.props.App.generalTRIP_details_driverDetails
                       .basicTripDetails.ride_simplified_id,
                 )
@@ -4273,8 +4273,8 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
+                          ? 'UberMoveTextBold'
+                          : 'Uber Move Text Bold',
                       fontSize: RFValue(20),
                       marginTop: 15,
                     }}>
@@ -4304,8 +4304,8 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
+                            ? 'UberMoveTextBold'
+                            : 'Uber Move Text Bold',
                         fontSize: RFValue(21),
                         color: '#fff',
                       }}>
@@ -4327,8 +4327,8 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
+                          ? 'UberMoveTextBold'
+                          : 'Uber Move Text Bold',
                       fontSize: RFValue(20),
                       marginTop: 15,
                     }}>
@@ -4358,8 +4358,8 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
+                            ? 'UberMoveTextBold'
+                            : 'Uber Move Text Bold',
                         fontSize: RFValue(21),
                         color: '#fff',
                       }}>
@@ -4381,8 +4381,8 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
+                          ? 'UberMoveTextBold'
+                          : 'Uber Move Text Bold',
                       fontSize: RFValue(20),
                       marginTop: 15,
                     }}>
@@ -4412,8 +4412,8 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
+                            ? 'UberMoveTextBold'
+                            : 'Uber Move Text Bold',
                         fontSize: RFValue(21),
                         color: '#fff',
                       }}>
@@ -4435,8 +4435,8 @@ class ErrorModal extends React.PureComponent {
                     style={{
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
+                          ? 'UberMoveTextBold'
+                          : 'Uber Move Text Bold',
                       fontSize: RFValue(20),
                       marginTop: 15,
                     }}>
@@ -4466,8 +4466,8 @@ class ErrorModal extends React.PureComponent {
                       style={{
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
+                            ? 'UberMoveTextBold'
+                            : 'Uber Move Text Bold',
                         fontSize: RFValue(21),
                         color: '#fff',
                       }}>

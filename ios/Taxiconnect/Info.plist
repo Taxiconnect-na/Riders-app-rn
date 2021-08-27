@@ -31,7 +31,7 @@
 			<string>Taxiconnect</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>sharedRide</string>
+				<string>taxiconnect</string>
 			</array>
 		</dict>
 	</array>

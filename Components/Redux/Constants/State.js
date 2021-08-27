@@ -332,6 +332,7 @@ const STATE = {
 
   //DEEP LINK vars
   sharedSimplifiedLink: null, //! Will contain the link shared to this user by another user.
+  isSharedTripLinkValid: false, //!To know whether the link was validated or not - default: false
 
   //DESTINATION PREVIEW
   //Previewing.the way to destination after selecting the locations
