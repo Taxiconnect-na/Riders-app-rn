@@ -54,6 +54,7 @@ class ErrorModal extends React.PureComponent {
     this.state = {
       //Drop off rating metadata
       rating_score: 4, //The rating for the driver selected by the user - default: 4
+      reason_cancelling: false, //The reason for the cancellation
       compliment_array: {
         neatAndTidy: false,
         excellentService: false,
@@ -350,14 +351,15 @@ class ErrorModal extends React.PureComponent {
   /**
    * @func cancelRequest_rider
    * Responsible for cancelling any current request as selected by the user
+   * @param reason: the reason of cancelling the request.
    */
-  cancelRequest_rider() {
+  cancelRequest_rider(reason = false) {
     if (
       this.props.App.generalTRIP_details_driverDetails !== undefined &&
       this.props.App.generalTRIP_details_driverDetails !== null &&
       this.props.App.generalTRIP_details_driverDetails !== false
     ) {
-      this.setState({isLoading_something: true}); //Activate the loader
+      this.setState({isLoading_something: true, reason_cancelling: reason}); //Activate the loader
       //Bundle the cancel input
       let bundleData = {
         request_fp:
@@ -370,6 +372,7 @@ class ErrorModal extends React.PureComponent {
                 .request_fp
             : this.props.App.generalTRIP_details_driverDetails.request_fp,
         user_fingerprint: this.props.App.user_fingerprint,
+        reason: reason,
       };
       ///...
       this.props.App.socket.emit('cancelRiders_request_io', bundleData);
@@ -3460,7 +3463,7 @@ class ErrorModal extends React.PureComponent {
           style={{
             backgroundColor: '#fff',
             padding: 20,
-            height: 300,
+            height: '70%',
           }}>
           <View
             style={{
@@ -3492,41 +3495,179 @@ class ErrorModal extends React.PureComponent {
                   Platform.OS === 'android'
                     ? 'UberMoveTextRegular'
                     : 'Uber Move Text Light',
-                fontSize: RFValue(16),
+                fontSize: RFValue(15),
               }}>
-              You are about to cancel the current ride.
+              Help us improve your next experience.
             </Text>
           </View>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() =>
                 this.state.isLoading_something === false
-                  ? this.cancelRequest_rider()
+                  ? this.cancelRequest_rider('No available driver')
                   : {}
               }
-              style={[
-                styles.bttnGenericTc,
-                {
-                  borderRadius: 2,
-                  marginBottom: 20,
-                  backgroundColor: '#E2E2E2',
-                },
-              ]}>
-              <Text
-                style={{
-                  fontFamily:
-                    Platform.OS === 'android'
-                      ? 'UberMoveTextMedium'
-                      : 'Uber Move Text Medium',
-                  fontSize: RFValue(20),
-                  color: '#000',
-                }}>
-                {this.state.isLoading_something === false ? (
-                  'Yes, cancel'
-                ) : (
-                  <ActivityIndicator size="large" color="#000" />
-                )}
-              </Text>
+              style={styles.bttnGenericTcCancelSelection}>
+              {this.state.isLoading_something === false ||
+              /No available driver/i.test(this.state.reason_cancelling) ===
+                false ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
+                      color: '#000',
+                      flex: 1,
+                      paddingRight: 10,
+                    }}>
+                    No available driver
+                  </Text>
+                  <IconCommunity name="arrow-right" color="#096ED4" size={25} />
+                </View>
+              ) : (
+                <ActivityIndicator size="large" color="#000" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isLoading_something === false
+                  ? this.cancelRequest_rider('Driver too close')
+                  : {}
+              }
+              style={styles.bttnGenericTcCancelSelection}>
+              {this.state.isLoading_something === false ||
+              /Driver too close/i.test(this.state.reason_cancelling) ===
+                false ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
+                      color: '#000',
+                      flex: 1,
+                      paddingRight: 10,
+                    }}>
+                    Driver too close
+                  </Text>
+                  <IconCommunity name="arrow-right" color="#096ED4" size={25} />
+                </View>
+              ) : (
+                <ActivityIndicator size="large" color="#000" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isLoading_something === false
+                  ? this.cancelRequest_rider('Change of plans')
+                  : {}
+              }
+              style={styles.bttnGenericTcCancelSelection}>
+              {this.state.isLoading_something === false ||
+              /Change of plans/i.test(this.state.reason_cancelling) ===
+                false ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
+                      color: '#000',
+                      flex: 1,
+                      paddingRight: 10,
+                    }}>
+                    Change of plans
+                  </Text>
+                  <IconCommunity name="arrow-right" color="#096ED4" size={25} />
+                </View>
+              ) : (
+                <ActivityIndicator size="large" color="#000" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isLoading_something === false
+                  ? this.cancelRequest_rider('Driver too far')
+                  : {}
+              }
+              style={styles.bttnGenericTcCancelSelection}>
+              {this.state.isLoading_something === false ||
+              /Driver too far/i.test(this.state.reason_cancelling) === false ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
+                      color: '#000',
+                      flex: 1,
+                      paddingRight: 10,
+                    }}>
+                    Driver too far
+                  </Text>
+                  <IconCommunity name="arrow-right" color="#096ED4" size={25} />
+                </View>
+              ) : (
+                <ActivityIndicator size="large" color="#000" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.state.isLoading_something === false
+                  ? this.cancelRequest_rider('Just testing')
+                  : {}
+              }
+              style={styles.bttnGenericTcCancelSelection}>
+              {this.state.isLoading_something === false ||
+              /Just testing/i.test(this.state.reason_cancelling) === false ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextMedium'
+                          : 'Uber Move Text',
+                      fontSize: RFValue(17),
+                      color: '#000',
+                      flex: 1,
+                      paddingRight: 10,
+                    }}>
+                    Just testing
+                  </Text>
+                  <IconCommunity name="arrow-right" color="#096ED4" size={25} />
+                </View>
+              ) : (
+                <ActivityIndicator size="large" color="#000" />
+              )}
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
@@ -3534,7 +3675,7 @@ class ErrorModal extends React.PureComponent {
                   ? this.props.UpdateErrorModalLog(false, false, 'any')
                   : {}
               }
-              style={[styles.bttnGenericTc, {borderRadius: 2}]}>
+              style={[styles.bttnGenericTc, {borderRadius: 2, marginTop: 20}]}>
               <Text
                 style={{
                   fontFamily:
@@ -5517,6 +5658,12 @@ const styles = StyleSheet.create({
   },
   presentationWindow: {
     flex: 1,
+  },
+  bttnGenericTcCancelSelection: {
+    borderWidth: 1,
+    padding: 15,
+    marginBottom: 15,
+    borderRadius: 2,
   },
 });
 

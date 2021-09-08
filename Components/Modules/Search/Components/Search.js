@@ -60,7 +60,11 @@ class Search extends React.PureComponent {
         globalObj.props.App.search_time_requested = new Date();
       }
       //...
-      if (response !== false) {
+      if (
+        response !== false &&
+        response.result !== undefined &&
+        response.result !== false
+      ) {
         if (globalObj.props.App.search_querySearch.length !== 0) {
           globalObj.props.UpdateSearchMetadataLoaderState({
             search_metadataResponse: response.result.result,
@@ -599,6 +603,7 @@ class Search extends React.PureComponent {
    * Responsible for revealing the search results when the user is tiping.
    */
   renderSearch() {
+    // alert(JSON.stringify(this.props.App.search_metadataResponse.length));
     return (
       <Animated.View
         style={[

@@ -57,25 +57,21 @@ class ShowAllTransactionsEntry extends React.PureComponent {
 
   render() {
     return (
-      <DismissKeyboard>
-        <SafeAreaView style={styles.mainWindow}>
-          <StatusBar backgroundColor="#000" />
-          <View style={styles.presentationWindow}>
-            <FlatList
-              data={this.props.App.wallet_state_vars.transactions_details}
-              initialNumToRender={15}
-              keyboardShouldPersistTaps={'always'}
-              maxToRenderPerBatch={35}
-              windowSize={61}
-              updateCellsBatchingPeriod={10}
-              keyExtractor={(item, index) => item + index}
-              renderItem={({item}) => (
-                <WalletTransacRecords transactionDetails={item} />
-              )}
-            />
-          </View>
-        </SafeAreaView>
-      </DismissKeyboard>
+      <SafeAreaView style={{flex: 1}}>
+        <StatusBar backgroundColor="#000" />
+        <FlatList
+          data={this.props.App.wallet_state_vars.transactions_details}
+          initialNumToRender={15}
+          keyboardShouldPersistTaps={'always'}
+          maxToRenderPerBatch={35}
+          windowSize={61}
+          updateCellsBatchingPeriod={10}
+          keyExtractor={(item, index) => item + index}
+          renderItem={({item}) => (
+            <WalletTransacRecords transactionDetails={item} />
+          )}
+        />
+      </SafeAreaView>
     );
   }
 }
