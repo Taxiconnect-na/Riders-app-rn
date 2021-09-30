@@ -1887,7 +1887,14 @@ class ErrorModal extends React.PureComponent {
                                 {String(
                                   this.props.App
                                     .generalTRIP_details_driverDetails
-                                    .basicTripDetails.pickup_name,
+                                    .basicTripDetails.pickup_name !== false &&
+                                    this.props.App
+                                      .generalTRIP_details_driverDetails
+                                      .basicTripDetails.pickup_name !== 'false'
+                                    ? this.props.App
+                                        .generalTRIP_details_driverDetails
+                                        .basicTripDetails.pickup_name
+                                    : 'Your location',
                                 )}
                               </Text>
                               {/*<Text

@@ -67,7 +67,14 @@ class AnnotationDestination extends React.PureComponent {
                   bottom: 1,
                 },
               ]}>
-              {this.props.etaInfos.eta.split(' ')[1].toUpperCase()}
+              {this.props.etaInfos.eta !== undefined &&
+              this.props.etaInfos.eta !== null &&
+              this.props.etaInfos.eta.split(' ') !== undefined &&
+              this.props.etaInfos.eta.split(' ') !== null &&
+              this.props.etaInfos.eta.split(' ')[1] !== undefined &&
+              this.props.etaInfos.eta.split(' ')[1] !== null
+                ? this.props.etaInfos.eta.split(' ')[1].toUpperCase()
+                : '...'}
             </Text>
           </View>
           {this.props.showSuffix ? (

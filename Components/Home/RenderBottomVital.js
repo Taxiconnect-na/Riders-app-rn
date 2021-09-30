@@ -121,7 +121,11 @@ class RenderBottomVital extends React.PureComponent {
                 ? styles.shadowBottomVitalsIOS
                 : styles.shadowBottomVitalsNULL,
               {
-                height: this.props.App.bottomVitalsFlow.bottomVitalChildHeight, //- DISABLED FOR DEBUG - height: 400, For all the ride booking process flow and all but one deliveries process flows.
+                height: /confirmFareAmountORCustomize/i.test(
+                  this.props.App.bottomVitalsFlow.currentStep,
+                )
+                  ? 550
+                  : this.props.App.bottomVitalsFlow.bottomVitalChildHeight, //- DISABLED FOR DEBUG - height: 400, For all the ride booking process flow and all but one deliveries process flows.
                 //height: this.props.App.windowHeight, //Only for input receiver's informations for delivery and Package sizes
                 backgroundColor: '#fff',
                 zIndex: 90000,

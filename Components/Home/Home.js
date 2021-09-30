@@ -3766,13 +3766,17 @@ class Home extends React.PureComponent {
         ) : /(gettingRideProcessScreen)/i.test(
             this.props.App.bottomVitalsFlow.currentStep,
           ) !== true ? (
-          /(addMoreTripDetails|confirmFareAmountORCustomize)/i.test(
+          /addMoreTripDetails/i.test(
             this.props.App.bottomVitalsFlow.currentStep,
           ) ? (
             this.props.App.isKeyboardShown ? (
               <KeyboardAvoidingView behavior={'padding'}>
                 <RenderBottomVital parentNode={this} />
               </KeyboardAvoidingView>
+            ) : /confirmFareAmountORCustomize/i.test(
+                this.props.App.bottomVitalsFlow.currentStep,
+              ) ? (
+              <RenderBottomVital parentNode={this} />
             ) : (
               <KeyboardAvoidingView behavior={'padding'}>
                 <RenderBottomVital parentNode={this} />

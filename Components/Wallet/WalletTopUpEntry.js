@@ -155,7 +155,7 @@ class WalletTopUpEntry extends React.PureComponent {
                                 ? 'UberMoveTextRegular'
                                 : 'Uber Move Text',
                           }}>
-                          Credit card
+                          Credit or Debit card
                         </Text>
                       </View>
                     </TouchableOpacity>

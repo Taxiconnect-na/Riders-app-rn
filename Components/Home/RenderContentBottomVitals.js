@@ -138,8 +138,8 @@ class RenderContentBottomVitals extends React.PureComponent {
           <Text
             style={[
               {
-                fontSize: RFValue(16),
-                marginLeft: Platform.OS === 'android' ? 0 : 5,
+                fontSize: RFValue(20),
+                marginLeft: Platform.OS === 'android' ? 0 : 10,
                 flex: 1,
                 fontFamily:
                   Platform.OS === 'android'
@@ -153,8 +153,8 @@ class RenderContentBottomVitals extends React.PureComponent {
             ]}>
             {this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
               .isGoingUntilHome
-              ? 'Going until home.'
-              : 'Not going until home.'}
+              ? 'YES'
+              : 'NO'}
           </Text>
         </View>
       );
@@ -176,111 +176,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       this.revealIdentifiedLocationOnReady();
       if (
         this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-          .locationTypeIdentified === 'TaxiRank'
-      ) {
-        return (
-          <AnimatedNative.View
-            style={{
-              opacity: this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-                .identifyingLocationProcessContentOpacity,
-              width: '100%',
-              alignItems: 'center',
-              flex: 1,
-            }}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1,
-              }}>
-              <View style={styles.borderIconLocationType}>
-                <Image
-                  source={this.props.App.taxiRankIco}
-                  style={{resizeMode: 'contain', width: '60%', height: '60%'}}
-                />
-              </View>
-              <View
-                style={{
-                  paddingTop: 20,
-                  alignItems: 'center',
-                  bottom: 10,
-                }}>
-                <Text
-                  style={[
-                    {
-                      fontSize: RFValue(18.5),
-                      paddingBottom: 7,
-                      color: '#0D8691',
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
-                    },
-                  ]}>
-                  Current location
-                </Text>
-                <Text
-                  style={[
-                    {
-                      fontSize: RFValue(15),
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextRegular'
-                          : 'Uber Move Text',
-                    },
-                  ]}>
-                  <Text
-                    style={{
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
-                    }}>
-                    +N$5
-                  </Text>{' '}
-                  pickup fee
-                </Text>
-              </View>
-            </View>
-            {this.renderChoose_goUntilHome()}
-            <View
-              style={{
-                width: '100%',
-                alignItems: 'center',
-                height: 100,
-              }}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.parentNode.rerouteBookingProcessFlow(
-                    'next',
-                    'RIDE',
-                  )
-                }
-                style={{
-                  borderWidth: 1,
-                  borderColor: 'transparent',
-                  width: '90%',
-                }}>
-                <View style={[styles.bttnGenericTc]}>
-                  <Text
-                    style={[
-                      {
-                        fontFamily:
-                          Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
-                        fontSize: RFValue(21),
-                        color: '#fff',
-                      },
-                    ]}>
-                    Next
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </AnimatedNative.View>
-        );
-      } else if (
+          .locationTypeIdentified === 'TaxiRank' ||
         this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
           .locationTypeIdentified === 'PrivateLocation'
       ) {
@@ -295,36 +191,17 @@ class RenderContentBottomVitals extends React.PureComponent {
             }}>
             <View
               style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1,
+                alignItems: 'flex-start',
+                // flex: 1,
+                // borderWidth: 1,
+                width: '90%',
               }}>
-              <View style={[styles.borderIconLocationType]}>
-                <Image
-                  source={this.props.App.privateLocationIco}
-                  style={{resizeMode: 'contain', width: '60%', height: '60%'}}
-                />
-              </View>
               <View
                 style={{
                   paddingTop: 20,
                   alignItems: 'center',
                   bottom: 10,
                 }}>
-                <Text
-                  style={[
-                    {
-                      fontSize: RFValue(18.5),
-                      paddingBottom: 7,
-                      color: '#0D8691',
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
-                    },
-                  ]}>
-                  Current location
-                </Text>
                 <Text
                   style={[
                     {
@@ -335,20 +212,12 @@ class RenderContentBottomVitals extends React.PureComponent {
                           : 'Uber Move Text',
                     },
                   ]}>
-                  <Text
-                    style={{
-                      fontFamily:
-                        Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
-                    }}>
-                    +N$5
-                  </Text>{' '}
-                  pickup fee
+                  Please indicate if you are going until your home or not for a
+                  seamless ride experience.
                 </Text>
               </View>
             </View>
-            {this.renderChoose_goUntilHome()}
+            <View style={{flex: 1}}>{this.renderChoose_goUntilHome()}</View>
             <View
               style={{
                 width: '100%',
@@ -1849,7 +1718,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                         : 'Uber Move Text Medium',
                   },
                 ]}>
-                Hey, we're good to go!
+                Are you going until home?
               </AnimatedNative.Text>
             </View>
             <View
@@ -2448,7 +2317,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                               : 'Uber Move Text Medium',
                         },
                       ]}>
-                      N$48
+                      N$50
                     </Text>
                   </Text>
                 </View>

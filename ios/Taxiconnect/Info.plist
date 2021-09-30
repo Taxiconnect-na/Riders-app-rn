@@ -75,25 +75,6 @@
 	<string>TaxiConnect needs access your gallery in order to change your profile picture.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ClanOT-Black.ttf</string>
-		<string>ClanOT-Bold.ttf</string>
-		<string>ClanOT-Book.ttf</string>
-		<string>ClanOT-Medium.ttf</string>
-		<string>ClanOT-NarrowBlack.ttf</string>
-		<string>ClanOT-NarrowBook.ttf</string>
-		<string>ClanOT-NarrowMedium.ttf</string>
-		<string>ClanOT-NarrowNews.ttf</string>
-		<string>ClanOT-NarrowThin.ttf</string>
-		<string>ClanOT-NarrowUltra.ttf</string>
-		<string>ClanOT-News.ttf</string>
-		<string>ClanOT-Thin.ttf</string>
-		<string>ClanOT-Ultra.ttf</string>
-		<string>Allrounder-Grotesk-Book.otf</string>
-		<string>Allrounder-Grotesk-Medium.otf</string>
-		<string>Allrounder-Grotesk-Regular.otf</string>
-		<string>Allrounder-Monument-Book.otf</string>
-		<string>Allrounder-Monument-Medium.otf</string>
-		<string>Allrounder-Monument-Regular.otf</string>
 		<string>MoveBold.otf</string>
 		<string>MoveLight.ttf</string>
 		<string>MoveMedium.otf</string>

@@ -1180,10 +1180,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
    */
   renderSummarySelectedCarType() {
     return (
-      <TouchableOpacity
-        onPressIn={() => this.switchToEnterCustomFare(true)}
+      <View
         style={{
-          height: 200,
+          height: 350,
           flex: 1,
           alignItems: 'center',
         }}>
@@ -1261,38 +1260,19 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           </Text>
         </View>
         <View style={{flexDirection: 'row'}}>
-          <Text
-            style={[
-              {
-                fontSize: RFValue(17.5),
-                color: '#000',
-                fontFamily:
-                  Platform.OS === 'android'
-                    ? 'UberMoveTextMedium'
-                    : 'Uber Move Text Medium',
-              },
-            ]}>
-            N${' '}
-            {this.props.App.customFareTripSelected !== undefined &&
-            this.props.App.customFareTripSelected !== false &&
-            this.props.App.customFareTripSelected !== null
-              ? this.props.App.customFareTripSelected
-              : this.props.App.fareTripSelected}
-          </Text>
           {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent) ? (
             <View style={{flexDirection: 'row'}}>
-              <Text style={{paddingLeft: 10, paddingRight: 10}}>-</Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <IconAnt name="user" size={16} />
+                <IconEntypo name="user" size={15} />
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(17.5),
+                      fontSize: RFValue(17),
                       paddingLeft: 5,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   {
@@ -1301,17 +1281,26 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   }
                 </Text>
               </View>
-              <Text style={{paddingLeft: 10, paddingRight: 10}}>-</Text>
-              <View style={{flexDirection: 'row'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: 25,
+                }}>
+                <IconCommunity
+                  name="credit-card-outline"
+                  size={20}
+                  style={{marginRight: 2}}
+                />
                 <Text
                   style={[
                     {
-                      fontSize: RFValue(17.5),
+                      fontSize: RFValue(17),
                       paddingLeft: 0,
                       fontFamily:
                         Platform.OS === 'android'
-                          ? 'UberMoveTextMedium'
-                          : 'Uber Move Text Medium',
+                          ? 'UberMoveTextRegular'
+                          : 'Uber Move Text',
                     },
                   ]}>
                   {this.props.parentNodeHome.ucFirst(
@@ -1322,8 +1311,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             </View>
           ) : (
             <View style={{flexDirection: 'row'}}>
-              <Text style={{paddingLeft: 10, paddingRight: 10}}>-</Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <IconCommunity
+                  name="credit-card-outline"
+                  size={20}
+                  style={{marginRight: 2}}
+                />
                 <Text
                   style={[
                     {
@@ -1343,38 +1336,76 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             </View>
           )}
         </View>
-        <Text
-          style={[
-            {
-              flexDirection: 'row',
-              textAlign: 'center',
-              fontSize: RFValue(14),
-              width: '100%',
-              paddingTop: 10,
-              fontFamily:
-                Platform.OS === 'android'
-                  ? 'UberMoveTextLight'
-                  : 'Uber Move Text Light',
-            },
-          ]}>
-          <Text>Or </Text>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: '#d0d0d0',
+            marginTop: 30,
+            marginBottom: 20,
+            paddingBottom: 30,
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <Text
             style={[
               {
-                fontSize: RFValue(17),
-                color: '#0D8691',
+                fontSize: RFValue(24),
+                color: '#000',
                 fontFamily:
                   Platform.OS === 'android'
                     ? 'UberMoveTextBold'
-                    : 'Uber Move Text Bold',
+                    : 'Uber Move Bold',
               },
             ]}>
-            {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
-              ? 'Enter a custom fare'
-              : 'Enter a custom price'}
+            N${' '}
+            {this.props.App.customFareTripSelected !== undefined &&
+            this.props.App.customFareTripSelected !== false &&
+            this.props.App.customFareTripSelected !== null
+              ? this.props.App.customFareTripSelected
+              : this.props.App.fareTripSelected}
           </Text>
-        </Text>
-      </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={{
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPressIn={() => this.switchToEnterCustomFare(true)}>
+          <Text
+            style={[
+              {
+                flexDirection: 'row',
+                textAlign: 'center',
+                fontSize: RFValue(14),
+                width: '100%',
+                paddingTop: 10,
+                fontFamily:
+                  Platform.OS === 'android'
+                    ? 'UberMoveTextLight'
+                    : 'Uber Move Text Light',
+              },
+            ]}>
+            <Text>Or </Text>
+            <Text
+              style={[
+                {
+                  fontSize: RFValue(18.5),
+                  color: '#0D8691',
+                  fontFamily:
+                    Platform.OS === 'android'
+                      ? 'UberMoveTextBold'
+                      : 'Uber Move Text Bold',
+                },
+              ]}>
+              {/RIDE/i.test(this.props.App.bottomVitalsFlow.flowParent)
+                ? 'Enter a custom fare'
+                : 'Enter a custom price'}
+            </Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 
@@ -1937,7 +1968,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                               vehicle.availability,
                                             )
                                               ? 'N$ ' + vehicle.base_fare
-                                              : vehicle.availability[0].toUpperCase() +
+                                              : `${
+                                                  vehicle.availability[0] !==
+                                                    undefined &&
+                                                  vehicle.availability[0] !==
+                                                    null
+                                                    ? vehicle.availability[0].toUpperCase()
+                                                    : 'Unavailable'
+                                                }` +
                                                 vehicle.availability.substring(
                                                   1,
                                                 )}
@@ -2178,7 +2216,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                               vehicle.availability,
                                             )
                                               ? 'N$ ' + vehicle.base_fare
-                                              : vehicle.availability[0].toUpperCase() +
+                                              : `${
+                                                  vehicle.availability[0] !==
+                                                    undefined &&
+                                                  vehicle.availability[0] !==
+                                                    null
+                                                    ? vehicle.availability[0].toUpperCase()
+                                                    : 'Unavailable'
+                                                }` +
                                                 vehicle.availability.substring(
                                                   1,
                                                 )}
@@ -2403,7 +2448,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                               vehicle.availability,
                                             )
                                               ? 'N$ ' + vehicle.base_fare
-                                              : vehicle.availability[0].toUpperCase() +
+                                              : `${
+                                                  vehicle.availability[0] !==
+                                                    undefined &&
+                                                  vehicle.availability[0] !==
+                                                    null
+                                                    ? vehicle.availability[0].toUpperCase()
+                                                    : 'Unavailable'
+                                                }` +
                                                 vehicle.availability.substring(
                                                   1,
                                                 )}
@@ -2887,7 +2939,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                               vehicle.availability,
                                             )
                                               ? 'N$ ' + vehicle.base_fare
-                                              : vehicle.availability[0].toUpperCase() +
+                                              : `${
+                                                  vehicle.availability[0] !==
+                                                    undefined &&
+                                                  vehicle.availability[0] !==
+                                                    null
+                                                    ? vehicle.availability[0].toUpperCase()
+                                                    : 'Unavailable'
+                                                }` +
                                                 vehicle.availability.substring(
                                                   1,
                                                 )}
@@ -3141,7 +3200,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                                               vehicle.availability,
                                             )
                                               ? 'N$ ' + vehicle.base_fare
-                                              : vehicle.availability[0].toUpperCase() +
+                                              : `${
+                                                  vehicle.availability[0] !==
+                                                    undefined &&
+                                                  vehicle.availability[0] !==
+                                                    null
+                                                    ? vehicle.availability[0].toUpperCase()
+                                                    : 'Unavailable'
+                                                }` +
                                                 vehicle.availability.substring(
                                                   1,
                                                 )}
@@ -3382,7 +3448,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                     Platform.OS === 'android'
                       ? 'UberMoveTextLight'
                       : 'Uber Move Text Light',
-                  fontSize: RFValue(12),
+                  fontSize: RFValue(13),
                 }}>
                 <Text
                   style={{
@@ -3404,6 +3470,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         ? 'UberMoveTextMedium'
                         : 'Uber Move Text Medium',
                     color: '#0e8491',
+                    fontSize: RFValue(13),
                   }}>
                   Going until home.
                 </Text>
@@ -3415,6 +3482,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                         ? 'UberMoveTextMedium'
                         : 'Uber Move Text Medium',
                     color: '#0e8491',
+                    fontSize: RFValue(13),
                   }}>
                   Not going until home.
                 </Text>
@@ -3449,9 +3517,9 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   style={{
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'UberMoveTextMedium'
-                        : 'Uber Move Text Medium',
-                    fontSize: RFValue(20),
+                        ? 'UberMoveTextBold'
+                        : 'Uber Move Text Bold',
+                    fontSize: RFValue(19),
                     color: '#fff',
                     flex: 1,
                     textAlign: 'center',
@@ -3495,7 +3563,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               }}>
               <TextInput
                 placeholderTextColor="#AFAFAF"
-                placeholder="Enter your fare (N$)"
+                placeholder="Enter your fare here"
                 keyboardType={'number-pad'}
                 maxLength={3}
                 onChangeText={(text) =>
@@ -3527,7 +3595,11 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   justifyContent: 'flex-start',
                   alignItems: 'center',
                 }}>
-                <IconFeather name="info" size={16} style={{marginRight: 4}} />
+                <IconMaterialIcons
+                  name="info"
+                  size={19}
+                  style={{marginRight: 4}}
+                />
                 <Text
                   style={[
                     {
@@ -3544,8 +3616,8 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                       {
                         fontFamily:
                           Platform.OS === 'android'
-                            ? 'UberMoveTextMedium'
-                            : 'Uber Move Text Medium',
+                            ? 'UberMoveTextBold'
+                            : 'Uber Move Text Bold',
                         color: '#096ED4',
                       },
                     ]}>

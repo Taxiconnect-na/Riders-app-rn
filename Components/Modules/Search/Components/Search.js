@@ -603,7 +603,6 @@ class Search extends React.PureComponent {
    * Responsible for revealing the search results when the user is tiping.
    */
   renderSearch() {
-    // alert(JSON.stringify(this.props.App.search_metadataResponse.length));
     return (
       <Animated.View
         style={[
