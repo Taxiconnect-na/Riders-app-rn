@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 const io = require('socket.io-client');
-import {_MAIN_URL_ENDPOINT} from '@env';
 
 //...
 const socket = io('https://taxiconnectnanetwork.com:9999', {

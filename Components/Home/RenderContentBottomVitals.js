@@ -168,6 +168,9 @@ class RenderContentBottomVitals extends React.PureComponent {
    * Responsible for rendering the identified location type (taxi rank or private location) after computing
    */
   renderIdentifiedLocationType() {
+    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+      .locationTypeIdentified === 'TaxiRank';
+    //...
     if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
         .locationTypeIdentified !== false
