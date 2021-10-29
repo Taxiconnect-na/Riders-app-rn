@@ -142,6 +142,11 @@ class Search extends React.PureComponent {
           this.props.App.userCurrentLocationMetaData.country !== undefined
             ? this.props.App.userCurrentLocationMetaData.country
             : 'Namibia'; //Default country to Namibia
+        requestPackage.state =
+          this.props.App.userCurrentLocationMetaData.state !== undefined
+            ? this.props.App.userCurrentLocationMetaData.state
+            : 'Khomas'; //Default state to Khomas
+        requestPackage.dataBundle = this.props.App.userCurrentLocationMetaData;
         //Submit to API
         this.setState({loaderState: true});
         this.props.App.socket.emit('getLocations', requestPackage);
