@@ -43,34 +43,31 @@ class SendFundsInputAmount extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );
 
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        if (
-          globalObject.props.App.recipient_crucial_data.amount !== undefined &&
-          globalObject.props.App.recipient_crucial_data.amount !== null
-        ) {
-          globalObject.props.App.recipient_crucial_data.amount = null; //! Clear amount data if any
-        }
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      if (
+        that.props.App.recipient_crucial_data.amount !== undefined &&
+        that.props.App.recipient_crucial_data.amount !== null
+      ) {
+        that.props.App.recipient_crucial_data.amount = null; //! Clear amount data if any
+      }
 
-        globalObject.setState({
-          amountInputed: null,
-          showErrorWithAmount: false,
-          errorWithAmountMessage: null,
-        });
-      },
-    );
+      that.setState({
+        amountInputed: null,
+        showErrorWithAmount: false,
+        errorWithAmountMessage: null,
+      });
+    });
   }
 
   /**

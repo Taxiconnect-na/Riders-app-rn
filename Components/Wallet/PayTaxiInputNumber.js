@@ -97,24 +97,21 @@ class PayTaxiInputNumber extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
 
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.props.App.paymentNumberOrTaxiNumber = null; //! CLEAR THE GLOBAL PAYMENT NUMBER VARIABLE.
-        globalObject.setState({
-          paymentNumber: '',
-          showErrorMessage: false,
-        });
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.props.App.paymentNumberOrTaxiNumber = null; //! CLEAR THE GLOBAL PAYMENT NUMBER VARIABLE.
+      that.setState({
+        paymentNumber: '',
+        showErrorMessage: false,
+      });
+    });
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );

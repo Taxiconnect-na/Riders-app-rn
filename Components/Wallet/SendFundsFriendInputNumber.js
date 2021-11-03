@@ -35,14 +35,11 @@ class SendFundsFriendInputNumber extends React.PureComponent {
 
   componentDidMount() {
     this._isMounted = true;
-    let globalObject = this;
+    let that = this;
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.props.ResetGenericPhoneNumberInput();
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.props.ResetGenericPhoneNumberInput();
+    });
     //Auto reset phone number validity to false
     this.props.App.isPhoneNumberValid = false;
   }

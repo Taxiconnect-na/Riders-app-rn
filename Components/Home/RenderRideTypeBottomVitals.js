@@ -80,7 +80,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
    */
   rideTypeToSchedulerTransistor(isSchedulerOnVal) {
     //Work if only props.App value changes
-    let globalObject = this;
+    let that = this;
     InteractionManager.runAfterInteractions(() => {
       if (isSchedulerOnVal === this.props.App.isSelectTripScheduleOn) {
         return; //Cancel repetition to avoid execessive props.App update
@@ -135,14 +135,14 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             useNativeDriver: true,
           }),
         ]).start(() => {
-          globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
-          globalObject.forceUpdate(); //To refresh the new UI elements containing the select ride view
+          that.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+          that.forceUpdate(); //To refresh the new UI elements containing the select ride view
           //Restore the current scroll level of the select ride scrollview
           setTimeout(() => {
-            globalObject.scrollViewSelectRideRef.scrollTo({
+            that.scrollViewSelectRideRef.scrollTo({
               x:
-                globalObject.props.App.windowWidth *
-                globalObject.props.App.headerRideTypesVars.currentHeaderIndex,
+                that.props.App.windowWidth *
+                that.props.App.headerRideTypesVars.currentHeaderIndex,
               y: 0,
               animated: true,
             });
@@ -151,44 +151,32 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           //...
           //Fade away the  scheduler -> select ride
           AnimatedNative.parallel([
-            AnimatedNative.timing(
-              globalObject.props.App.titleSelectRideOpacity,
-              {
-                toValue: 1,
-                duration: 250,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
-            AnimatedNative.timing(
-              globalObject.props.App.titleSelectRidePosition,
-              {
-                toValue: 0,
-                duration: 250,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
-            AnimatedNative.timing(
-              globalObject.props.App.selectRideContentOpacity,
-              {
-                toValue: 1,
-                duration: 200,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
-            AnimatedNative.timing(
-              globalObject.props.App.selectRideContentPosition,
-              {
-                toValue: 0,
-                duration: 200,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
+            AnimatedNative.timing(that.props.App.titleSelectRideOpacity, {
+              toValue: 1,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
+            AnimatedNative.timing(that.props.App.titleSelectRidePosition, {
+              toValue: 0,
+              duration: 250,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
+            AnimatedNative.timing(that.props.App.selectRideContentOpacity, {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
+            AnimatedNative.timing(that.props.App.selectRideContentPosition, {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
           ]).start(() => {
-            globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+            that.forceUpdate(); //To refresh the new UI elements containing the scheduler view
           });
         });
       } //Select ride type currently active
@@ -220,12 +208,12 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             useNativeDriver: true,
           }),
         ]).start(() => {
-          globalObject.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
-          globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+          that.props.App.isSelectTripScheduleOn = isSchedulerOnVal;
+          that.forceUpdate(); //To refresh the new UI elements containing the scheduler view
           //Fade in the scheduler
           AnimatedNative.parallel([
             AnimatedNative.timing(
-              globalObject.props.App.titleSchedulerSelectRideOpacity,
+              that.props.App.titleSchedulerSelectRideOpacity,
               {
                 toValue: 1,
                 duration: 250,
@@ -234,7 +222,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               },
             ),
             AnimatedNative.timing(
-              globalObject.props.App.titleSchedulerSelectRidePostion,
+              that.props.App.titleSchedulerSelectRidePostion,
               {
                 toValue: 0,
                 duration: 250,
@@ -242,26 +230,20 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 useNativeDriver: true,
               },
             ),
-            AnimatedNative.timing(
-              globalObject.props.App.scheduleRideContentOpacity,
-              {
-                toValue: 1,
-                duration: 200,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
-            AnimatedNative.timing(
-              globalObject.props.App.scheduleRideContentPosition,
-              {
-                toValue: 0,
-                duration: 200,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
+            AnimatedNative.timing(that.props.App.scheduleRideContentOpacity, {
+              toValue: 1,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
+            AnimatedNative.timing(that.props.App.scheduleRideContentPosition, {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
           ]).start(() => {
-            globalObject.forceUpdate(); //To refresh the new UI elements containing the scheduler view
+            that.forceUpdate(); //To refresh the new UI elements containing the scheduler view
           });
         });
       }
@@ -281,7 +263,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
     carIcon = false,
     carName = false,
   ) {
-    let globalObject = this;
+    let that = this;
 
     //?AUTO SELECT THE PAYMENT METHOD BASED ON THE FARE
     if (
@@ -290,9 +272,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
       this.props.App.wallet_state_vars.totalWallet_amount !== null
     ) {
       //! CHECK THE WALLET STATE BEFORE CONTINUING
-      if (
-        /^unlocked/i.test(globalObject.props.App.wallet_state_vars.wallet_state)
-      ) {
+      if (/^unlocked/i.test(that.props.App.wallet_state_vars.wallet_state)) {
         //Received some fares
         try {
           let fareTmp = parseFloat(fare);
@@ -385,7 +365,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
+        that.props.UpdateRideTypesScales({
           rideType: carType,
           fare: fare,
         });
@@ -448,7 +428,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
+        that.props.UpdateRideTypesScales({
           rideType: carType,
           fare: fare,
         });
@@ -511,7 +491,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
+        that.props.UpdateRideTypesScales({
           rideType: carType,
           fare: fare,
         });
@@ -574,7 +554,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
+        that.props.UpdateRideTypesScales({
           rideType: carType,
           fare: fare,
         });
@@ -637,7 +617,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
+        that.props.UpdateRideTypesScales({
           rideType: carType,
           fare: fare,
         });
@@ -700,7 +680,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        globalObject.props.UpdateRideTypesScales({
+        that.props.UpdateRideTypesScales({
           rideType: carType,
           fare: fare,
         });
@@ -713,58 +693,48 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
    * @func selectRideScrollManager
    * Responsible for keeping the right interaction level based on the scroll level.
    */
-  selectRideScrollManager(event, globalObject) {
+  selectRideScrollManager(event, that) {
     let currentOffset = Math.round(event.nativeEvent.contentOffset.x);
     let currentScreen = Math.round(
       currentOffset / event.nativeEvent.layoutMeasurement.width,
     );
     //Check if the screen has changed
     if (
-      globalObject.props.App.headerRideTypesVars.currentHeaderIndex !==
-      currentScreen
+      that.props.App.headerRideTypesVars.currentHeaderIndex !== currentScreen
     ) {
       //New state
       InteractionManager.runAfterInteractions(() => {
         //Fade the title quickly and update the state, and reshow the title
         //UpdateRideTypesOnScrollCategories
         AnimatedNative.parallel([
-          AnimatedNative.timing(globalObject.props.App.titleSelectRideOpacity, {
+          AnimatedNative.timing(that.props.App.titleSelectRideOpacity, {
             toValue: 0,
             duration: 50,
             useNativeDriver: true,
           }),
-          AnimatedNative.timing(
-            globalObject.props.App.titleSelectRidePosition,
-            {
-              toValue: 10,
-              duration: 50,
-              useNativeDriver: true,
-            },
-          ),
+          AnimatedNative.timing(that.props.App.titleSelectRidePosition, {
+            toValue: 10,
+            duration: 50,
+            useNativeDriver: true,
+          }),
         ]).start(() => {
           //Update state
-          globalObject.props.UpdateRideTypesOnScrollCategories({
+          that.props.UpdateRideTypesOnScrollCategories({
             currentScreen: currentScreen,
             currentScrollposition: currentOffset,
           });
           //The title back in
           AnimatedNative.parallel([
-            AnimatedNative.timing(
-              globalObject.props.App.titleSelectRideOpacity,
-              {
-                toValue: 1,
-                duration: 50,
-                useNativeDriver: true,
-              },
-            ),
-            AnimatedNative.timing(
-              globalObject.props.App.titleSelectRidePosition,
-              {
-                toValue: 0,
-                duration: 50,
-                useNativeDriver: true,
-              },
-            ),
+            AnimatedNative.timing(that.props.App.titleSelectRideOpacity, {
+              toValue: 1,
+              duration: 50,
+              useNativeDriver: true,
+            }),
+            AnimatedNative.timing(that.props.App.titleSelectRidePosition, {
+              toValue: 0,
+              duration: 50,
+              useNativeDriver: true,
+            }),
           ]).start();
         });
       });
@@ -778,7 +748,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
    * Responsible for switching main summary screen to enter custom fare one
    */
   switchToEnterCustomFare(setTo, extraAction = false) {
-    let globalObject = this;
+    let that = this;
 
     //Show enter custom fare
     AnimatedNative.parallel([
@@ -809,7 +779,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
     ]).start(() => {
       //Update main var for determing whether to show custom fare bottom vital or jot
       if (extraAction === false) {
-        globalObject.props.UpdateCustomFareState({
+        that.props.UpdateCustomFareState({
           isEnterCustomFareWindowOn: setTo,
         });
       } else if (extraAction === 'considerCustomFare') {
@@ -825,7 +795,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
               //Greater than the normal fare for the ride
               //Clean the customStringTYpedTMP
               this.props.App.customStringTypedTMP = false;
-              globalObject.props.UpdateCustomFareState({
+              that.props.UpdateCustomFareState({
                 isEnterCustomFareWindowOn: setTo,
                 fareTripSelected: customFare,
               });
@@ -833,7 +803,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
             else {
               //Clean the customStringTYpedTMP
               this.props.App.customStringTypedTMP = false;
-              globalObject.props.UpdateCustomFareState({
+              that.props.UpdateCustomFareState({
                 isEnterCustomFareWindowOn: setTo,
               });
             }
@@ -841,7 +811,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           else {
             //Clean the customStringTYpedTMP
             this.props.App.customStringTypedTMP = false;
-            globalObject.props.UpdateCustomFareState({
+            that.props.UpdateCustomFareState({
               isEnterCustomFareWindowOn: setTo,
             });
           }
@@ -849,7 +819,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         else {
           //Clean the customStringTYpedTMP
           this.props.App.customStringTypedTMP = false;
-          globalObject.props.UpdateCustomFareState({
+          that.props.UpdateCustomFareState({
             isEnterCustomFareWindowOn: setTo,
           });
         }
@@ -891,7 +861,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
    * @param actionType: RIDE OR DELIVERY depending on the request type
    */
   connectToTaxiGenericButtonAction(actionType) {
-    let globalObject = this;
+    let that = this;
     if (actionType === 'RIDE' || actionType === 'DELIVERY') {
       this.props.parentNodeHome.fire_search_animation();
       //Fade out the bottom vitals and generic contents to fade in the ride loader screen
@@ -954,58 +924,54 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
           useNativeDriver: true,
         }),
       ]).start(() => {
-        //globalObject.props.App.bottomVitalsFlow.currentStep ='gettingRideProcessScreen';
+        //that.props.App.bottomVitalsFlow.currentStep ='gettingRideProcessScreen';
 
-        globalObject.props.UpdateProcessFlowState({
+        that.props.UpdateProcessFlowState({
           flowDirection: 'next',
-          parentTHIS: globalObject.props.parentNodeHome,
+          parentTHIS: that.props.parentNodeHome,
         });
         //GATHER REQUEST METADATA FOR RIDE OR DELIVERY REQUEST
         //Check if a custom pickup location was specified
         //Point to current location by default
-        let org_latitude = globalObject.props.App.latitude;
-        let org_longitude = globalObject.props.App.longitude;
+        let org_latitude = that.props.App.latitude;
+        let org_longitude = that.props.App.longitude;
         //Check forr custom pickup
         if (
-          globalObject.props.App.search_pickupLocationInfos
+          that.props.App.search_pickupLocationInfos
             .isBeingPickedupFromCurrentLocation === false &&
-          globalObject.props.App.search_pickupLocationInfos
-            .passenger0Destination !== false
+          that.props.App.search_pickupLocationInfos.passenger0Destination !==
+            false
         ) {
           org_latitude =
-            globalObject.props.App.search_pickupLocationInfos
-              .passenger0Destination.coordinates[1];
+            that.props.App.search_pickupLocationInfos.passenger0Destination
+              .coordinates[1];
           org_longitude =
-            globalObject.props.App.search_pickupLocationInfos
-              .passenger0Destination.coordinates[0];
+            that.props.App.search_pickupLocationInfos.passenger0Destination
+              .coordinates[0];
         }
         //...................................................
         let RIDE_OR_DELIVERY_BOOKING_DATA = {
-          user_fingerprint: globalObject.props.App.user_fingerprint,
-          connectType: globalObject.props.App.bottomVitalsFlow.connectType,
-          country: globalObject.props.App.userCurrentLocationMetaData.country,
+          user_fingerprint: that.props.App.user_fingerprint,
+          connectType: that.props.App.bottomVitalsFlow.connectType,
+          country: that.props.App.userCurrentLocationMetaData.country,
           isAllGoingToSameDestination:
-            globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+            that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
               .isAllgoingToTheSamePlace, //If all the passengers are going to the same destination
           isGoingUntilHome: /RIDE/i.test(
-            globalObject.props.App.bottomVitalsFlow.flowParent,
+            that.props.App.bottomVitalsFlow.flowParent,
           )
-            ? globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+            ? that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .isGoingUntilHome
             : false, //! Will double the fares for the Economy - Set to false for the DELIVERY
-          naturePickup: /RIDE/i.test(
-            globalObject.props.App.bottomVitalsFlow.flowParent,
-          )
-            ? globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+          naturePickup: /RIDE/i.test(that.props.App.bottomVitalsFlow.flowParent)
+            ? that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .locationTypeIdentified !== false
-              ? globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+              ? that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                   .locationTypeIdentified
               : 'PrivateLocation'
             : 'PrivateLocation', //Force PrivateLocation type if nothing found or delivery request,  -Nature of the pickup location (privateLOcation,etc)
-          passengersNo: /RIDE/i.test(
-            globalObject.props.App.bottomVitalsFlow.flowParent,
-          )
-            ? globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+          passengersNo: /RIDE/i.test(that.props.App.bottomVitalsFlow.flowParent)
+            ? that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .numberOfPassengersSelected
             : 1, //Force to 1 passenger for deliveries
           actualRider: /^me$/i.test(
@@ -1025,13 +991,13 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                   .riderOrPackagePosseserSwitchingVars.riderPhoneNumber,
           //DELIVERY SPECIFIC INFOS (receiver infos:name and phone)
           receiverName_delivery: /RIDE/i.test(
-            globalObject.props.App.bottomVitalsFlow.flowParent,
+            that.props.App.bottomVitalsFlow.flowParent,
           )
             ? false
             : this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .receiverName,
           receiverPhone_delivery: /RIDE/i.test(
-            globalObject.props.App.bottomVitalsFlow.flowParent,
+            that.props.App.bottomVitalsFlow.flowParent,
           )
             ? false
             : this.props.App.countryPhoneCode +
@@ -1039,114 +1005,111 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
                 .replace(/ /g, '')
                 .replace(/^0/, ''),
           packageSizeDelivery: /RIDE/i.test(
-            globalObject.props.App.bottomVitalsFlow.flowParent,
+            that.props.App.bottomVitalsFlow.flowParent,
           )
             ? false
             : this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .selectedPackageSize,
           //...
-          rideType: globalObject.props.App.bottomVitalsFlow.flowParent, //Ride or delivery
+          rideType: that.props.App.bottomVitalsFlow.flowParent, //Ride or delivery
           paymentMethod:
-            globalObject.props.App.wallet_state_vars.selectedPayment_method, //Payment method
-          timeScheduled: globalObject.props.App.selectedScheduleTime,
-          pickupNote: globalObject.props.App.additionalNote_inputText, //Additional note for the pickup
-          carTypeSelected: globalObject.props.App.carTypeSelected, //Ride selected, Economy normal taxis,etc
+            that.props.App.wallet_state_vars.selectedPayment_method, //Payment method
+          timeScheduled: that.props.App.selectedScheduleTime,
+          pickupNote: that.props.App.additionalNote_inputText, //Additional note for the pickup
+          carTypeSelected: that.props.App.carTypeSelected, //Ride selected, Economy normal taxis,etc
           fareAmount:
-            globalObject.props.App.customFareTripSelected !== false &&
-            globalObject.props.App.customFareTripSelected !== null
-              ? globalObject.props.App.customFareTripSelected
-              : globalObject.props.App.fareTripSelected, //Ride fare
+            that.props.App.customFareTripSelected !== false &&
+            that.props.App.customFareTripSelected !== null
+              ? that.props.App.customFareTripSelected
+              : that.props.App.fareTripSelected, //Ride fare
           pickupData: {
             coordinates: [org_latitude, org_longitude],
             location_name:
-              globalObject.props.App.search_pickupLocationInfos
+              that.props.App.search_pickupLocationInfos
                 .isBeingPickedupFromCurrentLocation === false &&
-              globalObject.props.App.search_pickupLocationInfos
+              that.props.App.search_pickupLocationInfos
                 .passenger0Destination !== false
-                ? globalObject.props.App.search_pickupLocationInfos
+                ? that.props.App.search_pickupLocationInfos
                     .passenger0Destination.location_name !== undefined
-                  ? globalObject.props.App.search_pickupLocationInfos
+                  ? that.props.App.search_pickupLocationInfos
                       .passenger0Destination.location_name
                   : false
-                : globalObject.props.App.userCurrentLocationMetaData.name !==
+                : that.props.App.userCurrentLocationMetaData.name !==
                     undefined &&
-                  globalObject.props.App.userCurrentLocationMetaData.name !==
-                    null
-                ? globalObject.props.App.userCurrentLocationMetaData.name
+                  that.props.App.userCurrentLocationMetaData.name !== null
+                ? that.props.App.userCurrentLocationMetaData.name
                 : false,
             street_name:
-              globalObject.props.App.search_pickupLocationInfos
+              that.props.App.search_pickupLocationInfos
                 .isBeingPickedupFromCurrentLocation === false &&
-              globalObject.props.App.search_pickupLocationInfos
+              that.props.App.search_pickupLocationInfos
                 .passenger0Destination !== false
-                ? globalObject.props.App.search_pickupLocationInfos
+                ? that.props.App.search_pickupLocationInfos
                     .passenger0Destination.street !== undefined
-                  ? globalObject.props.App.search_pickupLocationInfos
+                  ? that.props.App.search_pickupLocationInfos
                       .passenger0Destination.sreet
                   : false
-                : globalObject.props.App.userCurrentLocationMetaData.street !==
+                : that.props.App.userCurrentLocationMetaData.street !==
                     undefined &&
-                  globalObject.props.App.userCurrentLocationMetaData.street !==
-                    null
-                ? globalObject.props.App.userCurrentLocationMetaData.street
+                  that.props.App.userCurrentLocationMetaData.street !== null
+                ? that.props.App.userCurrentLocationMetaData.street
                 : false,
             city:
-              globalObject.props.App.userCurrentLocationMetaData.city !==
-                undefined &&
-              globalObject.props.App.userCurrentLocationMetaData.city !== null
-                ? globalObject.props.App.userCurrentLocationMetaData.city
+              that.props.App.userCurrentLocationMetaData.city !== undefined &&
+              that.props.App.userCurrentLocationMetaData.city !== null
+                ? that.props.App.userCurrentLocationMetaData.city
                 : false,
           },
-          destinationData: globalObject.props.App.search_passengersDestinations,
+          destinationData: that.props.App.search_passengersDestinations,
         };
 
         //DOne gathering, make the server request
 
         //Bind to interval persister
-        /*if (globalObject.props.App._TMP_INTERVAL_PERSISTER === null) {
-          globalObject.props.App._TMP_INTERVAL_PERSISTER = setInterval(
+        /*if (that.props.App._TMP_INTERVAL_PERSISTER === null) {
+          that.props.App._TMP_INTERVAL_PERSISTER = setInterval(
             function () {
               if (
-                globalObject.props.App.intervalProgressLoop === false ||
-                globalObject.props.App.isRideInProgress === false
+                that.props.App.intervalProgressLoop === false ||
+                that.props.App.isRideInProgress === false
               ) {
                 if (
-                  globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED ===
+                  that.props.App.bottomVitalsFlow._BOOKING_REQUESTED ===
                     false &&
-                  globalObject.props.App.bottomVitalsFlow
+                  that.props.App.bottomVitalsFlow
                     ._error_booking_requested === false
                 ) {
                   //Not yet request and no errors
                   //Check wheher an answer was already received - if not keep requesting
-                  globalObject.props.App.socket.emit(
+                  that.props.App.socket.emit(
                     'requestRideOrDeliveryForThis',
                     RIDE_OR_DELIVERY_BOOKING_DATA,
                   );
                 }
                 //Kill interval - if booking request data already received
                 else {
-                  globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
-                  clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-                  if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-                    globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+                  that.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
+                  clearInterval(that.props.App._TMP_INTERVAL_PERSISTER);
+                  if (that.props.App._TMP_INTERVAL_PERSISTER !== null) {
+                    that.props.App._TMP_INTERVAL_PERSISTER = null;
                   }
                 }
               } //Kill interval - if booking request data already received
               else {
-                globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
-                clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-                if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-                  globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+                that.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
+                clearInterval(that.props.App._TMP_INTERVAL_PERSISTER);
+                if (that.props.App._TMP_INTERVAL_PERSISTER !== null) {
+                  that.props.App._TMP_INTERVAL_PERSISTER = null;
                 }
               }
             },
-            globalObject.props.App._TMP_INTERVAL_PERSISTER_TIME,
+            that.props.App._TMP_INTERVAL_PERSISTER_TIME,
           );
         }*/
         //! Make a single request - risky
         //Not yet request and no errors
         //Check wheher an answer was already received - if not keep requesting
-        globalObject.props.App.socket.emit(
+        that.props.App.socket.emit(
           'requestRideOrDeliveryForThis',
           RIDE_OR_DELIVERY_BOOKING_DATA,
         );
@@ -1154,7 +1117,7 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
         //...
         //Fade in the loader screen
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.genericLoaderScreenOpacity,
+          that.props.App.bottomVitalsFlow.genericLoaderScreenOpacity,
           {
             toValue: 1,
             duration: 250,
@@ -1165,10 +1128,10 @@ class RenderRideTypeBottomVitals extends React.PureComponent {
       });
     } else {
       //Clear the interval
-      globalObject.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
-      clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-      if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-        globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+      that.props.App.bottomVitalsFlow._BOOKING_REQUESTED = true;
+      clearInterval(that.props.App._TMP_INTERVAL_PERSISTER);
+      if (that.props.App._TMP_INTERVAL_PERSISTER !== null) {
+        that.props.App._TMP_INTERVAL_PERSISTER = null;
       }
     }
   }

@@ -53,33 +53,30 @@ class YourRidesEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = this.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.fetchRequestedRequests_history();
-        globalObject._navigatorEvent = globalObject.props.navigation.addListener(
-          'beforeRemove',
-          (e) => {
-            // Prevent default behavior of leaving the screen
-            e.preventDefault();
-            if (/POP/i.test(e.data.action.type)) {
-              globalObject.props.navigation.navigate('Home_drawer');
-            }
-            return;
-          },
-        );
-        //--------------------------------------------------------
-        globalObject.backHander = BackHandler.addEventListener(
-          'hardwareBackPress',
-          function () {
-            globalObject.props.navigation.navigate('Home_drawer');
-            return true;
-          },
-        );
-      },
-    );
+    that._navigatorEvent = this.props.navigation.addListener('focus', () => {
+      that.fetchRequestedRequests_history();
+      that._navigatorEvent = that.props.navigation.addListener(
+        'beforeRemove',
+        (e) => {
+          // Prevent default behavior of leaving the screen
+          e.preventDefault();
+          if (/POP/i.test(e.data.action.type)) {
+            that.props.navigation.navigate('Home_drawer');
+          }
+          return;
+        },
+      );
+      //--------------------------------------------------------
+      that.backHander = BackHandler.addEventListener(
+        'hardwareBackPress',
+        function () {
+          that.props.navigation.navigate('Home_drawer');
+          return true;
+        },
+      );
+    });
     this._isMounted = true;
     //Get initial rides - set default: past (always)
     this.updateYourRidesSHownOnes('Past');
@@ -87,15 +84,15 @@ class YourRidesEntry extends React.PureComponent {
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
+        that.props.UpdateErrorModalLog(
           state.isConnected,
           'connection_no_network',
           state.type,
         );
-        globalObject.setState({loaderState: false});
+        that.setState({loaderState: false});
       } //connected
       else {
-        globalObject.props.UpdateErrorModalLog(false, false, state.type);
+        that.props.UpdateErrorModalLog(false, false, state.type);
       }
     });
 
@@ -105,7 +102,7 @@ class YourRidesEntry extends React.PureComponent {
     this.props.App.socket.on(
       'getRides_historyRiders_batchOrNot-response',
       function (response) {
-        globalObject.setState({
+        that.setState({
           loaderState: false,
           fetchingRides_Data: false,
           pullRefreshing: false,
@@ -126,31 +123,29 @@ class YourRidesEntry extends React.PureComponent {
               response.data !== false &&
               response.data.length > 0
             ) {
-              globalObject.state.areResultsEmpty = false;
-              globalObject.state.gotErrorDuringRequest = false;
+              that.state.areResultsEmpty = false;
+              that.state.gotErrorDuringRequest = false;
 
               //Got some results
               //Update the global state
-              globalObject.props.UpdateRides_history_YourRides_tab(
-                response.data,
-              );
+              that.props.UpdateRides_history_YourRides_tab(response.data);
             } //EMpty results
             else {
-              globalObject.setState({
+              that.setState({
                 areResultsEmpty: true,
                 gotErrorDuringRequest: false,
               });
             }
           } //An error happened
           else {
-            globalObject.setState({
+            that.setState({
               areResultsEmpty: true,
               gotErrorDuringRequest: true,
             });
           }
         } //Empty
         else {
-          globalObject.setState({
+          that.setState({
             areResultsEmpty: true,
             gotErrorDuringRequest: true,
           });

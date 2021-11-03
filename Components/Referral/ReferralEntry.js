@@ -40,34 +40,31 @@ class ReferralEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = this.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.backListener = globalObject.backHander = BackHandler.addEventListener(
-          'hardwareBackPress',
-          function () {
-            globalObject.props.navigation.navigate('Home_drawer');
-            return true;
-          },
-        );
-        //Add home going back handler-----------------------------
-        globalObject._navigatorEvent = globalObject.props.navigation.addListener(
-          'beforeRemove',
-          (e) => {
-            // Prevent default behavior of leaving the screen
-            e.preventDefault();
-            if (/POP/i.test(e.data.action.type)) {
-              globalObject.props.navigation.navigate('Home_drawer');
-            }
-            return;
-          },
-        );
-      },
-    );
+    that._navigatorEvent = this.props.navigation.addListener('focus', () => {
+      that.backListener = that.backHander = BackHandler.addEventListener(
+        'hardwareBackPress',
+        function () {
+          that.props.navigation.navigate('Home_drawer');
+          return true;
+        },
+      );
+      //Add home going back handler-----------------------------
+      that._navigatorEvent = that.props.navigation.addListener(
+        'beforeRemove',
+        (e) => {
+          // Prevent default behavior of leaving the screen
+          e.preventDefault();
+          if (/POP/i.test(e.data.action.type)) {
+            that.props.navigation.navigate('Home_drawer');
+          }
+          return;
+        },
+      );
+    });
     //--------------------------------------------------------
   }
 

@@ -12,6 +12,7 @@ const supportMainImage = require('../../../Media_assets/Images/faq.jpg');
 const packageIco = require('../../../Media_assets/Images/box_delivery.png');
 const carChooseIco = require('../../../Media_assets/Images/car_selection_img.png');
 const taxiRankIco = require('../../../Media_assets/Images/taxi-stop-sign.png');
+const serviceGlobe = require('../../../Media_assets/Images/worldwide.png');
 //Car on MAP
 const carIcon = require('../../../Media_assets/Images/cargreentop100.png');
 const carIcon_black = require('../../../Media_assets/Images/caradvanced_black.png');
@@ -92,6 +93,7 @@ const STATE = {
   packageIco: packageIco,
   carChooseIco: carChooseIco,
   taxiRankIco: taxiRankIco,
+  serviceGlobe: serviceGlobe,
   privateLocationIco: privateLocationIco,
   airportLocationIco: airportLocationIco,
   carImageNormalRide: carImageNormalRide,

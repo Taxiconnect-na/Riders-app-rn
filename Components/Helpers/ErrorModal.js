@@ -95,7 +95,7 @@ class ErrorModal extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     /**
      * SOCKET.IO RESPONSES
      */
@@ -110,28 +110,28 @@ class ErrorModal extends React.PureComponent {
         ) {
           setTimeout(function () {
             //Stop the loader and restore
-            globalObject.setState({isLoading_something: false});
+            that.setState({isLoading_something: false});
             //Reset local drop off related data
-            globalObject.state.rating_score = 5;
-            globalObject.state.compliment_array = {
+            that.state.rating_score = 5;
+            that.state.compliment_array = {
               neatAndTidy: false,
               excellentService: false,
               greatMusic: false,
               greatConversation: false,
               expertNavigator: false,
             };
-            globalObject.state.custom_note = false;
-            globalObject.state.request_fp = false;
+            that.state.custom_note = false;
+            that.state.request_fp = false;
             //Received a response
-            globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+            that.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
             //Reset all the trips
-            //globalObject.props.ResetStateProps(globalObject.props.parentNode);
+            //that.props.ResetStateProps(that.props.parentNode);
           }, 3000);
         } //error - close the modal
         else {
           //Stop the loader and restore
-          globalObject.setState({isLoading_something: false});
-          globalObject.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
+          that.setState({isLoading_something: false});
+          that.props.UpdateErrorModalLog(false, false, 'any'); //Close modal
         }
       },
     );
@@ -141,7 +141,7 @@ class ErrorModal extends React.PureComponent {
       'cancelRiders_request_io-response',
       function (response) {
         //Stop the loader and restore
-        globalObject.setState({isLoading_something: false});
+        that.setState({isLoading_something: false});
       },
     );
 
@@ -149,11 +149,11 @@ class ErrorModal extends React.PureComponent {
     this.props.App.socket.on(
       'referralOperations_perform_io_CHECKING-response',
       function (response) {
-        globalObject.state.isLoading_something = false;
+        that.state.isLoading_something = false;
         if (response.response !== undefined && response.response !== null) {
           Animated.parallel([
             Animated.timing(
-              globalObject.state.referral_infos.animation_vars.left_position,
+              that.state.referral_infos.animation_vars.left_position,
               {
                 toValue: -100,
                 duration: 250,
@@ -161,43 +161,38 @@ class ErrorModal extends React.PureComponent {
                 useNativeDriver: true,
               },
             ),
-            Animated.timing(
-              globalObject.state.referral_infos.animation_vars.opacity,
-              {
-                toValue: 0,
-                duration: 200,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
+            Animated.timing(that.state.referral_infos.animation_vars.opacity, {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
           ]).start(() => {
             if (/error/i.test(response.response)) {
               //An error occured
-              globalObject.state.referral_infos.step_name =
-                'error_whileReferring';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'error_whileReferring';
+              that.forceUpdate();
             } else if (/driver_alreadyRegistered/i.test(response.response)) {
               //Official taxiconnect partner
-              globalObject.state.referral_infos.step_name = 'isADriver';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'isADriver';
+              that.forceUpdate();
             } else if (/driver_alreadyReferred/i.test(response.response)) {
               //Driver already referred
-              globalObject.state.referral_infos.step_name = 'alreadyReferred';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'alreadyReferred';
+              that.forceUpdate();
             } else if (/driver_freeForReferral/i.test(response.response)) {
               //? Free for referral
-              globalObject.state.referral_infos.step_name = 'enterFullDetails';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'enterFullDetails';
+              that.forceUpdate();
             } //Some weird error probably happened
             else {
-              globalObject.state.referral_infos.step_name =
-                'error_whileReferring';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'error_whileReferring';
+              that.forceUpdate();
             }
             //...
             Animated.parallel([
               Animated.timing(
-                globalObject.state.referral_infos.animation_vars.left_position,
+                that.state.referral_infos.animation_vars.left_position,
                 {
                   toValue: 0,
                   duration: 250,
@@ -206,7 +201,7 @@ class ErrorModal extends React.PureComponent {
                 },
               ),
               Animated.timing(
-                globalObject.state.referral_infos.animation_vars.opacity,
+                that.state.referral_infos.animation_vars.opacity,
                 {
                   toValue: 1,
                   duration: 200,
@@ -218,8 +213,8 @@ class ErrorModal extends React.PureComponent {
           });
         } //Some error occured
         else {
-          globalObject.state.referral_infos.step_name = 'error_whileReferring';
-          globalObject.forceUpdate();
+          that.state.referral_infos.step_name = 'error_whileReferring';
+          that.forceUpdate();
         }
       },
     );
@@ -228,11 +223,11 @@ class ErrorModal extends React.PureComponent {
     this.props.App.socket.on(
       'referralOperations_perform_io_SUBMIT-response',
       function (response) {
-        globalObject.state.isLoading_something = false;
+        that.state.isLoading_something = false;
         if (response.response !== undefined && response.response !== null) {
           Animated.parallel([
             Animated.timing(
-              globalObject.state.referral_infos.animation_vars.left_position,
+              that.state.referral_infos.animation_vars.left_position,
               {
                 toValue: -100,
                 duration: 250,
@@ -240,36 +235,31 @@ class ErrorModal extends React.PureComponent {
                 useNativeDriver: true,
               },
             ),
-            Animated.timing(
-              globalObject.state.referral_infos.animation_vars.opacity,
-              {
-                toValue: 0,
-                duration: 200,
-                easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-                useNativeDriver: true,
-              },
-            ),
+            Animated.timing(that.state.referral_infos.animation_vars.opacity, {
+              toValue: 0,
+              duration: 200,
+              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+              useNativeDriver: true,
+            }),
           ]).start(() => {
             if (/error_unexpected_foundActive/i.test(response.response)) {
               //Already referred
               //Driver already referred
-              globalObject.state.referral_infos.step_name = 'alreadyReferred';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'alreadyReferred';
+              that.forceUpdate();
             } else if (/successfully_referred/i.test(response.response)) {
               //? Successfully referred
-              globalObject.state.referral_infos.step_name =
-                'successfullyReferred';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'successfullyReferred';
+              that.forceUpdate();
             } //Error
             else {
-              globalObject.state.referral_infos.step_name =
-                'error_whileReferring';
-              globalObject.forceUpdate();
+              that.state.referral_infos.step_name = 'error_whileReferring';
+              that.forceUpdate();
             }
             //...
             Animated.parallel([
               Animated.timing(
-                globalObject.state.referral_infos.animation_vars.left_position,
+                that.state.referral_infos.animation_vars.left_position,
                 {
                   toValue: 0,
                   duration: 250,
@@ -278,7 +268,7 @@ class ErrorModal extends React.PureComponent {
                 },
               ),
               Animated.timing(
-                globalObject.state.referral_infos.animation_vars.opacity,
+                that.state.referral_infos.animation_vars.opacity,
                 {
                   toValue: 1,
                   duration: 200,
@@ -291,8 +281,8 @@ class ErrorModal extends React.PureComponent {
         }
         //Some error occured
         else {
-          globalObject.state.referral_infos.step_name = 'error_whileReferring';
-          globalObject.forceUpdate();
+          that.state.referral_infos.step_name = 'error_whileReferring';
+          that.forceUpdate();
         }
       },
     );
@@ -584,27 +574,23 @@ class ErrorModal extends React.PureComponent {
    * Responsible for signing the user off the app, clear all the storages and reset everything before.
    */
   signOff_theApp() {
-    let globalObject = this;
+    let that = this;
     this.setState({isLoading_something: true});
     //...
     setTimeout(function () {
       //1. Reset every global processes.
-      globalObject.props.ResetStateProps(globalObject.props.parentNode);
-      globalObject.props.ResetGenericPhoneNumberInput();
+      that.props.ResetStateProps(that.props.parentNode);
+      that.props.ResetGenericPhoneNumberInput();
       //2. Clear all the intervals
-      if (globalObject.props.App._TMP_INTERVAL_PERSISTER !== null) {
-        clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-        globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+      if (that.props.App._TMP_INTERVAL_PERSISTER !== null) {
+        clearInterval(that.props.App._TMP_INTERVAL_PERSISTER);
+        that.props.App._TMP_INTERVAL_PERSISTER = null;
       }
-      if (
-        globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null
-      ) {
-        clearInterval(
-          globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS,
-        );
-        globalObject.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
+      if (that.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS !== null) {
+        clearInterval(that.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS);
+        that.props.App._TMP_INTERVAL_PERSISTER_CLOSEST_DRIVERS = null;
       }
-      globalObject.props.App._CLOSEST_DRIVERS_DATA = null;
+      that.props.App._CLOSEST_DRIVERS_DATA = null;
       //3. Clear all the storages
       SyncStorage.remove('@user_fp');
       SyncStorage.remove('@userLocationPoint');
@@ -617,18 +603,18 @@ class ErrorModal extends React.PureComponent {
       SyncStorage.remove('@accountCreation_state');
 
       //Reinitiate values
-      globalObject.props.App.user_fingerprint = null;
-      globalObject.props.App.gender_user = 'male';
-      globalObject.props.App.username = false;
-      globalObject.props.App.surname_user = false;
-      globalObject.props.App.user_email = false;
-      globalObject.props.App.user_profile_pic = null;
-      globalObject.props.App.last_dataPersoUpdated = null;
-      globalObject.props.App.userCurrentLocationMetaData = {};
-      globalObject.props.App.accountCreation_state = null;
+      that.props.App.user_fingerprint = null;
+      that.props.App.gender_user = 'male';
+      that.props.App.username = false;
+      that.props.App.surname_user = false;
+      that.props.App.user_email = false;
+      that.props.App.user_profile_pic = null;
+      that.props.App.last_dataPersoUpdated = null;
+      that.props.App.userCurrentLocationMetaData = {};
+      that.props.App.accountCreation_state = null;
       //Log out
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
-      globalObject.props.parentNode.props.navigation.navigate('EntryScreen');
+      that.props.UpdateErrorModalLog(false, false, 'any');
+      that.props.parentNode.props.navigation.navigate('EntryScreen');
     }, 1000);
   }
 
@@ -5466,11 +5452,11 @@ class ErrorModal extends React.PureComponent {
    */
   moveForward_WithReferral_steps(step) {
     if (/enterTaxiNumber/i.test(step)) {
-      let globalObject = this;
+      let that = this;
       //Go back to the initial route
       Animated.parallel([
         Animated.timing(
-          globalObject.state.referral_infos.animation_vars.left_position,
+          that.state.referral_infos.animation_vars.left_position,
           {
             toValue: -100,
             duration: 250,
@@ -5478,27 +5464,24 @@ class ErrorModal extends React.PureComponent {
             useNativeDriver: true,
           },
         ),
-        Animated.timing(
-          globalObject.state.referral_infos.animation_vars.opacity,
-          {
-            toValue: 0,
-            duration: 200,
-            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-            useNativeDriver: true,
-          },
-        ),
+        Animated.timing(that.state.referral_infos.animation_vars.opacity, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+          useNativeDriver: true,
+        }),
       ]).start(() => {
         //?0 Move back the previous screen first!
-        globalObject.state.referral_infos.step_name = step;
-        globalObject.state.referral_infos.driver_infos.name = null;
-        globalObject.state.referral_infos.driver_infos.phone_number = null;
-        globalObject.forceUpdate();
+        that.state.referral_infos.step_name = step;
+        that.state.referral_infos.driver_infos.name = null;
+        that.state.referral_infos.driver_infos.phone_number = null;
+        that.forceUpdate();
         //1. Reset the generic and later state phone numbers
-        globalObject.props.ResetGenericPhoneNumberInput();
+        that.props.ResetGenericPhoneNumberInput();
         //...
         Animated.parallel([
           Animated.timing(
-            globalObject.state.referral_infos.animation_vars.left_position,
+            that.state.referral_infos.animation_vars.left_position,
             {
               toValue: 0,
               duration: 250,
@@ -5506,15 +5489,12 @@ class ErrorModal extends React.PureComponent {
               useNativeDriver: true,
             },
           ),
-          Animated.timing(
-            globalObject.state.referral_infos.animation_vars.opacity,
-            {
-              toValue: 1,
-              duration: 200,
-              easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
-              useNativeDriver: true,
-            },
-          ),
+          Animated.timing(that.state.referral_infos.animation_vars.opacity, {
+            toValue: 1,
+            duration: 200,
+            easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
+            useNativeDriver: true,
+          }),
         ]).start(() => {});
       });
     } else if (/enterFullDetails/i.test(step)) {

@@ -46,35 +46,33 @@ class WalletEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
-    globalObject.props.navigation.addListener('focus', () => {
+    that.props.navigation.addListener('focus', () => {
       //! CHECK THE WALLET STATE BEFORE CONTINUING
-      if (
-        /^locked/i.test(globalObject.props.App.wallet_state_vars.wallet_state)
-      ) {
+      if (/^locked/i.test(that.props.App.wallet_state_vars.wallet_state)) {
         //! DO NOT ALLOW IN
-        globalObject.props.navigation.navigate('Home_drawer');
+        that.props.navigation.navigate('Home_drawer');
       }
       //Add home going back handler-----------------------------
-      globalObject._navigatorEvent = globalObject.props.navigation.addListener(
+      that._navigatorEvent = that.props.navigation.addListener(
         'beforeRemove',
         (e) => {
           // Prevent default behavior of leaving the screen
           e.preventDefault();
           if (/POP/i.test(e.data.action.type)) {
-            globalObject.props.navigation.navigate('Home_drawer');
+            that.props.navigation.navigate('Home_drawer');
           }
           return;
         },
       );
       //--------------------------------------------------------
-      globalObject.backHander = BackHandler.addEventListener(
+      that.backHander = BackHandler.addEventListener(
         'hardwareBackPress',
         function () {
-          globalObject.props.navigation.navigate('Home_drawer');
+          that.props.navigation.navigate('Home_drawer');
           return true;
         },
       );

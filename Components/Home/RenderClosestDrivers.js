@@ -15,7 +15,7 @@ class RenderClosestDrivers extends React.PureComponent {
    * is received.
    */
   updateClosestLiveDriversMap_render() {
-    let globalObject = this;
+    let that = this;
     //Update the list of the closest drivers if no trip in progress
     if (
       this.props.App.isRideInProgress === false &&
@@ -61,8 +61,8 @@ class RenderClosestDrivers extends React.PureComponent {
                 //layerIndex={5000}
                 style={{
                   iconAllowOverlap: false,
-                  iconImage: globalObject.props.App.carIcon_black,
-                  iconSize: globalObject.props.App.carIconRelativeSize,
+                  iconImage: that.props.App.carIcon_black,
+                  iconSize: that.props.App.carIconRelativeSize,
                   iconRotate: carBearing,
                 }}
               />

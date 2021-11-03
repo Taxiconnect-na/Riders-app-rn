@@ -37,21 +37,18 @@ class SendFundsEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
 
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.props.App.recipient_crucial_data = null; //! Clear the recipient
-        globalObject.props.App.user_sender_nature = null; //! Clear the user nature
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.props.App.recipient_crucial_data = null; //! Clear the recipient
+      that.props.App.user_sender_nature = null; //! Clear the user nature
+    });
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );

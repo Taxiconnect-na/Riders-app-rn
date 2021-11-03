@@ -32,8 +32,6 @@ import NetInfo from '@react-native-community/netinfo';
 import ErrorModal from '../Helpers/ErrorModal';
 import SyncStorage from 'sync-storage';
 import {RFValue} from 'react-native-responsive-fontsize';
-const io = require('socket.io-client');
-import {_MAIN_URL_ENDPOINT} from '@env';
 
 const App = ({valueM, parentNode, editable}) => {
   const [value, setValue] = useState('');
@@ -118,14 +116,14 @@ class OTPVerificationEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true; //? mark component as mounted
 
     //? Generate the SMS hash linker to auto pick the verification code from the SMS.
     Platform.OS === 'android' &&
       RNOtpVerify.getHash().then((result) => {
         try {
-          globalObject.state.smsHashLinker = result[0];
+          that.state.smsHashLinker = result[0];
         } catch (error) {}
       });
 
@@ -134,39 +132,36 @@ class OTPVerificationEntry extends React.PureComponent {
     }
 
     //Add navigator listener
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.setState({
-          SMS_LIMITER: false,
-          otpValue: '',
-          showErrorUnmatchedOTP: false,
-        }); //reset the error message, reset the otp textvalue, reset the sms limiter
-        globalObject.props.App.detailToModify = null; //! RESET GENDER controller to null
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.setState({
+        SMS_LIMITER: false,
+        otpValue: '',
+        showErrorUnmatchedOTP: false,
+      }); //reset the error message, reset the otp textvalue, reset the sms limiter
+      that.props.App.detailToModify = null; //! RESET GENDER controller to null
+    });
 
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
+        that.props.UpdateErrorModalLog(
           state.isConnected,
           'connection_no_network',
           state.type,
         );
       } //connected
       else {
-        globalObject.props.UpdateErrorModalLog(false, false, state.type);
+        that.props.UpdateErrorModalLog(false, false, state.type);
       }
     });
 
     //connection
     this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
+      that.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
     this.props.App.socket.on('error', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('disconnect', () => {
       //...
@@ -177,40 +172,22 @@ class OTPVerificationEntry extends React.PureComponent {
         reconnectionDelay: 100,
         reconnectionDelayMax: 200,
       });*/
-      globalObject.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
       //Ask for the OTP again
-      globalObject.props.UpdateErrorModalLog(
-        true,
-        'service_unavailable',
-        'any',
-      );
+      that.props.UpdateErrorModalLog(true, 'service_unavailable', 'any');
     });
     this.props.App.socket.on('connect_timeout', () => {
       //...
-      const socket = io(String(_MAIN_URL_ENDPOINT), {
-        transports: ['websocket', 'polling'],
-        reconnection: true,
-        reconnectionAttempts: Infinity,
-        reconnectionDelay: 100,
-        reconnectionDelayMax: 200,
-      });
     });
     this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
       //...
-      const socket = io(String(_MAIN_URL_ENDPOINT), {
-        transports: ['websocket', 'polling'],
-        reconnection: true,
-        reconnectionAttempts: Infinity,
-        reconnectionDelay: 100,
-        reconnectionDelayMax: 200,
-      });
+      // that.props.App.socket.connect();
     });
 
     /**
@@ -221,7 +198,7 @@ class OTPVerificationEntry extends React.PureComponent {
       'sendOtpAndCheckerUserStatusTc-response',
       function (response) {
         //Stop the loader
-        globalObject.setState({loaderState: false});
+        that.setState({loaderState: false});
         //...
         if (
           response !== false &&
@@ -229,23 +206,23 @@ class OTPVerificationEntry extends React.PureComponent {
           response.response !== null
         ) {
           if (!/error/i.test(response.response)) {
-            globalObject.setState({loaderState: false});
+            that.setState({loaderState: false});
             //Registered or not yet registered
             if (/^not_yet_registered$/i.test(response.response)) {
               //Not yet registered
               //Send to create acccount screen
-              globalObject.state.userStatus = 'new_user';
+              that.state.userStatus = 'new_user';
             } else if (/^registered$/i.test(response.response)) {
               //Registered user
-              globalObject.state.userStatus = 'registered_user';
+              that.state.userStatus = 'registered_user';
               //? Save the account details
-              globalObject.state.userAccountDetails = response;
+              that.state.userAccountDetails = response;
             } //Error
             else {
-              globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+              that.props.App.user_fingerprint = null; //Nullify user fingerprint
               SyncStorage.remove('@user_fp');
 
-              globalObject.props.UpdateErrorModalLog(
+              that.props.UpdateErrorModalLog(
                 true,
                 'error_checking_user_status_login',
                 'any',
@@ -253,11 +230,11 @@ class OTPVerificationEntry extends React.PureComponent {
             }
           } //Error - call error modal with try again button going back to phone number input
           else {
-            globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+            that.props.App.user_fingerprint = null; //Nullify user fingerprint
             SyncStorage.remove('@user_fp');
 
-            globalObject.setState({loaderState: false});
-            globalObject.props.UpdateErrorModalLog(
+            that.setState({loaderState: false});
+            that.props.UpdateErrorModalLog(
               true,
               'error_checking_user_status_login',
               'any',
@@ -265,11 +242,11 @@ class OTPVerificationEntry extends React.PureComponent {
           }
         } //Error - go back to phone number
         else {
-          globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+          that.props.App.user_fingerprint = null; //Nullify user fingerprint
           SyncStorage.remove('@user_fp');
 
-          globalObject.setState({loaderState: false});
-          globalObject.goBackFUnc();
+          that.setState({loaderState: false});
+          that.goBackFUnc();
         }
       },
     );
@@ -279,34 +256,31 @@ class OTPVerificationEntry extends React.PureComponent {
      */
     this.props.App.socket.on('checkThisOTP_SMS-response', function (response) {
       //! Reset otp value - to avoid loop hell
-      globalObject.setState({otpValue: '', loaderState: false}); //Disable the loader
+      that.setState({otpValue: '', loaderState: false}); //Disable the loader
       //----
       if (response.response !== undefined) {
         if (response.response === true) {
           //true
           //Correct
           //Check the net navigation
-          if (/new_user/i.test(globalObject.state.userStatus)) {
+          if (/new_user/i.test(that.state.userStatus)) {
             //Create new account
-            globalObject.props.navigation.navigate('CreateAccountEntry');
+            that.props.navigation.navigate('CreateAccountEntry');
           } //Home
           else {
             //? Restore the saved account details
-            response = globalObject.state.userAccountDetails;
-            if (
-              /full/i.test(globalObject.state.userAccountDetails.account_state)
-            ) {
+            response = that.state.userAccountDetails;
+            if (/full/i.test(that.state.userAccountDetails.account_state)) {
               //Minimal details already added - update big vars
               //! Save the user_fp and the rest of the globals
-              globalObject.props.App.user_fingerprint = response.user_fp;
-              globalObject.props.App.gender_user = response.gender;
-              globalObject.props.App.username = response.name;
-              globalObject.props.App.surname_user = response.surname;
-              globalObject.props.App.user_email = response.email;
-              globalObject.props.App.phone_user = response.phone_number;
-              globalObject.props.App.user_profile_pic =
-                response.profile_picture;
-              globalObject.props.App.pushnotif_token = response.pushnotif_token;
+              that.props.App.user_fingerprint = response.user_fp;
+              that.props.App.gender_user = response.gender;
+              that.props.App.username = response.name;
+              that.props.App.surname_user = response.surname;
+              that.props.App.user_email = response.email;
+              that.props.App.phone_user = response.phone_number;
+              that.props.App.user_profile_pic = response.profile_picture;
+              that.props.App.pushnotif_token = response.pushnotif_token;
               //! Save to storage as well.
               SyncStorage.set('@user_fp', response.user_fp);
               SyncStorage.set('@gender_user', response.gender);
@@ -317,31 +291,29 @@ class OTPVerificationEntry extends React.PureComponent {
               SyncStorage.set('@user_profile_pic', response.profile_picture);
               SyncStorage.set('@accountCreation_state', 'full');
               //....
-              globalObject.state.accountCreation_state = 'full';
+              that.state.accountCreation_state = 'full';
               //? Check the state of the account creation
 
               /*if (Platform.OS === 'android') {
-                globalObject.props.navigation.push('Home');
+                that.props.navigation.push('Home');
               } else {
-                globalObject.props.navigation.navigate('Home');
+                that.props.navigation.navigate('Home');
               }*/
-              globalObject.props.navigation.navigate('Home');
+              that.props.navigation.navigate('Home');
             } //Minimal account - go to complete details
             else {
               //! Save the user_fp and the rest of the globals
-              globalObject.props.App.user_fingerprint = response.user_fp;
+              that.props.App.user_fingerprint = response.user_fp;
               SyncStorage.set('@accountCreation_state', 'minimal');
               //....
-              globalObject.state.accountCreation_state = 'minimal';
+              that.state.accountCreation_state = 'minimal';
               //? Minimal account - move to the additional details screen
-              globalObject.props.navigation.navigate(
-                'NewAccountAdditionalDetails',
-              );
+              that.props.navigation.navigate('NewAccountAdditionalDetails');
             }
           }
         } else if (response.response === false) {
           //wrong otp
-          globalObject.setState({
+          that.setState({
             showErrorUnmatchedOTP: true,
             checkingOTP: false,
             didCheckOTP: false,
@@ -349,21 +321,13 @@ class OTPVerificationEntry extends React.PureComponent {
         }
         //Unmatched otp - show error - empty the value
         else {
-          globalObject.setState({checkingOTP: true, didCheckOTP: false});
-          globalObject.props.UpdateErrorModalLog(
-            true,
-            'error_checking_otp',
-            'any',
-          );
+          that.setState({checkingOTP: true, didCheckOTP: false});
+          that.props.UpdateErrorModalLog(true, 'error_checking_otp', 'any');
         }
       } //error checking the otp - show modal log
       else {
-        globalObject.setState({checkingOTP: true, didCheckOTP: false});
-        globalObject.props.UpdateErrorModalLog(
-          true,
-          'error_checking_otp',
-          'any',
-        );
+        that.setState({checkingOTP: true, didCheckOTP: false});
+        that.props.UpdateErrorModalLog(true, 'error_checking_otp', 'any');
       }
     });
   }
@@ -390,14 +354,14 @@ class OTPVerificationEntry extends React.PureComponent {
    * OTP Hash key: QEg7axwB9km (debug)
    */
   async initOTPListener() {
-    let globalObject = this;
+    let that = this;
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.READ_SMS,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         //Request for otp
-        globalObject.requestForOTP();
+        that.requestForOTP();
         //...
         RNOtpVerify.getOtp()
           .then(() => {
@@ -406,12 +370,12 @@ class OTPVerificationEntry extends React.PureComponent {
           .catch((p) => {});
       } else {
         //Request for otp
-        globalObject.requestForOTP();
+        that.requestForOTP();
         //...
       }
     } catch (err) {
       //Request for otp
-      globalObject.requestForOTP();
+      that.requestForOTP();
       //...
     }
   }
@@ -474,9 +438,9 @@ class OTPVerificationEntry extends React.PureComponent {
           otpValue: '',
           showErrorUnmatchedOTP: false,
         }); //Hide send again and show after 30 sec
-        let globalObject = this;
+        let that = this;
         setTimeout(function () {
-          globalObject.setState({showSendAgain: true});
+          that.setState({showSendAgain: true});
         }, 30000);
 
         //Has a final number

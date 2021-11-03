@@ -343,11 +343,11 @@ class PhoneNumberInput extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.dismissCountrySearcher();
+        that.dismissCountrySearcher();
       },
     );
   }
@@ -362,7 +362,7 @@ class PhoneNumberInput extends React.PureComponent {
    * Native driver as much as possible!
    */
   dismissCountrySearcher(countryCode, countryDial) {
-    let globalObject = this;
+    let that = this;
     Animated.parallel([
       Animated.timing(this.props.App.searchCountryScreenOpacity, {
         toValue: 0,
@@ -378,7 +378,7 @@ class PhoneNumberInput extends React.PureComponent {
       }),
     ]).start(() => {
       //Reset search values
-      /*globalObject.setState({
+      /*that.setState({
         renderCountryCodeSeacher: false,
         countriesDialDataState: countriesDialData,
         typedCountrySearchQuery: '',
@@ -386,14 +386,14 @@ class PhoneNumberInput extends React.PureComponent {
         countryPhoneCode: countryDial,
         isFilterCountryShown: false,
       });*/
-      globalObject.props.App.renderCountryCodeSeacher = false;
-      globalObject.props.App.countriesDialDataState = countriesDialData;
-      globalObject.props.App.typedCountrySearchQuery = '';
-      globalObject.props.App.countryCodeSelected = countryCode;
-      globalObject.props.App.countryPhoneCode = countryDial;
-      globalObject.props.App.isFilterCountryShown = false;
+      that.props.App.renderCountryCodeSeacher = false;
+      that.props.App.countriesDialDataState = countriesDialData;
+      that.props.App.typedCountrySearchQuery = '';
+      that.props.App.countryCodeSelected = countryCode;
+      that.props.App.countryPhoneCode = countryDial;
+      that.props.App.isFilterCountryShown = false;
       //Update formats and placeholders
-      globalObject.updateCountryFormat();
+      that.updateCountryFormat();
     });
   }
 
@@ -405,7 +405,7 @@ class PhoneNumberInput extends React.PureComponent {
     //? Dismiss the keyboard initially
     Keyboard.dismiss();
     //? ---
-    let globalObject = this;
+    let that = this;
     this.props.RenderCountryPhoneCodeSearcher(true);
     Animated.parallel([
       Animated.timing(this.props.App.searchCountryScreenOpacity, {

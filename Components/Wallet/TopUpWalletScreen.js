@@ -55,35 +55,32 @@ class TopUpWalletScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    var globalObject = this;
+    var that = this;
 
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        //? Reset generic infos
-        globalObject.cardData = null;
-        globalObject.setState({
-          cardInfosValidated: false,
-          enablePayButton: null,
-          buttonPayOpacity: new Animated.Value(0.2),
-          errorMessageOpacity: new Animated.Value(0),
-          errorMessageTopPosition: new Animated.Value(10),
-          errorMessageText: 'Please recheck your details',
-          renderPayModal: false,
-          resultOperations: null,
-          resultOperationErrorText: 'Unable to make the payment.',
-          loaderState: false,
-          isDeviceConnectedInternet: true,
-          internetConnectionType: 'Cellular',
-        });
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      //? Reset generic infos
+      that.cardData = null;
+      that.setState({
+        cardInfosValidated: false,
+        enablePayButton: null,
+        buttonPayOpacity: new Animated.Value(0.2),
+        errorMessageOpacity: new Animated.Value(0),
+        errorMessageTopPosition: new Animated.Value(10),
+        errorMessageText: 'Please recheck your details',
+        renderPayModal: false,
+        resultOperations: null,
+        resultOperationErrorText: 'Unable to make the payment.',
+        loaderState: false,
+        isDeviceConnectedInternet: true,
+        internetConnectionType: 'Cellular',
+      });
+    });
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );
@@ -91,7 +88,7 @@ class TopUpWalletScreen extends React.PureComponent {
     //..Add listener
     NetInfo.fetch().then((state) => {
       if (this.state.isDeviceConnectedInternet !== state.isConnected) {
-        globalObject.setState({
+        that.setState({
           isDeviceConnectedInternet: state.isConnected,
           internetConnectionType: state.type,
         });
@@ -102,27 +99,27 @@ class TopUpWalletScreen extends React.PureComponent {
       if (this.state.isDeviceConnectedInternet !== state.isConnected) {
         //Check if error window is opened, close it and reinitialize result object
         if (
-          globalObject.state.resultOperations !== null &&
-          globalObject.state.isDeviceConnectedInternet === false &&
+          that.state.resultOperations !== null &&
+          that.state.isDeviceConnectedInternet === false &&
           state.isConnected
         ) {
           //Transition from disconnected to connected
-          if (/failed/i.test(globalObject.state.resultOperations.status)) {
-            globalObject.dismissPaymentModal();
+          if (/failed/i.test(that.state.resultOperations.status)) {
+            that.dismissPaymentModal();
           }
         } else if (
-          globalObject.state.resultOperations === null &&
-          globalObject.state.isDeviceConnectedInternet &&
+          that.state.resultOperations === null &&
+          that.state.isDeviceConnectedInternet &&
           state.isConnected === false
         ) {
           //Transition from connected to disconnected
-          globalObject.setState({
+          that.setState({
             resultOperations: {status: 'failed'},
             resultOperationErrorText: 'No Internet connection.',
           });
         }
         //..
-        globalObject.setState({
+        that.setState({
           isDeviceConnectedInternet: state.isConnected,
           internetConnectionType: state.type,
         });
@@ -145,12 +142,12 @@ class TopUpWalletScreen extends React.PureComponent {
             dataReceived.response !== false
           ) {
             //Successful transation
-            globalObject.setState({
+            that.setState({
               resultOperations: {status: 'success'},
             });
           } //An error occured
           else {
-            globalObject.setState({
+            that.setState({
               resultOperations: {status: 'failed'},
               resultOperationErrorText:
                 dataReceived.message !== undefined &&
@@ -161,7 +158,7 @@ class TopUpWalletScreen extends React.PureComponent {
           }
         } //Error
         else {
-          globalObject.setState({
+          that.setState({
             resultOperations: {status: 'failed'},
             resultOperationErrorText:
               dataReceived.message !== undefined &&
@@ -211,28 +208,28 @@ class TopUpWalletScreen extends React.PureComponent {
       /valid/i.test(form.status.cvc) &&
       /valid/i.test(form.status.name)
     ) {
-      let globalObject = this;
+      let that = this;
       Animated.timing(this.state.buttonPayOpacity, {
         toValue: 1,
         duration: 300,
         easing: Easing.linear,
         useNativeDriver: true,
       }).start(() => {
-        globalObject.setState({
+        that.setState({
           cardInfosValidated: true,
           enablePayButton: true,
           renderPayModal: false,
         });
       });
     } else {
-      let globalObject = this;
+      let that = this;
       Animated.timing(this.state.buttonPayOpacity, {
         toValue: 0.2,
         duration: 300,
         easing: Easing.linear,
         useNativeDriver: true,
       }).start(() => {
-        globalObject.setState({
+        that.setState({
           cardInfosValidated: false,
           enablePayButton: null,
           renderPayModal: false,

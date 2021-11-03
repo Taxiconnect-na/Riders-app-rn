@@ -116,34 +116,31 @@ class OTPVerificationGeneric extends React.PureComponent {
   }
 
   async componentDidMount() {
-    let globalObject = this;
+    let that = this;
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.navigate('PersonalinfosEntryScreen');
+        that.props.navigation.navigate('PersonalinfosEntryScreen');
         return true;
       },
     );
 
     RNOtpVerify.getHash().then((result) => {
       try {
-        globalObject.state.smsHashLinker = result[0];
+        that.state.smsHashLinker = result[0];
       } catch (error) {}
     });
     Platform.OS === 'android' && this.initOTPListener();
 
     //Add navigator listener
-    globalObject._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.setState({
-          SMS_LIMITER: false,
-          otpValue: '',
-          showErrorUnmatchedOTP: false,
-        }); //reset the error message, reset the otp textvalue, reset the sms limiter
-      },
-    );
+    that._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.setState({
+        SMS_LIMITER: false,
+        otpValue: '',
+        showErrorUnmatchedOTP: false,
+      }); //reset the error message, reset the otp textvalue, reset the sms limiter
+    });
 
     /**
      * SOCKET.IO RESPONSES
@@ -153,7 +150,7 @@ class OTPVerificationGeneric extends React.PureComponent {
       'updateRiders_profileInfos_io-response',
       function (response) {
         //Stop the loader
-        globalObject.setState({loaderState: false});
+        that.setState({loaderState: false});
         //...
         if (
           response !== false &&
@@ -168,21 +165,15 @@ class OTPVerificationGeneric extends React.PureComponent {
               //Verified
               //Update the local storages
               //phone
-              globalObject.props.App.phone_user =
-                globalObject.props.App.finalPhoneNumber;
-              SyncStorage.set(
-                '@phone_user',
-                globalObject.props.App.finalPhoneNumber,
-              );
+              that.props.App.phone_user = that.props.App.finalPhoneNumber;
+              SyncStorage.set('@phone_user', that.props.App.finalPhoneNumber);
               //Do a clean global update
-              globalObject.props.UpdateErrorModalLog(false, false, 'any');
-              globalObject.props.ResetGenericPhoneNumberInput();
-              globalObject.props.navigation.navigate(
-                'PersonalinfosEntryScreen',
-              );
+              that.props.UpdateErrorModalLog(false, false, 'any');
+              that.props.ResetGenericPhoneNumberInput();
+              that.props.navigation.navigate('PersonalinfosEntryScreen');
             } //Error
             else {
-              globalObject.setState({
+              that.setState({
                 showErrorUnmatchedOTP: true,
                 checkingOTP: false,
               });
@@ -190,7 +181,7 @@ class OTPVerificationGeneric extends React.PureComponent {
           }
         } //Error
         else {
-          globalObject.setState({
+          that.setState({
             showErrorUnmatchedOTP: true,
             checkingOTP: false,
           });
@@ -222,7 +213,7 @@ class OTPVerificationGeneric extends React.PureComponent {
    * OTP Hash key: QEg7axwB9km (debug)
    */
   async initOTPListener() {
-    let globalObject = this;
+    let that = this;
     if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
@@ -230,7 +221,7 @@ class OTPVerificationGeneric extends React.PureComponent {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           //Request for otp
-          globalObject.requestForOTP();
+          that.requestForOTP();
           //...
           RNOtpVerify.getOtp()
             .then(() => {
@@ -239,17 +230,17 @@ class OTPVerificationGeneric extends React.PureComponent {
             .catch((p) => {});
         } else {
           //Request for otp
-          globalObject.requestForOTP();
+          that.requestForOTP();
           //...
         }
       } catch (err) {
         //Request for otp
-        globalObject.requestForOTP();
+        that.requestForOTP();
         //...
       }
     } //iOS
     else {
-      globalObject.requestForOTP();
+      that.requestForOTP();
     }
   }
 
@@ -314,9 +305,9 @@ class OTPVerificationGeneric extends React.PureComponent {
           otpValue: '',
           showErrorUnmatchedOTP: false,
         }); //Hide send again and show after 30 sec
-        let globalObject = this;
+        let that = this;
         setTimeout(function () {
-          globalObject.setState({showSendAgain: true});
+          that.setState({showSendAgain: true});
         }, 30000);
         //...
         let bundleData = {

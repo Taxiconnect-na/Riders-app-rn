@@ -39,36 +39,33 @@ class PhoneDetailsScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true; //? mark component as mounted
 
     //? Add navigator listener - auto clean on focus
-    this.backListener = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.props.ResetGenericPhoneNumberInput();
-        globalObject.props.App.detailToModify = null; //! RESET GENDER controller to null
-      },
-    );
+    this.backListener = that.props.navigation.addListener('focus', () => {
+      that.props.ResetGenericPhoneNumberInput();
+      that.props.App.detailToModify = null; //! RESET GENDER controller to null
+    });
     //Auto reset phone number validity to false
     this.props.App.isPhoneNumberValid = false;
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
+        that.props.UpdateErrorModalLog(
           state.isConnected,
           'connection_no_network',
           state.type,
         );
       } //connected
       else {
-        globalObject.props.UpdateErrorModalLog(false, false, state.type);
+        that.props.UpdateErrorModalLog(false, false, state.type);
       }
     });
 
     //connection
     this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
+      that.props.UpdateErrorModalLog(false, false, 'any');
     });
     //Socket error handling
     this.props.App.socket.on('error', (error) => {});
@@ -83,12 +80,8 @@ class PhoneDetailsScreen extends React.PureComponent {
     });
     this.props.App.socket.on('connect_error', () => {
       //Ask for the OTP again
-      globalObject.props.UpdateErrorModalLog(
-        true,
-        'service_unavailable',
-        'any',
-      );
-      globalObject.props.App.socket.connect();
+      that.props.UpdateErrorModalLog(true, 'service_unavailable', 'any');
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
       const socket = io(String(_MAIN_URL_ENDPOINT), {
@@ -101,7 +94,7 @@ class PhoneDetailsScreen extends React.PureComponent {
     });
     this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
       const socket = io(String(_MAIN_URL_ENDPOINT), {

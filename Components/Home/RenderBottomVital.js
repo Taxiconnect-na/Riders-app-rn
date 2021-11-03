@@ -13,7 +13,6 @@ import {
   Platform,
   SafeAreaView,
   InteractionManager,
-  KeyboardAvoidingView,
 } from 'react-native';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';

@@ -45,22 +45,19 @@ class MyReferrals extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
-    globalObject._navigatorEvent = this.props.navigation.addListener(
-      'focus',
-      () => {
-        //? Auto request for data
-        globalObject.getAllReferrals_data();
-      },
-    );
+    that._navigatorEvent = this.props.navigation.addListener('focus', () => {
+      //? Auto request for data
+      that.getAllReferrals_data();
+    });
     //--------------------------------------------------------
     this.props.App.socket.on(
       'referralOperations_perform_io-response',
       function (response) {
-        globalObject.setState({
+        that.setState({
           isLoading_something: false,
           pullRefreshing: false,
         });
@@ -68,20 +65,20 @@ class MyReferrals extends React.PureComponent {
           //Found something
           if (/error/i.test(response.response)) {
             //Some error happend
-            globalObject.setState({referralsData: response.response});
+            that.setState({referralsData: response.response});
           } else if (
             response.response.length !== undefined &&
             response.response.length > 0
           ) {
             //Success
-            globalObject.setState({referralsData: response.response});
+            that.setState({referralsData: response.response});
           } //Error somewhere
           else {
-            globalObject.setState({referralsData: 'error'});
+            that.setState({referralsData: 'error'});
           }
         } //Error
         else {
-          globalObject.setState({referralsData: 'error'});
+          that.setState({referralsData: 'error'});
         }
       },
     );

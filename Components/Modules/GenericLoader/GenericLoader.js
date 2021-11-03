@@ -23,37 +23,37 @@ class GenericLoader extends React.PureComponent {
    */
   fire_search_animation() {
     if (this.state.showLocationSearch_loader) {
-      let globalObject = this;
+      let that = this;
       Animated.timing(this.state.loaderPosition, {
         toValue: windowWidth,
         duration: 500,
         easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
         useNativeDriver: true,
       }).start(() => {
-        if (globalObject.state.loaderBasicWidth === 1) {
+        if (that.state.loaderBasicWidth === 1) {
           //Resize the length at the same time
           Animated.parallel([
-            Animated.timing(globalObject.state.loaderBasicWidth, {
+            Animated.timing(that.state.loaderBasicWidth, {
               toValue: 1,
               duration: 500,
               useNativeDriver: true,
             }),
-            Animated.timing(globalObject.state.loaderPosition, {
+            Animated.timing(that.state.loaderPosition, {
               toValue: 0,
               duration: 500,
               useNativeDriver: true,
             }),
           ]).start(() => {
-            globalObject.fire_search_animation();
+            that.fire_search_animation();
           });
         } //Length fine, just go on
         else {
-          Animated.timing(globalObject.state.loaderPosition, {
+          Animated.timing(that.state.loaderPosition, {
             toValue: 0,
             duration: 500,
             useNativeDriver: true,
           }).start(() => {
-            globalObject.fire_search_animation();
+            that.fire_search_animation();
           });
         }
       });
@@ -65,20 +65,20 @@ class GenericLoader extends React.PureComponent {
    * Reset the line loader to the default values
    */
   resetAnimationLoader() {
-    let globalObject = this;
+    let that = this;
     this.state.showLocationSearch_loader = false;
-    Animated.timing(globalObject.state.loaderPosition, {
+    Animated.timing(that.state.loaderPosition, {
       toValue: 0,
       duration: 400,
       useNativeDriver: true,
     }).start(() => {
-      Animated.timing(globalObject.state.loaderBasicWidth, {
+      Animated.timing(that.state.loaderBasicWidth, {
         toValue: windowWidth,
         duration: 3000,
         useNativeDriver: true,
         easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
       }).start(() => {
-        globalObject.state.showLocationSearch_loader = false;
+        that.state.showLocationSearch_loader = false;
       });
     });
   }

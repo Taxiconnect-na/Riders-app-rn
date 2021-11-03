@@ -40,11 +40,11 @@ class PersonalinfosEntryScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );
@@ -63,77 +63,74 @@ class PersonalinfosEntryScreen extends React.PureComponent {
           response.response !== null
         ) {
           if (/success/i.test(response.response)) {
-            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            that.props.UpdateErrorModalLog(false, false, 'any');
             //Update the local storages
-            if (/^name$/i.test(globalObject.state.detailToModify)) {
+            if (/^name$/i.test(that.state.detailToModify)) {
               //name
-              globalObject.props.App.username =
-                globalObject.props.App.last_dataPersoUpdated;
+              that.props.App.username = that.props.App.last_dataPersoUpdated;
               SyncStorage.set(
                 '@username',
-                globalObject.props.App.last_dataPersoUpdated,
+                that.props.App.last_dataPersoUpdated,
               );
-            } else if (/^surname$/i.test(globalObject.state.detailToModify)) {
+            } else if (/^surname$/i.test(that.state.detailToModify)) {
               //surname
-              globalObject.props.App.surname_user =
-                globalObject.props.App.last_dataPersoUpdated;
+              that.props.App.surname_user =
+                that.props.App.last_dataPersoUpdated;
               SyncStorage.set(
                 '@surname_user',
-                globalObject.props.App.last_dataPersoUpdated,
+                that.props.App.last_dataPersoUpdated,
               );
-            } else if (/^email$/i.test(globalObject.state.detailToModify)) {
+            } else if (/^email$/i.test(that.state.detailToModify)) {
               //email
-              globalObject.props.App.user_email =
-                globalObject.props.App.last_dataPersoUpdated;
+              that.props.App.user_email = that.props.App.last_dataPersoUpdated;
               SyncStorage.set(
                 '@user_email',
-                globalObject.props.App.last_dataPersoUpdated,
+                that.props.App.last_dataPersoUpdated,
               );
-            } else if (/^gender$/i.test(globalObject.state.detailToModify)) {
+            } else if (/^gender$/i.test(that.state.detailToModify)) {
               //gender
-              globalObject.props.App.gender_user =
-                globalObject.props.App.last_dataPersoUpdated;
+              that.props.App.gender_user = that.props.App.last_dataPersoUpdated;
               SyncStorage.set(
                 '@gender_user',
-                globalObject.props.App.last_dataPersoUpdated,
+                that.props.App.last_dataPersoUpdated,
               );
             }
             //---------
-            globalObject.setState({
+            that.setState({
               showNotifiyer: true,
-              notifiyerMessage: `Successully changed your ${globalObject.state.detailToModify.toLocaleLowerCase()}`,
+              notifiyerMessage: `Successully changed your ${that.state.detailToModify.toLocaleLowerCase()}`,
               statusColor: '#048320',
             });
             let tmpTimeoutCloser = setTimeout(function () {
-              globalObject.setState({showNotifiyer: false});
+              that.setState({showNotifiyer: false});
               clearTimeout(tmpTimeoutCloser);
             }, 2000);
           } //Error
           else {
-            globalObject.props.UpdateErrorModalLog(false, false, 'any');
-            globalObject.setState({
+            that.props.UpdateErrorModalLog(false, false, 'any');
+            that.setState({
               showNotifiyer: true,
-              notifiyerMessage: `We couldn't change your ${globalObject.state.detailToModify.toLocaleLowerCase()}`,
+              notifiyerMessage: `We couldn't change your ${that.state.detailToModify.toLocaleLowerCase()}`,
               statusColor: '#b22222',
             });
             let tmpTimeoutCloser = setTimeout(function () {
-              globalObject.setState({showNotifiyer: false});
+              that.setState({showNotifiyer: false});
               clearTimeout(tmpTimeoutCloser);
             }, 2000);
           }
           //?Change state to random value to allow general state update - workaround
-          globalObject.props.UpdateErrorModalLog(false, true, 'anyoui');
+          that.props.UpdateErrorModalLog(false, true, 'anyoui');
           //?-------
         } //SOmething so strange happened - error
         else {
-          globalObject.props.UpdateErrorModalLog(false, false, 'any');
-          globalObject.setState({
+          that.props.UpdateErrorModalLog(false, false, 'any');
+          that.setState({
             showNotifiyer: true,
-            notifiyerMessage: `We couldn't change your ${globalObject.state.detailToModify.toLocaleLowerCase()}`,
+            notifiyerMessage: `We couldn't change your ${that.state.detailToModify.toLocaleLowerCase()}`,
             statusColor: '#b22222',
           });
           let tmpTimeoutCloser = setTimeout(function () {
-            globalObject.setState({showNotifiyer: false});
+            that.setState({showNotifiyer: false});
             clearTimeout(tmpTimeoutCloser);
           }, 2000);
         }

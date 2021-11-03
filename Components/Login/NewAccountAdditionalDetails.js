@@ -52,14 +52,14 @@ class NewAccountAdditionalDetails extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true; //? mark component as mounted
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        if (globalObject.state.completingAccountProfile === false) {
-          globalObject.props.navigation.navigate('EntryScreen');
+        if (that.state.completingAccountProfile === false) {
+          that.props.navigation.navigate('EntryScreen');
         }
         return true;
       },
@@ -70,55 +70,47 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     //Network state checker
     this.state.networkStateChecker = NetInfo.addEventListener((state) => {
       if (state.isConnected === false) {
-        globalObject.props.UpdateErrorModalLog(
+        that.props.UpdateErrorModalLog(
           state.isConnected,
           'connection_no_network',
           state.type,
         );
       } //connected
       else {
-        globalObject.props.UpdateErrorModalLog(false, false, state.type);
+        that.props.UpdateErrorModalLog(false, false, state.type);
       }
     });
     //connection
     this.props.App.socket.on('connect', () => {
-      if (
-        !/gender_select/i.test(globalObject.props.App.generalErrorModalType)
-      ) {
+      if (!/gender_select/i.test(that.props.App.generalErrorModalType)) {
         //Do not interrupt the select gender process
-        globalObject.props.UpdateErrorModalLog(false, false, 'any');
+        that.props.UpdateErrorModalLog(false, false, 'any');
       }
     });
     //Socket error handling
     this.props.App.socket.on('error', (error) => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('disconnect', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_error', () => {
       //Ask for the OTP again
-      if (
-        !/gender_select/i.test(globalObject.props.App.generalErrorModalType)
-      ) {
+      if (!/gender_select/i.test(that.props.App.generalErrorModalType)) {
         //Do not interrupt the select gender process
-        globalObject.props.UpdateErrorModalLog(
-          true,
-          'service_unavailable',
-          'any',
-        );
+        that.props.UpdateErrorModalLog(true, 'service_unavailable', 'any');
       }
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('connect_timeout', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect', () => {});
     this.props.App.socket.on('reconnect_error', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
     this.props.App.socket.on('reconnect_failed', () => {
-      globalObject.props.App.socket.connect();
+      that.props.App.socket.connect();
     });
 
     /**
@@ -128,20 +120,20 @@ class NewAccountAdditionalDetails extends React.PureComponent {
     this.props.App.socket.on(
       'updateAdditionalProfileData-response',
       function (response) {
-        globalObject.setState({loaderState: false}); //stop loader
+        that.setState({loaderState: false}); //stop loader
         if (response !== false && response.response !== undefined) {
           if (!/error/i.test(response.response)) {
             //Success
             //Update the general state infos and move forward
             //! Save the user_fp and the rest of the globals
-            globalObject.props.App.user_fingerprint = response.user_fp;
-            globalObject.props.App.gender_user = response.gender;
-            globalObject.props.App.username = response.name;
-            globalObject.props.App.surname_user = response.surname;
-            globalObject.props.App.user_email = response.email;
-            globalObject.props.App.phone_user = response.phone_number;
-            globalObject.props.App.user_profile_pic = response.profile_picture;
-            globalObject.props.App.pushnotif_token = response.pushnotif_token;
+            that.props.App.user_fingerprint = response.user_fp;
+            that.props.App.gender_user = response.gender;
+            that.props.App.username = response.name;
+            that.props.App.surname_user = response.surname;
+            that.props.App.user_email = response.email;
+            that.props.App.phone_user = response.phone_number;
+            that.props.App.user_profile_pic = response.profile_picture;
+            that.props.App.pushnotif_token = response.pushnotif_token;
             //! Save to storage as well.
             SyncStorage.set('@user_fp', response.user_fp);
             SyncStorage.set('@gender_user', response.gender);
@@ -152,12 +144,12 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             SyncStorage.set('@user_profile_pic', response.profile_picture);
             SyncStorage.set('@accountCreation_state', 'full');
             //....
-            globalObject.state.accountCreation_state = 'full';
+            that.state.accountCreation_state = 'full';
             //Move to home
             if (Platform.OS === 'android') {
-              globalObject.props.navigation.navigate('Home');
+              that.props.navigation.navigate('Home');
             } else {
-              globalObject.props.navigation.navigate('Home');
+              that.props.navigation.navigate('Home');
             }
           } //Error updating the addition details - show error, but can proceed
           else {
@@ -168,9 +160,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
             SyncStorage.remove('@user_email');
             SyncStorage.set('@accountCreation_state', 'minimal');
             //....
-            globalObject.state.accountCreation_state = 'minimal';
+            that.state.accountCreation_state = 'minimal';
 
-            globalObject.props.UpdateErrorModalLog(
+            that.props.UpdateErrorModalLog(
               true,
               'error_adding_additional_profile_details_new_account',
               'any',
@@ -185,9 +177,9 @@ class NewAccountAdditionalDetails extends React.PureComponent {
           SyncStorage.remove('@user_email');
           SyncStorage.set('@accountCreation_state', 'minimal');
           //....
-          globalObject.state.accountCreation_state = 'minimal';
+          that.state.accountCreation_state = 'minimal';
 
-          globalObject.props.UpdateErrorModalLog(
+          that.props.UpdateErrorModalLog(
             true,
             'error_adding_additional_profile_details_new_account',
             'any',

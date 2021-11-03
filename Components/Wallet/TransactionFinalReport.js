@@ -43,25 +43,22 @@ class TransactionFinalReport extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
 
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.makeTransaction(); //! AUTO MAKE THE TRANSACTION THE RECIPIENT
-        globalObject.setState({
-          isWorking: true,
-          hasFoundSomeErrors: false,
-          errorsNature: null,
-          responseData: null,
-        });
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.makeTransaction(); //! AUTO MAKE THE TRANSACTION THE RECIPIENT
+      that.setState({
+        isWorking: true,
+        hasFoundSomeErrors: false,
+        errorsNature: null,
+        responseData: null,
+      });
+    });
 
     //connection
     this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
+      that.props.UpdateErrorModalLog(false, false, 'any');
     });
 
     this.backHander = BackHandler.addEventListener(
@@ -89,7 +86,7 @@ class TransactionFinalReport extends React.PureComponent {
           response.response !== null &&
           /successful/i.test(response.response)
         ) {
-          globalObject.setState({
+          that.setState({
             responseData: response,
             isWorking: false,
             hasFoundSomeErrors: false,
@@ -97,7 +94,7 @@ class TransactionFinalReport extends React.PureComponent {
           }); //? Make sure the close the loader
         } //Transaction error
         else {
-          globalObject.setState({
+          that.setState({
             isWorking: false,
             hasFoundSomeErrors: true,
             responseData: null,

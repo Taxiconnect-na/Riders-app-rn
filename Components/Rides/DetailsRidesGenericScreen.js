@@ -43,12 +43,12 @@ class DetailsRidesGenericScreen extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
         //Update data
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );
@@ -67,7 +67,7 @@ class DetailsRidesGenericScreen extends React.PureComponent {
     this.props.App.socket.on(
       'getRides_historyRiders_batchOrNot-response',
       function (response) {
-        globalObject.setState({
+        that.setState({
           loaderState: false,
           fetchingRides_Data: false,
           pullRefreshing: false,
@@ -87,28 +87,28 @@ class DetailsRidesGenericScreen extends React.PureComponent {
             ) {
               //Got some results
               //Update the local state
-              globalObject.setState({
+              that.setState({
                 detailed_requestData: response.data[0],
                 areResultsEmpty: false,
                 gotErrorDuringRequest: false,
               });
             } //EMpty results
             else {
-              globalObject.setState({
+              that.setState({
                 areResultsEmpty: true,
                 gotErrorDuringRequest: false,
               });
             }
           } //An error happened
           else {
-            globalObject.setState({
+            that.setState({
               areResultsEmpty: true,
               gotErrorDuringRequest: true,
             });
           }
         } //Empty
         else {
-          globalObject.setState({
+          that.setState({
             areResultsEmpty: true,
             gotErrorDuringRequest: true,
           });

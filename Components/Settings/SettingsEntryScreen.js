@@ -54,35 +54,32 @@ class SettingsEntryScreen extends React.Component {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true;
 
     //? Add navigator listener - auto clean on focus
     //--------------------------------------------------------
-    globalObject._navigatorEvent = this.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject._navigatorEvent = globalObject.props.navigation.addListener(
-          'beforeRemove',
-          (e) => {
-            // Prevent default behavior of leaving the screen
-            e.preventDefault();
-            if (/POP/i.test(e.data.action.type)) {
-              globalObject.props.navigation.navigate('Home_drawer');
-            }
-            return;
-          },
-        );
-        //--------------------------------------------------------
-        globalObject.backHander = BackHandler.addEventListener(
-          'hardwareBackPress',
-          function () {
-            globalObject.props.navigation.navigate('Home_drawer');
-            return true;
-          },
-        );
-      },
-    );
+    that._navigatorEvent = this.props.navigation.addListener('focus', () => {
+      that._navigatorEvent = that.props.navigation.addListener(
+        'beforeRemove',
+        (e) => {
+          // Prevent default behavior of leaving the screen
+          e.preventDefault();
+          if (/POP/i.test(e.data.action.type)) {
+            that.props.navigation.navigate('Home_drawer');
+          }
+          return;
+        },
+      );
+      //--------------------------------------------------------
+      that.backHander = BackHandler.addEventListener(
+        'hardwareBackPress',
+        function () {
+          that.props.navigation.navigate('Home_drawer');
+          return true;
+        },
+      );
+    });
 
     /**
      * SOCKET.IO RESPONSES
@@ -91,7 +88,7 @@ class SettingsEntryScreen extends React.Component {
     this.props.App.socket.on(
       'updateRiders_profileInfos_io-response',
       function (response) {
-        globalObject.setState({
+        that.setState({
           isLoading_something: false,
           isChangingProfile_pic: false,
         });
@@ -104,46 +101,46 @@ class SettingsEntryScreen extends React.Component {
           response.picture_name !== null
         ) {
           if (/success/i.test(response.response)) {
-            globalObject.props.UpdateErrorModalLog(false, false, 'any');
+            that.props.UpdateErrorModalLog(false, false, 'any');
             //Update the local storages
             SyncStorage.set('@user_profile_pic', response.picture_name);
-            globalObject.props.App.user_profile_pic = response.picture_name;
+            that.props.App.user_profile_pic = response.picture_name;
             //---------
-            globalObject.setState({
+            that.setState({
               showNotifiyer: true,
               notifiyerMessage: `Successully changed your picture`,
               statusColor: '#048320',
             });
             let tmpTimeoutCloser = setTimeout(function () {
-              globalObject.setState({showNotifiyer: false});
+              that.setState({showNotifiyer: false});
               clearTimeout(tmpTimeoutCloser);
             }, 2000);
           } //Error
           else {
-            globalObject.props.UpdateErrorModalLog(false, false, 'any');
-            globalObject.setState({
+            that.props.UpdateErrorModalLog(false, false, 'any');
+            that.setState({
               showNotifiyer: true,
               notifiyerMessage: `We couldn't change your picture`,
               statusColor: '#b22222',
             });
             let tmpTimeoutCloser = setTimeout(function () {
-              globalObject.setState({showNotifiyer: false});
+              that.setState({showNotifiyer: false});
               clearTimeout(tmpTimeoutCloser);
             }, 2000);
           }
           //?Change state to random value to allow general state update - workaround
-          globalObject.props.UpdateErrorModalLog(false, true, 'anyoui');
+          that.props.UpdateErrorModalLog(false, true, 'anyoui');
           //?-------
         } //SOmething so strange happened - error
         else {
-          globalObject.props.UpdateErrorModalLog(false, false, 'any');
-          globalObject.setState({
+          that.props.UpdateErrorModalLog(false, false, 'any');
+          that.setState({
             showNotifiyer: true,
             notifiyerMessage: `We couldn't change your picture`,
             statusColor: '#b22222',
           });
           let tmpTimeoutCloser = setTimeout(function () {
-            globalObject.setState({showNotifiyer: false});
+            that.setState({showNotifiyer: false});
             clearTimeout(tmpTimeoutCloser);
           }, 2000);
         }
@@ -281,31 +278,28 @@ class SettingsEntryScreen extends React.Component {
    * Launch greeting animations for hello1 and hello 2
    */
   fire_initGreetingAnd_after() {
-    let globalObject = this;
+    let that = this;
     let timeout0 = setTimeout(function () {
       AnimatedNative.parallel([
         AnimatedNative.timing(
-          globalObject.props.App.initialHelloAnimationParams.opacity,
+          that.props.App.initialHelloAnimationParams.opacity,
           {
             toValue: 1,
             duration: 300,
             useNativeDriver: true,
           },
         ),
-        AnimatedNative.timing(
-          globalObject.props.App.initialHelloAnimationParams.top,
-          {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          },
-        ),
+        AnimatedNative.timing(that.props.App.initialHelloAnimationParams.top, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
       ]).start(() => {
         let timeout = setTimeout(function () {
           //Close hello 1
           AnimatedNative.parallel([
             AnimatedNative.timing(
-              globalObject.props.App.initialHelloAnimationParams.opacity,
+              that.props.App.initialHelloAnimationParams.opacity,
               {
                 toValue: 0,
                 duration: 300,
@@ -313,7 +307,7 @@ class SettingsEntryScreen extends React.Component {
               },
             ),
             AnimatedNative.timing(
-              globalObject.props.App.initialHelloAnimationParams.top,
+              that.props.App.initialHelloAnimationParams.top,
               {
                 toValue: 10,
                 duration: 300,
@@ -322,10 +316,10 @@ class SettingsEntryScreen extends React.Component {
             ),
           ]).start(() => {
             //Start hello 2
-            globalObject.props.UpdateHellosVars({initialHello: true});
+            that.props.UpdateHellosVars({initialHello: true});
             AnimatedNative.parallel([
               AnimatedNative.timing(
-                globalObject.props.App.initialHelloAnimationParams.opacity2,
+                that.props.App.initialHelloAnimationParams.opacity2,
                 {
                   toValue: 1,
                   duration: 300,
@@ -333,7 +327,7 @@ class SettingsEntryScreen extends React.Component {
                 },
               ),
               AnimatedNative.timing(
-                globalObject.props.App.initialHelloAnimationParams.top2,
+                that.props.App.initialHelloAnimationParams.top2,
                 {
                   toValue: 0,
                   duration: 300,
@@ -342,14 +336,12 @@ class SettingsEntryScreen extends React.Component {
               ),
             ]).start(() => {
               //Replace text if GPRS is off
-              if (
-                globalObject.props.App.gprsGlobals.hasGPRSPermissions === false
-              ) {
+              if (that.props.App.gprsGlobals.hasGPRSPermissions === false) {
                 //Replace hello 2 text with: Looks like you're off the map
                 let gprsOffText = "Looks like you're off the map";
-                if (globalObject.props.App.hello2Text !== gprsOffText) {
+                if (that.props.App.hello2Text !== gprsOffText) {
                   let timeout2 = setTimeout(function () {
-                    globalObject.replaceHello2_text(gprsOffText);
+                    that.replaceHello2_text(gprsOffText);
                     clearTimeout(timeout2);
                   }, 1000);
                 }
@@ -368,45 +360,39 @@ class SettingsEntryScreen extends React.Component {
    * Laucn the animation of replacement of the hello 2 text.
    */
   replaceHello2_text(text) {
-    let globalObject = this;
+    let that = this;
     //Close hello 2
     AnimatedNative.parallel([
       AnimatedNative.timing(
-        globalObject.props.App.initialHelloAnimationParams.opacity2,
+        that.props.App.initialHelloAnimationParams.opacity2,
         {
           toValue: 0,
           duration: 300,
           useNativeDriver: true,
         },
       ),
-      AnimatedNative.timing(
-        globalObject.props.App.initialHelloAnimationParams.top2,
-        {
-          toValue: 10,
-          duration: 300,
-          useNativeDriver: true,
-        },
-      ),
+      AnimatedNative.timing(that.props.App.initialHelloAnimationParams.top2, {
+        toValue: 10,
+        duration: 300,
+        useNativeDriver: true,
+      }),
     ]).start(() => {
       //Start hello 2
-      globalObject.props.UpdateHellosVars({hello2Text: text});
+      that.props.UpdateHellosVars({hello2Text: text});
       AnimatedNative.parallel([
         AnimatedNative.timing(
-          globalObject.props.App.initialHelloAnimationParams.opacity2,
+          that.props.App.initialHelloAnimationParams.opacity2,
           {
             toValue: 1,
             duration: 300,
             useNativeDriver: true,
           },
         ),
-        AnimatedNative.timing(
-          globalObject.props.App.initialHelloAnimationParams.top2,
-          {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          },
-        ),
+        AnimatedNative.timing(that.props.App.initialHelloAnimationParams.top2, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
       ]).start();
     });
   }
@@ -416,20 +402,20 @@ class SettingsEntryScreen extends React.Component {
    * Reset the line loader to the default values
    */
   resetAnimationLoader() {
-    let globalObject = this;
+    let that = this;
     this.props.App.showLocationSearch_loader = false;
-    AnimatedNative.timing(globalObject.props.App.loaderPosition, {
+    AnimatedNative.timing(that.props.App.loaderPosition, {
       toValue: 0,
       duration: 400,
       useNativeDriver: true,
     }).start(() => {
-      AnimatedNative.timing(globalObject.props.App.loaderBasicWidth, {
+      AnimatedNative.timing(that.props.App.loaderBasicWidth, {
         toValue: this.props.App.windowWidth,
         duration: 3000,
         useNativeDriver: true,
         easing: Easing.bezier(0.5, 0.0, 0.0, 0.8),
       }).start(() => {
-        globalObject.props.App.showLocationSearch_loader = false;
+        that.props.App.showLocationSearch_loader = false;
       });
     });
   }

@@ -45,32 +45,29 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
 
     //? Add navigator listener - auto clean on focus
-    this._navigatorEvent = globalObject.props.navigation.addListener(
-      'focus',
-      () => {
-        globalObject.checkSenderDetails(); //! AUTO CHECK THE RECIPIENT
-        globalObject.props.App.recipient_crucial_data = null; //! Clear the recipient AFTER check data
-        globalObject.setState({
-          isCheckingDetails: true,
-          hasFoundSomeErrors: false,
-          errorsNature: null,
-          responseData: null,
-        });
-      },
-    );
+    this._navigatorEvent = that.props.navigation.addListener('focus', () => {
+      that.checkSenderDetails(); //! AUTO CHECK THE RECIPIENT
+      that.props.App.recipient_crucial_data = null; //! Clear the recipient AFTER check data
+      that.setState({
+        isCheckingDetails: true,
+        hasFoundSomeErrors: false,
+        errorsNature: null,
+        responseData: null,
+      });
+    });
 
     //connection
     this.props.App.socket.on('connect', () => {
-      globalObject.props.UpdateErrorModalLog(false, false, 'any');
+      that.props.UpdateErrorModalLog(false, false, 'any');
     });
 
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        globalObject.props.navigation.goBack();
+        that.props.navigation.goBack();
         return true;
       },
     );
@@ -96,10 +93,10 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
           response.receipient_name !== undefined &&
           response.receipient_name !== null
         ) {
-          globalObject.props.App.recipient_crucial_data = response;
-          globalObject.props.App.recipient_crucial_data['recipient_number'] =
-            globalObject.props.App.finalPhoneNumber; //! Save the recipient AFTER check data - add the phone number as well
-          globalObject.setState({
+          that.props.App.recipient_crucial_data = response;
+          that.props.App.recipient_crucial_data['recipient_number'] =
+            that.props.App.finalPhoneNumber; //! Save the recipient AFTER check data - add the phone number as well
+          that.setState({
             responseData: response,
             isCheckingDetails: false,
             hasFoundSomeErrors: false,
@@ -107,7 +104,7 @@ class CheckPhoneOrTaxiNumber extends React.PureComponent {
           }); //? Make sure the close the loader
         } //Transaction error
         else {
-          globalObject.setState({
+          that.setState({
             isCheckingDetails: false,
             hasFoundSomeErrors: true,
             errorsNature:

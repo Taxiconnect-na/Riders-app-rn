@@ -8,7 +8,7 @@ const socket = io('https://taxiconnectnanetwork.com:9999', {
   reconnection: true,
   reconnectionAttempts: Infinity,
   reconnectionDelay: 100,
-  reconnectionDelayMax: 200,
+  reconnectionDelayMax: 100,
 });
 
 export default socket;

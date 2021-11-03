@@ -14,9 +14,7 @@ import {
   InteractionManager,
   Platform,
   SafeAreaView,
-  KeyboardAvoidingView,
 } from 'react-native';
-import {systemWeights} from 'react-native-typography';
 //import this.props.App.carIcon from './caradvanced.png';      //Option 1
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAnt from 'react-native-vector-icons/AntDesign';
@@ -168,8 +166,9 @@ class RenderContentBottomVitals extends React.PureComponent {
    * Responsible for rendering the identified location type (taxi rank or private location) after computing
    */
   renderIdentifiedLocationType() {
-    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
-      .locationTypeIdentified === 'TaxiRank';
+    this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata.locationTypeIdentified =
+      'TaxiRank';
+    //...
     //...
     if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
@@ -398,7 +397,7 @@ class RenderContentBottomVitals extends React.PureComponent {
    * Native driver ONLY.
    */
   revealIdentifiedLocationOnReady() {
-    let globalObject = this;
+    let that = this;
     if (
       this.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
         .locationTypeIdentified !== false
@@ -408,7 +407,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       //Fade loader
       AnimatedNative.parallel([
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+          that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
             .identifyingLocationProcessTextOpacity,
           {
             toValue: 0,
@@ -417,7 +416,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           },
         ),
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+          that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
             .identifyingLocationProcessTextPosition,
           {
             toValue: 20,
@@ -427,7 +426,7 @@ class RenderContentBottomVitals extends React.PureComponent {
         ),
       ]).start(() => {
         AnimatedNative.timing(
-          globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+          that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
             .identifyingLocationProcessContentOpacity,
           {
             toValue: 1,
@@ -438,7 +437,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           //Animate in the title
           AnimatedNative.parallel([
             AnimatedNative.timing(
-              globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+              that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .identifyinfLocationTypeTopTextOpacity,
               {
                 toValue: 1,
@@ -447,7 +446,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               },
             ),
             AnimatedNative.timing(
-              globalObject.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
+              that.props.App.bottomVitalsFlow.rideOrDeliveryMetadata
                 .identifyinfLocationTypeTopTextPosition,
               {
                 toValue: 0,
@@ -456,7 +455,7 @@ class RenderContentBottomVitals extends React.PureComponent {
               },
             ),
           ]).start(() => {
-            globalObject.props.parentNode.resetAnimationLoader();
+            that.props.parentNode.resetAnimationLoader();
           });
         });
       });
@@ -464,33 +463,33 @@ class RenderContentBottomVitals extends React.PureComponent {
     else {
       //Include the interval persister
       //Initial request of the location nature
-      globalObject.props.App.socket.emit('getPickupLocationNature', {
-        latitude: globalObject.props.App.latitude,
-        longitude: globalObject.props.App.longitude,
-        user_fingerprint: globalObject.props.App.user_fingerprint,
+      that.props.App.socket.emit('getPickupLocationNature', {
+        latitude: that.props.App.latitude,
+        longitude: that.props.App.longitude,
+        user_fingerprint: that.props.App.user_fingerprint,
       });
       //...
       /*if (this.props.App._TMP_INTERVAL_PERSISTER === null) {
         //Initial request of the location nature
-        globalObject.props.App.socket.emit('getPickupLocationNature', {
-          latitude: globalObject.props.App.latitude,
-          longitude: globalObject.props.App.longitude,
-          user_fingerprint: globalObject.props.App.user_fingerprint,
+        that.props.App.socket.emit('getPickupLocationNature', {
+          latitude: that.props.App.latitude,
+          longitude: that.props.App.longitude,
+          user_fingerprint: that.props.App.user_fingerprint,
         });
         //...
         this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
-          globalObject.props.App.socket.emit('getPickupLocationNature', {
-            latitude: globalObject.props.App.latitude,
-            longitude: globalObject.props.App.longitude,
-            user_fingerprint: globalObject.props.App.user_fingerprint,
+          that.props.App.socket.emit('getPickupLocationNature', {
+            latitude: that.props.App.latitude,
+            longitude: that.props.App.longitude,
+            user_fingerprint: that.props.App.user_fingerprint,
           });
           //Cancel interval interval
           if (
-            globalObject.props.App.bottomVitalsFlow.locationTypeIdentified !==
+            that.props.App.bottomVitalsFlow.locationTypeIdentified !==
             false
           ) {
-            clearInterval(globalObject.props.App._TMP_INTERVAL_PERSISTER);
-            globalObject.props.App._TMP_INTERVAL_PERSISTER = null;
+            clearInterval(that.props.App._TMP_INTERVAL_PERSISTER);
+            that.props.App._TMP_INTERVAL_PERSISTER = null;
           }
         }, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 1500);
       }*/
@@ -515,7 +514,7 @@ class RenderContentBottomVitals extends React.PureComponent {
           },
         ),
       ]).start(() => {
-        globalObject.props.parentNode.resetAnimationLoader();
+        that.props.parentNode.resetAnimationLoader();
       });
     }
   }
@@ -527,7 +526,7 @@ class RenderContentBottomVitals extends React.PureComponent {
    * mainView -> selectRideOrDelivery
    */
   initialTouchForRideOrDelivery() {
-    let globalObject = this;
+    let that = this;
     InteractionManager.runAfterInteractions(() => {
       //Fade the origin content
       AnimatedNative.parallel([
@@ -560,14 +559,14 @@ class RenderContentBottomVitals extends React.PureComponent {
         ),
       ]).start(() => {
         //Update process flow to select ride or delivery
-        globalObject.props.UpdateProcessFlowState({
+        that.props.UpdateProcessFlowState({
           flowDirection: 'next',
-          parentTHIS: globalObject.props.parentNode,
+          parentTHIS: that.props.parentNode,
         });
 
         AnimatedNative.parallel([
           AnimatedNative.timing(
-            globalObject.props.App.bottomVitalsFlow.genericContainerOpacity,
+            that.props.App.bottomVitalsFlow.genericContainerOpacity,
             {
               toValue: 1,
               duration: 250,
@@ -576,7 +575,7 @@ class RenderContentBottomVitals extends React.PureComponent {
             },
           ),
           AnimatedNative.timing(
-            globalObject.props.App.bottomVitalsFlow.genericContainerPosition,
+            that.props.App.bottomVitalsFlow.genericContainerPosition,
             {
               toValue: 0,
               duration: 250,
@@ -1042,7 +1041,7 @@ class RenderContentBottomVitals extends React.PureComponent {
    *
    */
   updateAssigningRiderSwitcherWindow(state) {
-    let globalObject = this;
+    let that = this;
     if (state === 'close') {
       //Fade switcher window out
       AnimatedNative.parallel([
@@ -1067,13 +1066,13 @@ class RenderContentBottomVitals extends React.PureComponent {
           },
         ),
       ]).start(() => {
-        globalObject.props.UpdateRiderOrPackagePossesserSwitcher({
+        that.props.UpdateRiderOrPackagePossesserSwitcher({
           action: 'doneCustomizing',
         });
       });
     } else if (state === 'open') {
       //Appear swicther and animate
-      globalObject.props.UpdateRiderOrPackagePossesserSwitcher({
+      that.props.UpdateRiderOrPackagePossesserSwitcher({
         action: 'openRiderSwitcher',
       });
       AnimatedNative.parallel([
@@ -1447,7 +1446,7 @@ class RenderContentBottomVitals extends React.PureComponent {
       this.props.App.bottomVitalsFlow.currentStep === 'selectRideOrDelivery'
     ) {
       this.props.parentNode.resetAnimationLoader();
-      return (
+      return this.props.App.userCurrentLocationMetaData.isCity_supported ? (
         <AnimatedNative.View
           style={{
             height: '100%',
@@ -1677,6 +1676,85 @@ class RenderContentBottomVitals extends React.PureComponent {
             </View>
           </View>
         </AnimatedNative.View>
+      ) : (
+        <AnimatedNative.View
+          style={{
+            height: '100%',
+            opacity: this.props.App.bottomVitalsFlow.genericContainerOpacity,
+            transform: [
+              {
+                translateY: this.props.App.bottomVitalsFlow
+                  .genericContainerPosition,
+              },
+            ],
+          }}>
+          <View style={{height: '100%'}}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
+                paddingLeft: '9%',
+                paddingRight: '9%',
+                paddingBottom: '8%',
+              }}>
+              <View
+                style={{
+                  width: 80,
+                  height: 80,
+                  borderWidth: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 300,
+                  borderColor: '#fff',
+                  backgroundColor: '#fff',
+                }}>
+                <Image
+                  source={this.props.App.serviceGlobe}
+                  style={{width: 60, height: 60}}
+                />
+              </View>
+              {/* Details */}
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  marginTop: '15%',
+                }}>
+                <Text
+                  style={[
+                    {
+                      fontSize: RFValue(18),
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextBold'
+                          : 'Uber Move Text Bold',
+                    },
+                  ]}>
+                  Service unavailable
+                </Text>
+                <Text
+                  style={[
+                    {
+                      fontSize: RFValue(13),
+                      marginTop: 15,
+                      color: '#000',
+                      fontFamily:
+                        Platform.OS === 'android'
+                          ? 'UberMoveTextLight'
+                          : 'Uber Move Text Light',
+                      minHeight: 50,
+                      textAlign: 'center',
+                    },
+                  ]}>
+                  Unfortunately, TaxiConnect is currently unavailable in your
+                  area.
+                </Text>
+              </View>
+            </View>
+          </View>
+        </AnimatedNative.View>
       );
     } else if (
       this.props.App.bottomVitalsFlow.currentStep === 'identifyLocation'
@@ -1901,14 +1979,14 @@ class RenderContentBottomVitals extends React.PureComponent {
       this.props.App.bottomVitalsFlow.currentStep === 'addMoreTripDetails'
     ) {
       //Preview the route to destination and ETA
-      let globalObject = this;
+      let that = this;
       let initialCondition =
-        globalObject.props.App.previewDestinationData
-          .originDestinationPreviewData.routePoints === undefined ||
-        globalObject.props.App.previewDestinationData
-          .originDestinationPreviewData.routePoints === false ||
-        globalObject.props.App.previewDestinationData
-          .originDestinationPreviewData.routePoints === null;
+        that.props.App.previewDestinationData.originDestinationPreviewData
+          .routePoints === undefined ||
+        that.props.App.previewDestinationData.originDestinationPreviewData
+          .routePoints === false ||
+        that.props.App.previewDestinationData.originDestinationPreviewData
+          .routePoints === null;
       //!Kick starter
       if (initialCondition) {
         this.findPreviewRouteToDestination();
@@ -1920,40 +1998,40 @@ class RenderContentBottomVitals extends React.PureComponent {
         this.props.parentNode.fire_search_animation(); //Fire animation
         //this.props.App._TMP_INTERVAL_PERSISTER = setInterval(function () {
         if (
-          globalObject.props.App.previewDestinationData
-            .originDestinationPreviewData === false ||
-          globalObject.props.App.previewDestinationData
-            .originDestinationPreviewData === undefined
+          that.props.App.previewDestinationData.originDestinationPreviewData ===
+            false ||
+          that.props.App.previewDestinationData.originDestinationPreviewData ===
+            undefined
         ) {
           if (
-            globalObject.props.App.search_passengersDestinations
+            that.props.App.search_passengersDestinations
               .passenger1Destination !== false
           ) {
             if (
-              globalObject.props.App.previewDestinationData
-                .originDestinationPreviewData.routePoints === undefined ||
-              globalObject.props.App.previewDestinationData
-                .originDestinationPreviewData.routePoints === false ||
-              globalObject.props.App.previewDestinationData
-                .originDestinationPreviewData.routePoints === null
+              that.props.App.previewDestinationData.originDestinationPreviewData
+                .routePoints === undefined ||
+              that.props.App.previewDestinationData.originDestinationPreviewData
+                .routePoints === false ||
+              that.props.App.previewDestinationData.originDestinationPreviewData
+                .routePoints === null
             ) {
               //Not found yet -make a request
-              globalObject.findPreviewRouteToDestination();
+              that.findPreviewRouteToDestination();
             } //Data already received - kill interval
             else {
-              globalObject.props.parentNode.resetAnimationLoader();
+              that.props.parentNode.resetAnimationLoader();
             }
           } else {
-            globalObject.props.parentNode.resetAnimationLoader();
+            that.props.parentNode.resetAnimationLoader();
           }
         } //Data already received - kill interval
         else {
-          globalObject.props.parentNode.resetAnimationLoader();
+          that.props.parentNode.resetAnimationLoader();
         }
         //}, this.props.App._TMP_INTERVAL_PERSISTER_TIME - 500);
       } else {
         //? Do nothing
-        globalObject.props.parentNode.resetAnimationLoader();
+        that.props.parentNode.resetAnimationLoader();
       }
       //...
       return (
@@ -2099,11 +2177,11 @@ class RenderContentBottomVitals extends React.PureComponent {
                 }}>
                 <TouchableOpacity
                   onPress={() =>
-                    globalObject.props.App.previewDestinationData
+                    that.props.App.previewDestinationData
                       .originDestinationPreviewData.routePoints !== undefined &&
-                    globalObject.props.App.previewDestinationData
+                    that.props.App.previewDestinationData
                       .originDestinationPreviewData.routePoints !== false &&
-                    globalObject.props.App.previewDestinationData
+                    that.props.App.previewDestinationData
                       .originDestinationPreviewData.routePoints !== null
                       ? this.props.parentNode.rerouteBookingProcessFlow(
                           'next',
@@ -2113,7 +2191,7 @@ class RenderContentBottomVitals extends React.PureComponent {
                             ? 'RIDE'
                             : 'DELIVERY',
                         )
-                      : globalObject.findPreviewRouteToDestination()
+                      : that.findPreviewRouteToDestination()
                   }
                   style={{
                     borderWidth: 1,
@@ -2125,13 +2203,13 @@ class RenderContentBottomVitals extends React.PureComponent {
                       styles.bttnGenericTc,
                       {
                         opacity:
-                          globalObject.props.App.previewDestinationData
+                          that.props.App.previewDestinationData
                             .originDestinationPreviewData.routePoints !==
                             undefined &&
-                          globalObject.props.App.previewDestinationData
+                          that.props.App.previewDestinationData
                             .originDestinationPreviewData.routePoints !==
                             false &&
-                          globalObject.props.App.previewDestinationData
+                          that.props.App.previewDestinationData
                             .originDestinationPreviewData.routePoints !== null
                             ? 1
                             : 0.3,

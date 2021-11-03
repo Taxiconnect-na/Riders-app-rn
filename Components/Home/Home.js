@@ -816,14 +816,14 @@ class Home extends React.PureComponent {
     });
 
     this.props.App.socket.on('error', () => {
-      that.props.App.socket.connect();
+      // that.props.App.socket.connect();
     });
 
     this.props.App.socket.on('disconnect', () => {
       //...
     });
     this.props.App.socket.on('connect_error', () => {
-      that.props.App.socket.connect();
+      // that.props.App.socket.connect();
       if (
         /(show_modalMore_tripDetails|show_rating_driver_modal|show_cancel_ride_modal|show_preferedPaymentMethod_modal)/i.test(
           that.props.App.generalErrorModalType,
@@ -836,9 +836,7 @@ class Home extends React.PureComponent {
       //...
     });
     this.props.App.socket.on('reconnect', () => {});
-    this.props.App.socket.on('reconnect_error', () => {
-      that.props.App.socket.connect();
-    });
+    this.props.App.socket.on('reconnect_error', () => {});
     this.props.App.socket.on('reconnect_failed', () => {
       //...
     });

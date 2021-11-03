@@ -39,15 +39,15 @@ class CreateAccountEntry extends React.PureComponent {
   }
 
   componentDidMount() {
-    let globalObject = this;
+    let that = this;
     this._isMounted = true; //? mark component as mounted
 
     this.state.creatingAccount = false; //? Reinitialize creating account state var to false.
     this.backHander = BackHandler.addEventListener(
       'hardwareBackPress',
       function () {
-        if (globalObject.state.creatingAccount === false) {
-          globalObject.props.navigation.navigate('PhoneDetailsScreen');
+        if (that.state.creatingAccount === false) {
+          that.props.navigation.navigate('PhoneDetailsScreen');
         }
         return true;
       },
@@ -60,7 +60,7 @@ class CreateAccountEntry extends React.PureComponent {
     this.props.App.socket.on(
       'createInitialRider_account-response',
       function (response) {
-        globalObject.setState({loaderState: false}); //Stop loader
+        that.setState({loaderState: false}); //Stop loader
         //...
         if (response !== false && response.response !== undefined) {
           if (
@@ -70,19 +70,17 @@ class CreateAccountEntry extends React.PureComponent {
           ) {
             //Successfully created
             //Save the fingerprint
-            globalObject.props.App.user_fingerprint = response.user_fp; //Save user fingerprint
+            that.props.App.user_fingerprint = response.user_fp; //Save user fingerprint
             SyncStorage.set('@user_fp', response.user_fp);
             //Move forward
-            globalObject.props.navigation.navigate(
-              'NewAccountAdditionalDetails',
-            );
+            that.props.navigation.navigate('NewAccountAdditionalDetails');
           } //error creating account
           else {
-            globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+            that.props.App.user_fingerprint = null; //Nullify user fingerprint
             SyncStorage.remove('@user_fp');
 
-            globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
-            globalObject.props.UpdateErrorModalLog(
+            that.setState({creatingAccount: false}); //Reactivate basic view with create account button
+            that.props.UpdateErrorModalLog(
               true,
               'error_creating_account',
               'any',
@@ -90,15 +88,11 @@ class CreateAccountEntry extends React.PureComponent {
           }
         } //Error creating the account
         else {
-          globalObject.props.App.user_fingerprint = null; //Nullify user fingerprint
+          that.props.App.user_fingerprint = null; //Nullify user fingerprint
           SyncStorage.remove('@user_fp');
 
-          globalObject.setState({creatingAccount: false}); //Reactivate basic view with create account button
-          globalObject.props.UpdateErrorModalLog(
-            true,
-            'error_creating_account',
-            'any',
-          );
+          that.setState({creatingAccount: false}); //Reactivate basic view with create account button
+          that.props.UpdateErrorModalLog(true, 'error_creating_account', 'any');
         }
       },
     );
