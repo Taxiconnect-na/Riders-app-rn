@@ -2,7 +2,8 @@
 const io = require('socket.io-client');
 
 //...
-const socket = io('https://taxiconnectnanetwork.com:9999', {
+// const socket = io('https://taxiconnectnanetwork.com:9999', {
+const socket = io('http://localhost:9999', {
   transports: ['websocket', 'polling'],
   withCredentials: true,
   reconnection: true,
